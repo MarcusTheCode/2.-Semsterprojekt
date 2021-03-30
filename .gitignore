@@ -1,6 +1,9 @@
 #.idea folder
 /.idea
 
+#build output
+/out
+
 #.iml (project file)
 *.iml
 
