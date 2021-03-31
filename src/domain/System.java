@@ -4,12 +4,16 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import jdk.jshell.spi.ExecutionControl;
 
-import java.util.ArrayList;
 
 public class System extends Application {
 
-    private ArrayList<SuperUser> users;
-    private ArrayList<Production> productions;
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../FXML/Startup.fxml"));
+        primaryStage.setTitle("credz");
+        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.show();
+    }
 
     public static void main(String[] args) {
         launch();
