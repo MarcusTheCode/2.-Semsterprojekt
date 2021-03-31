@@ -16,6 +16,11 @@ public class Production {
         this.title = title;
         castMembers = new ArrayList<>();
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
 
 
