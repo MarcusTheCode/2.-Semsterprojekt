@@ -1,11 +1,32 @@
 package domain;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import jdk.jshell.spi.ExecutionControl;
 
+import data.*;
+import presentation.*;
 
 public class System extends Application {
+
+    DataManager dataManager;
+
+    public System() {
+        try {
+            this.dataManager = new DataManager();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        System system = new System();
+        system.launch();
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -15,25 +36,13 @@ public class System extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
-        launch();
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        // TODO: implement Controller and uncomment line below
-        // primaryStage.setScene();
-        primaryStage.show();
-    }
-
     public Production getProduction(long ID) throws ExecutionControl.NotImplementedException {
         // TODO: implement getProduction
         throw new ExecutionControl.NotImplementedException("Not implemented");
     }
 
-    public boolean addProduction(Production production) throws ExecutionControl.NotImplementedException {
-        // TODO: implement addProduction
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+    public boolean addProduction(Production production) {
+        return dataManager.saveProduction(production);
     }
 
     public boolean editProduction(Production production) throws ExecutionControl.NotImplementedException {

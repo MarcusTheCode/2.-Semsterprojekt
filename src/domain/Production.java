@@ -1,9 +1,10 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Production {
+public class Production implements Serializable {
     long id;
     String title;
     String category;
@@ -19,6 +20,7 @@ public class Production {
 
     @Override
     public String toString() {
+        // TODO: toString should return the credits in
         return super.toString();
     }
 }
