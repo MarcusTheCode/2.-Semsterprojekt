@@ -25,13 +25,7 @@ public class System extends Application {
 
     public static void main(String[] args) {
         System system = new System();
-        system.test();
         system.launch();
-    }
-
-    public void test(){
-        dataManager.saveProduction(new Production(1,"Borat","Mockumentary"));
-        dataManager.saveProduction(new Production(2,"Borat 2","Mockumentary"));
     }
 
     @Override
