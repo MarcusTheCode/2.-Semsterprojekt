@@ -18,6 +18,14 @@ public class Production implements Serializable {
         castMembers = new ArrayList<>();
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     @Override
     public String toString() {
         // TODO: toString should return the credits in
