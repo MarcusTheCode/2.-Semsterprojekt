@@ -2,6 +2,7 @@ package data;
 
 import domain.Production;
 import domain.SuperUser;
+import jdk.jshell.spi.ExecutionControl;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -79,6 +80,11 @@ public class DataManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public ArrayList<Production> loadAllProductions() throws Exception{
+        // TODO: implement loadAllProductions
+        throw new ExecutionControl.NotImplementedException("loadAllProductions not implemented");
     }
 
     public boolean saveSuperUser(SuperUser user) {

@@ -11,16 +11,21 @@ import jdk.jshell.spi.ExecutionControl;
 import data.*;
 import presentation.*;
 
+import java.util.ArrayList;
+
 public class System extends Application {
 
     DataManager dataManager;
+    SuperUser superUser;
 
     public System() {
+        // TODO: (fix bug) the constructor is for some reason called twice
         try {
             this.dataManager = new DataManager();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        this.superUser = null;
     }
 
     public static void main(String[] args) {
@@ -44,14 +49,54 @@ public class System extends Application {
         return dataManager.saveProduction(production);
     }
 
-    public boolean editProduction(Production production) throws ExecutionControl.NotImplementedException {
-        // TODO: implement editProduction
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+    public boolean editProduction(Production production) throws Exception {
+        // check if production ID belongs to a production
+        if (productionIDIsValid(production.getId()) == false){
+            throw new RuntimeException("ERROR: production doesn't exist");
+        }
+        // check type of logged in user
+        switch(this.superUser.getClass().getName()) {
+            case "domain.SystemAdministrator":
+                break;
+            case "domain.Producer":
+                if (isOwner((Producer)this.superUser, production.getId())){
+                    break;
+                } else {
+                    throw new RuntimeException("ERROR: Producer doesn't own that production");
+                }
+            default:
+                throw new RuntimeException("ERROR: current SuperUser is invalid or null");
+        }
+        // remove the old version of the production and add the new one
+        boolean removeSuccess = removeProduction(production.getId());
+        boolean addSuccess = addProduction(production);
+
+        return (removeSuccess && addSuccess);
     }
 
-    public boolean removeProduction(Production production) throws ExecutionControl.NotImplementedException {
-        // TODO: implement removeProduction
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+    public boolean removeProduction(long ID) throws Exception {
+        if (productionIDIsValid(ID) == false){
+            throw new RuntimeException("ERROR: production doesn't exist");
+        }
+
+        ArrayList<Production> productionArrayList = this.dataManager.loadAllProductions();
+
+        for (Production production: productionArrayList){
+            if (production.getId() != ID){
+                continue;
+            } else {
+                productionArrayList.remove(production);
+            }
+        }
+
+        for (Production production: productionArrayList){
+            boolean addSuccess = this.dataManager.saveProduction(production);
+            if (addSuccess == false){
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public boolean logIn(String username, String password) throws ExecutionControl.NotImplementedException {
@@ -79,9 +124,12 @@ public class System extends Application {
         throw new ExecutionControl.NotImplementedException("Not implemented");
     }
 
-    private boolean isProductionIDValid(long ID) throws ExecutionControl.NotImplementedException {
-        // TODO: implement isProductionIDValid
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+    private boolean productionIDIsValid(long ID) {
+        if (dataManager.loadProduction(ID) == null){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private boolean isOwner(Producer producer, long ID) throws ExecutionControl.NotImplementedException {
