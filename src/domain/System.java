@@ -71,7 +71,7 @@ public class System extends Application {
         boolean removeSuccess = removeProduction(production.getId());
         boolean addSuccess = addProduction(production);
 
-        return (removeSuccess && addSuccess);
+        return (removeSuccess && addSuccess); // 1: success, 0: failure
     }
 
     public boolean removeProduction(long ID) throws Exception {
@@ -82,12 +82,12 @@ public class System extends Application {
         ArrayList<Production> productionArrayList = this.dataManager.loadAllProductions();
 
         for (Production production: productionArrayList){
-            if (production.getId() != ID){
-                continue;
-            } else {
+            if (production.getId() == ID){
                 productionArrayList.remove(production);
             }
         }
+
+        dataManager.deleteProductionsFile();
 
         for (Production production: productionArrayList){
             boolean addSuccess = this.dataManager.saveProduction(production);

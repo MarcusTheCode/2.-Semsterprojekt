@@ -34,7 +34,7 @@ public class DataManager {
 
     private boolean write(Production production){
         // Ever time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (1/3)
+        // TODO: fix inefficiency (1/4)
         try {
             FileOutputStream fStream = new FileOutputStream(productionsFile);
             ObjectOutputStream oStream = new ObjectOutputStream(fStream);
@@ -49,7 +49,7 @@ public class DataManager {
 
     private boolean appendWrite(Production production){
         // Every time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (2/3)
+        // TODO: fix inefficiency (2/4)
         try {
             FileOutputStream fStream = new FileOutputStream(productionsFile);
             AppendingObjectOutputStream oStream = new AppendingObjectOutputStream(fStream);
@@ -64,7 +64,7 @@ public class DataManager {
 
     public Production loadProduction(long proID) {
         // Every time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (3/3)
+        // TODO: fix inefficiency (3/4)
         try {
             objectInputStream = new ObjectInputStream(new FileInputStream(productionsFile));
             while (true){
@@ -82,9 +82,30 @@ public class DataManager {
         return null;
     }
 
-    public ArrayList<Production> loadAllProductions() throws Exception{
-        // TODO: implement loadAllProductions
-        throw new ExecutionControl.NotImplementedException("loadAllProductions not implemented");
+    public ArrayList<Production> loadAllProductions() {
+        // Every time the program writes to a file, new streams are created, that's inefficient
+        // TODO: fix inefficiency (4/4)
+        ArrayList<Production> productionArrayList = new ArrayList<>();
+        try {
+            FileInputStream fStream = new FileInputStream(productionsFile);
+            ObjectInput oStream = new ObjectInputStream(fStream);
+            while (true){
+                if (oStream.read() == -1){ // read() returns -1 when end of stream is reached
+                    break;
+                }
+                Production production = (Production)oStream.readObject(); // object is removed from stream when read
+                productionArrayList.add(production);
+            }
+            oStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return productionArrayList;
+    }
+
+    public boolean deleteProductionsFile(){
+        return productionsFile.delete();
     }
 
     public boolean saveSuperUser(SuperUser user) {
