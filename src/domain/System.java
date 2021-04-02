@@ -31,14 +31,13 @@ public class System extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../FXML/Startup.fxml"));
-        primaryStage.setTitle("credz");
+        primaryStage.setTitle("title");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
 
-    public Production getProduction(long ID) throws ExecutionControl.NotImplementedException {
-        // TODO: implement getProduction
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+    public Production getProduction(long ID) {
+        return dataManager.loadProduction(ID);
     }
 
     public boolean addProduction(Production production) {

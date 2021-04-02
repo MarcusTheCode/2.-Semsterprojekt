@@ -5,21 +5,20 @@ import domain.SuperUser;
 
 import java.io.*;
 import java.util.ArrayList;
-
-import domain.*;
-import presentation.*;
+import java.util.Scanner;
 
 public class DataManager {
 
     private final String DATAFOLDER = "resources/TXT/";
     private File productionsFile;
     private File superUsersFile;
+    ObjectInputStream objectInputStream;
 
     private ArrayList<SuperUser> users;
     private ArrayList<Production> productions;
 
     public DataManager() throws Exception {
-
+        //Idea: instantiate File streams when creating the DataManager.
         this.productionsFile = new File(DATAFOLDER + "Productions.txt");
         this.superUsersFile = new File(DATAFOLDER + "SuperUsers.txt");
     }
@@ -34,7 +33,7 @@ public class DataManager {
 
     private boolean write(Production production){
         // Ever time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (1/2)
+        // TODO: fix inefficiency (1/3)
         try {
             FileOutputStream fStream = new FileOutputStream(productionsFile);
             ObjectOutputStream oStream = new ObjectOutputStream(fStream);
@@ -48,8 +47,8 @@ public class DataManager {
     }
 
     private boolean appendWrite(Production production){
-        // Ever time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (2/2)
+        // Every time the program writes to a file, new streams are created, that's inefficient
+        // TODO: fix inefficiency (2/3)
         try {
             FileOutputStream fStream = new FileOutputStream(productionsFile);
             AppendingObjectOutputStream oStream = new AppendingObjectOutputStream(fStream);
@@ -62,8 +61,24 @@ public class DataManager {
         }
     }
 
-    public Production loadProduction(Production pro) {
-        return pro;
+    public Production loadProduction(long proID) {
+        // Every time the program writes to a file, new streams are created, that's inefficient
+        // TODO: fix inefficiency (3/3)
+        try {
+            objectInputStream = new ObjectInputStream(new FileInputStream(productionsFile));
+            while (true){
+                Production snProduction = (Production)objectInputStream.readObject();
+                if (snProduction.getId()==proID){
+                    objectInputStream.close();
+                    return snProduction;
+                }else if(snProduction==null){
+                    return null;
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public boolean saveSuperUser(SuperUser user) {
