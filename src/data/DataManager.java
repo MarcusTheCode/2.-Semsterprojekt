@@ -109,12 +109,37 @@ public class DataManager {
     }
 
     public boolean saveSuperUser(SuperUser user) {
-        return true;
+        // Every time the program writes to a file, new streams are created, that's inefficient
+        // TODO: fix inefficiency (5/4)
+        try {
+            FileOutputStream fStream = new FileOutputStream(superUsersFile);
+            AppendingObjectOutputStream oStream = new AppendingObjectOutputStream(fStream);
+            oStream.writeObject(user);
+            oStream.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public SuperUser loadSuperUser(SuperUser username) {
-        return username;
+    public SuperUser loadSuperUser(long userID) {
+        // Every time the program writes to a file, new streams are created, that's inefficient
+        // TODO: fix inefficiency (6/4)
+        try {
+            objectInputStream = new ObjectInputStream(new FileInputStream(superUsersFile));
+            while (true) {
+                SuperUser superUser = (SuperUser)objectInputStream.readObject();
+                if (superUser.getId()==userID){
+                    objectInputStream.close();
+                    return superUser;
+                }else if (superUser==null){
+                    return null;
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-
-
 }

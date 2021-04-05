@@ -109,9 +109,8 @@ public class System extends Application {
         throw new ExecutionControl.NotImplementedException("Not implemented");
     }
 
-    public boolean saveSuperUser(SuperUser superUser) throws ExecutionControl.NotImplementedException {
-        // TODO: implement saveSuperUser
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+    public boolean saveSuperUser(SuperUser superUser) {
+        return dataManager.saveSuperUser(superUser);
     }
 
     public boolean removeSuperUser(long ID) throws ExecutionControl.NotImplementedException {
@@ -119,9 +118,11 @@ public class System extends Application {
         throw new ExecutionControl.NotImplementedException("Not implemented");
     }
 
-    private boolean isSysAdmin(long ID) throws ExecutionControl.NotImplementedException {
-        // TODO: implement isSysAdmin
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+    private boolean isSysAdmin(long ID) {
+        SuperUser user = dataManager.loadSuperUser(ID);
+        if (user != null)
+            return user.isSysAdmin();
+        return false;
     }
 
     private boolean productionIDIsValid(long ID) {
