@@ -50,28 +50,17 @@ public class System extends Application {
     }
 
     public boolean editProduction(Production production) throws Exception {
-
-        //Attributes for read/write success
-        boolean removeSuccess;
-        boolean addSuccess;
-
         // check if production ID belongs to a production
         if (productionIDIsValid(production.getId()) == false){
             throw new RuntimeException("ERROR: production doesn't exist");
         }
         // check type of logged in user
+        //Could be removed
         switch(this.superUser.getClass().getName()) {
-
             case "domain.SystemAdministrator":
-                // remove the old version of the production and add the new one
-                removeSuccess = removeProduction(production.getId());
-                addSuccess = addProduction(production);
                 break;
             case "domain.Producer":
                 if (isOwner((Producer)this.superUser, production.getId())){
-                    // remove the old version of the production and add the new one
-                    removeSuccess = removeProduction(production.getId());
-                    addSuccess = addProduction(production);
                     break;
                 } else {
                     throw new RuntimeException("ERROR: Producer doesn't own that production");
@@ -79,6 +68,10 @@ public class System extends Application {
             default:
                 throw new RuntimeException("ERROR: current SuperUser is invalid or null");
         }
+        // remove the old version of the production and add the new one
+        boolean removeSuccess = removeProduction(production.getId());
+        boolean addSuccess = addProduction(production);
+
         return (removeSuccess && addSuccess); // 1: success, 0: failure
     }
 
@@ -86,25 +79,49 @@ public class System extends Application {
         if (productionIDIsValid(ID) == false){
             throw new RuntimeException("ERROR: production doesn't exist");
         }
-
         ArrayList<Production> productionArrayList = this.dataManager.loadAllProductions();
 
-        for (Production production: productionArrayList){
-            if (production.getId() == ID){
-                productionArrayList.remove(production);
-            }
+        // check type of logged in user
+        switch(this.superUser.getClass().getName()) {
+            case "domain.SystemAdministrator":
+                for (Production production: productionArrayList){
+                    if (production.getId() == ID){
+                        productionArrayList.remove(production);
+                    }
+                }
+
+                dataManager.deleteProductionsFile();
+
+                for (Production production: productionArrayList){
+                    boolean addSuccess = this.dataManager.saveProduction(production);
+                    if (addSuccess == false){
+                        return false;
+                    }
+                }
+                return true;
+            case "domain.Producer":
+                if (isOwner((Producer)this.superUser, ID)){
+                    for (Production production: productionArrayList){
+                        if (production.getId() == ID){
+                            productionArrayList.remove(production);
+                        }
+                    }
+
+                    dataManager.deleteProductionsFile();
+
+                    for (Production production: productionArrayList){
+                        boolean addSuccess = this.dataManager.saveProduction(production);
+                        if (addSuccess == false){
+                            return false;
+                        }
+                    }
+                    return true;
+                } else {
+                    throw new RuntimeException("ERROR: Producer doesn't own that production");
+                }
+            default:
+                throw new RuntimeException("ERROR: current SuperUser is invalid or null");
         }
-
-        dataManager.deleteProductionsFile();
-
-        for (Production production: productionArrayList){
-            boolean addSuccess = this.dataManager.saveProduction(production);
-            if (addSuccess == false){
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public boolean logIn(String username, String password) throws ExecutionControl.NotImplementedException {
@@ -129,7 +146,6 @@ public class System extends Application {
 
     private boolean isSysAdmin(long ID) throws ExecutionControl.NotImplementedException {
         // TODO: implement isSysAdmin
-
         throw new ExecutionControl.NotImplementedException("Not implemented");
     }
 
