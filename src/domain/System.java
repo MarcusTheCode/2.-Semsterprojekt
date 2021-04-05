@@ -56,7 +56,7 @@ public class System extends Application {
         }
         // check type of logged in user
         //Could be removed
-        /*switch(this.superUser.getClass().getName()) {
+        switch(this.superUser.getClass().getName()) {
             case "domain.SystemAdministrator":
                 break;
             case "domain.Producer":
@@ -67,7 +67,7 @@ public class System extends Application {
                 }
             default:
                 throw new RuntimeException("ERROR: current SuperUser is invalid or null");
-        }*/
+        }
         // remove the old version of the production and add the new one
         boolean removeSuccess = removeProduction(production.getId());
         boolean addSuccess = addProduction(production);
@@ -82,45 +82,24 @@ public class System extends Application {
         ArrayList<Production> productionArrayList = this.dataManager.loadAllProductions();
 
         // check type of logged in user
-        switch(this.superUser.getClass().getName()) {
-            case "domain.SystemAdministrator":
-                for (Production production: productionArrayList){
-                    if (production.getId() == ID){
-                        productionArrayList.remove(production);
-                    }
+        if (canEdit(ID)){
+            for (Production production: productionArrayList){
+                if (production.getId() == ID){
+                    productionArrayList.remove(production);
                 }
+            }
 
-                dataManager.deleteProductionsFile();
+            dataManager.deleteProductionsFile();
 
-                for (Production production: productionArrayList){
-                    boolean addSuccess = this.dataManager.saveProduction(production);
-                    if (addSuccess == false){
-                        return false;
-                    }
+            for (Production production: productionArrayList){
+                boolean addSuccess = this.dataManager.saveProduction(production);
+                if (addSuccess == false){
+                    return false;
                 }
-                return true;
-            case "domain.Producer":
-                if (isOwner((Producer)this.superUser, ID)){
-                    for (Production production: productionArrayList){
-                        if (production.getId() == ID){
-                            productionArrayList.remove(production);
-                        }
-                    }
-
-                    dataManager.deleteProductionsFile();
-
-                    for (Production production: productionArrayList){
-                        boolean addSuccess = this.dataManager.saveProduction(production);
-                        if (addSuccess == false){
-                            return false;
-                        }
-                    }
-                    return true;
-                } else {
-                    throw new RuntimeException("ERROR: Producer doesn't own that production");
-                }
-            default:
-                throw new RuntimeException("ERROR: current SuperUser is invalid or null");
+            }
+            return true;
+        } else {
+            throw new RuntimeException("ERROR: Producer doesn't own that production");
         }
     }
 
@@ -160,5 +139,21 @@ public class System extends Application {
     private boolean isOwner(Producer producer, long ID) throws ExecutionControl.NotImplementedException {
         // TODO: implement isOwner
         throw new ExecutionControl.NotImplementedException("Not implemented");
+    }
+
+    private boolean canEdit(long id) throws ExecutionControl.NotImplementedException {
+        String usrName = this.superUser.getClass().getName();
+
+        if (usrName == "domain.SystemAdministrator"){
+            return true;
+        }else if(usrName == "domain.Producer"){
+            if (isOwner((Producer)this.superUser, id)){
+                return true;
+            } else {
+                throw new RuntimeException("ERROR: Producer doesn't own that production");
+            }
+        }else {
+            throw new RuntimeException("ERROR: current SuperUser is invalid or null");
+        }
     }
 }
