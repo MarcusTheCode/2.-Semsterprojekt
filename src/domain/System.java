@@ -56,7 +56,7 @@ public class System extends Application {
         }
         // check type of logged in user
         //Could be removed
-        switch(this.superUser.getClass().getName()) {
+        /*switch(this.superUser.getClass().getName()) {
             case "domain.SystemAdministrator":
                 break;
             case "domain.Producer":
@@ -67,7 +67,7 @@ public class System extends Application {
                 }
             default:
                 throw new RuntimeException("ERROR: current SuperUser is invalid or null");
-        }
+        }*/
         // remove the old version of the production and add the new one
         boolean removeSuccess = removeProduction(production.getId());
         boolean addSuccess = addProduction(production);
