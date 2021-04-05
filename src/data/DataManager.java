@@ -68,11 +68,11 @@ public class DataManager {
         try {
             objectInputStream = new ObjectInputStream(new FileInputStream(productionsFile));
             while (true){
-                Production snProduction = (Production)objectInputStream.readObject();
-                if (snProduction.getId()==proID){
+                Production production = (Production)objectInputStream.readObject();
+                if (production.getId()==proID){
                     objectInputStream.close();
-                    return snProduction;
-                }else if(snProduction==null){
+                    return production;
+                }else if(production==null||objectInputStream.read()==-1){
                     return null;
                 }
             }
