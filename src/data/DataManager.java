@@ -2,30 +2,28 @@ package data;
 
 import domain.Production;
 import domain.SuperUser;
-import jdk.jshell.spi.ExecutionControl;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class DataManager {
 
     private final String DATAFOLDER = "resources/TXT/";
-    private File productionsFile;
-    private File superUsersFile;
+    private final File productionsFile;
+    private final File superUsersFile;
     ObjectInputStream objectInputStream;
 
     private ArrayList<SuperUser> users;
     private ArrayList<Production> productions;
 
-    public DataManager() throws Exception {
+    public DataManager() {
         //Idea: instantiate File streams when creating the DataManager.
         this.productionsFile = new File(DATAFOLDER + "Productions.txt");
         this.superUsersFile = new File(DATAFOLDER + "SuperUsers.txt");
     }
 
     public boolean saveProduction(Production production) {
-        if (productionsFile.exists() == false){
+        if (!productionsFile.exists()) {
             return write(production);
         } else {
             return appendWrite(production);
@@ -67,13 +65,11 @@ public class DataManager {
         // TODO: fix inefficiency (3/4)
         try {
             objectInputStream = new ObjectInputStream(new FileInputStream(productionsFile));
-            while (true){
+            while (true) {
                 Production snProduction = (Production)objectInputStream.readObject();
-                if (snProduction.getId()==proID){
+                if (snProduction.getId() == proID) {
                     objectInputStream.close();
                     return snProduction;
-                }else if(snProduction==null){
-                    return null;
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -89,11 +85,9 @@ public class DataManager {
         try {
             FileInputStream fStream = new FileInputStream(productionsFile);
             ObjectInput oStream = new ObjectInputStream(fStream);
-            while (true){
-                if (oStream.read() == -1){ // read() returns -1 when end of stream is reached
-                    break;
-                }
-                Production production = (Production)oStream.readObject(); // object is removed from stream when read
+            // read() returns -1 when end of stream is reached
+            while (oStream.read() != -1) {
+                Production production = (Production) oStream.readObject(); // object is removed from stream when read
                 productionArrayList.add(production);
             }
             oStream.close();
@@ -130,11 +124,9 @@ public class DataManager {
             objectInputStream = new ObjectInputStream(new FileInputStream(superUsersFile));
             while (true) {
                 SuperUser superUser = (SuperUser)objectInputStream.readObject();
-                if (superUser.getId()==userID){
+                if (superUser.getId() == userID){
                     objectInputStream.close();
                     return superUser;
-                }else if (superUser==null){
-                    return null;
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
