@@ -55,6 +55,7 @@ public class System extends Application {
             throw new RuntimeException("ERROR: production doesn't exist");
         }
         // check type of logged in user
+        //Could be removed
         switch(this.superUser.getClass().getName()) {
             case "domain.SystemAdministrator":
                 break;
@@ -78,25 +79,28 @@ public class System extends Application {
         if (productionIDIsValid(ID) == false){
             throw new RuntimeException("ERROR: production doesn't exist");
         }
-
         ArrayList<Production> productionArrayList = this.dataManager.loadAllProductions();
 
-        for (Production production: productionArrayList){
-            if (production.getId() == ID){
-                productionArrayList.remove(production);
+        // check type of logged in user
+        if (canEdit(ID)){
+            for (Production production: productionArrayList){
+                if (production.getId() == ID){
+                    productionArrayList.remove(production);
+                }
             }
-        }
 
-        dataManager.deleteProductionsFile();
+            dataManager.deleteProductionsFile();
 
-        for (Production production: productionArrayList){
-            boolean addSuccess = this.dataManager.saveProduction(production);
-            if (addSuccess == false){
-                return false;
+            for (Production production: productionArrayList){
+                boolean addSuccess = this.dataManager.saveProduction(production);
+                if (addSuccess == false){
+                    return false;
+                }
             }
+            return true;
+        } else {
+            throw new RuntimeException("ERROR: Producer doesn't own that production");
         }
-
-        return true;
     }
 
     public boolean logIn(String username, String password) throws ExecutionControl.NotImplementedException {
@@ -135,5 +139,21 @@ public class System extends Application {
     private boolean isOwner(Producer producer, long ID) throws ExecutionControl.NotImplementedException {
         // TODO: implement isOwner
         throw new ExecutionControl.NotImplementedException("Not implemented");
+    }
+
+    private boolean canEdit(long id) throws ExecutionControl.NotImplementedException {
+        String usrName = this.superUser.getClass().getName();
+
+        if (usrName == "domain.SystemAdministrator"){
+            return true;
+        }else if(usrName == "domain.Producer"){
+            if (isOwner((Producer)this.superUser, id)){
+                return true;
+            } else {
+                throw new RuntimeException("ERROR: Producer doesn't own that production");
+            }
+        }else {
+            throw new RuntimeException("ERROR: current SuperUser is invalid or null");
+        }
     }
 }
