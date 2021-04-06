@@ -134,4 +134,31 @@ public class DataManager {
         }
         return null;
     }
+
+    public boolean deleteSuperUser(long userID) {
+        // I dont know how it works(if it works). dont touch it!
+        // Every time the program writes to a file, new streams are created, that's inefficient
+        // TODO: fix inefficiency (7/4)
+        try {
+            ArrayList<SuperUser> superUsers = new ArrayList<>();
+            objectInputStream = new ObjectInputStream(new FileInputStream(superUsersFile));
+            while (objectInputStream.available() > 0) {
+                SuperUser superUser = (SuperUser)objectInputStream.readObject();
+                if (superUser.getId() != userID){
+                    superUsers.add(superUser);
+
+                }
+            }
+            objectInputStream.close();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(superUsersFile));
+            for (SuperUser superUser: superUsers) {
+                objectOutputStream.writeObject(superUser);
+            }
+            objectOutputStream.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }
