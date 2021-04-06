@@ -18,7 +18,6 @@ public class System extends Application {
     SuperUser superUser;
 
     public System() {
-        // TODO: (fix bug) the constructor is for some reason called twice
         try {
             this.dataManager = new DataManager();
         } catch (Exception e) {
@@ -28,10 +27,7 @@ public class System extends Application {
     }
 
     public static void main(String[] args) {
-        // TODO: Why do we instantiate System here? JavaFX already instantiates it as it is an Application-class
-        // Just call launch() instead of system.launch()
-        System system = new System();
-        system.launch();
+        launch();
     }
 
     @Override
