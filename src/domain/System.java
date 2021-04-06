@@ -83,17 +83,20 @@ public class System extends Application {
 
         productionArrayList.removeIf(production -> production.getId() == ID);
 
-            dataManager.deleteProductionsFile();
+        dataManager.deleteProductionsFile();
 
-        for (Production production: productionArrayList){
-            boolean addSuccess = this.dataManager.saveProduction(production);
-            if (!addSuccess) {
-                return false;
+        if (canEdit(ID)) {
+            for (Production production: productionArrayList) {
+                boolean addSuccess = this.dataManager.saveProduction(production);
+                if (!addSuccess) {
+                    return false;
+                }
             }
-            return true;
         } else {
             throw new RuntimeException("ERROR: Producer doesn't own that production");
         }
+
+        return true;
     }
 
     public boolean logIn(String username, String password) throws ExecutionControl.NotImplementedException {
