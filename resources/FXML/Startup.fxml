@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="presentation.UIController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="presentation.UIManager">
    <children>
       <TextField fx:id="startUpSearchBar" layoutX="101.0" layoutY="88.0" prefHeight="37.0" prefWidth="399.0" promptText="Insert production here" />
       <Button fx:id="startUpLogin" layoutX="525.0" layoutY="8.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="68.0" text="Login" />
