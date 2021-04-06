@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class System {
 
     DataManager dataManager;
+    UIManager uiManager;
     SuperUser superUser;
 
     public System(UIManager uiManager) {
