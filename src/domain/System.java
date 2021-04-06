@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import jdk.jshell.spi.ExecutionControl;
 
 import data.*;
-import presentation.*;
 
 import java.util.ArrayList;
 
@@ -29,6 +28,8 @@ public class System extends Application {
     }
 
     public static void main(String[] args) {
+        // TODO: Why do we instantiate System here? JavaFX already instantiates it as it is an Application-class
+        // Just call launch() instead of system.launch()
         System system = new System();
         system.launch();
     }
@@ -51,16 +52,15 @@ public class System extends Application {
 
     public boolean editProduction(Production production) throws Exception {
         // check if production ID belongs to a production
-        if (productionIDIsValid(production.getId()) == false){
+        if (!productionIDIsValid(production.getId())) {
             throw new RuntimeException("ERROR: production doesn't exist");
         }
         // check type of logged in user
-        //Could be removed
-        switch(this.superUser.getClass().getName()) {
+        switch (this.superUser.getClass().getName()) {
             case "domain.SystemAdministrator":
                 break;
             case "domain.Producer":
-                if (isOwner((Producer)this.superUser, production.getId())){
+                if (isOwner((Producer)this.superUser, production.getId())) {
                     break;
                 } else {
                     throw new RuntimeException("ERROR: Producer doesn't own that production");
@@ -76,26 +76,19 @@ public class System extends Application {
     }
 
     public boolean removeProduction(long ID) throws Exception {
-        if (productionIDIsValid(ID) == false){
+        if (!productionIDIsValid(ID)) {
             throw new RuntimeException("ERROR: production doesn't exist");
         }
         ArrayList<Production> productionArrayList = this.dataManager.loadAllProductions();
 
-        // check type of logged in user
-        if (canEdit(ID)){
-            for (Production production: productionArrayList){
-                if (production.getId() == ID){
-                    productionArrayList.remove(production);
-                }
-            }
+        productionArrayList.removeIf(production -> production.getId() == ID);
 
             dataManager.deleteProductionsFile();
 
-            for (Production production: productionArrayList){
-                boolean addSuccess = this.dataManager.saveProduction(production);
-                if (addSuccess == false){
-                    return false;
-                }
+        for (Production production: productionArrayList){
+            boolean addSuccess = this.dataManager.saveProduction(production);
+            if (!addSuccess) {
+                return false;
             }
             return true;
         } else {
@@ -113,9 +106,8 @@ public class System extends Application {
         throw new ExecutionControl.NotImplementedException("Not implemented");
     }
 
-    public boolean saveSuperUser(SuperUser superUser) throws ExecutionControl.NotImplementedException {
-        // TODO: implement saveSuperUser
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+    public boolean saveSuperUser(SuperUser superUser) {
+        return dataManager.saveSuperUser(superUser);
     }
 
     public boolean removeSuperUser(long ID) throws ExecutionControl.NotImplementedException {
@@ -123,17 +115,15 @@ public class System extends Application {
         throw new ExecutionControl.NotImplementedException("Not implemented");
     }
 
-    private boolean isSysAdmin(long ID) throws ExecutionControl.NotImplementedException {
-        // TODO: implement isSysAdmin
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+    private boolean isSysAdmin(long ID) {
+        SuperUser user = dataManager.loadSuperUser(ID);
+        if (user != null)
+            return user.isSysAdmin();
+        return false;
     }
 
     private boolean productionIDIsValid(long ID) {
-        if (dataManager.loadProduction(ID) == null){
-            return false;
-        } else {
-            return true;
-        }
+        return dataManager.loadProduction(ID) != null;
     }
 
     private boolean isOwner(Producer producer, long ID) throws ExecutionControl.NotImplementedException {
