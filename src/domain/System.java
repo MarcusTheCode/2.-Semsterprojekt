@@ -79,21 +79,21 @@ public class System extends Application {
         if (!productionIDIsValid(ID)) {
             throw new RuntimeException("ERROR: production doesn't exist");
         }
-
         ArrayList<Production> productionArrayList = this.dataManager.loadAllProductions();
 
         productionArrayList.removeIf(production -> production.getId() == ID);
 
-        dataManager.deleteProductionsFile();
+            dataManager.deleteProductionsFile();
 
         for (Production production: productionArrayList){
             boolean addSuccess = this.dataManager.saveProduction(production);
             if (!addSuccess) {
                 return false;
             }
+            return true;
+        } else {
+            throw new RuntimeException("ERROR: Producer doesn't own that production");
         }
-
-        return true;
     }
 
     public boolean logIn(String username, String password) throws ExecutionControl.NotImplementedException {
@@ -129,5 +129,21 @@ public class System extends Application {
     private boolean isOwner(Producer producer, long ID) throws ExecutionControl.NotImplementedException {
         // TODO: implement isOwner
         throw new ExecutionControl.NotImplementedException("Not implemented");
+    }
+
+    private boolean canEdit(long id) throws ExecutionControl.NotImplementedException {
+        String usrName = this.superUser.getClass().getName();
+
+        if (usrName == "domain.SystemAdministrator"){
+            return true;
+        }else if(usrName == "domain.Producer"){
+            if (isOwner((Producer)this.superUser, id)){
+                return true;
+            } else {
+                throw new RuntimeException("ERROR: Producer doesn't own that production");
+            }
+        }else {
+            throw new RuntimeException("ERROR: current SuperUser is invalid or null");
+        }
     }
 }
