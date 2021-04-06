@@ -7,13 +7,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="presentation.UIController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.StartupController">
    <children>
-      <TextField fx:id="startUpSearchBar" layoutX="101.0" layoutY="88.0" prefHeight="37.0" prefWidth="399.0" promptText="Insert production here" />
-      <Button fx:id="startUpLogin" layoutX="525.0" layoutY="8.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="68.0" text="Login" />
-      <ListView fx:id="startUpListView" layoutX="101.0" layoutY="141.0" prefHeight="208.0" prefWidth="399.0" />
-      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="463.0" layoutY="92.0" pickOnBounds="true" preserveRatio="true">
+      <TextField fx:id="searchBar" layoutX="101.0" layoutY="88.0" prefHeight="37.0" prefWidth="399.0" promptText="Insert production here" />
+      <Button layoutX="525.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#logIn" prefHeight="37.0" prefWidth="68.0" text="Login" />
+      <ListView fx:id="searchResult" layoutX="101.0" layoutY="141.0" prefHeight="208.0" prefWidth="399.0" />
+      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="463.0" layoutY="92.0" onMouseClicked="#searchProductions" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../PNG/Search.png" />
          </image>

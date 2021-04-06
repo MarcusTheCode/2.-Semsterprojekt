@@ -1,5 +1,6 @@
 package domain;
 
+import com.sun.webkit.UIClient;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,33 +10,24 @@ import javafx.stage.Stage;
 import jdk.jshell.spi.ExecutionControl;
 
 import data.*;
+import presentation.UIManager;
 
 import java.util.ArrayList;
 
-public class System extends Application {
+public class System {
 
     DataManager dataManager;
+    UIManager uiManager;
     SuperUser superUser;
 
-    public System() {
+    public System(UIManager uiManager) {
         try {
             this.dataManager = new DataManager();
         } catch (Exception e) {
             e.printStackTrace();
         }
         this.superUser = null;
-    }
-
-    public static void main(String[] args) {
-        launch();
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../FXML/Startup.fxml"));
-        primaryStage.setTitle("title");
-        primaryStage.setScene(new Scene(root, 600, 400));
-        primaryStage.show();
+        this.uiManager = uiManager;
     }
 
     public Production getProduction(long ID) {

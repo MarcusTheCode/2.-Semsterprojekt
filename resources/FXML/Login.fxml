@@ -6,14 +6,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FXML.Login">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.LogInController">
    <children>
       <AnchorPane layoutX="181.0" layoutY="58.0" prefHeight="284.0" prefWidth="238.0" style="-fx-background-color: #C0C0C0;">
          <children>
             <TextField fx:id="usernameInput" layoutX="43.0" layoutY="89.0" promptText="username/email" style="-fx-background-color: #FFFAFA;" />
             <TextField fx:id="passwordInput" layoutX="43.0" layoutY="142.0" promptText="password" style="-fx-background-color: #FFFAFA;" />
-            <Button fx:id="signInButton" contentDisplay="CENTER" layoutX="52.0" layoutY="201.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="134.0" text="Sign in" textAlignment="CENTER" />
+            <Button contentDisplay="CENTER" layoutX="52.0" layoutY="201.0" mnemonicParsing="false" onMouseClicked="#signIn" prefHeight="30.0" prefWidth="134.0" text="Sign in" textAlignment="CENTER" />
             <Text fill="WHITE" layoutX="76.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign in" textAlignment="CENTER" wrappingWidth="86.87629699707031">
                <font>
                   <Font size="22.0" />
@@ -21,6 +20,6 @@
             </Text>
          </children>
       </AnchorPane>
-      <Button fx:id="returnToStartButton" layoutX="531.0" layoutY="14.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="55.0" text="Return" />
+      <Button layoutX="531.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#returnToStartup" prefHeight="41.0" prefWidth="55.0" text="Return" />
    </children>
 </AnchorPane>
