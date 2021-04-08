@@ -161,4 +161,31 @@ public class DataManager {
         }
         return true;
     }
+
+
+    public Boolean checkIfUserExists(SuperUser superUser) {
+        // Every time the program writes to a file, new streams are created, that's inefficient
+        // TODO: fix inefficiency (4/4)
+        ArrayList<SuperUser> superUserArrayList = new ArrayList<>();
+        try {
+            FileInputStream fStream = new FileInputStream(superUsersFile);
+            ObjectInput oStream = new ObjectInputStream(fStream);
+            // read() returns -1 when end of stream is reached
+            while (oStream.read() != -1) {
+                superUser = (SuperUser) oStream.readObject();
+                superUserArrayList.add(superUser);
+            }
+            oStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        // checks if username and password input matches file username and password
+        for (SuperUser user : superUserArrayList) {
+            if (superUser.getUsername().equals(user.getUsername()) && superUser.getPassword().equals(user.getPassword())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
