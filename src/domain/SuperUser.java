@@ -27,6 +27,8 @@ public class SuperUser implements Serializable {
     public long getId() {
         return id;
     }
+    public String getUsername() { return username;}
+    public String getPassword() { return password;}
 
     public boolean isSysAdmin() {
         return sysAdmin;
