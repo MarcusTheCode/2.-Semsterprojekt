@@ -19,5 +19,6 @@ public class LogInController {
     @FXML
     void signIn(MouseEvent event) {
 
+        UIManager.changeScene(UIManager.getStartupScene());
     }
 }
