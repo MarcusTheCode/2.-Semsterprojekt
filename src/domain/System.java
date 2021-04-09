@@ -24,6 +24,27 @@ public class System extends Application {
             e.printStackTrace();
         }
         this.superUser = null;
+
+        // DEBUG
+        //SuperUser producer = new SuperUser(0, "Henrik", "password123", false);
+        //saveSuperUser(producer);
+
+        //Production production = new Production(user.id, 0, "Yeet", "thriller");
+        //dataManager.saveProduction(production);
+
+        //superUser = dataManager.loadSuperUser(0);
+
+        //Production production = new Production(superUser.id, 1, "Yeet", "thriller");
+        //dataManager.saveProduction(production);
+
+        /*Production production = dataManager.loadProduction(0);
+        java.lang.System.out.println(production);
+
+        if (canEdit(production.id)) {
+            java.lang.System.out.println("Can Edit");
+        } else {
+            java.lang.System.out.println("Can't Edit");
+        }*/
     }
 
     public static void main(String[] args) {
@@ -52,17 +73,8 @@ public class System extends Application {
             throw new RuntimeException("ERROR: production doesn't exist");
         }
         // check type of logged in user
-        switch (this.superUser.getClass().getName()) {
-            case "domain.SystemAdministrator":
-                break;
-            case "domain.Producer":
-                if (isOwner((Producer)this.superUser, production.getId())) {
-                    break;
-                } else {
-                    throw new RuntimeException("ERROR: Producer doesn't own that production");
-                }
-            default:
-                throw new RuntimeException("ERROR: current SuperUser is invalid or null");
+        if (!canEdit(superUser.id)) {
+            throw new RuntimeException("User is not allowed to edit this production");
         }
         // remove the old version of the production and add the new one
         boolean removeSuccess = removeProduction(production.getId());
@@ -125,24 +137,15 @@ public class System extends Application {
         return dataManager.loadProduction(ID) != null;
     }
 
-    private boolean isOwner(Producer producer, long ID) throws ExecutionControl.NotImplementedException {
-        // TODO: implement isOwner
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+    private boolean isOwner(SuperUser producer, long id) {
+        Production production = dataManager.loadProduction(id);
+        if (production.isOwner(producer)) {
+            return true;
+        }
+        return false;
     }
 
-    private boolean canEdit(long id) throws ExecutionControl.NotImplementedException {
-        String usrName = this.superUser.getClass().getName();
-
-        if (usrName == "domain.SystemAdministrator"){
-            return true;
-        }else if(usrName == "domain.Producer"){
-            if (isOwner((Producer)this.superUser, id)){
-                return true;
-            } else {
-                throw new RuntimeException("ERROR: Producer doesn't own that production");
-            }
-        }else {
-            throw new RuntimeException("ERROR: current SuperUser is invalid or null");
-        }
+    private boolean canEdit(long id) {
+        return isOwner(superUser, id) || superUser.isSysAdmin();
     }
 }
