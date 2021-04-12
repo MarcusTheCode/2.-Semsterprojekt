@@ -21,9 +21,17 @@ public class Production implements Serializable {
     public long getOwnerID() {
         return ownerID;
     }
-    
+
     public boolean isOwner(SuperUser user) {
         return getOwnerID() == user.getId();
+    }
+
+    public ArrayList<CastMember> getCastMembers() {
+        return castMembers;
+    }
+
+    public void setCastMembers(ArrayList<CastMember> castMembers) {
+        this.castMembers = castMembers;
     }
 
     public long getId() {

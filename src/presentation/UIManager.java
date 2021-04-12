@@ -17,6 +17,7 @@ public class UIManager extends Application {
     private static Scene loginScene;
     private static Scene productionScene;
     private static Scene startupScene;
+    private static Scene searchScene;
 
     public static void main(String[] args) {
         launch();
@@ -35,6 +36,7 @@ public class UIManager extends Application {
             loginScene = loadScene("../FXML/Login.fxml");
             productionScene = loadScene("../FXML/Production.fxml");
             startupScene = loadScene("../FXML/Startup.fxml");
+            searchScene = loadScene("../FXML/Search.fxml");
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -67,5 +69,9 @@ public class UIManager extends Application {
 
     public static Scene getStartupScene() {
         return startupScene;
+    }
+
+    public static Scene getSearchScene() {
+        return searchScene;
     }
 }
