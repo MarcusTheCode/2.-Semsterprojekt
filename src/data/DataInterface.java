@@ -13,7 +13,7 @@ public class DataInterface {
         return dataManager.loadProduction(ID);
     }
 
-    public static boolean saveProduction(Production production){
+    public static boolean saveProduction(Production production) throws Exception{
         return dataManager.saveProduction(production);
     }
 

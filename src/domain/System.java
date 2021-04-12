@@ -14,8 +14,8 @@ public class System {
         this.uiManager = uiManager;
     }
 
-    public boolean addProduction(Production production) {
-        return DataInterface.saveProduction(production);
+    public void addProduction(Production production) throws Exception{
+        DataInterface.saveProduction(production);
     }
 
     public void removeProduction(Production production) throws Exception {
