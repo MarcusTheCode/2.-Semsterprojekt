@@ -2,20 +2,28 @@ package domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Production implements Serializable {
-    private long id;
-    private String title;
-    private String category;
-    private ArrayList<CastMember> castMembers;
+    long id;
+    String title;
+    String category;
+    ArrayList<CastMember> castMembers;
+    long ownerID;
 
-
-    public Production(long id,String title,String category){
+    public Production(long ownerID, long id, String title, String category) {
+        this.ownerID = ownerID;
         this.category = category;
         this.id = id;
         this.title = title;
         castMembers = new ArrayList<>();
+    }
+
+    public long getOwnerID() {
+        return ownerID;
+    }
+
+    public boolean isOwner(SuperUser user) {
+        return getOwnerID() == user.getId();
     }
 
     public ArrayList<CastMember> getCastMembers() {
