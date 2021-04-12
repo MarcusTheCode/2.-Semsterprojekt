@@ -38,10 +38,9 @@ public class Production implements Serializable {
         return title;
     }
 
-    @Override
-    public String toString() {
-        // TODO: toString should return the credits in
-        return super.toString();
+    public static String getMetaData(){
+        // TODO: Add metadata
+        return new String("No metadata available");
     }
 }
 

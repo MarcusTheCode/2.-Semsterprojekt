@@ -60,10 +60,12 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void goToProduction(MouseEvent event) throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Not implemented");
-        // TODO: find a way to pass the production ID to the production scene controller
-        // UIManager.changeScene(UIManager.getProductionScene());
+    void goToProduction(MouseEvent event) throws Exception {
+        if (productionsTable.getSelectionModel().getSelectedItem() == null)
+            throw new Exception("ERROR: No production selected");
+
+        // TODO: somehow pass the selected production to the ProductionController
+        UIManager.changeScene(UIManager.getProductionScene());
     }
 
     @FXML

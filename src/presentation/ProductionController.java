@@ -1,6 +1,7 @@
 package presentation;
 
 import domain.CastMember;
+import domain.DomainInterface;
 import domain.Production;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -59,17 +60,14 @@ public class ProductionController implements Initializable {
         UIManager.changeScene(UIManager.getStartupScene());
     }
 
-    public void loadProduction(long ID) throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Not implemented");
-
-        // TODO: Implement communication between ProductionController class and DataManger, then uncomment the following lines (1/3)
+    public void loadProduction(long ID) {
         // TODO: Call this function when changing to this scene
         // TODO: Hide or disable editing features if visitor is not logged in
 
-        // this.currentProduction = DataManger.loadProduction(ID);
-        // ArrayList<CastMember> castMemberArrayList = production.getCastMembers();
-        // castMemberObservableList = FXCollections.observableArrayList(castMemberArrayList);
-        // metaData.setText(this.currentProduction.getMetaData());
+        this.currentProduction = DomainInterface.getProduction(ID);
+        ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();
+        castMemberObservableList = FXCollections.observableArrayList(castMemberArrayList);
+        metaData.setText(this.currentProduction.getMetaData());
     }
 
     @FXML
@@ -90,20 +88,13 @@ public class ProductionController implements Initializable {
         castMember.setJobTitle(event.getNewValue());
     }
 
-
     @FXML
-    void deleteProduction(MouseEvent event) throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Not implemented");
-
-        // TODO: Implement communication between ProductionController class and DataManger, then uncomment the following lines (2/3)
-        // DataManager.deleteProduction(this.currentProduction.getID());
+    void deleteProduction(MouseEvent event) {
+        DomainInterface.removeProduction(currentProduction);
     }
 
     @FXML
-    void saveChanges(MouseEvent event) throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Not implemented");
-
-        // TODO: Implement communication between ProductionController class and DataManger, then uncomment the following lines (3/3)
-        // DataManager.saveProduction(this.currentProduction);
+    void saveChanges(MouseEvent event) {
+        DomainInterface.editProduction(currentProduction);
     }
 }

@@ -7,14 +7,12 @@ import presentation.UIManager;
 
 public class System {
 
-    UIManager uiManager;
     private static SuperUser superUser;
 
-    public System(UIManager uiManager) {
-        this.uiManager = uiManager;
+    public System() {
     }
 
-    public void addProduction(Production production) throws Exception{
+    public void saveProduction(Production production) throws Exception{
         DataInterface.saveProduction(production);
     }
 
@@ -29,7 +27,7 @@ public class System {
     public void editProduction(Production production) throws Exception {
         if (production.isOwner(superUser)) {
             removeProduction(production);
-            addProduction(production);
+            saveProduction(production);
             return;
         }
         throw new RuntimeException("User is not allowed to edit this production");
