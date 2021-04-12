@@ -52,7 +52,7 @@ public class UIManager extends Application {
 
         loadScenes();
 
-        primaryStage.setScene(searchScene);
+        primaryStage.setScene(startupScene);
         primaryStage.setTitle("Credit management system");
 
         this.primaryStage = primaryStage;
