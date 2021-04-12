@@ -59,6 +59,18 @@ public class ProductionController implements Initializable {
         UIManager.changeScene(UIManager.getStartupScene());
     }
 
+    public void loadProduction(long ID) throws ExecutionControl.NotImplementedException {
+        throw new ExecutionControl.NotImplementedException("Not implemented");
+
+        // TODO: Implement communication between ProductionController class and DataManger, then uncomment the following lines (1/3)
+        // TODO: Call this function when changing to this scene
+
+        // this.currentProduction = DataManger.loadProduction(ID);
+        // ArrayList<CastMember> castMemberArrayList = production.getCastMembers();
+        // castMemberObservableList = FXCollections.observableArrayList(castMemberArrayList);
+        // metaData.setText(this.currentProduction.getMetaData());
+    }
+
     @FXML
     void addEntry(MouseEvent event) {
         castMemberObservableList.add(new CastMember("\"name\"","\"job\""));
@@ -68,16 +80,6 @@ public class ProductionController implements Initializable {
     void deleteEntry(MouseEvent event) {
         int index = castMembers.getSelectionModel().getFocusedIndex();
         castMemberObservableList.remove(index);
-    }
-
-    public void loadProduction(long ID) throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Not implemented");
-
-        // TODO: Implement communication between ProductionController class and DataManger, then uncomment the following lines (1/3)
-
-        // this.currentProduction = DataManger.loadProduction(ID);
-        // ArrayList<CastMember> castMemberArrayList = production.getCastMembers();
-        // castMemberObservableList = FXCollections.observableArrayList(castMemberArrayList);
     }
 
     @FXML
