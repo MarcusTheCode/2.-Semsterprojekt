@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Production implements Serializable {
-    long id;
-    String title;
-    String category;
-    ArrayList<CastMember> castMembers;
+    private long id;
+    private String title;
+    private String category;
+    private ArrayList<CastMember> castMembers;
 
 
     public Production(long id,String title,String category){
@@ -16,6 +16,14 @@ public class Production implements Serializable {
         this.id = id;
         this.title = title;
         castMembers = new ArrayList<>();
+    }
+
+    public ArrayList<CastMember> getCastMembers() {
+        return castMembers;
+    }
+
+    public void setCastMembers(ArrayList<CastMember> castMembers) {
+        this.castMembers = castMembers;
     }
 
     public long getId() {
