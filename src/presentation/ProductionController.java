@@ -64,6 +64,7 @@ public class ProductionController implements Initializable {
 
         // TODO: Implement communication between ProductionController class and DataManger, then uncomment the following lines (1/3)
         // TODO: Call this function when changing to this scene
+        // TODO: Hide or disable editing features if visitor is not logged in
 
         // this.currentProduction = DataManger.loadProduction(ID);
         // ArrayList<CastMember> castMemberArrayList = production.getCastMembers();
