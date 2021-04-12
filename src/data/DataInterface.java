@@ -2,7 +2,8 @@ package data;
 
 import domain.Production;
 import domain.SuperUser;
-import jdk.jshell.spi.ExecutionControl;
+
+import java.util.ArrayList;
 
 public class DataInterface {
 
@@ -16,26 +17,30 @@ public class DataInterface {
         return dataManager.saveProduction(production);
     }
 
-    public static boolean editProduction(Production production) throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Not implemented");
-        // TODO: move functionality from System.editProduction to here
+    public static boolean deleteProduction(long ID) {
+        ArrayList<Production> productionArrayList = dataManager.loadAllProductions();
+        productionArrayList.removeIf(production -> production.getId() == ID);
+
+        if (!dataManager.deleteProductionsFile())
+            return false;
+
+        for (Production production: productionArrayList) {
+            if (!dataManager.saveProduction(production))
+                return false;
+        }
+
+        return true;
     }
 
-    public static boolean removeProduction(Production production) throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Not implemented");
-        // TODO: move functionality from System.removeProduction to here
+    public static SuperUser getSuperUser(long ID){
+        return dataManager.loadSuperUser(ID);
     }
 
-    public static boolean saveUser(SuperUser superUser){
-        return dataManager.saveSuperUser(superUser);
+    public static void saveSuperUser(SuperUser superUser) throws Exception{
+        dataManager.saveSuperUser(superUser);
     }
 
-    public static boolean removeSuperUser(long ID) throws ExecutionControl.NotImplementedException {
-        // TODO: implement removeSuperUser
-        throw new ExecutionControl.NotImplementedException("Not implemented");
-    }
-
-    public static boolean productionIDIsValid(long ID){
-        return dataManager.loadProduction(ID) != null;
+    public static void deleteSuperUser(long ID) throws Exception {
+        dataManager.deleteSuperUser(ID);
     }
 }

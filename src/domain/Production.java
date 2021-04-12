@@ -18,12 +18,8 @@ public class Production implements Serializable {
         castMembers = new ArrayList<>();
     }
 
-    public long getOwnerID() {
-        return ownerID;
-    }
-
-    public boolean isOwner(SuperUser user) {
-        return getOwnerID() == user.getId();
+    public boolean isOwner(SuperUser superUser) {
+        return (ownerID == superUser.getId());
     }
 
     public ArrayList<CastMember> getCastMembers() {
