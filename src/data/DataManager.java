@@ -49,7 +49,7 @@ public class DataManager {
         // Every time the program writes to a file, new streams are created, that's inefficient
         // TODO: fix inefficiency (2/4)
         try {
-            FileOutputStream fStream = new FileOutputStream(productionsFile);
+            FileOutputStream fStream = new FileOutputStream(productionsFile, true);
             AppendingObjectOutputStream oStream = new AppendingObjectOutputStream(fStream);
             oStream.writeObject(production);
             oStream.close();
@@ -106,10 +106,17 @@ public class DataManager {
         // Every time the program writes to a file, new streams are created, that's inefficient
         // TODO: fix inefficiency (5/4)
         try {
-            FileOutputStream fStream = new FileOutputStream(superUsersFile);
-            AppendingObjectOutputStream oStream = new AppendingObjectOutputStream(fStream);
-            oStream.writeObject(user);
-            oStream.close();
+            if (!superUsersFile.exists()) {
+                FileOutputStream fStream = new FileOutputStream(superUsersFile);
+                ObjectOutputStream oStream = new ObjectOutputStream(fStream);
+                oStream.writeObject(user);
+                oStream.close();
+            } else {
+                FileOutputStream fStream = new FileOutputStream(superUsersFile, true);
+                AppendingObjectOutputStream oStream = new AppendingObjectOutputStream(fStream);
+                oStream.writeObject(user);
+                oStream.close();
+            }
             return true;
         } catch (IOException e) {
             e.printStackTrace();

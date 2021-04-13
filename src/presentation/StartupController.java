@@ -21,7 +21,8 @@ public class StartupController {
 
     @FXML
     void searchProductions(MouseEvent event) {
-
+        // TODO: if there is input in the search bar, pass it to the Search scene
+        UIManager.changeScene(UIManager.getSearchScene());
     }
 
 }
