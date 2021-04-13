@@ -51,8 +51,8 @@ public class System {
 
 
     //missing failure message when login is incorrect
-    public Boolean logIn(String inputUsername, String inputPassword) {
-        this.superUser = dataManager.checkIfUserExists(inputUsername, inputPassword);
+    public static Boolean logIn(String inputUsername, String inputPassword) {
+        superUser = DataInterface.checkIfUserExists(inputUsername, inputPassword);
         return superUser != null;
     }
 

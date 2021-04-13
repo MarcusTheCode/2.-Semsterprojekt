@@ -43,4 +43,9 @@ public class DataInterface {
     public static void deleteSuperUser(long ID) throws Exception {
         dataManager.deleteSuperUser(ID);
     }
+
+    public static SuperUser checkIfUserExists(String inputUsername, String inputPassword) {
+        dataManager.checkIfUserExists(inputUsername, inputPassword);
+        return dataManager.checkIfUserExists(inputUsername, inputPassword);
+    }
 }
