@@ -15,15 +15,6 @@ public class SuperUser implements Serializable {
         this.sysAdmin = sysAdmin;
     }
 
-    // Unused for now
-    /*public void addProduction(Production production){
-        productions.add(production);
-    }
-
-    public void addProduction(List<Production> productionsList){
-        productions.addAll(productionsList);
-    }*/
-
     public long getId() {
         return id;
     }
