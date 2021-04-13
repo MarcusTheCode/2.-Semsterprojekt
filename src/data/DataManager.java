@@ -146,7 +146,6 @@ public class DataManager {
                 SuperUser superUser = (SuperUser)objectInputStream.readObject();
                 if (superUser.getId() != userID){
                     superUsers.add(superUser);
-
                 }
             }
             objectInputStream.close();
@@ -163,7 +162,7 @@ public class DataManager {
     }
 
 
-    public Boolean checkIfUserExists(SuperUser superUser) {
+    public SuperUser checkIfUserExists(String inputUsername, String inputPassword) {
         // Every time the program writes to a file, new streams are created, that's inefficient
         // TODO: fix inefficiency (4/4)
         ArrayList<SuperUser> superUserArrayList = new ArrayList<>();
@@ -172,7 +171,7 @@ public class DataManager {
             ObjectInput oStream = new ObjectInputStream(fStream);
             // read() returns -1 when end of stream is reached
             while (oStream.read() != -1) {
-                superUser = (SuperUser) oStream.readObject();
+                SuperUser superUser = (SuperUser) oStream.readObject();
                 superUserArrayList.add(superUser);
             }
             oStream.close();
@@ -181,11 +180,11 @@ public class DataManager {
             return null;
         }
         // checks if username and password input matches file username and password
-        for (SuperUser user : superUserArrayList) {
-            if (superUser.getUsername().equals(user.getUsername()) && superUser.getPassword().equals(user.getPassword())) {
-                return true;
+         for (SuperUser user : superUserArrayList) {
+            if (inputUsername.equals(user.getUsername()) && inputPassword.equals(user.getPassword())) {
+                return user;
             }
         }
-        return false;
+        return null;
     }
 }

@@ -1,12 +1,5 @@
 package domain;
 
-import com.sun.webkit.UIClient;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 import jdk.jshell.spi.ExecutionControl;
 
 import data.*;
@@ -88,9 +81,11 @@ public class System {
         return true;
     }
 
-    public boolean logIn(String username, String password) throws ExecutionControl.NotImplementedException {
-        // TODO: implement logIn
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+
+    //missing failure message when login is incorrect
+    public Boolean logIn(String inputUsername, String inputPassword) {
+        this.superUser = dataManager.checkIfUserExists(inputUsername, inputPassword);
+        return superUser != null;
     }
 
     public boolean logOut() throws ExecutionControl.NotImplementedException {
