@@ -34,4 +34,8 @@ public class DomainInterface {
             java.lang.System.out.println(e.getMessage());
         }
     }
+
+    public static System getSystem() {
+        return system;
+    }
 }

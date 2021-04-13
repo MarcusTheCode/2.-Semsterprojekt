@@ -81,21 +81,27 @@ public class DataManager {
     public ArrayList<Production> loadAllProductions() {
         // Every time the program writes to a file, new streams are created, that's inefficient
         // TODO: fix inefficiency (4/4)
+        write(new Production(25,16,"ce","def"));
+        appendWrite(new Production(28,18,"ch","defwwf"));
+        appendWrite(new Production(24,19,"cegr","deffw"));
+
         ArrayList<Production> productionArrayList = new ArrayList<>();
         try {
             FileInputStream fStream = new FileInputStream(productionsFile);
             ObjectInput oStream = new ObjectInputStream(fStream);
-            // read() returns -1 when end of stream is reached
-            while (oStream.read() != -1) {
+            while (true) {
                 Production production = (Production) oStream.readObject(); // object is removed from stream when read
-                productionArrayList.add(production);
+                if (production!=null){
+                    productionArrayList.add(production);
+                }
+                if(oStream.read()==-1) {
+                    oStream.close();
+                    return productionArrayList;
+                }
             }
-            oStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        } catch (ClassNotFoundException | IOException ignored) {
+            return productionArrayList;
         }
-        return productionArrayList;
     }
 
     public boolean deleteProductionsFile(){

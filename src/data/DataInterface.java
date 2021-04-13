@@ -43,4 +43,8 @@ public class DataInterface {
     public static void deleteSuperUser(long ID) throws Exception {
         dataManager.deleteSuperUser(ID);
     }
+
+    public static ArrayList<Production> loadAllProductions(){
+        return dataManager.loadAllProductions();
+    }
 }
