@@ -170,6 +170,7 @@ public class DataManager {
 
 
     public SuperUser checkIfUserExists(String inputUsername, String inputPassword) {
+
         // Every time the program writes to a file, new streams are created, that's inefficient
         // TODO: fix inefficiency (4/4)
         ArrayList<SuperUser> superUserArrayList = new ArrayList<>();
@@ -187,11 +188,17 @@ public class DataManager {
             return null;
         }
         // checks if username and password input matches file username and password
-         for (SuperUser user : superUserArrayList) {
+           for (SuperUser user : superUserArrayList) {
+            if (inputUsername.equals(user.getUsername()) && inputPassword.equals(user.getPassword())) {
+                return user;
+            }
+        }
+
+        for (SuperUser user : superUserArrayList) {
             if (inputUsername.equals(user.getUsername()) && inputPassword.equals(user.getPassword())) {
                 return user;
             }
         }
         return null;
-    }
+     }
 }

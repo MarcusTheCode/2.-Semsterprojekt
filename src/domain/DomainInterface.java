@@ -1,5 +1,7 @@
 package domain;
 
+import presentation.LogInController;
+
 public class DomainInterface {
 
     private static System system = new System();
@@ -33,5 +35,9 @@ public class DomainInterface {
             e.printStackTrace();
             java.lang.System.out.println(e.getMessage());
         }
+    }
+
+    public static boolean checkIfUserExists(String inputUsername, String inputPassword) {
+        return system.logIn(inputUsername, inputPassword);
     }
 }

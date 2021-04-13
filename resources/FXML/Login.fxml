@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -47,6 +48,12 @@
                         <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#signIn" prefHeight="30.0" prefWidth="134.0" text="Sign in" textAlignment="CENTER" />
                      </children>
                   </VBox>
+                  <Pane fx:id="loginFail" layoutX="224.0" layoutY="60.0" prefHeight="161.0" prefWidth="153.0" style="-fx-background-color: #808080;" visible="false">
+                     <children>
+                        <Text layoutX="16.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-background-color: #FFFAFA;" text="Incorrect username or password" textAlignment="CENTER" wrappingWidth="121.98307228088379" />
+                        <Button fx:id="incorrectLogin" layoutX="51.0" layoutY="112.0" mnemonicParsing="false" onMouseClicked="#okIncorrectLogin" text="OK" />
+                     </children>
+                  </Pane>
                </children>
             </AnchorPane>
          </children>

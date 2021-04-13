@@ -8,7 +8,7 @@ public class SuperUser implements Serializable {
     long id;
     boolean sysAdmin;
 
-    SuperUser(long id, String password, String username, boolean sysAdmin) {
+    public SuperUser(long id, String password, String username, boolean sysAdmin) {
         this.id = id;
         this.password = password;
         this.username = username;
