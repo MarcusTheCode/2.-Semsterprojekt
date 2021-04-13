@@ -49,9 +49,11 @@ public class System {
         return superUser;
     }
 
-    public boolean logIn(String username, String password) throws ExecutionControl.NotImplementedException {
-        // TODO: implement logIn
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+
+    //missing failure message when login is incorrect
+    public Boolean logIn(String inputUsername, String inputPassword) {
+        this.superUser = dataManager.checkIfUserExists(inputUsername, inputPassword);
+        return superUser != null;
     }
 
     public boolean logOut() throws ExecutionControl.NotImplementedException {
