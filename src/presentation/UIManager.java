@@ -26,8 +26,6 @@ public class UIManager extends Application {
     private Scene loadScene(String fileName) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource(fileName));
         Scene scene = new Scene(root, WIDTH, HEIGHT);
-        // If we need to save the controllers, uncomment the line below
-        // Controller controller = loader.getController();
         return scene;
     }
 
@@ -48,8 +46,6 @@ public class UIManager extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        System system = new System(this);
-
         loadScenes();
 
         primaryStage.setScene(startupScene);
@@ -64,6 +60,7 @@ public class UIManager extends Application {
     }
 
     public static Scene getProductionScene() {
+        // TODO: Load production data when changing to this scene
         return productionScene;
     }
 

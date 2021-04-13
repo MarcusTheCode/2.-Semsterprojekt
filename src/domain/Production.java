@@ -18,12 +18,8 @@ public class Production implements Serializable {
         castMembers = new ArrayList<>();
     }
 
-    public long getOwnerID() {
-        return ownerID;
-    }
-
-    public boolean isOwner(SuperUser user) {
-        return getOwnerID() == user.getId();
+    public boolean isOwner(SuperUser superUser) {
+        return (ownerID == superUser.getId());
     }
 
     public ArrayList<CastMember> getCastMembers() {
@@ -42,10 +38,9 @@ public class Production implements Serializable {
         return title;
     }
 
-    @Override
-    public String toString() {
-        // TODO: toString should return the credits in
-        return super.toString();
+    public static String getMetaData(){
+        // TODO: Add metadata
+        return new String("No metadata available");
     }
 }
 
