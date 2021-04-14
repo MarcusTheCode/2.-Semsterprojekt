@@ -53,7 +53,8 @@ public class SearchController implements Initializable {
         productionObservableList = FXCollections.observableList(DataInterface.loadAllProductions());
 
         //productionsTable.setItems(productionObservableList);
-        productionsTable.getItems().setAll(productionObservableList);
+        //productionsTable.getItems().setAll(productionObservableList);
+        System.out.println(productionsTable.getItems());
 
     }
 
