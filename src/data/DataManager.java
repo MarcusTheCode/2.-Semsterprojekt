@@ -96,7 +96,7 @@ public class DataManager {
                 }
             }
         } catch (ClassNotFoundException | IOException ignored) {
-            System.out.println("i ran to");
+            System.out.println("i ran");
             return productionArrayList;
         }
     }
