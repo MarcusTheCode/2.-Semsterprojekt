@@ -13,9 +13,9 @@
    <children>
       <VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="TOP_RIGHT">
+            <HBox fx:id="loginHBox" alignment="TOP_RIGHT">
                <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#logIn" prefHeight="37.0" prefWidth="68.0" text="Login">
+                  <Button fx:id="loginButton" mnemonicParsing="false" onMouseClicked="#logIn" prefHeight="37.0" prefWidth="68.0" text="Login">
                      <HBox.margin>
                         <Insets right="10.0" top="10.0" />
                      </HBox.margin>
