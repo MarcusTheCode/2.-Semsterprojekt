@@ -40,7 +40,7 @@ public class DataInterface {
         dataManager.saveSuperUser(superUser);
     }
 
-    public static void deleteSuperUser(long ID) throws Exception {
+    public static void deleteSuperUser(long ID) {
         dataManager.deleteSuperUser(ID);
     }
 

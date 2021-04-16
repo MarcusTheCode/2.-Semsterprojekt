@@ -65,7 +65,7 @@ public class UsersController implements Initializable {
         SuperUser user = new SuperUser(4, "password1234", "Name", false);
         usersObservableList.add(user);
 
-        // TODO: Save user
+        DomainInterface.saveUser(user);
     }
 
     @FXML
@@ -73,7 +73,7 @@ public class UsersController implements Initializable {
         int index = superUsers.getSelectionModel().getFocusedIndex();
         usersObservableList.remove(index);
 
-        // TODO: Save user
+        //DomainInterface.deleteUser(user);
     }
 
     @FXML

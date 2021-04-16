@@ -44,6 +44,14 @@ public class DomainInterface {
         return DataInterface.getUsers();
     }
 
+    public static void saveUser(SuperUser user) {
+        DataInterface.saveSuperUser(user);
+    }
+
+    public static void deleteUser(long id) {
+        DataInterface.deleteSuperUser(id);
+    }
+
     public static boolean checkIfUserExists(String inputUsername, String inputPassword) {
         return system.logIn(inputUsername, inputPassword);
     }
