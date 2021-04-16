@@ -1,6 +1,9 @@
 package presentation;
 
+import com.sun.javafx.collections.ObservableListWrapper;
+import data.DataInterface;
 import domain.CastMember;
+import domain.DomainInterface;
 import domain.Production;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,17 +14,24 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.util.converter.LongStringConverter;
 import jdk.jshell.spi.ExecutionControl;
 
+import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class SearchController implements Initializable {
 
     @FXML
-    private TableColumn<Production, String> IDColumn;
+    private TableColumn<Production, Long> IDColumn;
 
     @FXML
     private TableColumn<Production, String> titleColumn;
@@ -36,8 +46,8 @@ public class SearchController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        IDColumn.setCellValueFactory(new PropertyValueFactory<Production, String>("id"));
-        IDColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        IDColumn.setCellValueFactory(new PropertyValueFactory<Production, Long>("id"));
+        IDColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
 
         titleColumn.setCellValueFactory(new PropertyValueFactory<Production, String>("title"));
         titleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -45,27 +55,26 @@ public class SearchController implements Initializable {
         genreColumn.setCellValueFactory(new PropertyValueFactory<Production, String>("category"));
         genreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        productionObservableList = FXCollections.observableArrayList();
-
+        productionObservableList = FXCollections.observableList(DataInterface.loadAllProductions());
         productionsTable.setItems(productionObservableList);
+
     }
 
-    public void loadSearchResults(ArrayList<Production> searchResults) throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Not implemented");
-
-        // TODO: Implement communication between SearchController class and DataManger, then uncomment the following lines
-        // TODO: Call this function when changing to this scene
-
-        // productionObservableList = FXCollections.observableArrayList(searchResults);
+    public void loadSearchResults(ArrayList<Production> searchResults) {
+        productionObservableList = FXCollections.observableArrayList(searchResults);
+        productionsTable.setItems(productionObservableList);
     }
 
     @FXML
     void goToProduction(MouseEvent event) throws Exception {
-        if (productionsTable.getSelectionModel().getSelectedItem() == null)
-            throw new Exception("ERROR: No production selected");
-
-        // TODO: somehow pass the selected production to the ProductionController
-        UIManager.changeScene(UIManager.getProductionScene());
+        Production production = productionsTable.getSelectionModel().getSelectedItem();
+        ProductionController productionController = UIManager.getProductionController();
+        if (production == null) {
+            throw new Exception("No production selected");
+        }else{
+            UIManager.changeScene(UIManager.getProductionScene());
+            productionController.loadProduction(production.getId());
+        }
     }
 
     @FXML
@@ -74,10 +83,11 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void searchForProduction(InputMethodEvent event) throws ExecutionControl.NotImplementedException {
-        throw new ExecutionControl.NotImplementedException("Not implemented");
-        // TODO: implement search feature, possibly in DataManger
-        // ArrayList<Production> searchResults = DataManager.searchProduction();
-        // loadSearchResults(searchResults);
+    void searchForProduction(KeyEvent event){
+        if (event.getCode() == KeyCode.getKeyCode("ENTER"));
+        {
+            productionObservableList = FXCollections.observableList(DataInterface.loadAllProductions());
+            productionsTable.setItems(productionObservableList);
+        }
     }
 }

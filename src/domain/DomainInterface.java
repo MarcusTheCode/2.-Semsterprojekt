@@ -37,6 +37,10 @@ public class DomainInterface {
         }
     }
 
+    public static System getSystem() {
+        return system;
+    }
+
     public static boolean checkIfUserExists(String inputUsername, String inputPassword) {
         return system.logIn(inputUsername, inputPassword);
     }

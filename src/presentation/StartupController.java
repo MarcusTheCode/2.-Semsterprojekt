@@ -31,6 +31,35 @@ public class StartupController {
     void searchProductions(MouseEvent event) {
         // TODO: if there is input in the search bar, pass it to the Search scene
         UIManager.changeScene(UIManager.getSearchScene());
+
+        /*
+    //Added from Scene builder
+    @FXML
+    private Button buttonLogout;
+
+
+    }
+    public void cancelLogin() {
+
+        Platform.exit();
+    }
+
+    public void logout() throws IOexception {
+
+      //opens login window after logout. Alternatively change to startup window
+
+        buttonLogout.getScene().getWindow().hide();
+
+        Anchorpane root = (AnchorPane)FXMLoader.load(getClass().getResource("../FXML/Login.fxml"));
+        Scene scene = new Scene(root,x,y);
+        scene.getStyleSheets().add(getClass().getResource("...").toExternalForm());
+
+
+        Stage primaryStage = new Stage();
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Login");
+        primaryStage.show();
+        */
     }
 
 

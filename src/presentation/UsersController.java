@@ -14,13 +14,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import jdk.jshell.spi.ExecutionControl;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class ProductionController implements Initializable {
+public class UsersController implements Initializable {
 
     @FXML
     private Text productionTitle;
@@ -53,8 +52,6 @@ public class ProductionController implements Initializable {
         castMemberObservableList = FXCollections.observableArrayList();
 
         castMembers.setItems(castMemberObservableList);
-
-        UIManager.setProductionController(this);
     }
 
     @FXML
@@ -65,6 +62,7 @@ public class ProductionController implements Initializable {
     public void loadProduction(long ID) {
         // TODO: Call this function when changing to this scene
         // TODO: Hide or disable editing features if visitor is not logged in
+
         this.currentProduction = DomainInterface.getProduction(ID);
         ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();
         castMemberObservableList = FXCollections.observableArrayList(castMemberArrayList);
@@ -98,5 +96,4 @@ public class ProductionController implements Initializable {
     void saveChanges(MouseEvent event) {
         DomainInterface.editProduction(currentProduction);
     }
-
 }
