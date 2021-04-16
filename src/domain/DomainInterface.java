@@ -1,6 +1,9 @@
 package domain;
 
+import data.DataInterface;
 import presentation.LogInController;
+
+import java.util.ArrayList;
 
 public class DomainInterface {
 
@@ -35,6 +38,10 @@ public class DomainInterface {
             e.printStackTrace();
             java.lang.System.out.println(e.getMessage());
         }
+    }
+
+    public static ArrayList<SuperUser> getUsers() {
+        return DataInterface.getUsers();
     }
 
     public static boolean checkIfUserExists(String inputUsername, String inputPassword) {

@@ -11,6 +11,11 @@ public class System {
     private static SuperUser superUser;
 
     public System() {
+        //SuperUser user = new SuperUser(0, "pass123", "Ikke Albert", true);
+        //DataInterface.saveSuperUser(user);
+
+        SuperUser user = DataInterface.getSuperUser(0);
+        java.lang.System.out.println(user);
     }
 
     public void saveProduction(Production production) throws Exception{

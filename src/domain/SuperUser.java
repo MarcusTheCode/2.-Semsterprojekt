@@ -15,6 +15,18 @@ public class SuperUser implements Serializable {
         this.sysAdmin = sysAdmin;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setSysAdmin(boolean sysAdmin) {
+        this.sysAdmin = sysAdmin;
+    }
+
     public long getId() {
         return id;
     }
