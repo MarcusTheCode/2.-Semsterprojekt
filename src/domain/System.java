@@ -10,7 +10,13 @@ public class System {
 
     private static SuperUser superUser;
 
+    private long serialUserID;
+    private long serialProductionID;
+
     public System() {
+        serialUserID = DataInterface.calculateSerialUserID();
+        serialProductionID = DataInterface.calculateSerialProductionID();
+
         //SuperUser user = new SuperUser(0, "pass123", "Ikke Albert", true);
         //DataInterface.saveSuperUser(user);
 
@@ -18,7 +24,13 @@ public class System {
         //java.lang.System.out.println(user);
     }
 
-    public void saveProduction(Production production) throws Exception{
+    public void createProduction(long ownerID, String title, String category) {
+        serialProductionID++;
+        Production production = new Production(ownerID, serialProductionID, title, category);
+        saveProduction(production);
+    }
+
+    public void saveProduction(Production production) {
         DataInterface.saveProduction(production);
     }
 
@@ -43,11 +55,17 @@ public class System {
         return DataInterface.getProduction(ID);
     }
 
-    public void saveSuperUser(SuperUser superUser) throws Exception{
+    public void createUser(String password, String username, boolean sysAdmin) {
+        serialUserID++;
+        SuperUser user = new SuperUser(serialUserID, password, username, sysAdmin);
+        saveSuperUser(user);
+    }
+
+    public void saveSuperUser(SuperUser superUser) {
         DataInterface.saveSuperUser(superUser);
     }
 
-    public void deleteSuperUser(long ID) throws Exception {
+    public void deleteSuperUser(long ID) {
         DataInterface.deleteSuperUser(ID);
     }
 

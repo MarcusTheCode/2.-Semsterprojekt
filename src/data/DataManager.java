@@ -13,13 +13,30 @@ public class DataManager {
     private final File superUsersFile;
     ObjectInputStream objectInputStream;
 
-    private ArrayList<SuperUser> users;
-    private ArrayList<Production> productions;
-
     public DataManager() {
         //Idea: instantiate File streams when creating the DataManager.
         this.productionsFile = new File(DATAFOLDER + "Productions.txt");
         this.superUsersFile = new File(DATAFOLDER + "SuperUsers.txt");
+    }
+
+    public long calculateSerialUserID() {
+        long serialUserID = 0;
+        ArrayList<SuperUser> users = loadSuperUsers();
+        for (SuperUser user : users) {
+            if (user.getId() > serialUserID)
+                serialUserID = user.getId();
+        }
+        return serialUserID;
+    }
+
+    public long calculateSerialProductionID() {
+        long serialProductionID = 0;
+        ArrayList<Production> productions = loadAllProductions();
+        for (Production production : productions) {
+            if (production.getId() > serialProductionID)
+                serialProductionID = production.getId();
+        }
+        return serialProductionID;
     }
 
     public boolean saveProduction(Production production) {
