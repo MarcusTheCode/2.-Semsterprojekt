@@ -22,10 +22,10 @@ public class StartupController {
     void logIn(MouseEvent event) {
         UIManager.changeScene(UIManager.getLoginScene());
     }
-    // :((((((((
-    /* public static void visibilityLoginButton() {
+
+    public void visibilityLoginButton() {
         loginButton.setVisible(!UIManager.getLoginStatus());
-    } */
+    }
 
     @FXML
     void searchProductions(MouseEvent event) {

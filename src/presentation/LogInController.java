@@ -28,7 +28,7 @@ public class LogInController {
         if (DomainInterface.checkIfUserExists(usernameInput.getText(), passwordInput.getText())) {
             UIManager.changeScene(UIManager.getStartupScene());
             UIManager.setLoginStatus(true);
-             //StartupController.visibilityLoginButton();
+            UIManager.getStartupController().visibilityLoginButton();
         } else {
             loginFail.setVisible(true);
             UIManager.setLoginStatus(false);

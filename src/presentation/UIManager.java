@@ -15,28 +15,30 @@ public class UIManager extends Application {
     private final int HEIGHT = 400;
 
 
-    private static Scene loginScene;
-    private static Scene productionScene;
-    private static Scene startupScene;
-    private static Scene searchScene;
+    private static SceneData loginSceneData;
+    private static SceneData productionSceneData;
+    private static SceneData startupSceneData;
+    private static SceneData searchSceneData;
     private static boolean loginInput;
 
     public static void main(String[] args) {
         launch();
     }
 
-    private Scene loadScene(String fileName) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource(fileName));
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
-        return scene;
+    private SceneData loadScene(String fileName) throws Exception {
+        FXMLLoader loader = new FXMLLoader(UIManager.class.getResource(fileName));
+        Scene scene = new Scene(loader.load(), WIDTH, HEIGHT);
+        Object controller = loader.getController();
+        return new SceneData(scene,controller);
     }
 
     private void loadScenes(){
         try {
-            loginScene = loadScene("../FXML/Login.fxml");
-            productionScene = loadScene("../FXML/Production.fxml");
-            startupScene = loadScene("../FXML/Startup.fxml");
-            searchScene = loadScene("../FXML/Search.fxml");
+            loginSceneData = loadScene("../FXML/Login.fxml");
+            productionSceneData = loadScene("../FXML/Production.fxml");
+            startupSceneData = loadScene("../FXML/Startup.fxml");
+            searchSceneData = loadScene("../FXML/Search.fxml");
+
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -50,7 +52,7 @@ public class UIManager extends Application {
     public void start(Stage primaryStage) throws Exception {
         loadScenes();
 
-        primaryStage.setScene(startupScene);
+        primaryStage.setScene(startupSceneData.scene);
         primaryStage.setTitle("Credit management system");
 
         this.primaryStage = primaryStage;
@@ -58,23 +60,50 @@ public class UIManager extends Application {
     }
 
     public static Scene getLoginScene() {
-        return loginScene;
+        return loginSceneData.scene;
     }
 
     public static Scene getProductionScene() {
         // TODO: Load production data when changing to this scene
-        return productionScene;
+        return productionSceneData.scene;
     }
 
     public static Scene getStartupScene() {
-        return startupScene;
+        return startupSceneData.scene;
     }
 
     public static Scene getSearchScene() {
-        return searchScene;
+        return searchSceneData.scene;
+    }
+
+    public static LogInController getLoginController() {
+        return (LogInController) loginSceneData.controller;
+    }
+
+    public static ProductionController getProductionController() {
+        // TODO: Load production data when changing to this scene
+        return (ProductionController) productionSceneData.controller;
+    }
+
+    public static StartupController getStartupController() {
+        return (StartupController) startupSceneData.controller;
+    }
+
+    public static SearchController getSearchController() {
+        return (SearchController) searchSceneData.controller;
     }
 
     public static void setLoginStatus(boolean loginInput) { UIManager.loginInput = loginInput; }
 
     public static boolean getLoginStatus() {return loginInput;}
+
+    private class SceneData {
+        public Scene scene;
+        public Object controller;
+
+        public SceneData(Scene scene, Object controller) {
+            this.scene = scene;
+            this.controller = controller;
+        }
+    }
 }
