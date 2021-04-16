@@ -42,6 +42,10 @@ public class Production implements Serializable {
         // TODO: Add metadata
         return new String("No metadata available");
     }
+
+    public String getCategory() {
+        return category;
+    }
 }
 
 

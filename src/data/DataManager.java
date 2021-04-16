@@ -94,12 +94,9 @@ public class DataManager {
                 if (production!=null){
                     productionArrayList.add(production);
                 }
-                if(oStream.read()==-1) {
-                    oStream.close();
-                    return productionArrayList;
-                }
             }
         } catch (ClassNotFoundException | IOException ignored) {
+            System.out.println("i ran to");
             return productionArrayList;
         }
     }

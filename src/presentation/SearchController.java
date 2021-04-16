@@ -3,6 +3,7 @@ package presentation;
 import com.sun.javafx.collections.ObservableListWrapper;
 import data.DataInterface;
 import domain.CastMember;
+import domain.DomainInterface;
 import domain.Production;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,8 +17,10 @@ import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.util.converter.LongStringConverter;
 import jdk.jshell.spi.ExecutionControl;
 
+import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,7 +31,7 @@ import java.util.ResourceBundle;
 public class SearchController implements Initializable {
 
     @FXML
-    private TableColumn<Production, String> IDColumn;
+    private TableColumn<Production, Long> IDColumn;
 
     @FXML
     private TableColumn<Production, String> titleColumn;
@@ -43,8 +46,8 @@ public class SearchController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        IDColumn.setCellValueFactory(new PropertyValueFactory<Production, String>("id"));
-        IDColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        IDColumn.setCellValueFactory(new PropertyValueFactory<Production, Long>("id"));
+        IDColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
 
         titleColumn.setCellValueFactory(new PropertyValueFactory<Production, String>("title"));
         titleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -52,17 +55,8 @@ public class SearchController implements Initializable {
         genreColumn.setCellValueFactory(new PropertyValueFactory<Production, String>("category"));
         genreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        //productionObservableList = FXCollections.observableList(DataInterface.loadAllProductions());
-
-        List<Production> list = new ArrayList<>();
-        list.add(new Production(25,25,"Other stuff","stuff"));
-        list.add(new Production(28,27,"Other stufff","stuf"));
-        list.add(new Production(29,21,"Other stuffff","stu"));
-
-        productionObservableList = FXCollections.observableList(list);
+        productionObservableList = FXCollections.observableList(DataInterface.loadAllProductions());
         productionsTable.setItems(productionObservableList);
-        //productionsTable.getItems().setAll(productionObservableList);
-        //System.out.println(Arrays.toString(productionObservableList.toArray()));
 
     }
 
@@ -90,9 +84,10 @@ public class SearchController implements Initializable {
 
     @FXML
     void searchForProduction(KeyEvent event){
-        if(event.getCode().equals(KeyCode.ENTER)){
-
-            System.out.println("i did stuff");
+        if (event.getCode() == KeyCode.getKeyCode("ENTER"));
+        {
+            productionObservableList = FXCollections.observableList(DataInterface.loadAllProductions());
+            productionsTable.setItems(productionObservableList);
         }
     }
 }
