@@ -21,6 +21,8 @@ import jdk.jshell.spi.ExecutionControl;
 import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class SearchController implements Initializable {
@@ -50,11 +52,17 @@ public class SearchController implements Initializable {
         genreColumn.setCellValueFactory(new PropertyValueFactory<Production, String>("category"));
         genreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        productionObservableList = FXCollections.observableList(DataInterface.loadAllProductions());
+        //productionObservableList = FXCollections.observableList(DataInterface.loadAllProductions());
 
-        //productionsTable.setItems(productionObservableList);
+        List<Production> list = new ArrayList<>();
+        list.add(new Production(25,25,"Other stuff","stuff"));
+        list.add(new Production(28,27,"Other stufff","stuf"));
+        list.add(new Production(29,21,"Other stuffff","stu"));
+
+        productionObservableList = FXCollections.observableList(list);
+        productionsTable.setItems(productionObservableList);
         //productionsTable.getItems().setAll(productionObservableList);
-        System.out.println(productionsTable.getItems());
+        //System.out.println(Arrays.toString(productionObservableList.toArray()));
 
     }
 
