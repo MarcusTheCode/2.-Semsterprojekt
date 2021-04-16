@@ -48,6 +48,11 @@ public class DomainInterface {
         DataInterface.saveSuperUser(user);
     }
 
+    public static void editUser(SuperUser user) {
+        deleteUser(user.getId());
+        saveUser(user);
+    }
+
     public static void deleteUser(long id) {
         DataInterface.deleteSuperUser(id);
     }

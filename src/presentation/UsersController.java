@@ -83,8 +83,7 @@ public class UsersController implements Initializable {
         SuperUser superUser = event.getTableView().getItems().get(row);
         superUser.setUsername(event.getNewValue());
 
-        DomainInterface.deleteUser(superUser.getId());
-        DomainInterface.saveUser(superUser);
+        DomainInterface.editUser(superUser);
     }
 
     @FXML
@@ -93,8 +92,7 @@ public class UsersController implements Initializable {
         SuperUser superUser = event.getTableView().getItems().get(row);
         superUser.setPassword(event.getNewValue());
 
-        DomainInterface.deleteUser(superUser.getId());
-        DomainInterface.saveUser(superUser);
+        DomainInterface.editUser(superUser);
     }
 
     @FXML
@@ -103,7 +101,6 @@ public class UsersController implements Initializable {
         SuperUser superUser = event.getTableView().getItems().get(row);
         superUser.setSysAdmin(event.getNewValue());
 
-        DomainInterface.deleteUser(superUser.getId());
-        DomainInterface.saveUser(superUser);
+        DomainInterface.editUser(superUser);
     }
 }
