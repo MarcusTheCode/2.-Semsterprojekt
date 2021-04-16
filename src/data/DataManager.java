@@ -121,7 +121,7 @@ public class DataManager {
                 oStream.close();
             }
             return true;
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }

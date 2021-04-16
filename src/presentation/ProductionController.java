@@ -54,7 +54,6 @@ public class ProductionController implements Initializable {
 
         castMembers.setItems(castMemberObservableList);
 
-        UIManager.setProductionController(this);
     }
 
     @FXML
