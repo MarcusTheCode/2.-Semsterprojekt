@@ -52,6 +52,10 @@ public class DomainInterface {
         DataInterface.deleteSuperUser(id);
     }
 
+    public static System getSystem() {
+        return system;
+    }
+
     public static boolean checkIfUserExists(String inputUsername, String inputPassword) {
         return system.logIn(inputUsername, inputPassword);
     }

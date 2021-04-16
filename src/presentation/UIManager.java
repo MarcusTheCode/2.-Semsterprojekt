@@ -20,6 +20,9 @@ public class UIManager extends Application {
     private static Scene searchScene;
     private static Scene usersScene;
 
+    //controllers
+    private static ProductionController productionController;
+
     public static void main(String[] args) {
         launch();
     }
@@ -73,5 +76,13 @@ public class UIManager extends Application {
 
     public static Scene getSearchScene() {
         return searchScene;
+    }
+
+    public static void setProductionController(ProductionController productionController) {
+        UIManager.productionController = productionController;
+    }
+
+    public static ProductionController getProductionController() {
+        return productionController;
     }
 }
