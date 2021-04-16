@@ -71,9 +71,10 @@ public class UsersController implements Initializable {
     @FXML
     void deleteEntry(MouseEvent event) {
         int index = superUsers.getSelectionModel().getFocusedIndex();
+        long id = usersObservableList.get(index).getId();
         usersObservableList.remove(index);
 
-        //DomainInterface.deleteUser(user);
+        DomainInterface.deleteUser(id);
     }
 
     @FXML
@@ -81,6 +82,9 @@ public class UsersController implements Initializable {
         int row = event.getTablePosition().getRow();
         SuperUser superUser = event.getTableView().getItems().get(row);
         superUser.setUsername(event.getNewValue());
+
+        DomainInterface.deleteUser(superUser.getId());
+        DomainInterface.saveUser(superUser);
     }
 
     @FXML
@@ -88,6 +92,9 @@ public class UsersController implements Initializable {
         int row = event.getTablePosition().getRow();
         SuperUser superUser = event.getTableView().getItems().get(row);
         superUser.setPassword(event.getNewValue());
+
+        DomainInterface.deleteUser(superUser.getId());
+        DomainInterface.saveUser(superUser);
     }
 
     @FXML
@@ -95,5 +102,8 @@ public class UsersController implements Initializable {
         int row = event.getTablePosition().getRow();
         SuperUser superUser = event.getTableView().getItems().get(row);
         superUser.setSysAdmin(event.getNewValue());
+
+        DomainInterface.deleteUser(superUser.getId());
+        DomainInterface.saveUser(superUser);
     }
 }
