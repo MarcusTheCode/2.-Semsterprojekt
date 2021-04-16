@@ -1,57 +1,58 @@
 package presentation;
 
-import domain.CastMember;
 import domain.DomainInterface;
-import domain.Production;
+import domain.SuperUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
+import javafx.util.converter.BooleanStringConverter;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class UsersController implements Initializable {
 
-    @FXML
-    private Text productionTitle;
+    private ObservableList<SuperUser> usersObservableList;
 
     @FXML
-    private TextArea metaData;
-
-    private Production currentProduction;
-
-    private ObservableList<CastMember> castMemberObservableList;
+    private TableView<SuperUser> superUsers;
 
     @FXML
-    private TableView<CastMember> castMembers;
+    private TableColumn<SuperUser, Long> idColumn;
 
     @FXML
-    private TableColumn<CastMember, String> roleColumn;
+    private TableColumn<SuperUser, String> nameColumn;
 
     @FXML
-    private TableColumn<CastMember, String> nameColumn;
+    private TableColumn<SuperUser, String> passColumn;
+
+    @FXML
+    private TableColumn<SuperUser, Boolean> adminColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        roleColumn.setCellValueFactory(new PropertyValueFactory<CastMember, String>("jobTitle"));
-        roleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        //idColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
 
-        nameColumn.setCellValueFactory(new PropertyValueFactory<CastMember, String>("name"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        castMemberObservableList = FXCollections.observableArrayList();
+        passColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
+        passColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        castMembers.setItems(castMemberObservableList);
+        adminColumn.setCellValueFactory(new PropertyValueFactory<>("sysAdmin"));
+        adminColumn.setCellFactory(TextFieldTableCell.forTableColumn(new BooleanStringConverter()));
+
+        usersObservableList = FXCollections.observableArrayList(DomainInterface.getUsers());
+
+        superUsers.setItems(usersObservableList);
     }
 
     @FXML
@@ -59,41 +60,47 @@ public class UsersController implements Initializable {
         UIManager.changeScene(UIManager.getStartupScene());
     }
 
-    public void loadProduction(long ID) {
-        // TODO: Call this function when changing to this scene
-        // TODO: Hide or disable editing features if visitor is not logged in
-
-        this.currentProduction = DomainInterface.getProduction(ID);
-        ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();
-        castMemberObservableList = FXCollections.observableArrayList(castMemberArrayList);
-        metaData.setText(this.currentProduction.getMetaData());
-    }
-
     @FXML
     void addEntry(MouseEvent event) {
-        castMemberObservableList.add(new CastMember("\"name\"","\"job\""));
+        SuperUser user = new SuperUser(4, "password1234", "Name", false);
+        usersObservableList.add(user);
+
+        DomainInterface.saveUser(user);
     }
 
     @FXML
     void deleteEntry(MouseEvent event) {
-        int index = castMembers.getSelectionModel().getFocusedIndex();
-        castMemberObservableList.remove(index);
+        int index = superUsers.getSelectionModel().getFocusedIndex();
+        long id = usersObservableList.get(index).getId();
+        usersObservableList.remove(index);
+
+        DomainInterface.deleteUser(id);
     }
 
     @FXML
-    void commitEntryChange(TableColumn.CellEditEvent<CastMember, String> event) {
+    void commitNameChange(TableColumn.CellEditEvent<SuperUser, String> event) {
         int row = event.getTablePosition().getRow();
-        CastMember castMember = ((CastMember) event.getTableView().getItems().get(row));
-        castMember.setJobTitle(event.getNewValue());
+        SuperUser superUser = event.getTableView().getItems().get(row);
+        superUser.setUsername(event.getNewValue());
+
+        DomainInterface.editUser(superUser);
     }
 
     @FXML
-    void deleteProduction(MouseEvent event) {
-        DomainInterface.removeProduction(currentProduction);
+    void commitPassChange(TableColumn.CellEditEvent<SuperUser, String> event) {
+        int row = event.getTablePosition().getRow();
+        SuperUser superUser = event.getTableView().getItems().get(row);
+        superUser.setPassword(event.getNewValue());
+
+        DomainInterface.editUser(superUser);
     }
 
     @FXML
-    void saveChanges(MouseEvent event) {
-        DomainInterface.editProduction(currentProduction);
+    void commitAdminChange(TableColumn.CellEditEvent<SuperUser, Boolean> event) {
+        int row = event.getTablePosition().getRow();
+        SuperUser superUser = event.getTableView().getItems().get(row);
+        superUser.setSysAdmin(event.getNewValue());
+
+        DomainInterface.editUser(superUser);
     }
 }

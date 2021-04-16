@@ -121,7 +121,7 @@ public class DataManager {
                 oStream.close();
             }
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -151,8 +151,9 @@ public class DataManager {
         // TODO: fix inefficiency (7/4)
         try {
             ArrayList<SuperUser> superUsers = new ArrayList<>();
-            objectInputStream = new ObjectInputStream(new FileInputStream(superUsersFile));
-            while (objectInputStream.available() > 0) {
+            FileInputStream fileStream = new FileInputStream(superUsersFile);
+            objectInputStream = new ObjectInputStream(fileStream);
+            while (fileStream.available() > 0) {
                 SuperUser superUser = (SuperUser)objectInputStream.readObject();
                 if (superUser.getId() != userID){
                     superUsers.add(superUser);
@@ -171,32 +172,27 @@ public class DataManager {
         return true;
     }
 
+    public ArrayList<SuperUser> loadSuperUsers() {
+        // Every time the program writes to a file, new streams are created, that's inefficient
+        // TODO: fix inefficiency (33/4)
+        ArrayList<SuperUser> users = new ArrayList<>();
+        try {
+            FileInputStream fileStream = new FileInputStream(superUsersFile);
+            objectInputStream = new ObjectInputStream(fileStream);
+            while (fileStream.available() > 0) {
+                SuperUser superUser = (SuperUser)objectInputStream.readObject();
+                users.add(superUser);
+            }
+            objectInputStream.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
 
     public SuperUser checkIfUserExists(String inputUsername, String inputPassword) {
-
-        // Every time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (4/4)
-        ArrayList<SuperUser> superUserArrayList = new ArrayList<>();
-        try {
-            FileInputStream fStream = new FileInputStream(superUsersFile);
-            ObjectInput oStream = new ObjectInputStream(fStream);
-            // read() returns -1 when end of stream is reached
-            while (oStream.read() != -1) {
-                SuperUser superUser = (SuperUser) oStream.readObject();
-                superUserArrayList.add(superUser);
-            }
-            oStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        ArrayList<SuperUser> superUserArrayList = loadSuperUsers();
         // checks if username and password input matches file username and password
-           for (SuperUser user : superUserArrayList) {
-            if (inputUsername.equals(user.getUsername()) && inputPassword.equals(user.getPassword())) {
-                return user;
-            }
-        }
-
         for (SuperUser user : superUserArrayList) {
             if (inputUsername.equals(user.getUsername()) && inputPassword.equals(user.getPassword())) {
                 return user;

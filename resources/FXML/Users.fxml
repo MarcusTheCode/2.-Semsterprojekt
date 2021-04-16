@@ -31,7 +31,7 @@
                   <Insets />
                </VBox.margin>
             </Text>
-            <TableView fx:id="castMembers" editable="true" minHeight="200.0" prefHeight="0.0" prefWidth="500.0">
+            <TableView fx:id="superUsers" editable="true" minHeight="200.0" prefHeight="0.0" prefWidth="500.0">
                <VBox.margin>
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>
@@ -39,10 +39,10 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                <columns>
-                  <TableColumn fx:id="roleColumn" onEditCommit="#commitEntryChange" prefWidth="75.0" text="ID" />
-                  <TableColumn fx:id="nameColumn" onEditCommit="#commitEntryChange" prefWidth="75.0" text="Username" />
-                  <TableColumn fx:id="nameColumn1" onEditCommit="#commitEntryChange" prefWidth="75.0" text="Password" />
-                  <TableColumn fx:id="nameColumn11" onEditCommit="#commitEntryChange" prefWidth="75.0" text="IsSysAdmin" />
+                  <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
+                  <TableColumn fx:id="nameColumn" onEditCommit="#commitNameChange" prefWidth="75.0" text="Username" />
+                  <TableColumn fx:id="passColumn" onEditCommit="#commitPassChange" prefWidth="75.0" text="Password" />
+                  <TableColumn fx:id="adminColumn" onEditCommit="#commitAdminChange" prefWidth="75.0" text="IsSysAdmin" />
                </columns>
             </TableView>
             <HBox prefHeight="25.0" prefWidth="648.0">

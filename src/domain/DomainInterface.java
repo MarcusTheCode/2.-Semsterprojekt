@@ -1,6 +1,9 @@
 package domain;
 
+import data.DataInterface;
 import presentation.LogInController;
+
+import java.util.ArrayList;
 
 public class DomainInterface {
 
@@ -35,6 +38,23 @@ public class DomainInterface {
             e.printStackTrace();
             java.lang.System.out.println(e.getMessage());
         }
+    }
+
+    public static ArrayList<SuperUser> getUsers() {
+        return DataInterface.getUsers();
+    }
+
+    public static void saveUser(SuperUser user) {
+        DataInterface.saveSuperUser(user);
+    }
+
+    public static void editUser(SuperUser user) {
+        deleteUser(user.getId());
+        saveUser(user);
+    }
+
+    public static void deleteUser(long id) {
+        DataInterface.deleteSuperUser(id);
     }
 
     public static System getSystem() {
