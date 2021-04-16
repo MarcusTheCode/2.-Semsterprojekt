@@ -36,12 +36,16 @@ public class DataInterface {
         return dataManager.loadSuperUser(ID);
     }
 
-    public static void saveSuperUser(SuperUser superUser) throws Exception{
+    public static void saveSuperUser(SuperUser superUser) {
         dataManager.saveSuperUser(superUser);
     }
 
-    public static void deleteSuperUser(long ID) throws Exception {
+    public static void deleteSuperUser(long ID) {
         dataManager.deleteSuperUser(ID);
+    }
+
+    public static ArrayList<SuperUser> getUsers() {
+        return dataManager.loadSuperUsers();
     }
 
     public static SuperUser checkIfUserExists(String inputUsername, String inputPassword) {
