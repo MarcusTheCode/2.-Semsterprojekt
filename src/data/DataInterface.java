@@ -44,6 +44,11 @@ public class DataInterface {
         dataManager.deleteSuperUser(ID);
     }
 
+    public static SuperUser checkIfUserExists(String inputUsername, String inputPassword) {
+        dataManager.checkIfUserExists(inputUsername, inputPassword);
+        return dataManager.checkIfUserExists(inputUsername, inputPassword);
+    }
+
     public static ArrayList<Production> loadAllProductions(){
         return dataManager.loadAllProductions();
     }

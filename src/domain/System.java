@@ -3,6 +3,7 @@ package domain;
 import jdk.jshell.spi.ExecutionControl;
 
 import data.*;
+import presentation.LogInController;
 import presentation.UIManager;
 
 public class System {
@@ -49,9 +50,11 @@ public class System {
         return superUser;
     }
 
-    public boolean logIn(String username, String password) throws ExecutionControl.NotImplementedException {
-        // TODO: implement logIn
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+
+    //missing failure message when login is incorrect
+    public boolean logIn(String inputUsername, String inputPassword)  {
+        superUser = DataInterface.checkIfUserExists(inputUsername, inputPassword);
+        return superUser != null;
     }
 
     public boolean logOut() throws ExecutionControl.NotImplementedException {
