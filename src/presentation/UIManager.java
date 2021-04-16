@@ -14,10 +14,12 @@ public class UIManager extends Application {
     private final int WIDTH = 600;
     private final int HEIGHT = 400;
 
+
     private static Scene loginScene;
     private static Scene productionScene;
     private static Scene startupScene;
     private static Scene searchScene;
+    private static boolean loginInput;
 
     public static void main(String[] args) {
         launch();
@@ -71,4 +73,8 @@ public class UIManager extends Application {
     public static Scene getSearchScene() {
         return searchScene;
     }
+
+    public static void setLoginStatus(boolean loginInput) { UIManager.loginInput = loginInput; }
+
+    public static boolean getLoginStatus() {return loginInput;}
 }
