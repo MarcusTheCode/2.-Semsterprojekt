@@ -48,4 +48,8 @@ public class DataInterface {
         dataManager.checkIfUserExists(inputUsername, inputPassword);
         return dataManager.checkIfUserExists(inputUsername, inputPassword);
     }
+
+    public static ArrayList<Production> loadAllProductions(){
+        return dataManager.loadAllProductions();
+    }
 }
