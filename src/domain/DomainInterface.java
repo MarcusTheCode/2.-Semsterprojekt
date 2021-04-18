@@ -44,6 +44,10 @@ public class DomainInterface {
         return DataInterface.getUsers();
     }
 
+    public static SuperUser createUser(String password, String username, boolean sysAdmin) {
+        return system.createUser(password, username, sysAdmin);
+    }
+
     public static void saveUser(SuperUser user) {
         DataInterface.saveSuperUser(user);
     }

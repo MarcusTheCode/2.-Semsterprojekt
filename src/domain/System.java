@@ -24,10 +24,11 @@ public class System {
         //java.lang.System.out.println(user);
     }
 
-    public void createProduction(long ownerID, String title, String category) {
+    public Production createProduction(long ownerID, String title, String category) {
         serialProductionID++;
         Production production = new Production(ownerID, serialProductionID, title, category);
         saveProduction(production);
+        return production;
     }
 
     public void saveProduction(Production production) {
@@ -55,10 +56,11 @@ public class System {
         return DataInterface.getProduction(ID);
     }
 
-    public void createUser(String password, String username, boolean sysAdmin) {
+    public SuperUser createUser(String password, String username, boolean sysAdmin) {
         serialUserID++;
         SuperUser user = new SuperUser(serialUserID, password, username, sysAdmin);
         saveSuperUser(user);
+        return user;
     }
 
     public void saveSuperUser(SuperUser superUser) {
