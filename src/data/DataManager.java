@@ -98,10 +98,6 @@ public class DataManager {
     public ArrayList<Production> loadAllProductions() {
         // Every time the program writes to a file, new streams are created, that's inefficient
         // TODO: fix inefficiency (4/4)
-        write(new Production(25,16,"ce","def"));
-        appendWrite(new Production(28,18,"ch","defwwf"));
-        appendWrite(new Production(24,19,"cegr","deffw"));
-
         ArrayList<Production> productionArrayList = new ArrayList<>();
         try {
             FileInputStream fStream = new FileInputStream(productionsFile);
@@ -114,7 +110,7 @@ public class DataManager {
             }
             return productionArrayList;
         } catch (ClassNotFoundException | IOException ignored) {
-            return null;
+            return productionArrayList;
         }
     }
 

@@ -27,9 +27,11 @@ public class LogInController {
         if (DomainInterface.login(inputUsername.getText(), inputPassword.getText())) {
             UIManager.changeScene(UIManager.getStartupScene());
             UIManager.getStartupController().setVisibilityLoginButton(false);
+            UIManager.getSearchController().setVisibilitySearchButtons(true);
         } else {
             loginFail.setVisible(true);
             UIManager.getStartupController().setVisibilityLoginButton(true);
+
         }
     }
 

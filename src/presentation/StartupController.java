@@ -23,9 +23,7 @@ public class StartupController {
         UIManager.changeScene(UIManager.getLoginScene());
     }
 
-    public void setVisibilityLoginButton(boolean bool) {
-        loginButton.setVisible(bool);
-    }
+    public void setVisibilityLoginButton(boolean bool) {loginButton.setVisible(bool); }
 
     @FXML
     void searchProductions(MouseEvent event) {
