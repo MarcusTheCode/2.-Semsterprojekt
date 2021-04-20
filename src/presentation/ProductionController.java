@@ -68,6 +68,7 @@ public class ProductionController implements Initializable {
         ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();
         castMemberObservableList = FXCollections.observableArrayList(castMemberArrayList);
         metaData.setText(this.currentProduction.getMetaData());
+        castMembers.setItems(castMemberObservableList);
     }
 
     @FXML

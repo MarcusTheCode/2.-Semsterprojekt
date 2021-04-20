@@ -17,19 +17,12 @@ public class DataInterface {
         return dataManager.saveProduction(production);
     }
 
-    public static boolean deleteProduction(long ID) {
-        ArrayList<Production> productionArrayList = dataManager.loadAllProductions();
-        productionArrayList.removeIf(production -> production.getId() == ID);
+    public static void deleteProduction(long ID) {
+        dataManager.deleteProduction(ID);
+    }
 
-        if (!dataManager.deleteProductionsFile())
-            return false;
-
-        for (Production production: productionArrayList) {
-            if (!dataManager.saveProduction(production))
-                return false;
-        }
-
-        return true;
+    public static void editProduction(Production production){
+        dataManager.editProduction(production);
     }
 
     public static long calculateSerialUserID() {
