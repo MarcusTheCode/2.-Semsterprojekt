@@ -17,6 +17,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.converter.LongStringConverter;
+import javafx.scene.control.Button;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,7 +40,11 @@ public class SearchController implements Initializable {
     @FXML
     private TableView<Production> productionsTable;
 
+    @FXML
+    private Button removeProductionButton, addProductionButton;
+
     private ObservableList<Production> productionObservableList;
+
 
 
     @Override
@@ -138,4 +143,10 @@ public class SearchController implements Initializable {
             productionsTable.setItems(productionObservableList);
         }
     }
+
+    public void setVisibilitySearchButtons(boolean bool) {
+        removeProductionButton.setVisible(bool);
+        addProductionButton.setVisible(bool);
+    }
+
 }
