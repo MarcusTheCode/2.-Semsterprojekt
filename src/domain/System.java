@@ -75,12 +75,12 @@ public class System {
 
 
     //missing failure message when login is incorrect
-    public boolean logIn(String inputUsername, String inputPassword)  {
-        superUser = DataInterface.logIn(inputUsername, inputPassword);
+    public boolean login(String inputUsername, String inputPassword)  {
+        superUser = DataInterface.login(inputUsername, inputPassword);
         return superUser != null;
     }
 
-    public boolean logOut() throws ExecutionControl.NotImplementedException {
+    public boolean logout() throws ExecutionControl.NotImplementedException {
         // TODO: implement logOut
         throw new ExecutionControl.NotImplementedException("Not implemented");
     }
