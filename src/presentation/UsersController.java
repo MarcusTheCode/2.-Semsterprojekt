@@ -62,10 +62,8 @@ public class UsersController implements Initializable {
 
     @FXML
     void addEntry(MouseEvent event) {
-        SuperUser user = new SuperUser(4, "password1234", "Name", false);
+        SuperUser user = DomainInterface.createUser("password1234", "Name", false);
         usersObservableList.add(user);
-
-        DomainInterface.saveUser(user);
     }
 
     @FXML
