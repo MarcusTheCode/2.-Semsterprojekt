@@ -39,6 +39,10 @@ public class DomainInterface {
         }
     }
 
+    public static SuperUser getCurrentUser(){
+        return system.getCurrentUser();
+    }
+
     public static ArrayList<SuperUser> getUsers() {
         return DataInterface.getUsers();
     }

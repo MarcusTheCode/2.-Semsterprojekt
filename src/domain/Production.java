@@ -10,6 +10,14 @@ public class Production implements Serializable {
     ArrayList<CastMember> castMembers;
     long ownerID;
 
+    public Production(long ownerID) {
+        this.ownerID = ownerID;
+        this.category = "category";
+        this.title = "title";
+        castMembers = new ArrayList<>();
+
+    }
+
     public Production(long ownerID, long id, String title, String category) {
         this.ownerID = ownerID;
         this.category = category;
@@ -29,6 +37,28 @@ public class Production implements Serializable {
     public void setCastMembers(ArrayList<CastMember> castMembers) {
         this.castMembers = castMembers;
     }
+
+    public void setID(long ID) {
+        this.id = ID;
+    }
+
+    public void setOwnerID(long ownerID) {
+        this.ownerID = ownerID;
+    }
+
+    public long getOwnerID() {
+        return ownerID;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    // TODO: fix ID
 
     public long getId() {
         return id;

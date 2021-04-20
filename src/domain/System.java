@@ -6,7 +6,7 @@ import data.*;
 
 public class System {
 
-    private static SuperUser superUser;
+    private static SuperUser currentUser;
 
     private long serialUserID;
     private long serialProductionID;
@@ -34,7 +34,7 @@ public class System {
     }
 
     public void removeProduction(Production production) throws Exception {
-        if (production.isOwner(superUser) || superUser.isSysAdmin()) {
+        if (production.isOwner(currentUser) || currentUser.isSysAdmin()) {
             DataInterface.deleteProduction(production.getId());
             return;
         }
@@ -42,7 +42,7 @@ public class System {
     }
 
     public void editProduction(Production production) throws Exception {
-        if (production.isOwner(superUser)) {
+        if (production.isOwner(currentUser)) {
             removeProduction(production);
             saveProduction(production);
             return;
@@ -69,15 +69,15 @@ public class System {
         DataInterface.deleteSuperUser(ID);
     }
 
-    protected static SuperUser getSuperUser() {
-        return superUser;
+    public SuperUser getCurrentUser() {
+        return currentUser;
     }
 
 
     //missing failure message when login is incorrect
     public boolean login(String inputUsername, String inputPassword)  {
-        superUser = DataInterface.login(inputUsername, inputPassword);
-        return superUser != null;
+        currentUser = DataInterface.login(inputUsername, inputPassword);
+        return currentUser != null;
     }
 
     public boolean logout() throws ExecutionControl.NotImplementedException {
