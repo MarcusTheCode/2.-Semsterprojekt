@@ -13,7 +13,7 @@ public class DataInterface {
         return dataManager.loadProduction(ID);
     }
 
-    public static boolean saveProduction(Production production) throws Exception{
+    public static boolean saveProduction(Production production) {
         return dataManager.saveProduction(production);
     }
 
@@ -30,6 +30,14 @@ public class DataInterface {
         }
 
         return true;
+    }
+
+    public static long calculateSerialUserID() {
+        return dataManager.calculateSerialUserID();
+    }
+
+    public static long calculateSerialProductionID() {
+        return dataManager.calculateSerialProductionID();
     }
 
     public static SuperUser getSuperUser(long ID){
