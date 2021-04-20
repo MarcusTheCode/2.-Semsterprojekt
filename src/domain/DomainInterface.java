@@ -19,7 +19,7 @@ public class DomainInterface {
 
     public static void removeProduction(Production production){
         try {
-            system.removeProduction(production);
+            system.deleteProduction(production);
         } catch (Exception e) {
             e.printStackTrace();
             java.lang.System.out.println(e.getMessage());

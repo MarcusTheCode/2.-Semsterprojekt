@@ -33,21 +33,22 @@ public class System {
         DataInterface.saveProduction(production);
     }
 
-    public void removeProduction(Production production) throws Exception {
+    public void deleteProduction(Production production) throws Exception {
         if (production.isOwner(currentUser) || currentUser.isSysAdmin()) {
             DataInterface.deleteProduction(production.getId());
             return;
+        } else {
+            throw new RuntimeException("ERROR: user is not allowed to edit");
         }
-        throw new RuntimeException("ERROR: SuperUser is not allowed to edit");
     }
 
     public void editProduction(Production production) throws Exception {
         if (production.isOwner(currentUser)) {
-            removeProduction(production);
-            saveProduction(production);
+            DataInterface.editProduction(production);
             return;
+        } else {
+            throw new RuntimeException("User is not allowed to edit this production");
         }
-        throw new RuntimeException("User is not allowed to edit this production");
     }
 
     public Production getProduction(long ID) {

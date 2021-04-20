@@ -47,6 +47,19 @@ public class DataManager {
         }
     }
 
+    public void deleteProduction(long ID) {
+        ArrayList<Production> productions = loadAllProductions();
+        productions.removeIf(production -> production.getId() == ID);
+        reWrite(productions);
+    }
+
+    public void editProduction(Production production) {
+        ArrayList<Production> productions = loadAllProductions();
+        productions.removeIf(productionElement -> productionElement.getId() == production.getId());
+        productions.add(production);
+        reWrite(productions);
+    }
+
     private boolean write(Production production){
         // Ever time the program writes to a file, new streams are created, that's inefficient
         // TODO: fix inefficiency (1/4)
@@ -54,6 +67,23 @@ public class DataManager {
             FileOutputStream fStream = new FileOutputStream(productionsFile);
             ObjectOutputStream oStream = new ObjectOutputStream(fStream);
             oStream.writeObject(production);
+            oStream.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean reWrite(ArrayList<Production> productions){
+        // Ever time the program writes to a file, new streams are created, that's inefficient
+        // TODO: fix inefficiency (1/4)
+        try {
+            FileOutputStream fStream = new FileOutputStream(productionsFile);
+            ObjectOutputStream oStream = new ObjectOutputStream(fStream);
+            for (Production production: productions){
+                oStream.writeObject(production);
+            }
             oStream.close();
             return true;
         } catch (Exception e) {
@@ -112,10 +142,6 @@ public class DataManager {
         } catch (ClassNotFoundException | IOException ignored) {
             return productionArrayList;
         }
-    }
-
-    public boolean deleteProductionsFile(){
-        return productionsFile.delete();
     }
 
     public boolean saveSuperUser(SuperUser user) {
