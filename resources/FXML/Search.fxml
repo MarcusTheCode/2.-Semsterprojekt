@@ -52,8 +52,8 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onMouseClicked="#addProduction" text="Add production" />
-                  <Button mnemonicParsing="false" onMouseClicked="#removeProduction" text="Remove production" />
+                  <Button fx:id="addProductionButton" mnemonicParsing="false" onMouseClicked="#addProduction" text="Add production" visible="false" />
+                  <Button fx:id="removeProductionButton" mnemonicParsing="false" onMouseClicked="#removeProduction" text="Remove production" visible="false" />
                </children>
             </HBox>
          </children>
