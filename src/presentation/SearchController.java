@@ -95,9 +95,12 @@ public class SearchController implements Initializable {
     void commitIDchange(TableColumn.CellEditEvent<Production, Long> event) {
         int row = event.getTablePosition().getRow();
         Production production = event.getTableView().getItems().get(row);
+
+        DomainInterface.removeProduction(production);
+
         production.setID(event.getNewValue());
 
-        DomainInterface.editProduction(production);
+        DomainInterface.saveProduction(production);
     }
 
     @FXML
