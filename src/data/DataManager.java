@@ -106,15 +106,15 @@ public class DataManager {
         try {
             FileInputStream fStream = new FileInputStream(productionsFile);
             ObjectInput oStream = new ObjectInputStream(fStream);
-            while (true) {
+            while (fStream.available() > 0) {
                 Production production = (Production) oStream.readObject(); // object is removed from stream when read
                 if (production!=null){
                     productionArrayList.add(production);
                 }
             }
-        } catch (ClassNotFoundException | IOException ignored) {
-            System.out.println("i ran");
             return productionArrayList;
+        } catch (ClassNotFoundException | IOException ignored) {
+            return null;
         }
     }
 
@@ -191,7 +191,7 @@ public class DataManager {
 
     public ArrayList<SuperUser> loadSuperUsers() {
         // Every time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (33/4)
+        // TODO: fix inefficiency (8/4)
         ArrayList<SuperUser> users = new ArrayList<>();
         try {
             FileInputStream fileStream = new FileInputStream(superUsersFile);

@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.LogInController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.LogInController">
    <children>
       <VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -27,7 +27,7 @@
                <children>
                   <VBox alignment="CENTER" layoutX="136.0" prefHeight="231.0" prefWidth="240.0" style="-fx-background-color: #C0C0C0;" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="50.0">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign in" textAlignment="CENTER" wrappingWidth="86.87629699707031">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER" wrappingWidth="86.87629699707031">
                            <font>
                               <Font size="22.0" />
                            </font>
@@ -35,23 +35,23 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </Text>
-                        <TextField fx:id="usernameInput" promptText="username/email" style="-fx-background-color: #FFFAFA;">
+                        <TextField fx:id="inputUsername" promptText="username" style="-fx-background-color: #FFFAFA;">
                            <VBox.margin>
                               <Insets bottom="10.0" left="20.0" right="20.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="passwordInput" promptText="password" style="-fx-background-color: #FFFAFA;">
+                        <TextField fx:id="inputPassword" promptText="password" style="-fx-background-color: #FFFAFA;">
                            <VBox.margin>
                               <Insets bottom="20.0" left="20.0" right="20.0" />
                            </VBox.margin>
                         </TextField>
-                        <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#signIn" prefHeight="30.0" prefWidth="134.0" text="Sign in" textAlignment="CENTER" />
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#login" prefHeight="30.0" prefWidth="134.0" text="Login" textAlignment="CENTER" />
                      </children>
                   </VBox>
                   <Pane fx:id="loginFail" layoutX="224.0" layoutY="60.0" prefHeight="161.0" prefWidth="153.0" style="-fx-background-color: #808080;" visible="false">
                      <children>
                         <Text layoutX="16.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-background-color: #FFFAFA;" text="Incorrect username or password" textAlignment="CENTER" wrappingWidth="121.98307228088379" />
-                        <Button fx:id="incorrectLogin" layoutX="51.0" layoutY="112.0" mnemonicParsing="false" onMouseClicked="#okIncorrectLogin" text="OK" />
+                        <Button layoutX="51.0" layoutY="112.0" mnemonicParsing="false" onMouseClicked="#hideErrorWindow" text="OK" />
                      </children>
                   </Pane>
                </children>

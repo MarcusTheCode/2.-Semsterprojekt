@@ -8,10 +8,10 @@ import javafx.scene.layout.Pane;
 
 public class LogInController {
     @FXML
-    private TextField usernameInput;
+    private TextField inputUsername;
 
     @FXML
-    private TextField passwordInput;
+    private TextField inputPassword;
 
     @FXML
     private Pane loginFail;
@@ -23,8 +23,8 @@ public class LogInController {
 
 
 
-    public void signIn(MouseEvent event) {
-        if (DomainInterface.checkIfUserExists(usernameInput.getText(), passwordInput.getText())) {
+    public void login(MouseEvent event) {
+        if (DomainInterface.login(inputUsername.getText(), inputPassword.getText())) {
             UIManager.changeScene(UIManager.getStartupScene());
             UIManager.getStartupController().setVisibilityLoginButton(false);
         } else {
@@ -33,9 +33,10 @@ public class LogInController {
         }
     }
 
-    public void okIncorrectLogin(MouseEvent event) {
+    public void hideErrorWindow(MouseEvent event) {
         loginFail.setVisible(false);
     }
+
 
 
 
