@@ -24,7 +24,7 @@ public class LogInController {
 
 
     public void signIn(MouseEvent event) {
-        if (DomainInterface.checkIfUserExists(usernameInput.getText(), passwordInput.getText())) {
+        if (DomainInterface.logIn(usernameInput.getText(), passwordInput.getText())) {
             UIManager.changeScene(UIManager.getStartupScene());
             UIManager.getStartupController().setVisibilityLoginButton(false);
         } else {

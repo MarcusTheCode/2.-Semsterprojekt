@@ -106,15 +106,15 @@ public class DataManager {
         try {
             FileInputStream fStream = new FileInputStream(productionsFile);
             ObjectInput oStream = new ObjectInputStream(fStream);
-            while (true) {
+            while (fStream.available() > 0) {
                 Production production = (Production) oStream.readObject(); // object is removed from stream when read
                 if (production!=null){
                     productionArrayList.add(production);
                 }
             }
-        } catch (ClassNotFoundException | IOException ignored) {
-            System.out.println("i ran");
             return productionArrayList;
+        } catch (ClassNotFoundException | IOException ignored) {
+            return null;
         }
     }
 

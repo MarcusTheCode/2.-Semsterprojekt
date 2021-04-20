@@ -65,7 +65,7 @@ public class DomainInterface {
         return system;
     }
 
-    public static boolean checkIfUserExists(String inputUsername, String inputPassword) {
+    public static boolean logIn(String inputUsername, String inputPassword) {
         return system.logIn(inputUsername, inputPassword);
     }
 }

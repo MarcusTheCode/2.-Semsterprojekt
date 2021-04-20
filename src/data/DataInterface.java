@@ -56,7 +56,7 @@ public class DataInterface {
         return dataManager.loadSuperUsers();
     }
 
-    public static SuperUser checkIfUserExists(String inputUsername, String inputPassword) {
+    public static SuperUser logIn(String inputUsername, String inputPassword) {
         dataManager.checkIfUserExists(inputUsername, inputPassword);
         return dataManager.checkIfUserExists(inputUsername, inputPassword);
     }

@@ -3,8 +3,6 @@ package domain;
 import jdk.jshell.spi.ExecutionControl;
 
 import data.*;
-import presentation.LogInController;
-import presentation.UIManager;
 
 public class System {
 
@@ -78,7 +76,7 @@ public class System {
 
     //missing failure message when login is incorrect
     public boolean logIn(String inputUsername, String inputPassword)  {
-        superUser = DataInterface.checkIfUserExists(inputUsername, inputPassword);
+        superUser = DataInterface.logIn(inputUsername, inputPassword);
         return superUser != null;
     }
 
