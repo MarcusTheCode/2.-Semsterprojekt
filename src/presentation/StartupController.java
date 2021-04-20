@@ -23,8 +23,8 @@ public class StartupController {
         UIManager.changeScene(UIManager.getLoginScene());
     }
 
-    public void visibilityLoginButton() {
-        loginButton.setVisible(!UIManager.getLoginStatus());
+    public void setVisibilityLoginButton(boolean bool) {
+        loginButton.setVisible(bool);
     }
 
     @FXML

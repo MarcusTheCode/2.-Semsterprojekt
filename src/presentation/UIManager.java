@@ -19,7 +19,6 @@ public class UIManager extends Application {
     private static SceneData productionSceneData;
     private static SceneData startupSceneData;
     private static SceneData searchSceneData;
-    private static boolean loginInput;
 
     public static void main(String[] args) {
         launch();
@@ -92,10 +91,6 @@ public class UIManager extends Application {
     public static SearchController getSearchController() {
         return (SearchController) searchSceneData.controller;
     }
-
-    public static void setLoginStatus(boolean loginInput) { UIManager.loginInput = loginInput; }
-
-    public static boolean getLoginStatus() {return loginInput;}
 
     private class SceneData {
         public Scene scene;

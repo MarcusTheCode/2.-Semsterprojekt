@@ -4,7 +4,6 @@ import domain.DomainInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
 public class LogInController {
@@ -27,11 +26,10 @@ public class LogInController {
     public void signIn(MouseEvent event) {
         if (DomainInterface.checkIfUserExists(usernameInput.getText(), passwordInput.getText())) {
             UIManager.changeScene(UIManager.getStartupScene());
-            UIManager.setLoginStatus(true);
-            UIManager.getStartupController().visibilityLoginButton();
+            UIManager.getStartupController().setVisibilityLoginButton(false);
         } else {
             loginFail.setVisible(true);
-            UIManager.setLoginStatus(false);
+            UIManager.getStartupController().setVisibilityLoginButton(true);
         }
     }
 
