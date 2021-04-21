@@ -1,14 +1,18 @@
 package domain;
 
-public class CastMember {
+import java.io.Serializable;
+
+public class CastMember implements Serializable {
+
     private String name;
-
-
-
     private String jobTitle;
 
     public CastMember(String name, String jobTitle){
         this.jobTitle = jobTitle;
+        this.name = name;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 

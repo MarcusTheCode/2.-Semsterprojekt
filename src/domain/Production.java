@@ -26,6 +26,10 @@ public class Production implements Serializable {
         castMembers = new ArrayList<>();
     }
 
+    public void addCastMember(CastMember castMember) {
+        castMembers.add(castMember);
+    }
+
     public boolean isOwner(SuperUser superUser) {
         return (ownerID == superUser.getId());
     }

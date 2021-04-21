@@ -48,8 +48,8 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                <columns>
-                  <TableColumn fx:id="roleColumn" onEditCommit="#commitEntryChange" prefWidth="75.0" text="Role" />
-                  <TableColumn fx:id="nameColumn" onEditCommit="#commitEntryChange" prefWidth="75.0" text="Name" />
+                  <TableColumn fx:id="roleColumn" onEditCommit="#commitJobTitleChange" prefWidth="75.0" text="Role" />
+                  <TableColumn fx:id="nameColumn" onEditCommit="#commitNameChange" prefWidth="75.0" text="Name" />
                </columns>
             </TableView>
             <HBox prefHeight="25.0" prefWidth="648.0">
@@ -72,11 +72,6 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save changes ">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onMouseClicked="#deleteProduction" text="Delete production">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
