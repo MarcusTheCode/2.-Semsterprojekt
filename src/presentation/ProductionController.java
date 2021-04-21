@@ -57,8 +57,8 @@ public class ProductionController implements Initializable {
     }
 
     @FXML
-    void returnToStartup(MouseEvent event) {
-        UIManager.changeScene(UIManager.getStartupScene());
+    void returnToSearch(MouseEvent event) {
+        UIManager.changeScene(UIManager.getSearchScene());
     }
 
     public void loadProduction(long ID) {
@@ -73,7 +73,9 @@ public class ProductionController implements Initializable {
 
     @FXML
     void addEntry(MouseEvent event) {
-        castMemberObservableList.add(new CastMember("\"name\"","\"job\""));
+        CastMember castMember = new CastMember("\"name\"","\"job\"");
+        castMemberObservableList.add(castMember);
+        currentProduction.addCastMember(castMember);
     }
 
     @FXML
@@ -83,20 +85,21 @@ public class ProductionController implements Initializable {
     }
 
     @FXML
-    void commitEntryChange(TableColumn.CellEditEvent<CastMember, String> event) {
+    void commitJobTitleChange(TableColumn.CellEditEvent<CastMember, String> event) {
         int row = event.getTablePosition().getRow();
         CastMember castMember = ((CastMember) event.getTableView().getItems().get(row));
         castMember.setJobTitle(event.getNewValue());
     }
 
     @FXML
-    void deleteProduction(MouseEvent event) {
-        DomainInterface.removeProduction(currentProduction);
+    void commitNameChange(TableColumn.CellEditEvent<CastMember, String> event) {
+        int row = event.getTablePosition().getRow();
+        CastMember castMember = ((CastMember) event.getTableView().getItems().get(row));
+        castMember.setName(event.getNewValue());
     }
 
     @FXML
     void saveChanges(MouseEvent event) {
         DomainInterface.editProduction(currentProduction);
     }
-
 }
