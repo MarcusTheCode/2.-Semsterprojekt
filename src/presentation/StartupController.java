@@ -16,14 +16,25 @@ public class StartupController {
     private ListView<?> searchResult;
 
     @FXML
+    private Button usersButton;
+
+    @FXML
     private Button loginButton;
+
+    @FXML
+    void openUsers(MouseEvent event) {
+        UIManager.changeScene(UIManager.getUsersScene());
+    }
 
     @FXML
     void logIn(MouseEvent event) {
         UIManager.changeScene(UIManager.getLoginScene());
     }
 
-    public void setVisibilityLoginButton(boolean bool) {loginButton.setVisible(bool); }
+    public void setVisibilityLoginButton(boolean bool) {
+        loginButton.setVisible(bool);
+        usersButton.setVisible(!bool);
+    }
 
     @FXML
     void searchProductions(MouseEvent event) {
