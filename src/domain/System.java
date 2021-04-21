@@ -81,9 +81,10 @@ public class System {
         return currentUser != null;
     }
 
-    public boolean logout() throws ExecutionControl.NotImplementedException {
+    public boolean logout() {
         // TODO: implement logOut
-        throw new ExecutionControl.NotImplementedException("Not implemented");
+       currentUser = null;
+       return currentUser == null;
     }
 
 }
