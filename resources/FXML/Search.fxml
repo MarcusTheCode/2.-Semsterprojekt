@@ -53,7 +53,7 @@
                      </HBox.margin>
                   </Button>
                   <Button fx:id="addProductionButton" mnemonicParsing="false" onMouseClicked="#addProduction" text="Add production" visible="false" />
-                  <Button fx:id="removeProductionButton" mnemonicParsing="false" onMouseClicked="#removeProduction" text="Remove production" visible="false" />
+                  <Button fx:id="removeProductionButton" mnemonicParsing="false" onMouseClicked="#removeProduction" text="Delete production" visible="false" />
                </children>
             </HBox>
          </children>

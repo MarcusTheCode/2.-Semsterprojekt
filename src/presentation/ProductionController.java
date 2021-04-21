@@ -57,8 +57,8 @@ public class ProductionController implements Initializable {
     }
 
     @FXML
-    void returnToStartup(MouseEvent event) {
-        UIManager.changeScene(UIManager.getStartupScene());
+    void returnToSearch(MouseEvent event) {
+        UIManager.changeScene(UIManager.getSearchScene());
     }
 
     public void loadProduction(long ID) {
