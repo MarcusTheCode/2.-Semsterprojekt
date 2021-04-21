@@ -71,4 +71,8 @@ public class DomainInterface {
     public static boolean login(String inputUsername, String inputPassword) {
         return system.login(inputUsername, inputPassword);
     }
+
+    public static boolean logout(){
+        return system.logout();
+    }
 }
