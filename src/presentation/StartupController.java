@@ -1,7 +1,6 @@
 
 package presentation;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -29,23 +28,26 @@ public class StartupController {
     }
 
     @FXML
-    void loginClicked(MouseEvent event) {
-        changeButtonText();
+    void goToLogin(MouseEvent event) {
+        if (DomainInterface.getCurrentUser() != null){
+            changeToLoggedOut();
+        }
         UIManager.changeScene(UIManager.getLoginScene());
     }
 
     public void setVisibilityLoginButton(boolean bool) {
         loginButton.setVisible(bool);
-        usersButton.setVisible(!bool);
     }
 
-    public void changeButtonText(){
-        if (loginButton.getText().equals("Login")){
-            loginButton.setText("Logout");
-        }else{
-            loginButton.setText("Login");
-            DomainInterface.logout();
-        }
+    public void changeToLoggedOut(){
+        usersButton.setVisible(false);
+        loginButton.setText("Login");
+        DomainInterface.logout();
+    }
+
+    public void changeToLoggedIn(){
+        usersButton.setVisible(true);
+        loginButton.setText("Logout");
     }
 
     @FXML

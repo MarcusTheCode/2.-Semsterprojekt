@@ -21,17 +21,14 @@ public class LogInController {
         UIManager.changeScene(UIManager.getStartupScene());
     }
 
-
-
     public void login(MouseEvent event) {
         if (DomainInterface.login(inputUsername.getText(), inputPassword.getText())) {
             UIManager.changeScene(UIManager.getStartupScene());
             //UIManager.getStartupController().changeButtonText();
             UIManager.getSearchController().setVisibilitySearchButtons(true);
+            UIManager.getStartupController().changeToLoggedIn();
         } else {
             loginFail.setVisible(true);
-            UIManager.getStartupController().setVisibilityLoginButton(true);
-
         }
     }
 
