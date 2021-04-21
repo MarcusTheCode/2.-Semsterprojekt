@@ -15,6 +15,11 @@
          <children>
             <HBox fx:id="loginHBox" alignment="TOP_RIGHT">
                <children>
+                  <Button fx:id="usersButton" mnemonicParsing="false" onMouseClicked="#openUsers" prefHeight="37.0" prefWidth="68.0" text="Users" visible="false">
+                     <HBox.margin>
+                        <Insets right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button fx:id="loginButton" mnemonicParsing="false" onMouseClicked="#logIn" prefHeight="37.0" prefWidth="68.0" text="Login">
                      <HBox.margin>
                         <Insets right="10.0" top="10.0" />

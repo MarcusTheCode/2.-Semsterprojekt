@@ -19,6 +19,7 @@ public class UIManager extends Application {
     private static SceneData productionSceneData;
     private static SceneData startupSceneData;
     private static SceneData searchSceneData;
+    private static SceneData usersSceneData;
 
     public static void main(String[] args) {
         launch();
@@ -37,6 +38,7 @@ public class UIManager extends Application {
             productionSceneData = loadScene("../FXML/Production.fxml");
             startupSceneData = loadScene("../FXML/Startup.fxml");
             searchSceneData = loadScene("../FXML/Search.fxml");
+            usersSceneData = loadScene("../FXML/Users.fxml");
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -75,6 +77,10 @@ public class UIManager extends Application {
         return searchSceneData.scene;
     }
 
+    public static Scene getUsersScene() {
+        return usersSceneData.scene;
+    }
+
     public static LogInController getLoginController() {
         return (LogInController) loginSceneData.controller;
     }
@@ -90,6 +96,10 @@ public class UIManager extends Application {
 
     public static SearchController getSearchController() {
         return (SearchController) searchSceneData.controller;
+    }
+
+    public static UsersController getUsersController() {
+        return (UsersController) usersSceneData.controller;
     }
 
     private class SceneData {
