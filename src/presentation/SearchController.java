@@ -147,9 +147,12 @@ public class SearchController implements Initializable {
         }
     }
 
-    public void setVisibilitySearchButtons(boolean bool) {
+    public void setAdminToolsVisibility(boolean bool) {
         removeProductionButton.setVisible(bool);
         addProductionButton.setVisible(bool);
+        ownerIDColumn.setEditable(bool);
+        titleColumn.setEditable(bool);
+        categoryColumn.setEditable(bool);
     }
 
 }

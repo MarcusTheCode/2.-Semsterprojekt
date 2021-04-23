@@ -25,8 +25,8 @@ public class LogInController {
         if (DomainInterface.login(inputUsername.getText(), inputPassword.getText())) {
             UIManager.changeScene(UIManager.getStartupScene());
 
-            UIManager.getProductionController().setAdminTools(true);
-            UIManager.getSearchController().setVisibilitySearchButtons(true);
+            UIManager.getProductionController().setAdminToolsVisibility(true);
+            UIManager.getSearchController().setAdminToolsVisibility(true);
             UIManager.getStartupController().changeToLoggedIn();
         } else {
             loginFail.setVisible(true);

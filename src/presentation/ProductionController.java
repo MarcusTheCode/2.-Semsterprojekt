@@ -63,7 +63,7 @@ public class ProductionController implements Initializable {
 
     }
 
-    public void setAdminTools(Boolean bool){
+    public void setAdminToolsVisibility(Boolean bool){
         addEntry.setVisible(bool);
         deleteEntry.setVisible(bool);
         saveEntry.setVisible(bool);

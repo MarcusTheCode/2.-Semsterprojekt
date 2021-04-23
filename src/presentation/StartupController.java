@@ -31,7 +31,7 @@ public class StartupController {
     void goToLogin(MouseEvent event) {
         if (DomainInterface.getCurrentUser() != null){
             changeToLoggedOut();
-            UIManager.getProductionController().setAdminTools(false);
+            UIManager.getProductionController().setAdminToolsVisibility(false);
         }
         UIManager.changeScene(UIManager.getLoginScene());
     }
@@ -40,7 +40,7 @@ public class StartupController {
         usersButton.setVisible(false);
         loginButton.setText("Login");
         DomainInterface.logout();
-        UIManager.getSearchController().setVisibilitySearchButtons(false);
+        UIManager.getSearchController().setAdminToolsVisibility(false);
     }
 
     public void changeToLoggedIn(){
