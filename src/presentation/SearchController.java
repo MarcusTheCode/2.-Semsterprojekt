@@ -153,10 +153,9 @@ public class SearchController implements Initializable {
 
     @FXML
     void searchForProduction(KeyEvent event){
-        if (event.getCode() == KeyCode.getKeyCode("ENTER"));
+        if (event.getCode() == KeyCode.ENTER);
         {
-            productionObservableList = FXCollections.observableList(DataInterface.loadAllProductions());
-            productionsTable.setItems(productionObservableList);
+            loadProductions();
         }
     }
 

@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.LogInController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.LogInController">
    <children>
       <VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -35,12 +35,12 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </Text>
-                        <TextField fx:id="inputUsername" promptText="username" style="-fx-background-color: #FFFAFA;">
+                        <TextField fx:id="inputUsername" onKeyPressed="#usrPassTekstFieldKeyPressed" promptText="username" style="-fx-background-color: #FFFAFA;">
                            <VBox.margin>
                               <Insets bottom="10.0" left="20.0" right="20.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField fx:id="inputPassword" promptText="password" style="-fx-background-color: #FFFAFA;">
+                        <TextField fx:id="inputPassword" onKeyPressed="#usrPassTekstFieldKeyPressed" promptText="password" style="-fx-background-color: #FFFAFA;">
                            <VBox.margin>
                               <Insets bottom="20.0" left="20.0" right="20.0" />
                            </VBox.margin>
