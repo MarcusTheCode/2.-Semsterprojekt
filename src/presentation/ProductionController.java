@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -23,7 +24,13 @@ import java.util.ResourceBundle;
 public class ProductionController implements Initializable {
 
     @FXML
-    private Text productionTitle;
+    private Button addEntry;
+
+    @FXML
+    private Button deleteEntry;
+
+    @FXML
+    private Button saveEntry;
 
     @FXML
     private TextArea metaData;
@@ -54,6 +61,14 @@ public class ProductionController implements Initializable {
 
         castMembers.setItems(castMemberObservableList);
 
+    }
+
+    public void setAdminToolsVisibility(Boolean bool){
+        addEntry.setVisible(bool);
+        deleteEntry.setVisible(bool);
+        saveEntry.setVisible(bool);
+        nameColumn.setEditable(bool);
+        roleColumn.setEditable(bool);
     }
 
     @FXML

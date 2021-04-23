@@ -39,10 +39,10 @@
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>
                <columns>
-                  <TableColumn fx:id="IDColumn" onEditCommit="#commitIDchange" prefWidth="50.0" text="ID" />
-                  <TableColumn fx:id="ownerIDColumn" onEditCommit="#commitOwnerIDchange" prefWidth="99.0" text="Owner ID" />
-                  <TableColumn fx:id="titleColumn" onEditCommit="#commitTitleChange" prefWidth="250.0" text="Title" />
-                  <TableColumn fx:id="categoryColumn" onEditCommit="#commitCategoryChange" prefWidth="100.0" text="Category" />
+                  <TableColumn fx:id="IDColumn" editable="false" onEditCommit="#commitIDchange" prefWidth="50.0" text="ID" />
+                  <TableColumn fx:id="ownerIDColumn" editable="false" onEditCommit="#commitOwnerIDchange" prefWidth="99.0" text="Owner ID" />
+                  <TableColumn fx:id="titleColumn" editable="false" onEditCommit="#commitTitleChange" prefWidth="250.0" text="Title" />
+                  <TableColumn fx:id="categoryColumn" editable="false" onEditCommit="#commitCategoryChange" prefWidth="100.0" text="Category" />
                </columns>
             </TableView>
             <HBox>

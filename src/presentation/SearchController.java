@@ -19,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.converter.LongStringConverter;
 import javafx.scene.control.Button;
 
+import java.net.DatagramSocketImpl;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -61,9 +62,21 @@ public class SearchController implements Initializable {
         categoryColumn.setCellValueFactory(new PropertyValueFactory<Production, String>("category"));
         categoryColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        productionObservableList = FXCollections.observableList(DataInterface.loadAllProductions());
-        productionsTable.setItems(productionObservableList);
 
+
+        loadProductions();
+    }
+
+    public void loadProductions(){
+        ArrayList<Production> productions = DataInterface.loadAllProductions();
+
+        if (DomainInterface.getCurrentUser() != null && DomainInterface.getCurrentUser().isSysAdmin() == false){
+            // remove productions from the list if they don't belong to the current user
+            productions.removeIf(production -> production.isOwner(DomainInterface.getCurrentUser()) == false);
+        }
+
+        productionObservableList = FXCollections.observableList(productions);
+        productionsTable.setItems(productionObservableList);
     }
 
     @FXML
@@ -147,9 +160,13 @@ public class SearchController implements Initializable {
         }
     }
 
-    public void setVisibilitySearchButtons(boolean bool) {
+    public void setAdminToolsVisibility(boolean bool) {
         removeProductionButton.setVisible(bool);
         addProductionButton.setVisible(bool);
+        IDColumn.setEditable(bool);
+        ownerIDColumn.setEditable(bool);
+        titleColumn.setEditable(bool);
+        categoryColumn.setEditable(bool);
     }
 
 }

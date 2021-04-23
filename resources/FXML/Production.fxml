@@ -48,18 +48,18 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                <columns>
-                  <TableColumn fx:id="roleColumn" onEditCommit="#commitJobTitleChange" prefWidth="75.0" text="Role" />
-                  <TableColumn fx:id="nameColumn" onEditCommit="#commitNameChange" prefWidth="75.0" text="Name" />
+                  <TableColumn fx:id="roleColumn" editable="false" onEditCommit="#commitJobTitleChange" prefWidth="75.0" text="Role" />
+                  <TableColumn fx:id="nameColumn" editable="false" onEditCommit="#commitNameChange" prefWidth="75.0" text="Name" />
                </columns>
             </TableView>
             <HBox prefHeight="25.0" prefWidth="648.0">
                <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#addEntry" text="Add entry">
+                  <Button fx:id="addEntry" mnemonicParsing="false" onMouseClicked="#addEntry" text="Add entry" visible="false">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onMouseClicked="#deleteEntry" text="Delete entry">
+                  <Button fx:id="deleteEntry" mnemonicParsing="false" onMouseClicked="#deleteEntry" text="Delete entry" visible="false">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -71,7 +71,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save changes ">
+                  <Button fx:id="saveEntry" mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save changes " visible="false">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

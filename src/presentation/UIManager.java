@@ -57,6 +57,7 @@ public class UIManager extends Application {
         primaryStage.setTitle("Credit management system");
 
         this.primaryStage = primaryStage;
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
