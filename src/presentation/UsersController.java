@@ -70,6 +70,11 @@ public class UsersController implements Initializable {
     void deleteEntry(MouseEvent event) {
         int index = superUsers.getSelectionModel().getFocusedIndex();
         long id = usersObservableList.get(index).getId();
+
+        if (usersObservableList.get(index).getId() == 6){
+            return;
+        }
+
         usersObservableList.remove(index);
 
         DomainInterface.deleteUser(id);
