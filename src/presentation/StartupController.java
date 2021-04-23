@@ -35,14 +35,11 @@ public class StartupController {
         UIManager.changeScene(UIManager.getLoginScene());
     }
 
-    public void setVisibilityLoginButton(boolean bool) {
-        loginButton.setVisible(bool);
-    }
-
     public void changeToLoggedOut(){
         usersButton.setVisible(false);
         loginButton.setText("Login");
         DomainInterface.logout();
+        UIManager.getSearchController().setVisibilitySearchButtons(false);
     }
 
     public void changeToLoggedIn(){
