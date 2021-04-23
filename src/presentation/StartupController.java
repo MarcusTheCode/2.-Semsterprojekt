@@ -31,6 +31,7 @@ public class StartupController {
     void goToLogin(MouseEvent event) {
         if (DomainInterface.getCurrentUser() != null){
             changeToLoggedOut();
+            UIManager.getProductionController().setAdminTools(false);
         }
         UIManager.changeScene(UIManager.getLoginScene());
     }

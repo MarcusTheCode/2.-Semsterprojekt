@@ -24,7 +24,8 @@ public class LogInController {
     public void login(MouseEvent event) {
         if (DomainInterface.login(inputUsername.getText(), inputPassword.getText())) {
             UIManager.changeScene(UIManager.getStartupScene());
-            //UIManager.getStartupController().changeButtonText();
+
+            UIManager.getProductionController().setAdminTools(true);
             UIManager.getSearchController().setVisibilitySearchButtons(true);
             UIManager.getStartupController().changeToLoggedIn();
         } else {
