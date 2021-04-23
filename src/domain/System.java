@@ -82,7 +82,6 @@ public class System {
     }
 
     public boolean logout() {
-        // TODO: implement logOut
        currentUser = null;
        return currentUser == null;
     }

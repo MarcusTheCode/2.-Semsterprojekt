@@ -61,8 +61,6 @@ public class DataManager {
     }
 
     private boolean write(Production production){
-        // Ever time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (1/4)
         try {
             FileOutputStream fStream = new FileOutputStream(productionsFile);
             ObjectOutputStream oStream = new ObjectOutputStream(fStream);
@@ -76,8 +74,6 @@ public class DataManager {
     }
 
     private boolean reWrite(ArrayList<Production> productions){
-        // Ever time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (1/4)
         try {
             FileOutputStream fStream = new FileOutputStream(productionsFile);
             ObjectOutputStream oStream = new ObjectOutputStream(fStream);
@@ -93,8 +89,6 @@ public class DataManager {
     }
 
     private boolean appendWrite(Production production){
-        // Every time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (2/4)
         try {
             FileOutputStream fStream = new FileOutputStream(productionsFile, true);
             AppendingObjectOutputStream oStream = new AppendingObjectOutputStream(fStream);
@@ -108,8 +102,6 @@ public class DataManager {
     }
 
     public Production loadProduction(long proID) {
-        // Every time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (3/4)
         try {
             objectInputStream = new ObjectInputStream(new FileInputStream(productionsFile));
             while (true) {
@@ -126,8 +118,6 @@ public class DataManager {
     }
 
     public ArrayList<Production> loadAllProductions() {
-        // Every time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (4/4)
         ArrayList<Production> productionArrayList = new ArrayList<>();
         try {
             FileInputStream fStream = new FileInputStream(productionsFile);
@@ -145,8 +135,6 @@ public class DataManager {
     }
 
     public boolean saveSuperUser(SuperUser user) {
-        // Every time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (5/4)
         try {
             if (!superUsersFile.exists()) {
                 FileOutputStream fStream = new FileOutputStream(superUsersFile);
@@ -167,8 +155,6 @@ public class DataManager {
     }
 
     public SuperUser loadSuperUser(long userID) {
-        // Every time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (6/4)
         try {
             objectInputStream = new ObjectInputStream(new FileInputStream(superUsersFile));
             while (true) {
@@ -185,9 +171,6 @@ public class DataManager {
     }
 
     public boolean deleteSuperUser(long userID) {
-        // I dont know how it works(if it works). dont touch it!
-        // Every time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (7/4)
         try {
             ArrayList<SuperUser> superUsers = new ArrayList<>();
             FileInputStream fileStream = new FileInputStream(superUsersFile);
@@ -212,8 +195,6 @@ public class DataManager {
     }
 
     public ArrayList<SuperUser> loadSuperUsers() {
-        // Every time the program writes to a file, new streams are created, that's inefficient
-        // TODO: fix inefficiency (8/4)
         ArrayList<SuperUser> users = new ArrayList<>();
         try {
             FileInputStream fileStream = new FileInputStream(superUsersFile);

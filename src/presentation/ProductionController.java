@@ -77,8 +77,6 @@ public class ProductionController implements Initializable {
     }
 
     public void loadProduction(long ID) {
-        // TODO: Call this function when changing to this scene
-        // TODO: Hide or disable editing features if visitor is not logged in
         this.currentProduction = DomainInterface.getProduction(ID);
         ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();
         castMemberObservableList = FXCollections.observableArrayList(castMemberArrayList);

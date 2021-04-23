@@ -66,7 +66,6 @@ public class UIManager extends Application {
     }
 
     public static Scene getProductionScene() {
-        // TODO: Load production data when changing to this scene
         return productionSceneData.scene;
     }
 
@@ -87,7 +86,6 @@ public class UIManager extends Application {
     }
 
     public static ProductionController getProductionController() {
-        // TODO: Load production data when changing to this scene
         return (ProductionController) productionSceneData.controller;
     }
 

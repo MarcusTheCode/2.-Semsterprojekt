@@ -62,8 +62,6 @@ public class Production implements Serializable {
         this.category = category;
     }
 
-    // TODO: fix ID
-
     public long getId() {
         return id;
     }
