@@ -155,8 +155,7 @@ public class SearchController implements Initializable {
     void searchForProduction(KeyEvent event){
         if (event.getCode() == KeyCode.ENTER);
         {
-            productionObservableList = FXCollections.observableList(DataInterface.loadAllProductions());
-            productionsTable.setItems(productionObservableList);
+            loadProductions();
         }
     }
 
