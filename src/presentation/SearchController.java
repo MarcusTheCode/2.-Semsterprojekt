@@ -1,12 +1,10 @@
 package presentation;
 
-import data.DataInterface;
-import domain.DomainInterface;
+import data.DataFacade;
+import domain.DomainFacade;
 import domain.Production;
-import domain.SuperUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -19,7 +17,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.converter.LongStringConverter;
 import javafx.scene.control.Button;
 
-import java.net.DatagramSocketImpl;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -68,11 +65,11 @@ public class SearchController implements Initializable {
     }
 
     public void loadProductions(){
-        ArrayList<Production> productions = DataInterface.loadAllProductions();
+        ArrayList<Production> productions = DataFacade.loadAllProductions();
 
-        if (DomainInterface.getCurrentUser() != null && DomainInterface.getCurrentUser().isSysAdmin() == false){
+        if (DomainFacade.getCurrentUser() != null && DomainFacade.getCurrentUser().isSysAdmin() == false){
             // remove productions from the list if they don't belong to the current user
-            productions.removeIf(production -> production.isOwner(DomainInterface.getCurrentUser()) == false);
+            productions.removeIf(production -> production.isOwner(DomainFacade.getCurrentUser()) == false);
         }
 
         productionObservableList = FXCollections.observableList(productions);
@@ -81,9 +78,9 @@ public class SearchController implements Initializable {
 
     @FXML
     void addProduction(MouseEvent event) {
-        Production production = new Production(DomainInterface.getCurrentUser().getId());
+        Production production = new Production(DomainFacade.getCurrentUser().getId());
         productionObservableList.add(production);
-        DomainInterface.saveProduction(production);
+        DomainFacade.saveProduction(production);
     }
 
     @FXML
@@ -92,7 +89,7 @@ public class SearchController implements Initializable {
         Production production = productionObservableList.get(index);
         productionObservableList.remove(index);
 
-        DomainInterface.removeProduction(production);
+        DomainFacade.removeProduction(production);
     }
 
     @FXML
@@ -101,7 +98,7 @@ public class SearchController implements Initializable {
         Production production = event.getTableView().getItems().get(row);
         production.setCategory(event.getNewValue());
 
-        DomainInterface.editProduction(production);
+        DomainFacade.editProduction(production);
     }
 
     @FXML
@@ -109,11 +106,11 @@ public class SearchController implements Initializable {
         int row = event.getTablePosition().getRow();
         Production production = event.getTableView().getItems().get(row);
 
-        DomainInterface.removeProduction(production);
+        DomainFacade.removeProduction(production);
 
         production.setID(event.getNewValue());
 
-        DomainInterface.saveProduction(production);
+        DomainFacade.saveProduction(production);
     }
 
     @FXML
@@ -122,7 +119,7 @@ public class SearchController implements Initializable {
         Production production = event.getTableView().getItems().get(row);
         production.setOwnerID(event.getNewValue());
 
-        DomainInterface.editProduction(production);
+        DomainFacade.editProduction(production);
     }
 
     @FXML
@@ -131,7 +128,7 @@ public class SearchController implements Initializable {
         Production production = event.getTableView().getItems().get(row);
         production.setTitle(event.getNewValue());
 
-        DomainInterface.editProduction(production);
+        DomainFacade.editProduction(production);
     }
 
     @FXML

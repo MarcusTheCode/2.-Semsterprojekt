@@ -5,7 +5,7 @@ import domain.SuperUser;
 
 import java.util.ArrayList;
 
-public class DataInterface {
+public class DataFacade {
 
     private static DataManager dataManager = new DataManager();
 

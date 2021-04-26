@@ -1,6 +1,6 @@
 package presentation;
 
-import domain.DomainInterface;
+import domain.DomainFacade;
 import domain.SuperUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,7 +50,7 @@ public class UsersController implements Initializable {
         adminColumn.setCellValueFactory(new PropertyValueFactory<>("sysAdmin"));
         adminColumn.setCellFactory(TextFieldTableCell.forTableColumn(new BooleanStringConverter()));
 
-        usersObservableList = FXCollections.observableArrayList(DomainInterface.getUsers());
+        usersObservableList = FXCollections.observableArrayList(DomainFacade.getUsers());
 
         superUsers.setItems(usersObservableList);
     }
@@ -62,7 +62,7 @@ public class UsersController implements Initializable {
 
     @FXML
     void addEntry(MouseEvent event) {
-        SuperUser user = DomainInterface.createUser("password1234", "Name", false);
+        SuperUser user = DomainFacade.createUser("password1234", "Name", false);
         usersObservableList.add(user);
     }
 
@@ -77,7 +77,7 @@ public class UsersController implements Initializable {
 
         usersObservableList.remove(index);
 
-        DomainInterface.deleteUser(id);
+        DomainFacade.deleteUser(id);
     }
 
     @FXML
@@ -86,7 +86,7 @@ public class UsersController implements Initializable {
         SuperUser superUser = event.getTableView().getItems().get(row);
         superUser.setUsername(event.getNewValue());
 
-        DomainInterface.editUser(superUser);
+        DomainFacade.editUser(superUser);
     }
 
     @FXML
@@ -95,7 +95,7 @@ public class UsersController implements Initializable {
         SuperUser superUser = event.getTableView().getItems().get(row);
         superUser.setPassword(event.getNewValue());
 
-        DomainInterface.editUser(superUser);
+        DomainFacade.editUser(superUser);
     }
 
     @FXML
@@ -104,6 +104,6 @@ public class UsersController implements Initializable {
         SuperUser superUser = event.getTableView().getItems().get(row);
         superUser.setSysAdmin(event.getNewValue());
 
-        DomainInterface.editUser(superUser);
+        DomainFacade.editUser(superUser);
     }
 }
