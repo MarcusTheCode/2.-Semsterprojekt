@@ -1,10 +1,10 @@
 package domain;
 
-import data.DataInterface;
+import data.DataFacade;
 
 import java.util.ArrayList;
 
-public class DomainInterface {
+public class DomainFacade {
 
     private static System system = new System();
 
@@ -44,7 +44,7 @@ public class DomainInterface {
     }
 
     public static ArrayList<SuperUser> getUsers() {
-        return DataInterface.getUsers();
+        return DataFacade.getUsers();
     }
 
     public static SuperUser createUser(String password, String username, boolean sysAdmin) {
@@ -52,7 +52,7 @@ public class DomainInterface {
     }
 
     public static void saveUser(SuperUser user) {
-        DataInterface.saveSuperUser(user);
+        DataFacade.saveSuperUser(user);
     }
 
     public static void editUser(SuperUser user) {
@@ -61,7 +61,7 @@ public class DomainInterface {
     }
 
     public static void deleteUser(long id) {
-        DataInterface.deleteSuperUser(id);
+        DataFacade.deleteSuperUser(id);
     }
 
     public static System getSystem() {

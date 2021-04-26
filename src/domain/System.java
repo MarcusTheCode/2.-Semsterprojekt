@@ -1,7 +1,5 @@
 package domain;
 
-import jdk.jshell.spi.ExecutionControl;
-
 import data.*;
 
 public class System {
@@ -12,8 +10,8 @@ public class System {
     private long serialProductionID;
 
     public System() {
-        serialUserID = DataInterface.calculateSerialUserID();
-        serialProductionID = DataInterface.calculateSerialProductionID();
+        serialUserID = DataFacade.calculateSerialUserID();
+        serialProductionID = DataFacade.calculateSerialProductionID();
 
         //SuperUser user = new SuperUser(0, "pass123", "Ikke Albert", true);
         //DataInterface.saveSuperUser(user);
@@ -30,12 +28,12 @@ public class System {
     }
 
     public void saveProduction(Production production) {
-        DataInterface.saveProduction(production);
+        DataFacade.saveProduction(production);
     }
 
     public void deleteProduction(Production production) throws Exception {
         if (production.isOwner(currentUser) || currentUser.isSysAdmin()) {
-            DataInterface.deleteProduction(production.getId());
+            DataFacade.deleteProduction(production.getId());
             return;
         } else {
             throw new RuntimeException("ERROR: user is not allowed to edit");
@@ -44,7 +42,7 @@ public class System {
 
     public void editProduction(Production production) throws Exception {
         if (production.isOwner(currentUser)) {
-            DataInterface.editProduction(production);
+            DataFacade.editProduction(production);
             return;
         } else {
             throw new RuntimeException("User is not allowed to edit this production");
@@ -52,7 +50,7 @@ public class System {
     }
 
     public Production getProduction(long ID) {
-        return DataInterface.getProduction(ID);
+        return DataFacade.getProduction(ID);
     }
 
     public SuperUser createUser(String password, String username, boolean sysAdmin) {
@@ -63,11 +61,11 @@ public class System {
     }
 
     public void saveSuperUser(SuperUser superUser) {
-        DataInterface.saveSuperUser(superUser);
+        DataFacade.saveSuperUser(superUser);
     }
 
     public void deleteSuperUser(long ID) {
-        DataInterface.deleteSuperUser(ID);
+        DataFacade.deleteSuperUser(ID);
     }
 
     public SuperUser getCurrentUser() {
@@ -77,7 +75,7 @@ public class System {
 
     //missing failure message when login is incorrect
     public boolean login(String inputUsername, String inputPassword)  {
-        currentUser = DataInterface.login(inputUsername, inputPassword);
+        currentUser = DataFacade.login(inputUsername, inputPassword);
         return currentUser != null;
     }
 

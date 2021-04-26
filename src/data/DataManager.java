@@ -39,11 +39,11 @@ public class DataManager {
         return serialProductionID;
     }
 
-    public boolean saveProduction(Production production) {
+    public void saveProduction(Production production) {
         if (!productionsFile.exists()) {
-            return write(production);
+            write(production);
         } else {
-            return appendWrite(production);
+            appendWrite(production);
         }
     }
 

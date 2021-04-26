@@ -1,7 +1,7 @@
 package presentation;
 
 import domain.CastMember;
-import domain.DomainInterface;
+import domain.DomainFacade;
 import domain.Production;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,8 +14,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
-import jdk.jshell.spi.ExecutionControl;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -77,7 +75,7 @@ public class ProductionController implements Initializable {
     }
 
     public void loadProduction(long ID) {
-        this.currentProduction = DomainInterface.getProduction(ID);
+        this.currentProduction = DomainFacade.getProduction(ID);
         ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();
         castMemberObservableList = FXCollections.observableArrayList(castMemberArrayList);
         metaData.setText(this.currentProduction.getMetaData());
@@ -113,6 +111,6 @@ public class ProductionController implements Initializable {
 
     @FXML
     void saveChanges(MouseEvent event) {
-        DomainInterface.editProduction(currentProduction);
+        DomainFacade.editProduction(currentProduction);
     }
 }

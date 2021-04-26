@@ -5,7 +5,7 @@ import domain.SuperUser;
 
 import java.util.ArrayList;
 
-public class DataInterface {
+public class DataFacade {
 
     private static DataManager dataManager = new DataManager();
 
@@ -13,8 +13,8 @@ public class DataInterface {
         return dataManager.loadProduction(ID);
     }
 
-    public static boolean saveProduction(Production production) {
-        return dataManager.saveProduction(production);
+    public static void saveProduction(Production production) {
+        dataManager.saveProduction(production);
     }
 
     public static void deleteProduction(long ID) {

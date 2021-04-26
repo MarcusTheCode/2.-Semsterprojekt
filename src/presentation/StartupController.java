@@ -6,7 +6,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
-import domain.DomainInterface;
+import domain.DomainFacade;
 
 public class StartupController {
 
@@ -29,7 +29,7 @@ public class StartupController {
 
     @FXML
     void goToLogin(MouseEvent event) {
-        if (DomainInterface.getCurrentUser() != null){
+        if (DomainFacade.getCurrentUser() != null){
             changeToLoggedOut();
             UIManager.getProductionController().setAdminToolsVisibility(false);
         }
@@ -39,7 +39,7 @@ public class StartupController {
     public void changeToLoggedOut(){
         usersButton.setVisible(false);
         loginButton.setText("Login");
-        DomainInterface.logout();
+        DomainFacade.logout();
         UIManager.getSearchController().setAdminToolsVisibility(false);
     }
 
