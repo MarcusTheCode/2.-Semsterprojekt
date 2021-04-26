@@ -13,8 +13,8 @@ public class DataInterface {
         return dataManager.loadProduction(ID);
     }
 
-    public static boolean saveProduction(Production production) {
-        return dataManager.saveProduction(production);
+    public static void saveProduction(Production production) {
+        dataManager.saveProduction(production);
     }
 
     public static void deleteProduction(long ID) {
