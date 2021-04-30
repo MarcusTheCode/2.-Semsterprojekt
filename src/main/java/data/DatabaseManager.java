@@ -15,11 +15,11 @@ public class DatabaseManager {
     //url, port, databaseName, username, password){
 
     //Database variables
-    private String url = "localhost";
-    private int port = 5432;
-    private String databaseName = "healthDB";
-    private String username = "postgres";
-    private String password = "";
+    private String url;
+    private int port;
+    private String databaseName;
+    private String username;
+    private String password;
     private Connection connection = null;
 
     public DatabaseManager() {
