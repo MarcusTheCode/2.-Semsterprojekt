@@ -28,11 +28,16 @@ public class StartupController {
     }
 
     @FXML
-    void goToLogin(MouseEvent event) {
+    void toggleLogin(MouseEvent event) {
         if (DomainFacade.getCurrentUser() != null){
             changeToLoggedOut();
             UIManager.getProductionController().setAdminToolsVisibility(false);
         }
+
+        goToLogin();
+    }
+
+    private void goToLogin(){
         UIManager.changeScene(UIManager.getLoginScene());
     }
 
