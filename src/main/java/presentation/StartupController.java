@@ -44,7 +44,9 @@ public class StartupController {
     }
 
     public void changeToLoggedIn(){
-        usersButton.setVisible(true);
+        if (DomainFacade.getCurrentUser().isSysAdmin()) {
+            usersButton.setVisible(true);
+        }
         loginButton.setText("Logout");
     }
 
