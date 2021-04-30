@@ -67,9 +67,9 @@ public class UsersController implements Initializable {
     }
 
     @FXML
-    void deleteEntry(MouseEvent event) {
+    void deleteSuperUser(MouseEvent event) {
         int index = superUsers.getSelectionModel().getFocusedIndex();
-        long id = usersObservableList.get(index).getId();
+        long userID = usersObservableList.get(index).getId();
 
         if (usersObservableList.get(index).getId() == 6){
             return;
@@ -77,7 +77,7 @@ public class UsersController implements Initializable {
 
         usersObservableList.remove(index);
 
-        DomainFacade.deleteUser(id);
+        DomainFacade.deleteSuperUser(userID);
     }
 
     @FXML

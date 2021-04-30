@@ -41,8 +41,8 @@ public class DataFacade {
         dataManager.saveSuperUser(superUser);
     }
 
-    public static void deleteSuperUser(long ID) {
-        dataManager.deleteSuperUser(ID);
+    public static void deleteSuperUser(long userID) {
+        dataManager.deleteSuperUser(userID);
     }
 
     public static ArrayList<SuperUser> getUsers() {
