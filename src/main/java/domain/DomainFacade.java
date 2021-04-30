@@ -61,7 +61,7 @@ public class DomainFacade {
     }
 
     public static void deleteUser(long id) {
-        DataFacade.deleteSuperUser(id);
+        system.deleteSuperUser(id);
     }
 
     public static System getSystem() {
