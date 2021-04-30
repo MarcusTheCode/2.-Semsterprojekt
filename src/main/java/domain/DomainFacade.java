@@ -60,8 +60,8 @@ public class DomainFacade {
         saveUser(user);
     }
 
-    public static void deleteUser(long id) {
-        system.deleteSuperUser(id);
+    public static void deleteUser(long userID) {
+        system.deleteSuperUser(userID);
     }
 
     public static System getSystem() {
