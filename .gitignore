@@ -3,12 +3,10 @@
 
 #build output
 /out
+/target
 
 #.iml (project file)
 *.iml
-
-# Compiled class file
-*.class
 
 # Log file
 *.log
