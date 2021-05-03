@@ -7,7 +7,7 @@ public class System {
     private static SuperUser currentUser;
 
     private long serialUserID;
-    private long serialProductionID;
+    private int serialProductionID;
 
     public System() {
         serialUserID = DataFacade.calculateSerialUserID();

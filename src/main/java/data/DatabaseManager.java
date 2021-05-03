@@ -4,6 +4,7 @@ import domain.Production;
 import domain.SuperUser;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.nio.Buffer;
 import java.sql.*;
 
@@ -45,27 +46,116 @@ public class DatabaseManager {
         return connection;
     }
 
-    public boolean write(Production production){
-        try {
+    public boolean insertPrduction(Production production){
+            try {
 
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO productions(episodeNumber, \type,categoryID,seasonsID,producerID)");
-            //ps.setString(1,);
+                PreparedStatement ps = connection.prepareStatement(
+                        "INSERT INTO productions(episodeNumber, type,categoryID,seasonsID," +
+                                "producerID, productionTitle)VALUES (?,?,?,?,?)");
+                ps.setInt(1,production.getEpisodeNumber());
+                ps.setString(2, production.getType());
+                ps.setInt(3,getCategoryID(production));
+                ps.setLong(4,production.getOwnerID());
+                ps.setString(5,production.getTitle());
+                return ps.execute();
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        return false;
+    }
+
+    public boolean insertSuperUser(SuperUser user){
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO superUsers(isAdmin, userName,passWord,)"
+                    +"VALUES (?,?,?)");
+            ps.setBoolean(1,user.isSysAdmin());
+            ps.setString(2,user.getUsername());
+            ps.setString(3,user.getPassword());
+            return ps.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return true;
+        return false;
+    }
+
+    public boolean insertGenre(String name){
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO genres(name)+" +
+                    "VALUES(?)");
+            ps.setString(1,name);
+            return ps.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean insertSeries(String name){
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO series(name)+" +
+                    "VALUES(?)");
+            ps.setString(1,name);
+            return ps.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean insertGenre(Production production, int genreID){
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO productionGenres(productionID,genreID)+" +
+                    "VALUES(?,?)");
+            ps.setInt(1,production.getId());
+            ps.setInt(2, genreID);
+
+            return ps.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
     }
 
     public int getCategoryID(Production production){
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT getCategoryID(?)");
-            ps.setString(1,production.getCategory());
+            ps.setString(1,production.getCategory().toLowerCase());
             ResultSet set = ps.executeQuery();
-            return set.getInt(1);
+            if (set.next()){
+                return set.getInt(1);
+            }else{
+                return insertCategory(production);
+            }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return 0;
+        return -1;
+    }
+
+    public int insertGenre(Production production){
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO genres (name) VALUES (?)");
+            ps.setArray(1, connection.createArrayOf("String",production.getGenres().toArray()));
+            ps.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return getCategoryID(production);
+    }
+
+    public int insertCategory(Production production){
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO categories (name) VALUES (?)");
+            ps.setString(1,production.getCategory().toLowerCase());
+            ps.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return getCategoryID(production);
     }
 
 }

@@ -18,7 +18,8 @@ CREATE TABLE genres (
 
 CREATE TABLE series (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(100) NOT NULL,
+    seasonsCount INTEGER
 );
 
 CREATE TABLE seasons (
@@ -62,9 +63,9 @@ CREATE TABLE castMembers (
 
 
 -- load test data
-INSERT INTO categories(name) VALUES ('Comedy');
-INSERT INTO categories(name) VALUES ('Drama');
-INSERT INTO categories(name) VALUES ('Action');
+INSERT INTO categories(name) VALUES ('News');
+INSERT INTO categories(name) VALUES ('Movie');
+INSERT INTO categories(name) VALUES ('Whether');
 INSERT INTO categories(name) VALUES ('Fantasy');
 
 
@@ -80,3 +81,15 @@ BEGIN
     RETURN categoryID;
 END
 $categoryID$ LANGUAGE plpgsql;
+
+-- getGenreID
+CREATE OR REPLACE FUNCTION getGenreID(nameVal VARCHAR (50))
+    RETURNS INTEGER AS $genreID$
+DECLARE
+genreID INTEGER;
+BEGIN
+SELECT genres.id INTO genreID FROM genres
+WHERE genres.name = nameVal;
+RETURN genreID;
+END
+$genreID$ LANGUAGE plpgsql;

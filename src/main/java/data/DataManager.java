@@ -29,8 +29,8 @@ public class DataManager {
         return serialUserID;
     }
 
-    public long calculateSerialProductionID() {
-        long serialProductionID = 0;
+    public int calculateSerialProductionID() {
+        int serialProductionID = 0;
         ArrayList<Production> productions = loadAllProductions();
         for (Production production : productions) {
             if (production.getId() > serialProductionID)
