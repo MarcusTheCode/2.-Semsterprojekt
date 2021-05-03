@@ -42,13 +42,11 @@
                   <Font size="24.0" />
                </font>
             </TextField>
-            <TableView fx:id="productionsTable" editable="true" prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="productionsTable" editable="true" prefHeight="532.0" prefWidth="1100.0">
                <VBox.margin>
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>
                <columns>
-                  <TableColumn fx:id="IDColumn" editable="false" onEditCommit="#commitIDchange" prefWidth="50.0" text="ID" />
-                  <TableColumn fx:id="ownerIDColumn" editable="false" onEditCommit="#commitOwnerIDchange" prefWidth="99.0" text="Owner ID" />
                   <TableColumn fx:id="titleColumn" editable="false" onEditCommit="#commitTitleChange" prefWidth="250.0" text="Title" />
                   <TableColumn fx:id="categoryColumn" editable="false" onEditCommit="#commitCategoryChange" prefWidth="100.0" text="Category" />
                   <TableColumn prefWidth="75.0" text="Genre" />
@@ -56,6 +54,9 @@
                   <TableColumn prefWidth="75.0" text="Season" />
                   <TableColumn prefWidth="75.0" text="Episode" />
                </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </TableView>
             <HBox>
                <children>
