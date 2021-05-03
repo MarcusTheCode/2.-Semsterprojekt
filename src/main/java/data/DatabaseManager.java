@@ -1,13 +1,11 @@
 package data;
 
 import domain.Production;
+import domain.SuperUser;
 
 import java.io.*;
 import java.nio.Buffer;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DatabaseManager {
 
@@ -49,11 +47,25 @@ public class DatabaseManager {
 
     public boolean write(Production production){
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO productions(episodeNumber, type,categoryID,seasonsID,producerID)");
+
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO productions(episodeNumber, \type,categoryID,seasonsID,producerID)");
+            //ps.setString(1,);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return true;
+    }
 
+    public int getCategoryID(Production production){
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT getCategoryID(?)");
+            ps.setString(1,production.getCategory());
+            ResultSet set = ps.executeQuery();
+            return set.getInt(1);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
     }
 
 }
