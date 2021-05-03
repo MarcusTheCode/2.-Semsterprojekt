@@ -11,8 +11,8 @@ import javafx.stage.Stage;
 public class UIManager extends Application {
 
     private static Stage primaryStage;
-    private final int WIDTH = 600;
-    private final int HEIGHT = 400;
+    private final int WIDTH = 1200;
+    private final int HEIGHT = 800;
 
     private static SceneData loginSceneData;
     private static SceneData productionSceneData;
