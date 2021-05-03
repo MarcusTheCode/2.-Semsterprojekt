@@ -9,13 +9,17 @@ public class Production implements Serializable {
     String category;
     ArrayList<CastMember> castMembers;
     long ownerID;
+    private int episodeNumber;
+    private String type;
+    private int categoryID;
+    private int seasonsID;
+    private int producerID;
 
     public Production(long ownerID) {
         this.ownerID = ownerID;
         this.category = "category";
         this.title = "title";
         castMembers = new ArrayList<>();
-
     }
 
     public Production(long ownerID, long id, String title, String category) {
@@ -78,6 +82,52 @@ public class Production implements Serializable {
     public String getCategory() {
         return category;
     }
+
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public int getEpisodeNumber() {
+        return episodeNumber;
+    }
+
+    public void setEpisodeNumber(int episodeNumber) {
+        this.episodeNumber = episodeNumber;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    public int getSeasonsID() {
+        return seasonsID;
+    }
+
+    public void setSeasonsID(int seasonsID) {
+        this.seasonsID = seasonsID;
+    }
+
+    public int getProducerID() {
+        return producerID;
+    }
+
+    public void setProducerID(int producerID) {
+        this.producerID = producerID;
+    }
+
 }
 
 

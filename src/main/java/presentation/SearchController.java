@@ -24,10 +24,10 @@ import java.util.ResourceBundle;
 public class SearchController implements Initializable {
 
     @FXML
-    private TableColumn<Production, Long> IDColumn;
+    private Button usersButton;
 
     @FXML
-    private TableColumn<Production, Long> ownerIDColumn;
+    private Button loginButton;
 
     @FXML
     private TableColumn<Production, String> titleColumn;
@@ -43,15 +43,8 @@ public class SearchController implements Initializable {
 
     private ObservableList<Production> productionObservableList;
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        IDColumn.setCellValueFactory(new PropertyValueFactory<Production, Long>("id"));
-        IDColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
-
-        ownerIDColumn.setCellValueFactory(new PropertyValueFactory<Production, Long>("ownerID"));
-        ownerIDColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
 
         titleColumn.setCellValueFactory(new PropertyValueFactory<Production, String>("title"));
         titleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -74,6 +67,39 @@ public class SearchController implements Initializable {
 
         productionObservableList = FXCollections.observableList(productions);
         productionsTable.setItems(productionObservableList);
+    }
+
+    @FXML
+    void openUsers(MouseEvent event) {
+        UIManager.changeScene(UIManager.getUsersScene());
+    }
+
+    @FXML
+    void toggleLogin(MouseEvent event) {
+        if (DomainFacade.getCurrentUser() != null){
+            changeToLoggedOut();
+            UIManager.getProductionController().setAdminToolsVisibility(false);
+        }
+
+        goToLogin();
+    }
+
+    private void goToLogin(){
+        UIManager.changeScene(UIManager.getLoginScene());
+    }
+
+    public void changeToLoggedOut(){
+        usersButton.setVisible(false);
+        loginButton.setText("Login");
+        DomainFacade.logout();
+        UIManager.getSearchController().setAdminToolsVisibility(false);
+    }
+
+    public void changeToLoggedIn(){
+        if (DomainFacade.getCurrentUser().isSysAdmin()) {
+            usersButton.setVisible(true);
+        }
+        loginButton.setText("Logout");
     }
 
     @FXML
@@ -145,7 +171,7 @@ public class SearchController implements Initializable {
 
     @FXML
     void returnToStartup(MouseEvent event) {
-        UIManager.changeScene(UIManager.getStartupScene());
+        UIManager.changeScene(UIManager.getSearchScene());
     }
 
     @FXML
@@ -159,8 +185,6 @@ public class SearchController implements Initializable {
     public void setAdminToolsVisibility(boolean bool) {
         removeProductionButton.setVisible(bool);
         addProductionButton.setVisible(bool);
-        IDColumn.setEditable(bool);
-        ownerIDColumn.setEditable(bool);
         titleColumn.setEditable(bool);
         categoryColumn.setEditable(bool);
     }
