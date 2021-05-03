@@ -2,15 +2,15 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.LogInController">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.LogInController">
    <children>
       <VBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -23,39 +23,53 @@
                   </Button>
                </children>
             </HBox>
-            <AnchorPane prefHeight="292.0" prefWidth="600.0">
+            <VBox alignment="CENTER" prefHeight="750.0" prefWidth="1200.0">
                <children>
-                  <VBox alignment="CENTER" layoutX="136.0" prefHeight="231.0" prefWidth="240.0" style="-fx-background-color: #C0C0C0;" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="50.0">
+                  <VBox alignment="CENTER" prefHeight="363.0" prefWidth="300.0" style="-fx-background-color: #C0C0C0;">
+                     <VBox.margin>
+                        <Insets left="400.0" right="400.0" />
+                     </VBox.margin>
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER" wrappingWidth="86.87629699707031">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign in">
                            <font>
-                              <Font size="22.0" />
+                              <Font size="36.0" />
                            </font>
                            <VBox.margin>
-                              <Insets bottom="20.0" />
+                              <Insets bottom="20.0" top="20.0" />
                            </VBox.margin>
                         </Text>
-                        <TextField fx:id="inputUsername" onKeyPressed="#usrPassTekstFieldKeyPressed" promptText="username" style="-fx-background-color: #FFFAFA;">
+                        <TextField fx:id="inputUsername" prefWidth="455.0" promptText="Username">
                            <VBox.margin>
-                              <Insets bottom="10.0" left="20.0" right="20.0" />
+                              <Insets bottom="10.0" left="50.0" right="50.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </TextField>
-                        <TextField fx:id="inputPassword" onKeyPressed="#usrPassTekstFieldKeyPressed" promptText="password" style="-fx-background-color: #FFFAFA;">
+                        <PasswordField fx:id="inputPassword" promptText="Password">
                            <VBox.margin>
-                              <Insets bottom="20.0" left="20.0" right="20.0" />
+                              <Insets bottom="10.0" left="50.0" right="50.0" />
                            </VBox.margin>
-                        </TextField>
-                        <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#login" prefHeight="30.0" prefWidth="134.0" text="Login" textAlignment="CENTER" />
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </PasswordField>
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#login" prefHeight="30.0" prefWidth="134.0" text="Login" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
+                        <Text fx:id="errorMessage" fill="#ff6d6d" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid username or password">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
                      </children>
                   </VBox>
-                  <Pane fx:id="loginFail" layoutX="224.0" layoutY="60.0" prefHeight="161.0" prefWidth="153.0" style="-fx-background-color: #808080;" visible="false">
-                     <children>
-                        <Text layoutX="16.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-background-color: #FFFAFA;" text="Incorrect username or password" textAlignment="CENTER" wrappingWidth="121.98307228088379" />
-                        <Button layoutX="51.0" layoutY="112.0" mnemonicParsing="false" onMouseClicked="#hideErrorWindow" text="OK" />
-                     </children>
-                  </Pane>
                </children>
-            </AnchorPane>
+            </VBox>
          </children>
       </VBox>
    </children>
