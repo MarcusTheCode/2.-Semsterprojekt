@@ -91,7 +91,7 @@ public class DataManager {
     private boolean appendWrite(Production production){
         try {
             FileOutputStream fStream = new FileOutputStream(productionsFile, true);
-            AppendingObjectOutputStream oStream = new AppendingObjectOutputStream(fStream);
+            data.AppendingObjectOutputStream oStream = new data.AppendingObjectOutputStream(fStream);
             oStream.writeObject(production);
             oStream.close();
             return true;
@@ -143,7 +143,7 @@ public class DataManager {
                 oStream.close();
             } else {
                 FileOutputStream fStream = new FileOutputStream(superUsersFile, true);
-                AppendingObjectOutputStream oStream = new AppendingObjectOutputStream(fStream);
+                data.AppendingObjectOutputStream oStream = new data.AppendingObjectOutputStream(fStream);
                 oStream.writeObject(user);
                 oStream.close();
             }
