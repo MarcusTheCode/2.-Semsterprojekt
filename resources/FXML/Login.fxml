@@ -38,7 +38,7 @@
                               <Insets bottom="20.0" top="20.0" />
                            </VBox.margin>
                         </Text>
-                        <TextField fx:id="inputUsername" prefWidth="455.0" promptText="Username">
+                        <TextField fx:id="inputUsername" onKeyPressed="#keyPressed" prefWidth="455.0" promptText="Username">
                            <VBox.margin>
                               <Insets bottom="10.0" left="50.0" right="50.0" />
                            </VBox.margin>
@@ -46,7 +46,7 @@
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <PasswordField fx:id="inputPassword" promptText="Password">
+                        <PasswordField fx:id="inputPassword" onKeyPressed="#keyPressed" promptText="Password">
                            <VBox.margin>
                               <Insets bottom="10.0" left="50.0" right="50.0" />
                            </VBox.margin>
@@ -58,7 +58,7 @@
                            <font>
                               <Font size="14.0" />
                            </font></Button>
-                        <Text fx:id="errorMessage" fill="#ff6d6d" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid username or password">
+                        <Text fx:id="errorMessage" fill="#ff6d6d" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid username or password" visible="false">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
