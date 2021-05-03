@@ -24,6 +24,12 @@ import java.util.ResourceBundle;
 public class SearchController implements Initializable {
 
     @FXML
+    private Button usersButton;
+
+    @FXML
+    private Button loginButton;
+
+    @FXML
     private TableColumn<Production, Long> IDColumn;
 
     @FXML
@@ -42,8 +48,6 @@ public class SearchController implements Initializable {
     private Button removeProductionButton, addProductionButton;
 
     private ObservableList<Production> productionObservableList;
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -74,6 +78,39 @@ public class SearchController implements Initializable {
 
         productionObservableList = FXCollections.observableList(productions);
         productionsTable.setItems(productionObservableList);
+    }
+
+    @FXML
+    void openUsers(MouseEvent event) {
+        UIManager.changeScene(UIManager.getUsersScene());
+    }
+
+    @FXML
+    void toggleLogin(MouseEvent event) {
+        if (DomainFacade.getCurrentUser() != null){
+            changeToLoggedOut();
+            UIManager.getProductionController().setAdminToolsVisibility(false);
+        }
+
+        goToLogin();
+    }
+
+    private void goToLogin(){
+        UIManager.changeScene(UIManager.getLoginScene());
+    }
+
+    public void changeToLoggedOut(){
+        usersButton.setVisible(false);
+        loginButton.setText("Login");
+        DomainFacade.logout();
+        UIManager.getSearchController().setAdminToolsVisibility(false);
+    }
+
+    public void changeToLoggedIn(){
+        if (DomainFacade.getCurrentUser().isSysAdmin()) {
+            usersButton.setVisible(true);
+        }
+        loginButton.setText("Logout");
     }
 
     @FXML
@@ -145,7 +182,7 @@ public class SearchController implements Initializable {
 
     @FXML
     void returnToStartup(MouseEvent event) {
-        UIManager.changeScene(UIManager.getStartupScene());
+        UIManager.changeScene(UIManager.getSearchScene());
     }
 
     @FXML
