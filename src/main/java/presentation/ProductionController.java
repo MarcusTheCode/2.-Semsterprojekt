@@ -14,12 +14,16 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ProductionController implements Initializable {
+
+    @FXML
+    private Text productionTitle;
 
     @FXML
     private Button addEntry;
@@ -73,6 +77,8 @@ public class ProductionController implements Initializable {
 
     public void loadProduction(long ID) {
         this.currentProduction = DomainFacade.getProduction(ID);
+
+        productionTitle.setText(currentProduction.getTitle());
         ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();
         castMemberObservableList = FXCollections.observableArrayList(castMemberArrayList);
         castMembers.setItems(castMemberObservableList);
