@@ -30,9 +30,6 @@ public class ProductionController implements Initializable {
     @FXML
     private Button saveEntry;
 
-    @FXML
-    private TextArea metaData;
-
     private Production currentProduction;
 
     private ObservableList<CastMember> castMemberObservableList;
@@ -78,7 +75,6 @@ public class ProductionController implements Initializable {
         this.currentProduction = DomainFacade.getProduction(ID);
         ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();
         castMemberObservableList = FXCollections.observableArrayList(castMemberArrayList);
-        metaData.setText(this.currentProduction.getMetaData());
         castMembers.setItems(castMemberObservableList);
     }
 
