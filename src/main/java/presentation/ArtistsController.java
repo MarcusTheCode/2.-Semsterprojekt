@@ -20,11 +20,12 @@ public class ArtistsController implements Initializable {
 
     private ObservableList<SuperUser> usersObservableList;
 
+    // TODO: Change to Artist instead of SuperUser
     @FXML
     private TableView<SuperUser> superUsers;
 
     @FXML
-    private TableColumn<SuperUser, Long> idColumn;
+    private TableColumn<SuperUser, Integer> idColumn;
 
     @FXML
     private TableColumn<SuperUser, String> nameColumn;
@@ -37,9 +38,9 @@ public class ArtistsController implements Initializable {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        usersObservableList = FXCollections.observableArrayList(DomainFacade.getUsers());
+        //usersObservableList = FXCollections.observableArrayList(DomainFacade.getArtists());
 
-        superUsers.setItems(usersObservableList);
+        //superUsers.setItems(usersObservableList);
     }
 
     @FXML
@@ -49,9 +50,7 @@ public class ArtistsController implements Initializable {
 
     @FXML
     void addArtist(MouseEvent event) {
-        if (true) return;
-        SuperUser user = DomainFacade.createUser("password1234", "Name", false);
-        usersObservableList.add(user);
+        UIManager.changeScene(UIManager.getArtistScene());
     }
 
     @FXML

@@ -35,14 +35,18 @@ public class ArtistController implements Initializable {
 
     @FXML
     void saveArtist(MouseEvent event) {
-
+        createArtist(name.getText());
     }
 
     @FXML
     void enterName(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER);
         {
-            name.getText();
+            createArtist(name.getText());
         }
+    }
+
+    void createArtist(String artistName) {
+        //DomainFacade.createArtist(artistName);
     }
 }
