@@ -1,5 +1,6 @@
 package presentation;
 
+import domain.CastMember;
 import domain.DomainFacade;
 import domain.SuperUser;
 import javafx.collections.FXCollections;
@@ -18,17 +19,17 @@ import java.util.ResourceBundle;
 
 public class ArtistsController implements Initializable {
 
-    private ObservableList<SuperUser> usersObservableList;
+    private ObservableList<CastMember> artistsObservableList;
 
     // TODO: Change to Artist instead of SuperUser
     @FXML
-    private TableView<SuperUser> superUsers;
+    private TableView<CastMember> artists;
 
     @FXML
-    private TableColumn<SuperUser, Integer> idColumn;
+    private TableColumn<CastMember, Integer> idColumn;
 
     @FXML
-    private TableColumn<SuperUser, String> nameColumn;
+    private TableColumn<CastMember, String> nameColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -38,9 +39,9 @@ public class ArtistsController implements Initializable {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        //usersObservableList = FXCollections.observableArrayList(DomainFacade.getArtists());
+        //artistsObservableList = FXCollections.observableArrayList(DomainFacade.getArtists());
 
-        //superUsers.setItems(usersObservableList);
+        //superUsers.setItems(artists);
     }
 
     @FXML
@@ -55,14 +56,14 @@ public class ArtistsController implements Initializable {
 
     @FXML
     void deleteArtist(MouseEvent event) {
-        int index = superUsers.getSelectionModel().getFocusedIndex();
-        long userID = usersObservableList.get(index).getId();
+        int index = artists.getSelectionModel().getFocusedIndex();
+        long userID = artistsObservableList.get(index).getId();
 
-        if (usersObservableList.get(index).getId() == 6){
+        if (artistsObservableList.get(index).getId() == 6){
             return;
         }
 
-        usersObservableList.remove(index);
+        artistsObservableList.remove(index);
 
         DomainFacade.deleteSuperUser(userID);
     }
