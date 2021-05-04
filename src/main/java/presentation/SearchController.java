@@ -140,7 +140,7 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void commitOwnerIDchange(TableColumn.CellEditEvent<Production, Long> event) {
+    void commitOwnerIDchange(TableColumn.CellEditEvent<Production, Integer> event) {
         int row = event.getTablePosition().getRow();
         Production production = event.getTableView().getItems().get(row);
         production.setOwnerID(event.getNewValue());

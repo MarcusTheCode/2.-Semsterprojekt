@@ -5,10 +5,10 @@ import java.io.Serializable;
 public class SuperUser implements Serializable {
     String password;
     String username;
-    long id;
+    int id;
     boolean sysAdmin;
 
-    public SuperUser(long id, String password, String username, boolean sysAdmin) {
+    public SuperUser(int id, String password, String username, boolean sysAdmin) {
         this.id = id;
         this.password = password;
         this.username = username;
@@ -27,7 +27,7 @@ public class SuperUser implements Serializable {
         this.sysAdmin = sysAdmin;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
     public String getUsername() { return username;}
