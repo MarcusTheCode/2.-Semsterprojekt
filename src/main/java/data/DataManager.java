@@ -174,6 +174,7 @@ public class DataManager {
         return null;
     }
 
+    // in DatabaseManager
     public boolean deleteSuperUser(long userID) {
         try {
             ArrayList<SuperUser> superUsers = new ArrayList<>();
