@@ -46,6 +46,7 @@ public class DatabaseManager {
         return connection;
     }
 
+    // insert methods
     public boolean insertPrduction(Production production){
             try {
 
@@ -117,24 +118,6 @@ public class DatabaseManager {
         return false;
     }
 
-    public int getCategoryID(Production production){
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT getCategoryID(?)");
-            ps.setString(1,production.getCategory().toLowerCase());
-            ResultSet set = ps.executeQuery();
-            if (set.next()){
-                return set.getInt(1);
-            }else{
-                return insertCategory(production);
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return -1;
-    }
-
-
     public int insertCategory(Production production){
         try {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO categories (name) VALUES (?)");
@@ -146,5 +129,84 @@ public class DatabaseManager {
         }
         return getCategoryID(production);
     }
+
+    // read methods
+
+    public Production loadProduction(int productionID){
+        try{
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM productions WHERE productions.id = ?");
+            ps.setInt(1,productionID);
+            ResultSet resultSet = ps.executeQuery();
+            return new Production(
+                    resultSet.getInt(2),
+                    resultSet.getInt(5),
+                    resultSet.getLong(6),
+                    resultSet.getInt(1),
+                    resultSet.getString(7),
+                    getCategoryID(resultSet.getInt(4)));
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public SuperUser loadSuperUser(int usrID){
+        try{
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.id = ?");
+            ps.setInt(1,usrID);
+            ResultSet resultSet = ps.executeQuery();
+            return new SuperUser(
+                    resultSet.getInt(1),
+                    resultSet.getString(4),
+                    resultSet.getString(3),
+                    resultSet.getBoolean(2));
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean deleteSuperUser(long userID){
+        try{
+            PreparedStatement ps = connection.prepareStatement("DELETE * FROM superUsers WHERE superUsers.id = ?");
+            ps.setInt(1,(int)userID);
+        }catch (SQLException e){
+
+        }
+    }
+
+
+
+    // get methods
+    public int getCategoryID(Production production){
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT getCategoryID(?)");
+            ps.setString(1,production.getCategory().toLowerCase());
+            ResultSet set = ps.executeQuery();
+            if (set.next()){
+                return set.getInt(1);
+            }else{
+                return insertCategory(production);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return -1;
+    }
+
+    public String getCategoryID(int id){
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT categories.id FROM categories " +
+                    "WHERE categories.id = ?");
+            ps.setInt(1,id);
+            ResultSet set = ps.executeQuery();
+            return set.getString(1);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
+
 
 }
