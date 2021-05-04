@@ -29,8 +29,8 @@ public class DataManager {
         return serialUserID;
     }
 
-    public long calculateSerialProductionID() {
-        long serialProductionID = 0;
+    public int calculateSerialProductionID() {
+        int serialProductionID = 0;
         ArrayList<Production> productions = loadAllProductions();
         for (Production production : productions) {
             if (production.getId() > serialProductionID)
@@ -60,6 +60,7 @@ public class DataManager {
         reWrite(productions);
     }
 
+    // in databasemanager
     private boolean write(Production production){
         try {
             FileOutputStream fStream = new FileOutputStream(productionsFile);
@@ -72,6 +73,7 @@ public class DataManager {
             return false;
         }
     }
+
 
     private boolean reWrite(ArrayList<Production> productions){
         try {
@@ -101,6 +103,7 @@ public class DataManager {
         }
     }
 
+    // in databaseManager
     public Production loadProduction(long proID) {
         try {
             objectInputStream = new ObjectInputStream(new FileInputStream(productionsFile));
@@ -117,6 +120,7 @@ public class DataManager {
         return null;
     }
 
+    // in migration
     public ArrayList<Production> loadAllProductions() {
         ArrayList<Production> productionArrayList = new ArrayList<>();
         try {

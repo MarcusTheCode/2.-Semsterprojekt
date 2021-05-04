@@ -6,13 +6,7 @@ public class System {
 
     private static SuperUser currentUser;
 
-    private long serialUserID;
-    private long serialProductionID;
-
     public System() {
-        serialUserID = DataFacade.calculateSerialUserID();
-        serialProductionID = DataFacade.calculateSerialProductionID();
-
         //SuperUser user = new SuperUser(0, "pass123", "Ikke Albert", true);
         //DataInterface.saveSuperUser(user);
 
@@ -20,9 +14,8 @@ public class System {
         //java.lang.System.out.println(user);
     }
 
-    public Production createProduction(long ownerID, String title, String category) {
-        serialProductionID++;
-        Production production = new Production(ownerID, serialProductionID, title, category);
+    public Production createProduction(int ownerID, String title, String category) {
+        Production production = new Production(ownerID, 0, title, category);
         saveProduction(production);
         return production;
     }
@@ -49,13 +42,12 @@ public class System {
         }
     }
 
-    public Production getProduction(long ID) {
+    public Production getProduction(int ID) {
         return DataFacade.getProduction(ID);
     }
 
     public SuperUser createUser(String password, String username, boolean sysAdmin) {
-        serialUserID++;
-        SuperUser user = new SuperUser(serialUserID, password, username, sysAdmin);
+        SuperUser user = new SuperUser(0, password, username, sysAdmin);
         saveSuperUser(user);
         return user;
     }
@@ -64,7 +56,7 @@ public class System {
         DataFacade.saveSuperUser(superUser);
     }
 
-    public void deleteSuperUser(long userID) {
+    public void deleteSuperUser(int userID) {
         DataFacade.deleteSuperUser(userID);
     }
 

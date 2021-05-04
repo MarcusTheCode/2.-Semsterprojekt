@@ -18,7 +18,7 @@ CREATE TABLE genres (
 
 CREATE TABLE series (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(100) NOT NULL,
 );
 
 CREATE TABLE seasons (
@@ -62,12 +62,40 @@ CREATE TABLE castMembers (
 
 
 -- load test data
-INSERT INTO categories(name) VALUES ('Comedy');
-INSERT INTO categories(name) VALUES ('Drama');
-INSERT INTO categories(name) VALUES ('Action');
-INSERT INTO categories(name) VALUES ('Fantasy');
+INSERT INTO categories(name) VALUES ('news');
+INSERT INTO categories(name) VALUES ('documentary');
+INSERT INTO categories(name) VALUES ('whether');
+INSERT INTO categories(name) VALUES ('entertainment');
 
+INSERT INTO genres(name) VALUES ('fantasy');
+INSERT INTO genres(name) VALUES ('comedy');
+INSERT INTO genres(name) VALUES ('sci-fi');
+INSERT INTO genres(name) VALUES ('action');
+INSERT INTO genres(name) VALUES ('horror');
+INSERT INTO genres(name) VALUES ('adventure');
 
+INSERT INTO series(name) VALUES('suits');
+INSERT INTO series(name) VALUES('lucifer');
+INSERT INTO series(name) VALUES('cursed');
+INSERT INTO series(name) VALUES('after life');
+
+INSERT INTO seasons(seasonnumber, seriesid) VALUES(1,1);
+INSERT INTO seasons(seasonnumber, seriesid) VALUES(1,2);
+
+INSERT INTO superUsers(isAdmin, userName, password) VALUES (TRUE,'admin','admin');
+INSERT INTO superUsers(isAdmin, userName, password) VALUES (false,'poul','1234');
+INSERT INTO superUsers(isAdmin, userName, password) VALUES (false,'john','1234');
+
+INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
+VALUES(1,'tv-series',4,1,2,'pilot part 1 & 2');
+INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
+VALUES(2,'tv-series',4,1,2,'errors and omissions');
+INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
+VALUES (1,'tv-series',4,2,3,'pilotepisode');
+INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
+VALUES (2,'tv-series',4,2,3,'lucifer, stay. good devil.');
+INSERT INTO productions(episodeNumber, type, categoryID, producerID, productionTitle)
+VALUES (1,'movie',4,3,'bee movie');
 
 -- getCategoryID
 CREATE OR REPLACE FUNCTION getCategoryID(nameVal VARCHAR (50))
@@ -80,3 +108,122 @@ BEGIN
     RETURN categoryID;
 END
 $categoryID$ LANGUAGE plpgsql;
+
+-- getGenreID
+CREATE OR REPLACE FUNCTION getGenreID(nameVal VARCHAR (50))
+    RETURNS INTEGER AS $genreID$
+DECLARE
+    genreID INTEGER;
+BEGIN
+    SELECT genres.id INTO genreID FROM genres
+    WHERE genres.name = nameVal;
+    RETURN genreID;
+END
+$genreID$ LANGUAGE plpgsql;
+
+-- getSeasonID
+CREATE OR REPLACE FUNCTION getSeasonID(nameVal VARCHAR (50))
+    RETURNS INTEGER AS $seasonID$
+DECLARE
+    seasonID INTEGER;
+BEGIN
+    SELECT seasons.id INTO seasonID FROM seasons
+    WHERE seasons.name = nameVal;
+    RETURN seasonID;
+END
+$seasonID$ LANGUAGE plpgsql;
+
+-- getSeriesID
+
+CREATE OR REPLACE FUNCTION getSeriesID(nameVal VARCHAR (50))
+    RETURNS INTEGER AS $seriesID$
+DECLARE
+    seriesID INTEGER;
+BEGIN
+    SELECT series.id INTO seriesID FROM series
+    WHERE series.name = nameVal;
+    RETURN seriesID;
+END
+$seriesID$ LANGUAGE plpgsql;
+
+-- getArtistID
+
+CREATE OR REPLACE FUNCTION getArtistID(nameVal VARCHAR (50))
+    RETURNS INTEGER AS $artistID$
+DECLARE
+    artistID INTEGER;
+BEGIN
+    SELECT artists.id INTO artistID FROM artists
+    WHERE artists.name = nameVal;
+    RETURN artistID;
+END
+$artistID$ LANGUAGE plpgsql;
+
+-- getProductionID
+
+CREATE OR REPLACE FUNCTION getProductionID(nameVal VARCHAR (50))
+    RETURNS INTEGER AS $productionID$
+DECLARE
+    productionID INTEGER;
+BEGIN
+    SELECT productions.id INTO productionID FROM productions
+    WHERE productions.name = nameVal;
+    RETURN productionID;
+END
+$productionID$ LANGUAGE plpgsql;
+
+-- getSuperUserID
+
+CREATE OR REPLACE FUNCTION getSuperUserID(nameVal VARCHAR (50))
+    RETURNS INTEGER AS $superUserID$
+DECLARE
+    superUserID INTEGER;
+BEGIN
+    SELECT superUsers.id INTO superUserID FROM superUsers
+    WHERE superUsers.name = nameVal;
+    RETURN superUserID;
+END
+$superUserID$ LANGUAGE plpgsql;
+
+-- GUI data
+
+CREATE OR REPLACE FUNCTION getAllProductions()
+    RETURNS SETOF productions
+AS $$
+BEGIN
+    RETURN QUERY SELECT * FROM productions;
+end;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getAllProducerProductions(producerID INTEGER)
+    RETURNS SETOF productions AS $$
+BEGIN
+    RETURN QUERY SELECT * FROM productions
+    WHERE productions.producerID = productions.producerID;
+end;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getAllSuperUsers()
+    RETURNS SETOF superUsers
+AS $$
+BEGIN
+    RETURN QUERY SELECT * FROM superUsers;
+end;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getAllArtists()
+    RETURNS SETOF artists
+AS $$
+BEGIN
+    RETURN QUERY SELECT * FROM artists;
+end;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getCastMembers(productionIDVal INTEGER)
+    RETURNS TABLE (role VARCHAR(50), name VARCHAR(100)) AS $$
+BEGIN
+    RETURN QUERY SELECT castMembers.role, artists.name FROM castMembers
+    LEFT JOIN artists ON castMembers.artistID = artists.id;
+end;
+$$ LANGUAGE plpgsql;
+

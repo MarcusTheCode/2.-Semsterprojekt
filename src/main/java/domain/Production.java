@@ -2,32 +2,57 @@ package domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Production implements Serializable {
-    long id;
+    int id;
     String title;
     String category;
     ArrayList<CastMember> castMembers;
-    long ownerID;
-    private int episodeNumber;
+    int ownerID;
+    private Integer episodeNumber;
     private String type;
-    private int categoryID;
-    private int seasonsID;
-    private int producerID;
+    private Integer categoryID;
+    private Integer seasonsID;
+    private Integer producerID;
+    private ArrayList<String> genres;
 
-    public Production(long ownerID) {
+    public Production(int ownerID) {
         this.ownerID = ownerID;
         this.category = "category";
         this.title = "title";
         castMembers = new ArrayList<>();
+        genres = new ArrayList<>();
     }
 
-    public Production(long ownerID, long id, String title, String category) {
+    //Movies
+    public Production(int ownerID, int productionID, String title, String category) {
         this.ownerID = ownerID;
         this.category = category;
-        this.id = id;
+        this.id = productionID;
         this.title = title;
         castMembers = new ArrayList<>();
+        genres = new ArrayList<>();
+    }
+
+    //Tv-Series
+    public Production(int episodeNumber, int seasonsID, int producerID, int productionID, String title, String category) {
+        this.ownerID = producerID;
+        this.category = category;
+        this.id = productionID;
+        this.title = title;
+        this.episodeNumber = episodeNumber;
+        this.seasonsID = seasonsID;
+        castMembers = new ArrayList<>();
+        genres = new ArrayList<>();
+    }
+
+    public ArrayList<String> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(ArrayList<String> genres) {
+        this.genres = genres;
     }
 
     public void addCastMember(CastMember castMember) {
@@ -46,11 +71,11 @@ public class Production implements Serializable {
         this.castMembers = castMembers;
     }
 
-    public void setID(long ID) {
+    public void setID(int ID) {
         this.id = ID;
     }
 
-    public void setOwnerID(long ownerID) {
+    public void setOwnerID(int ownerID) {
         this.ownerID = ownerID;
     }
 
@@ -66,7 +91,7 @@ public class Production implements Serializable {
         this.category = category;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -84,7 +109,7 @@ public class Production implements Serializable {
     }
 
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -24,7 +24,7 @@ public class UsersController implements Initializable {
     private TableView<SuperUser> superUsers;
 
     @FXML
-    private TableColumn<SuperUser, Long> idColumn;
+    private TableColumn<SuperUser, Integer> idColumn;
 
     @FXML
     private TableColumn<SuperUser, String> nameColumn;
@@ -69,7 +69,7 @@ public class UsersController implements Initializable {
     @FXML
     void deleteSuperUser(MouseEvent event) {
         int index = superUsers.getSelectionModel().getFocusedIndex();
-        long userID = usersObservableList.get(index).getId();
+        int userID = usersObservableList.get(index).getId();
 
         if (usersObservableList.get(index).getId() == 6){
             return;
