@@ -26,10 +26,10 @@ public class Production implements Serializable {
     }
 
     //Movies
-    public Production(long ownerID, int id, String title, String category) {
+    public Production(long ownerID, int productionID, String title, String category) {
         this.ownerID = ownerID;
         this.category = category;
-        this.id = id;
+        this.id = productionID;
         this.title = title;
         castMembers = new ArrayList<>();
         genres = new ArrayList<>();

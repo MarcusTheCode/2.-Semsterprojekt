@@ -19,7 +19,6 @@ CREATE TABLE genres (
 CREATE TABLE series (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    seasonsCount INTEGER
 );
 
 CREATE TABLE seasons (
@@ -63,12 +62,39 @@ CREATE TABLE castMembers (
 
 
 -- load test data
-INSERT INTO categories(name) VALUES ('News');
-INSERT INTO categories(name) VALUES ('Movie');
-INSERT INTO categories(name) VALUES ('Whether');
-INSERT INTO categories(name) VALUES ('Fantasy');
+INSERT INTO categories(name) VALUES ('news');
+INSERT INTO categories(name) VALUES ('documentary');
+INSERT INTO categories(name) VALUES ('whether');
+INSERT INTO categories(name) VALUES ('entertainment');
 
+INSERT INTO genres(name) VALUES ('fantasy');
+INSERT INTO genres(name) VALUES ('comedy');
+INSERT INTO genres(name) VALUES ('sci-fi');
+INSERT INTO genres(name) VALUES ('action');
+INSERT INTO genres(name) VALUES ('horror');
+INSERT INTO genres(name) VALUES ('adventure');
 
+INSERT INTO series(name) VALUES('suits');
+INSERT INTO series(name) VALUES('lucifer');
+INSERT INTO series(name) VALUES('cursed');
+INSERT INTO series(name) VALUES('after life');
+
+INSERT INTO seasons(seasonnumber, seriesid) VALUES(1,1);
+INSERT INTO seasons(seasonnumber, seriesid) VALUES(2,1);
+INSERT INTO seasons(seasonnumber, seriesid) VALUES(1,2);
+
+INSERT INTO superUsers(isAdmin, userName, password) VALUES (TRUE,'admin','admin');
+INSERT INTO superUsers(isAdmin, userName, password) VALUES (false,'poul','1234');
+INSERT INTO superUsers(isAdmin, userName, password) VALUES (false,'john','1234');
+
+INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
+VALUES(1,'tv-series',4,1,2,'pilot part 1 & 2');
+INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
+VALUES(2,'tv-series',4,2,2,'errors and omissions');
+INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
+VALUES (1,'tv-series',4,3,3,'pilotepisode');
+INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
+VALUES (2,'tv-series',4,3,3,'pilotepisode');
 
 -- getCategoryID
 CREATE OR REPLACE FUNCTION getCategoryID(nameVal VARCHAR (50))

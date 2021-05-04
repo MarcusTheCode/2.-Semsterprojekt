@@ -79,18 +79,6 @@ public class DatabaseManager {
         return false;
     }
 
-    public boolean insertGenre(String name){
-        try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO genres(name)+" +
-                    "VALUES(?)");
-            ps.setString(1,name);
-            return ps.execute();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return false;
-    }
-
     public boolean insertSeries(String name){
         try {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO series(name)+" +
@@ -103,13 +91,25 @@ public class DatabaseManager {
         return false;
     }
 
-    public boolean insertGenre(Production production, int genreID){
+    //TODO: Optimize method
+    public boolean insertProductionGenre(Production production, int genreID){
         try {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO productionGenres(productionID,genreID)+" +
                     "VALUES(?,?)");
             ps.setInt(1,production.getId());
             ps.setInt(2, genreID);
 
+            return ps.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean insertGenre(Production production){
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO genres (name) VALUES (?)");
+            ps.setArray(1, connection.createArrayOf("String",production.getGenres().toArray()));
             return ps.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -134,17 +134,6 @@ public class DatabaseManager {
         return -1;
     }
 
-    public int insertGenre(Production production){
-        try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO genres (name) VALUES (?)");
-            ps.setArray(1, connection.createArrayOf("String",production.getGenres().toArray()));
-            ps.execute();
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return getCategoryID(production);
-    }
 
     public int insertCategory(Production production){
         try {
