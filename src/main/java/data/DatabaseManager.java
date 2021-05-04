@@ -142,7 +142,7 @@ public class DatabaseManager {
             return new Production(
                     resultSet.getInt(2),
                     resultSet.getInt(5),
-                    resultSet.getLong(6),
+                    resultSet.getInt(6),
                     resultSet.getInt(1),
                     resultSet.getString(7),
                     getCategoryID(resultSet.getInt(4)));
@@ -168,10 +168,10 @@ public class DatabaseManager {
         return null;
     }
 
-    public boolean deleteSuperUser(long userID){
+    public boolean deleteSuperUser(int userID){
         try{
             PreparedStatement ps = connection.prepareStatement("DELETE * FROM superUsers WHERE superUsers.id = ?");
-            ps.setInt(1,(int)userID);
+            ps.setInt(1, userID);
         }catch (SQLException e){
 
         }
@@ -234,10 +234,6 @@ public class DatabaseManager {
     public ArrayList<SuperUser> getSuperUsers() {
         // TODO: Implement
         return null;
-    }
-
-    public void deleteSuperUser(int ID) {
-        // TODO: Implement
     }
 
     public SuperUser checkIfUserExists(String username, String password) {
