@@ -60,6 +60,7 @@ public class DataManager {
         reWrite(productions);
     }
 
+    // in databasemanager
     private boolean write(Production production){
         try {
             FileOutputStream fStream = new FileOutputStream(productionsFile);
@@ -72,6 +73,7 @@ public class DataManager {
             return false;
         }
     }
+
 
     private boolean reWrite(ArrayList<Production> productions){
         try {
@@ -101,6 +103,7 @@ public class DataManager {
         }
     }
 
+    // in databaseManager
     public Production loadProduction(long proID) {
         try {
             objectInputStream = new ObjectInputStream(new FileInputStream(productionsFile));
@@ -117,6 +120,7 @@ public class DataManager {
         return null;
     }
 
+    // in migration
     public ArrayList<Production> loadAllProductions() {
         ArrayList<Production> productionArrayList = new ArrayList<>();
         try {
@@ -170,6 +174,7 @@ public class DataManager {
         return null;
     }
 
+    // in DatabaseManager
     public boolean deleteSuperUser(long userID) {
         try {
             ArrayList<SuperUser> superUsers = new ArrayList<>();

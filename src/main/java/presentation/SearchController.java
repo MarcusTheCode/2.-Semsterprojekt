@@ -14,6 +14,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.util.converter.LongStringConverter;
 import javafx.scene.control.Button;
 
@@ -24,10 +25,16 @@ import java.util.ResourceBundle;
 public class SearchController implements Initializable {
 
     @FXML
+    private HBox loginHBox;
+
+    @FXML
     private Button usersButton;
 
     @FXML
     private Button loginButton;
+
+    @FXML
+    private TableView<Production> productionsTable;
 
     @FXML
     private TableColumn<Production, String> titleColumn;
@@ -36,20 +43,20 @@ public class SearchController implements Initializable {
     private TableColumn<Production, String> categoryColumn;
 
     @FXML
-    private TableView<Production> productionsTable;
+    private Button addProductionButton;
 
     @FXML
-    private Button removeProductionButton, addProductionButton;
+    private Button removeProductionButton;
 
     private ObservableList<Production> productionObservableList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        titleColumn.setCellValueFactory(new PropertyValueFactory<Production, String>("title"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         titleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        categoryColumn.setCellValueFactory(new PropertyValueFactory<Production, String>("category"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         categoryColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
 
@@ -140,7 +147,7 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void commitOwnerIDchange(TableColumn.CellEditEvent<Production, Long> event) {
+    void commitOwnerIDchange(TableColumn.CellEditEvent<Production, Integer> event) {
         int row = event.getTablePosition().getRow();
         Production production = event.getTableView().getItems().get(row);
         production.setOwnerID(event.getNewValue());

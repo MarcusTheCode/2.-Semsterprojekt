@@ -26,7 +26,7 @@ public class DomainFacade {
         }
     }
 
-    public static Production getProduction(long ID){
+    public static Production getProduction(int ID){
         return system.getProduction(ID);
     }
 
@@ -51,17 +51,12 @@ public class DomainFacade {
         return system.createUser(password, username, sysAdmin);
     }
 
-    public static void saveUser(SuperUser user) {
-        DataFacade.saveSuperUser(user);
+    public static void editUser(SuperUser superUser) {
+        // TODO: Implement
     }
 
-    public static void editUser(SuperUser user) {
-        deleteSuperUser(user.getId());
-        saveUser(user);
-    }
-
-    public static void deleteSuperUser(long userID) {
-        system.deleteSuperUser(userID);
+    public static void deleteSuperUser(int ID) {
+        DataFacade.deleteSuperUser(ID);
     }
 
     public static boolean login(String inputUsername, String inputPassword) {
