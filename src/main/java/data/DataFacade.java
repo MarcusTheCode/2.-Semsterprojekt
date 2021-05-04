@@ -7,54 +7,47 @@ import java.util.ArrayList;
 
 public class DataFacade {
 
-    private static DataManager dataManager = new DataManager();
+    private static DatabaseManager databaseManager = new DatabaseManager();
+    //private static DataManager dataManager = new DataManager();
 
-    public static Production getProduction(long ID){
-        return dataManager.loadProduction(ID);
+    public static Production getProduction(int ID){
+        return databaseManager.getProduction(ID);
     }
 
     public static void saveProduction(Production production) {
-        dataManager.saveProduction(production);
+        databaseManager.insertPrduction(production);
     }
 
-    public static void deleteProduction(long ID) {
-        dataManager.deleteProduction(ID);
+    public static void deleteProduction(int ID) {
+        databaseManager.deleteProduction(ID);
     }
 
     public static void editProduction(Production production){
-        dataManager.editProduction(production);
+        // TODO: Implement
+        //databaseManager.editProduction(production);
     }
 
-    public static long calculateSerialUserID() {
-        return dataManager.calculateSerialUserID();
-    }
-
-    public static int calculateSerialProductionID() {
-        return dataManager.calculateSerialProductionID();
-    }
-
-    public static SuperUser getSuperUser(long ID){
-        return dataManager.loadSuperUser(ID);
+    public static SuperUser getSuperUser(int ID){
+        return databaseManager.getSuperUser(ID);
     }
 
     public static void saveSuperUser(SuperUser superUser) {
-        dataManager.saveSuperUser(superUser);
+        databaseManager.insertSuperUser(superUser);
     }
 
-    public static void deleteSuperUser(long userID) {
-        dataManager.deleteSuperUser(userID);
+    public static void deleteSuperUser(int userID) {
+        databaseManager.deleteSuperUser(userID);
     }
 
     public static ArrayList<SuperUser> getUsers() {
-        return dataManager.loadSuperUsers();
+        return databaseManager.getSuperUsers();
     }
 
     public static SuperUser login(String inputUsername, String inputPassword) {
-        dataManager.checkIfUserExists(inputUsername, inputPassword);
-        return dataManager.checkIfUserExists(inputUsername, inputPassword);
+        return databaseManager.checkIfUserExists(inputUsername, inputPassword);
     }
 
     public static ArrayList<Production> loadAllProductions(){
-        return dataManager.loadAllProductions();
+        return databaseManager.getAllProductions();
     }
 }

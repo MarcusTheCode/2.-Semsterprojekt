@@ -21,6 +21,7 @@ public class LogInController {
 
     @FXML
     void returnToStartup(MouseEvent event) {
+        UIManager.getSearchController().loadProductions();
         UIManager.changeScene(UIManager.getSearchScene());
     }
 
@@ -39,6 +40,7 @@ public class LogInController {
         if (DomainFacade.login(inputUsername.getText(), inputPassword.getText())) {
             UIManager.changeScene(UIManager.getSearchScene());
 
+            UIManager.getSearchController().loadProductions();
             UIManager.getProductionController().setAdminToolsVisibility(true);
             UIManager.getSearchController().setAdminToolsVisibility(true);
             UIManager.getSearchController().changeToLoggedIn();
