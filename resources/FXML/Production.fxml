@@ -16,13 +16,12 @@
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="800.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="TOP_RIGHT">
+            <HBox alignment="TOP_RIGHT" prefHeight="113.0" prefWidth="1200.0">
                <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#returnToSearch" text="X">
+                  <Button mnemonicParsing="false" onMouseClicked="#returnToSearch" prefHeight="41.0" prefWidth="55.0" text="Return">
                      <HBox.margin>
-                        <Insets right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
+                        <Insets right="5.0" top="5.0" />
+                     </HBox.margin></Button>
                </children>
             </HBox>
             <Text fx:id="productionTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="[Title]" textAlignment="CENTER">

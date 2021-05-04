@@ -18,7 +18,7 @@
                <children>
                   <Button mnemonicParsing="false" onMouseClicked="#returnToStartup" prefHeight="41.0" prefWidth="55.0" text="Return">
                      <HBox.margin>
-                        <Insets right="10.0" top="10.0" />
+                        <Insets right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
                </children>
