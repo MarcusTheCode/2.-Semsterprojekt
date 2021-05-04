@@ -219,7 +219,7 @@ public class DatabaseManager {
 
     public ArrayList<Production> getAllProductions() {
         // TODO: Implement
-        return null;
+        return new ArrayList<>();
     }
 
     public void deleteProduction(int ID) {
@@ -233,7 +233,7 @@ public class DatabaseManager {
 
     public ArrayList<SuperUser> getSuperUsers() {
         // TODO: Implement
-        return null;
+        return new ArrayList<>();
     }
 
     public SuperUser checkIfUserExists(String username, String password) {

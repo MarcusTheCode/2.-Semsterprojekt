@@ -1,6 +1,8 @@
 #.idea folder
 /.idea
 
+/resources/TXT/DatabaseCredentials
+
 #build output
 /out
 /target
