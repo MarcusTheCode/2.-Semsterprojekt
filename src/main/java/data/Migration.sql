@@ -86,10 +86,10 @@ $categoryID$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION getGenreID(nameVal VARCHAR (50))
     RETURNS INTEGER AS $genreID$
 DECLARE
-genreID INTEGER;
+    genreID INTEGER;
 BEGIN
-SELECT genres.id INTO genreID FROM genres
-WHERE genres.name = nameVal;
-RETURN genreID;
+    SELECT genres.id INTO genreID FROM genres
+    WHERE genres.name = nameVal;
+    RETURN genreID;
 END
 $genreID$ LANGUAGE plpgsql;
