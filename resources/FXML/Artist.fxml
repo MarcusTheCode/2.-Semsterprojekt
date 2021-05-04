@@ -15,11 +15,10 @@
          <children>
             <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#returnToArtists" text="X">
+                  <Button mnemonicParsing="false" onMouseClicked="#returnToArtists" prefHeight="41.0" prefWidth="55.0" text="Return">
                      <HBox.margin>
-                        <Insets right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
+                        <Insets right="5.0" top="5.0" />
+                     </HBox.margin></Button>
                </children>
             </HBox>
             <Text fx:id="productionTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Create artist" textAlignment="CENTER" underline="true">
