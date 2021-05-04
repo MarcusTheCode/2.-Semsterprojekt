@@ -56,16 +56,12 @@ public class DomainFacade {
     }
 
     public static void editUser(SuperUser user) {
-        deleteUser(user.getId());
+        deleteSuperUser(user.getId());
         saveUser(user);
     }
 
-    public static void deleteUser(long id) {
-        DataFacade.deleteSuperUser(id);
-    }
-
-    public static System getSystem() {
-        return system;
+    public static void deleteSuperUser(long userID) {
+        system.deleteSuperUser(userID);
     }
 
     public static boolean login(String inputUsername, String inputPassword) {

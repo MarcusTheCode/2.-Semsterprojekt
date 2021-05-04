@@ -64,8 +64,8 @@ public class System {
         DataFacade.saveSuperUser(superUser);
     }
 
-    public void deleteSuperUser(long ID) {
-        DataFacade.deleteSuperUser(ID);
+    public void deleteSuperUser(long userID) {
+        DataFacade.deleteSuperUser(userID);
     }
 
     public SuperUser getCurrentUser() {

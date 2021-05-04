@@ -11,12 +11,11 @@ import javafx.stage.Stage;
 public class UIManager extends Application {
 
     private static Stage primaryStage;
-    private final int WIDTH = 600;
-    private final int HEIGHT = 400;
+    private final int WIDTH = 1200;
+    private final int HEIGHT = 800;
 
     private static SceneData loginSceneData;
     private static SceneData productionSceneData;
-    private static SceneData startupSceneData;
     private static SceneData searchSceneData;
     private static SceneData usersSceneData;
 
@@ -35,7 +34,6 @@ public class UIManager extends Application {
         try {
             loginSceneData = loadScene("../FXML/Login.fxml");
             productionSceneData = loadScene("../FXML/Production.fxml");
-            startupSceneData = loadScene("../FXML/Startup.fxml");
             searchSceneData = loadScene("../FXML/Search.fxml");
             usersSceneData = loadScene("../FXML/Users.fxml");
 
@@ -52,7 +50,8 @@ public class UIManager extends Application {
     public void start(Stage primaryStage) throws Exception {
         loadScenes();
 
-        primaryStage.setScene(startupSceneData.scene);
+        //primaryStage.setScene(startupSceneData.scene);
+        primaryStage.setScene(searchSceneData.scene);
         primaryStage.setTitle("Credit management system");
 
         this.primaryStage = primaryStage;
@@ -66,10 +65,6 @@ public class UIManager extends Application {
 
     public static Scene getProductionScene() {
         return productionSceneData.scene;
-    }
-
-    public static Scene getStartupScene() {
-        return startupSceneData.scene;
     }
 
     public static Scene getSearchScene() {
@@ -86,10 +81,6 @@ public class UIManager extends Application {
 
     public static ProductionController getProductionController() {
         return (ProductionController) productionSceneData.controller;
-    }
-
-    public static StartupController getStartupController() {
-        return (StartupController) startupSceneData.controller;
     }
 
     public static SearchController getSearchController() {
