@@ -93,3 +93,67 @@ BEGIN
     RETURN genreID;
 END
 $genreID$ LANGUAGE plpgsql;
+
+-- getSeasonID
+CREATE OR REPLACE FUNCTION getSeasonID(nameVal VARCHAR (50))
+    RETURNS INTEGER AS $seasonID$
+DECLARE
+    seasonID INTEGER;
+BEGIN
+    SELECT seasons.id INTO seasonID FROM seasons
+    WHERE seasons.name = nameVal;
+    RETURN seasonID;
+END
+$seasonID$ LANGUAGE plpgsql;
+
+-- getSeriesID
+
+CREATE OR REPLACE FUNCTION getSeriesID(nameVal VARCHAR (50))
+    RETURNS INTEGER AS $seriesID$
+DECLARE
+    seriesID INTEGER;
+BEGIN
+    SELECT series.id INTO seriesID FROM series
+    WHERE series.name = nameVal;
+    RETURN seriesID;
+END
+$seriesID$ LANGUAGE plpgsql;
+
+-- getArtistID
+
+CREATE OR REPLACE FUNCTION getArtistID(nameVal VARCHAR (50))
+    RETURNS INTEGER AS $artistID$
+DECLARE
+    artistID INTEGER;
+BEGIN
+    SELECT artists.id INTO artistID FROM artists
+    WHERE artists.name = nameVal;
+    RETURN artistID;
+END
+$artistID$ LANGUAGE plpgsql;
+
+-- getProductionID
+
+CREATE OR REPLACE FUNCTION getProductionID(nameVal VARCHAR (50))
+    RETURNS INTEGER AS $productionID$
+DECLARE
+    productionID INTEGER;
+BEGIN
+    SELECT productions.id INTO productionID FROM productions
+    WHERE productions.name = nameVal;
+    RETURN productionID;
+END
+$productionID$ LANGUAGE plpgsql;
+
+-- getSuperUserID
+
+CREATE OR REPLACE FUNCTION getSuperUserID(nameVal VARCHAR (50))
+    RETURNS INTEGER AS $superUserID$
+DECLARE
+    superUserID INTEGER;
+BEGIN
+    SELECT superUsers.id INTO superUserID FROM superUsers
+    WHERE superUsers.name = nameVal;
+    RETURN superUserID;
+END
+$superUserID$ LANGUAGE plpgsql;
