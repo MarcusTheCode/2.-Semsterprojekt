@@ -67,4 +67,3 @@ public class DomainFacade {
         return system.logout();
     }
 }
-
