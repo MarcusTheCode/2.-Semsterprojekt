@@ -2,11 +2,13 @@ package data;
 
 import domain.Production;
 import domain.SuperUser;
+import jdk.jshell.spi.ExecutionControl;
 
 import java.io.*;
 import java.lang.reflect.Array;
 import java.nio.Buffer;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DatabaseManager {
 
@@ -156,6 +158,39 @@ public class DatabaseManager {
             throwables.printStackTrace();
         }
         return getCategoryID(production);
+    }
+
+    public Production getProduction(int ID) {
+        // TODO: Implement
+        return null;
+    }
+
+    public ArrayList<Production> getAllProductions() {
+        // TODO: Implement
+        return null;
+    }
+
+    public void deleteProduction(int ID) {
+        // TODO: Implement
+    }
+
+    public SuperUser getSuperUser(int ID) {
+        // TODO: Implement
+        return null;
+    }
+
+    public ArrayList<SuperUser> getSuperUsers() {
+        // TODO: Implement
+        return null;
+    }
+
+    public void deleteSuperUser(int ID) {
+        // TODO: Implement
+    }
+
+    public SuperUser checkIfUserExists(String username, String password) {
+        // TODO: Implement
+        return null;
     }
 
 }

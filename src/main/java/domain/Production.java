@@ -9,7 +9,7 @@ public class Production implements Serializable {
     String title;
     String category;
     ArrayList<CastMember> castMembers;
-    long ownerID;
+    int ownerID;
     private Integer episodeNumber;
     private String type;
     private Integer categoryID;
@@ -17,7 +17,7 @@ public class Production implements Serializable {
     private Integer producerID;
     private ArrayList<String> genres;
 
-    public Production(long ownerID) {
+    public Production(int ownerID) {
         this.ownerID = ownerID;
         this.category = "category";
         this.title = "title";
@@ -26,7 +26,7 @@ public class Production implements Serializable {
     }
 
     //Movies
-    public Production(long ownerID, int id, String title, String category) {
+    public Production(int ownerID, int id, String title, String category) {
         this.ownerID = ownerID;
         this.category = category;
         this.id = id;
@@ -36,7 +36,7 @@ public class Production implements Serializable {
     }
 
     //Tv-Series
-    public Production(int episodeNumber, int seasonsID, long producerID, int productionID, String title, String category) {
+    public Production(int episodeNumber, int seasonsID, int producerID, int productionID, String title, String category) {
         this.ownerID = producerID;
         this.category = category;
         this.id = productionID;
@@ -75,7 +75,7 @@ public class Production implements Serializable {
         this.id = ID;
     }
 
-    public void setOwnerID(long ownerID) {
+    public void setOwnerID(int ownerID) {
         this.ownerID = ownerID;
     }
 

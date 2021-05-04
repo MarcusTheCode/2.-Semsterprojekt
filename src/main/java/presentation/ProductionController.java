@@ -78,7 +78,7 @@ public class ProductionController implements Initializable {
         UIManager.changeScene(UIManager.getSearchScene());
     }
 
-    public void loadProduction(long ID) {
+    public void loadProduction(int ID) {
         this.currentProduction = DomainFacade.getProduction(ID);
 
         productionTitle.setText(currentProduction.getTitle());
