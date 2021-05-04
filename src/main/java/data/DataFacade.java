@@ -29,7 +29,7 @@ public class DataFacade {
         return dataManager.calculateSerialUserID();
     }
 
-    public static long calculateSerialProductionID() {
+    public static int calculateSerialProductionID() {
         return dataManager.calculateSerialProductionID();
     }
 
