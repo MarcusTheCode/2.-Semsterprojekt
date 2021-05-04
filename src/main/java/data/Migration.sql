@@ -184,3 +184,41 @@ BEGIN
     RETURN superUserID;
 END
 $superUserID$ LANGUAGE plpgsql;
+
+-- GUI data
+
+CREATE OR REPLACE FUNCTION getAllProductions()
+    RETURNS SETOF productions
+AS $$
+BEGIN
+    RETURN QUERY SELECT * FROM productions;
+end;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getAllProducerProductions(producerID INTEGER)
+    RETURNS SETOF productions AS $$
+BEGIN
+    RETURN QUERY SELECT * FROM productions
+    WHERE productions.producerID = productions.producerID;
+end;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getAllArtists()
+    RETURNS SETOF artists
+AS $$
+BEGIN
+    RETURN QUERY SELECT * FROM artists;
+end;
+$$ LANGUAGE plpgsql;
+
+/*
+CREATE OR REPLACE FUNCTION getCastMembers(productionID INTEGER)
+    RETURNS SETOF(castMembers.role,artists.name)
+AS $$
+BEGIN
+    RETURN QUERY SELECT * FROM castMembers
+    WHERE castMembers.productionID = productionID;
+end;
+$$ LANGUAGE plpgsql;
+
+ */
