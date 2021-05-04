@@ -30,12 +30,6 @@ public class SearchController implements Initializable {
     private Button loginButton;
 
     @FXML
-    private TableColumn<Production, Long> IDColumn;
-
-    @FXML
-    private TableColumn<Production, Long> ownerIDColumn;
-
-    @FXML
     private TableColumn<Production, String> titleColumn;
 
     @FXML
@@ -51,11 +45,6 @@ public class SearchController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        IDColumn.setCellValueFactory(new PropertyValueFactory<Production, Long>("id"));
-        IDColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
-
-        ownerIDColumn.setCellValueFactory(new PropertyValueFactory<Production, Long>("ownerID"));
-        ownerIDColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
 
         titleColumn.setCellValueFactory(new PropertyValueFactory<Production, String>("title"));
         titleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -196,8 +185,6 @@ public class SearchController implements Initializable {
     public void setAdminToolsVisibility(boolean bool) {
         removeProductionButton.setVisible(bool);
         addProductionButton.setVisible(bool);
-        IDColumn.setEditable(bool);
-        ownerIDColumn.setEditable(bool);
         titleColumn.setEditable(bool);
         categoryColumn.setEditable(bool);
     }
