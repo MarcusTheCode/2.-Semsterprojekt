@@ -80,7 +80,6 @@ INSERT INTO series(name) VALUES('cursed');
 INSERT INTO series(name) VALUES('after life');
 
 INSERT INTO seasons(seasonnumber, seriesid) VALUES(1,1);
-INSERT INTO seasons(seasonnumber, seriesid) VALUES(2,1);
 INSERT INTO seasons(seasonnumber, seriesid) VALUES(1,2);
 
 INSERT INTO superUsers(isAdmin, userName, password) VALUES (TRUE,'admin','admin');
@@ -90,11 +89,13 @@ INSERT INTO superUsers(isAdmin, userName, password) VALUES (false,'john','1234')
 INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
 VALUES(1,'tv-series',4,1,2,'pilot part 1 & 2');
 INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
-VALUES(2,'tv-series',4,2,2,'errors and omissions');
+VALUES(2,'tv-series',4,1,2,'errors and omissions');
 INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
-VALUES (1,'tv-series',4,3,3,'pilotepisode');
+VALUES (1,'tv-series',4,2,3,'pilotepisode');
 INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
-VALUES (2,'tv-series',4,3,3,'pilotepisode');
+VALUES (2,'tv-series',4,2,3,'lucifer, stay. good devil.');
+INSERT INTO productions(episodeNumber, type, categoryID, producerID, productionTitle)
+VALUES (1,'movie',4,3,'bee movie');
 
 -- getCategoryID
 CREATE OR REPLACE FUNCTION getCategoryID(nameVal VARCHAR (50))
