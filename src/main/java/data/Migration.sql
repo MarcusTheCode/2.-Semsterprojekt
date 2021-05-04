@@ -211,14 +211,11 @@ BEGIN
 end;
 $$ LANGUAGE plpgsql;
 
-/*
-CREATE OR REPLACE FUNCTION getCastMembers(productionID INTEGER)
-    RETURNS SETOF(castMembers.role,artists.name)
-AS $$
+CREATE OR REPLACE FUNCTION getCastMembers(productionIDVal INTEGER)
+    RETURNS TABLE (role VARCHAR(50), name VARCHAR(100)) AS $$
 BEGIN
-    RETURN QUERY SELECT * FROM castMembers
-    WHERE castMembers.productionID = productionID;
+    RETURN QUERY SELECT castMembers.role, artists.name FROM castMembers
+    LEFT JOIN artists ON castMembers.artistID = artists.id;
 end;
 $$ LANGUAGE plpgsql;
 
- */
