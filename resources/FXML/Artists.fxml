@@ -10,19 +10,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.UsersController">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.ArtistsController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="800.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#returnToStartup" prefHeight="41.0" prefWidth="55.0" text="Return">
+                  <Button mnemonicParsing="false" onKeyPressed="#returnToStartup" prefHeight="41.0" prefWidth="55.0" text="Return">
                      <HBox.margin>
                         <Insets right="5.0" top="5.0" />
                      </HBox.margin></Button>
                </children>
             </HBox>
-            <Text fx:id="productionTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Users" textAlignment="CENTER" underline="true">
+            <Text fx:id="productionTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Artists" textAlignment="CENTER" underline="true">
                <font>
                   <Font size="36.0" />
                </font>
@@ -38,20 +38,18 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                <columns>
-                  <TableColumn fx:id="idColumn" editable="false" prefWidth="75.0" text="ID" />
-                  <TableColumn fx:id="nameColumn" onEditCommit="#commitNameChange" prefWidth="75.0" text="Username" />
-                  <TableColumn fx:id="passColumn" onEditCommit="#commitPassChange" prefWidth="75.0" text="Password" />
-                  <TableColumn fx:id="adminColumn" editable="false" onEditCommit="#commitAdminChange" prefWidth="75.0" text="IsSysAdmin" />
+                  <TableColumn fx:id="idColumn" editable="false" prefWidth="171.0" text="ID" />
+                  <TableColumn fx:id="nameColumn" onEditCommit="#commitNameChange" prefWidth="927.0" text="Name" />
                </columns>
             </TableView>
             <HBox prefHeight="25.0" prefWidth="648.0">
                <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#addEntry" text="Add user">
+                  <Button mnemonicParsing="false" onMouseClicked="#addArtist" text="Add artist">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onMouseClicked="#deleteSuperUser" text="Delete user">
+                  <Button mnemonicParsing="false" onMouseClicked="#deleteArtist" text="Delete artist">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
