@@ -203,6 +203,14 @@ BEGIN
 end;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION getAllSuperUsers()
+    RETURNS SETOF superUsers
+AS $$
+BEGIN
+    RETURN QUERY SELECT * FROM superUsers;
+end;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION getAllArtists()
     RETURNS SETOF artists
 AS $$
