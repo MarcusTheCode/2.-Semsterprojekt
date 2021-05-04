@@ -5,6 +5,7 @@ import domain.DomainFacade;
 import domain.Production;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -41,6 +42,18 @@ public class SearchController implements Initializable {
 
     @FXML
     private TableColumn<Production, String> categoryColumn;
+
+    @FXML
+    private TableColumn<?, ?> genreColumn;
+
+    @FXML
+    private TableColumn<?, ?> typeColumn;
+
+    @FXML
+    private TableColumn<?, ?> seasonColumn;
+
+    @FXML
+    private TableColumn<?, ?> episodeColumn;
 
     @FXML
     private Button addProductionButton;
@@ -144,6 +157,36 @@ public class SearchController implements Initializable {
         production.setID(event.getNewValue());
 
         DomainFacade.saveProduction(production);
+    }
+
+    @FXML
+    void commitCategoryChange(ActionEvent event) {
+
+    }
+
+    @FXML
+    void commitEpisodeChange(ActionEvent event) {
+
+    }
+
+    @FXML
+    void commitGenreChange(ActionEvent event) {
+
+    }
+
+    @FXML
+    void commitSeasonChange(ActionEvent event) {
+
+    }
+
+    @FXML
+    void commitTitleChange(ActionEvent event) {
+
+    }
+
+    @FXML
+    void commitTypeChange(ActionEvent event) {
+
     }
 
     @FXML
