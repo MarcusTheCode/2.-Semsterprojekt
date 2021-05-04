@@ -7,6 +7,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 public class LogInController {
     @FXML
@@ -16,15 +17,15 @@ public class LogInController {
     private TextField inputPassword;
 
     @FXML
-    private Pane loginFail;
+    private Text errorMessage;
 
     @FXML
     void returnToStartup(MouseEvent event) {
-        UIManager.changeScene(UIManager.getStartupScene());
+        UIManager.changeScene(UIManager.getSearchScene());
     }
 
     @FXML
-    void usrPassTekstFieldKeyPressed(KeyEvent event) {
+    void keyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER){
             loginUser();
         }
@@ -36,17 +37,18 @@ public class LogInController {
 
     private void loginUser() {
         if (DomainFacade.login(inputUsername.getText(), inputPassword.getText())) {
-            UIManager.changeScene(UIManager.getStartupScene());
+            UIManager.changeScene(UIManager.getSearchScene());
 
             UIManager.getProductionController().setAdminToolsVisibility(true);
             UIManager.getSearchController().setAdminToolsVisibility(true);
-            UIManager.getStartupController().changeToLoggedIn();
+            UIManager.getSearchController().changeToLoggedIn();
+            hideErrorMessage();
         } else {
-            loginFail.setVisible(true);
+            errorMessage.setVisible(true);
         }
     }
 
-    public void hideErrorWindow(MouseEvent event) {
-        loginFail.setVisible(false);
+    public void hideErrorMessage(){
+        errorMessage.setVisible(false);
     }
 }

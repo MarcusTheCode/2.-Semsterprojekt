@@ -40,7 +40,8 @@ CREATE TABLE productions (
     type VARCHAR(50) NOT NULL,
     categoryID INTEGER REFERENCES categories(id),
     seasonID INTEGER REFERENCES seasons(id),
-    producerID INTEGER REFERENCES superUsers(id)
+    producerID INTEGER REFERENCES superUsers(id),
+    productionTitle VARCHAR(150)
 );
 
 CREATE TABLE productionGenres (
@@ -59,6 +60,23 @@ CREATE TABLE castMembers (
     artistID INTEGER REFERENCES artists(id)
 );
 
--- POPULATE
+
+-- load test data
+INSERT INTO categories(name) VALUES ('Comedy');
+INSERT INTO categories(name) VALUES ('Drama');
+INSERT INTO categories(name) VALUES ('Action');
+INSERT INTO categories(name) VALUES ('Fantasy');
 
 
+
+-- getCategoryID
+CREATE OR REPLACE FUNCTION getCategoryID(nameVal VARCHAR (50))
+    RETURNS INTEGER AS $categoryID$
+DECLARE
+    categoryID INTEGER;
+BEGIN
+    SELECT categories.id INTO categoryID FROM categories
+    WHERE categories.name = nameVal;
+    RETURN categoryID;
+END
+$categoryID$ LANGUAGE plpgsql;

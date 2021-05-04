@@ -7,19 +7,26 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ProductionController implements Initializable {
+
+    @FXML
+    private ListView<String> attributesList;
+
+    @FXML
+    private ListView<String> genreList;
+
+    @FXML
+    private Text productionTitle;
 
     @FXML
     private Button addEntry;
@@ -29,9 +36,6 @@ public class ProductionController implements Initializable {
 
     @FXML
     private Button saveEntry;
-
-    @FXML
-    private TextArea metaData;
 
     private Production currentProduction;
 
@@ -76,9 +80,10 @@ public class ProductionController implements Initializable {
 
     public void loadProduction(long ID) {
         this.currentProduction = DomainFacade.getProduction(ID);
+
+        productionTitle.setText(currentProduction.getTitle());
         ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();
         castMemberObservableList = FXCollections.observableArrayList(castMemberArrayList);
-        metaData.setText(this.currentProduction.getMetaData());
         castMembers.setItems(castMemberObservableList);
     }
 
