@@ -50,4 +50,12 @@ public class DataFacade {
     public static ArrayList<Production> loadAllProductions() {
         return databaseManager.getAllProductions();
     }
+
+    public static int getSeasonNumber(int ID){
+        return databaseManager.getSeasonNumber(ID);
+    }
+
+    public static ArrayList<String> getGenres(int productionID){
+        return databaseManager.getGenres(productionID);
+    }
 }

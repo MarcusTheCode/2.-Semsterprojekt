@@ -15,6 +15,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.util.StringConverter;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.LongStringConverter;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
@@ -49,7 +52,7 @@ public class SearchController implements Initializable {
     private TableColumn<Production, String> typeColumn;
 
     @FXML
-    private TableColumn<Production, String> seasonColumn;
+    private TableColumn<Production, Integer> seasonColumn;
 
     @FXML
     private TableColumn<Production, Integer> episodeColumn;
@@ -76,23 +79,20 @@ public class SearchController implements Initializable {
 
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         categoryColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-/*
-        genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
-        genreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         typeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        seasonColumn.setCellValueFactory(new PropertyValueFactory<>("seasonsID"));
-        seasonColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        seasonColumn.setCellValueFactory(new PropertyValueFactory<>("seasonsNumber"));
+        seasonColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 
         episodeColumn.setCellValueFactory(new PropertyValueFactory<>("episodeNumber"));
-        episodeColumn.setCellFactory(TextFieldTableCell.forTableColumn());*/
+        episodeColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 
         loadProductions();
     }
 
-    public void loadProductions() {
+    public void loadProductions(){
         ArrayList<Production> productions = DataFacade.loadAllProductions();
 
         if (DomainFacade.getCurrentUser() != null && !DomainFacade.getCurrentUser().isSysAdmin()) {
@@ -119,18 +119,18 @@ public class SearchController implements Initializable {
         goToLogin();
     }
 
-    private void goToLogin() {
+    private void goToLogin(){
         UIManager.changeScene(UIManager.getLoginScene());
     }
 
-    public void changeToLoggedOut() {
+    public void changeToLoggedOut(){
         usersButton.setVisible(false);
         loginButton.setText("Login");
         DomainFacade.logout();
         UIManager.getSearchController().setAdminToolsVisibility(false);
     }
 
-    public void changeToLoggedIn() {
+    public void changeToLoggedIn(){
         if (DomainFacade.getCurrentUser().isSysAdmin()) {
             usersButton.setVisible(true);
         }

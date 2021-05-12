@@ -346,4 +346,44 @@ public class DatabaseManager {
         }
         return null;
     }
+
+    public int getSeasonNumber(int id){
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT seasons.seasonNumber FROM seasons " +
+                    "WHERE seasons.id = ?");
+            ps.setInt(1,id);
+            ResultSet set = ps.executeQuery();
+            set.next();
+            try{
+                return set.getInt(1);
+            }catch (Exception ignored){
+                return 0;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+    }
+
+    public ArrayList<String> getGenres(int productionID){
+        ArrayList<String> genres = new ArrayList<>();
+        try{
+            PreparedStatement ps = connection.prepareStatement("SELECT productionGenres.genreID FROM productionGenres " +
+                    "WHERE productionGenres.productionID = ?");
+            ps.setInt(1,productionID);
+            ResultSet resultSet = ps.executeQuery();
+            while(resultSet.next()) {
+                PreparedStatement ps2 = connection.prepareStatement("SELECT * FROM genres.name WHERE genresID = ?");
+                ps2.setInt(1,resultSet.getInt(1));
+                ResultSet set =  ps2.executeQuery();
+                set.next();
+                genres.add(set.getString(1));
+            }
+            return genres;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
