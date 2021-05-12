@@ -17,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.util.converter.LongStringConverter;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -61,6 +62,12 @@ public class SearchController implements Initializable {
     private Button removeProductionButton;
 
     private ObservableList<Production> productionObservableList;
+
+    @FXML
+    private AnchorPane noProductionPane;
+
+    @FXML
+    private Button alertPaneButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -191,11 +198,18 @@ public class SearchController implements Initializable {
         Production production = productionsTable.getSelectionModel().getSelectedItem();
         ProductionController productionController = UIManager.getProductionController();
         if (production == null) {
+            noProductionPane.setVisible(true);
             throw new Exception("No production selected");
         }else{
             UIManager.changeScene(UIManager.getProductionScene());
             productionController.loadProduction(production.getId());
         }
+    }
+
+    //Closing the pane, that open when you attempt to show production without highligthing any.
+    @FXML
+    void closeAlertPane(MouseEvent event) {
+        noProductionPane.setVisible(false);
     }
 
     @FXML
