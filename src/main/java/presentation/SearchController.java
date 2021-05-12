@@ -19,7 +19,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.LongStringConverter;
 import javafx.scene.control.Button;
-import javafx.util.converter.NumberStringConverter;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -46,6 +46,9 @@ public class SearchController implements Initializable {
     private TableColumn<Production, String> categoryColumn;
 
     @FXML
+    private TableColumn<Production, String> genreColumn;
+
+    @FXML
     private TableColumn<Production, String> typeColumn;
 
     @FXML
@@ -61,6 +64,12 @@ public class SearchController implements Initializable {
     private Button removeProductionButton;
 
     private ObservableList<Production> productionObservableList;
+
+    @FXML
+    private AnchorPane noProductionPane;
+
+    @FXML
+    private Button alertPaneButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -86,9 +95,9 @@ public class SearchController implements Initializable {
     public void loadProductions(){
         ArrayList<Production> productions = DataFacade.loadAllProductions();
 
-        if (DomainFacade.getCurrentUser() != null && DomainFacade.getCurrentUser().isSysAdmin() == false){
+        if (DomainFacade.getCurrentUser() != null && !DomainFacade.getCurrentUser().isSysAdmin()) {
             // remove productions from the list if they don't belong to the current user
-            productions.removeIf(production -> production.isOwner(DomainFacade.getCurrentUser()) == false);
+            productions.removeIf(production -> !production.isOwner(DomainFacade.getCurrentUser()));
         }
 
         productionObservableList = FXCollections.observableList(productions);
@@ -188,11 +197,18 @@ public class SearchController implements Initializable {
         Production production = productionsTable.getSelectionModel().getSelectedItem();
         ProductionController productionController = UIManager.getProductionController();
         if (production == null) {
+            noProductionPane.setVisible(true);
             throw new Exception("No production selected");
         }else{
             UIManager.changeScene(UIManager.getProductionScene());
             productionController.loadProduction(production.getId());
         }
+    }
+
+    //Closing the pane, that open when you attempt to show production without highligthing any.
+    @FXML
+    void closeAlertPane(MouseEvent event) {
+        noProductionPane.setVisible(false);
     }
 
     @FXML
@@ -201,9 +217,8 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void searchForProduction(KeyEvent event){
-        if (event.getCode() == KeyCode.ENTER);
-        {
+    void searchForProduction(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
             loadProductions();
         }
     }

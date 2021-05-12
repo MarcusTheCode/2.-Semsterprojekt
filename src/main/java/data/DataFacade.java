@@ -10,28 +10,28 @@ public class DataFacade {
     private static DatabaseManager databaseManager = new DatabaseManager();
     //private static DataManager dataManager = new DataManager();
 
-    public static Production getProduction(int ID){
+    public static Production getProduction(int ID) {
         return databaseManager.getProduction(ID);
     }
 
-    public static void saveProduction(Production production) {
-        databaseManager.insertPrduction(production);
+    public static void insertProduction(Production production) {
+        databaseManager.insertProduction(production);
     }
 
     public static void deleteProduction(int ID) {
         databaseManager.deleteProduction(ID);
     }
 
-    public static void editProduction(Production production){
+    public static void editProduction(Production production) {
         // TODO: Implement
         //databaseManager.editProduction(production);
     }
 
-    public static SuperUser getSuperUser(int ID){
+    public static SuperUser getSuperUser(int ID) {
         return databaseManager.getSuperUser(ID);
     }
 
-    public static void saveSuperUser(SuperUser superUser) {
+    public static void insertSuperUser(SuperUser superUser) {
         databaseManager.insertSuperUser(superUser);
     }
 
@@ -47,7 +47,7 @@ public class DataFacade {
         return databaseManager.checkIfUserExists(inputUsername, inputPassword);
     }
 
-    public static ArrayList<Production> loadAllProductions(){
+    public static ArrayList<Production> loadAllProductions() {
         return databaseManager.getAllProductions();
     }
 

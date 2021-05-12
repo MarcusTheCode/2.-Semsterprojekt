@@ -1,10 +1,7 @@
 package presentation;
 
-import domain.System;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -21,7 +18,7 @@ public class UIManager extends Application {
     private static SceneData artistsSceneData;
     private static SceneData artistSceneData;
 
-    public static void launchApplication(){
+    public static void launchApplication() {
         launch();
     }
 

@@ -5,7 +5,6 @@ import data.DataFacade;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Production implements Serializable {
     int id;
