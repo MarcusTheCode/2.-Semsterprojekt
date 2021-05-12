@@ -11,19 +11,6 @@ public class System {
     }
 
     /**
-     * This method is used to create and save a production.
-     * @param ownerID The owner of this production
-     * @param title The title of this production
-     * @param category The category of this production
-     * @return Production Returns the newly instantiated production.
-     */
-    public Production createProduction(int ownerID, String title, String category) {
-        Production production = new Production(ownerID, 0, title, category);
-        saveProduction(production);
-        return production;
-    }
-
-    /**
      * This method is used to insert a production into the database.
      * @param production The production to save
      */

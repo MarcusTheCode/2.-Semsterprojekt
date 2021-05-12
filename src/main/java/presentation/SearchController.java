@@ -46,9 +46,6 @@ public class SearchController implements Initializable {
     private TableColumn<Production, String> categoryColumn;
 
     @FXML
-    private TableColumn<Production, String> genreColumn;
-
-    @FXML
     private TableColumn<Production, String> typeColumn;
 
     @FXML

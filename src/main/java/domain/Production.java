@@ -22,21 +22,13 @@ public class Production implements Serializable {
 
     public Production(int ownerID) {
         this.ownerID = ownerID;
-        this.category = "category";
+        this.category = "news";
         this.title = "title";
+        this.episodeNumber = 0;
+        this.type = "type";
+        seasonsID = null;
         castMembers = new ArrayList<>();
         genres = new ArrayList<>();
-    }
-
-    //Movies
-    public Production(int ownerID, int productionID, String title, String category) {
-        this.ownerID = ownerID;
-        this.category = category;
-        this.id = productionID;
-        this.title = title;
-        castMembers = new ArrayList<>();
-        genres = DataFacade.getGenres(productionID);
-
     }
 
     //Tv-Series
@@ -142,7 +134,7 @@ public class Production implements Serializable {
         this.categoryID = categoryID;
     }
 
-    public int getSeasonsID() {
+    public Integer getSeasonsID() {
         return seasonsID;
     }
 
