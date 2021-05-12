@@ -233,19 +233,20 @@ public class DatabaseManager {
      * @return Production Returns the production with the ID or null.
      */
     public Production getProduction(int productionID) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM productions WHERE productions.id = ?");
-            ps.setInt(1,productionID);
-            ResultSet resultSet = ps.executeQuery();
-            resultSet.next();
-            return new Production(
-                    resultSet.getInt(2),
-                    resultSet.getInt(5),
-                    resultSet.getInt(6),
-                    resultSet.getInt(1),
-                    resultSet.getString(7),
-                    getCategoryID(resultSet.getInt(4)),
-                    resultSet.getString(3));
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM productions WHERE productions.id = ?")) {
+            ps.setInt(1, productionID);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                resultSet.next();
+
+                return new Production(
+                        resultSet.getInt(2),
+                        resultSet.getInt(5),
+                        resultSet.getInt(6),
+                        resultSet.getInt(1),
+                        resultSet.getString(7),
+                        getCategoryID(resultSet.getInt(4)),
+                        resultSet.getString(3));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
