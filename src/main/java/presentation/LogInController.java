@@ -6,7 +6,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 public class LogInController {
@@ -50,7 +49,7 @@ public class LogInController {
         }
     }
 
-    public void hideErrorMessage(){
+    public void hideErrorMessage() {
         errorMessage.setVisible(false);
     }
 }

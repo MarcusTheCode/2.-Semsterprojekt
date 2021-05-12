@@ -21,10 +21,10 @@ public class System {
     }
 
     public void saveProduction(Production production) {
-        DataFacade.saveProduction(production);
+        DataFacade.insertProduction(production);
     }
 
-    public void deleteProduction(Production production) throws Exception {
+    public void deleteProduction(Production production) {
         if (production.isOwner(currentUser) || currentUser.isSysAdmin()) {
             DataFacade.deleteProduction(production.getId());
             return;
@@ -33,7 +33,7 @@ public class System {
         }
     }
 
-    public void editProduction(Production production) throws Exception {
+    public void editProduction(Production production) {
         if (production.isOwner(currentUser)) {
             DataFacade.editProduction(production);
             return;
@@ -53,7 +53,7 @@ public class System {
     }
 
     public void saveSuperUser(SuperUser superUser) {
-        DataFacade.saveSuperUser(superUser);
+        DataFacade.insertSuperUser(superUser);
     }
 
     public void deleteSuperUser(int userID) {
@@ -71,9 +71,8 @@ public class System {
         return currentUser != null;
     }
 
-    public boolean logout() {
+    public void logout() {
        currentUser = null;
-       return currentUser == null;
     }
 
 }
