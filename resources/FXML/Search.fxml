@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.SearchController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.SearchController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -43,10 +43,10 @@
                <columns>
                   <TableColumn fx:id="titleColumn" editable="false" onEditCommit="#commitTitleChange" prefWidth="250.0" text="Title" />
                   <TableColumn fx:id="categoryColumn" editable="false" onEditCommit="#commitCategoryChange" prefWidth="100.0" text="Category" />
-                  <TableColumn prefWidth="75.0" text="Genre" />
-                  <TableColumn prefWidth="75.0" text="Type" />
-                  <TableColumn prefWidth="75.0" text="Season" />
-                  <TableColumn prefWidth="75.0" text="Episode" />
+                  <TableColumn fx:id="genreColumn" prefWidth="75.0" text="Genre" />
+                  <TableColumn fx:id="typeColumn" prefWidth="75.0" text="Type" />
+                  <TableColumn fx:id="seasonColumn" prefWidth="75.0" text="Season" />
+                  <TableColumn fx:id="episodeColumn" prefWidth="75.0" text="Episode" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

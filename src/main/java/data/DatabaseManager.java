@@ -133,9 +133,10 @@ public class DatabaseManager {
 
     public Production getProduction(int productionID){
         try{
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM productions WHERE productions.id = ?");
+            PreparedStatement ps = connection.prepareStatement("SELECT 1 FROM productions WHERE productions.id = ?");
             ps.setInt(1,productionID);
             ResultSet resultSet = ps.executeQuery();
+            resultSet.next();
             return new Production(
                     resultSet.getInt(2),
                     resultSet.getInt(5),
@@ -151,7 +152,7 @@ public class DatabaseManager {
 
     public SuperUser getSuperUser(int usrID){
         try{
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.id = ?");
+            PreparedStatement ps = connection.prepareStatement("SELECT 1 FROM superUsers WHERE superUsers.id = ?");
             ps.setInt(1,usrID);
             ResultSet resultSet = ps.executeQuery();
             resultSet.next();
@@ -188,7 +189,7 @@ public class DatabaseManager {
 
     public SuperUser checkIfUserExists(String inputUsername, String inputPassword){
         try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.userName = ?" +
+            PreparedStatement ps = connection.prepareStatement("SELECT 1 FROM superUsers WHERE superUsers.userName = ?" +
                     "AND superUsers.passWord = ?");
             ps.setString(1, inputUsername);
             ps.setString(2, inputPassword);
