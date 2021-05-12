@@ -8,10 +8,14 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseManager {
-    // Structure of data for file credentials
-    //url, port, databaseName, username, password){
+    // Structure of data for file DatabaseCredentials
+    //  url
+    //  port
+    //  databaseName
+    //  username
+    //  password
 
-    //Database variables
+    // Database variables
     private String url;
     private int port;
     private String databaseName;
@@ -19,6 +23,7 @@ public class DatabaseManager {
     private String password;
     private Connection connection = null;
 
+    // Constructor
     public DatabaseManager() {
         try {
             FileReader fileReader = new FileReader("resources/TXT/DatabaseCredentials");
@@ -38,11 +43,21 @@ public class DatabaseManager {
 
     }
 
+    /**
+     * This method returns the PostgreSQL connection.
+     * @return Connection Returns the PostgreSQL connection.
+     */
     public Connection getConnection() {
         return connection;
     }
 
-    // insert methods
+    // Insert methods
+
+    /**
+     * This method is used insert a new production into the database.
+     * @param production The production to insert into the database
+     * @return boolean Returns whether the execution succeeded.
+     */
     public boolean insertProduction(Production production) {
         try {
             PreparedStatement ps = connection.prepareStatement(
@@ -60,14 +75,19 @@ public class DatabaseManager {
         return false;
     }
 
+    /**
+     * This method is used insert a new SuperUser into the database.
+     * @param user The SuperUser to insert into the database
+     * @return boolean Returns whether the execution succeeded.
+     */
     public boolean insertSuperUser(SuperUser user) {
         try {
             PreparedStatement ps = connection.prepareStatement(
             "INSERT INTO superUsers(isAdmin, userName,passWord,)" +
                 "VALUES (?,?,?)");
-            ps.setBoolean(1,user.isSysAdmin());
-            ps.setString(2,user.getUsername());
-            ps.setString(3,user.getPassword());
+            ps.setBoolean(1, user.isSysAdmin());
+            ps.setString(2, user.getUsername());
+            ps.setString(3, user.getPassword());
             return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,12 +95,17 @@ public class DatabaseManager {
         return false;
     }
 
+    /**
+     * This method is used insert a series name into the database.
+     * @param name The series name to insert into the database
+     * @return boolean Returns whether the execution succeeded.
+     */
     public boolean insertSeries(String name) {
         try {
             PreparedStatement ps = connection.prepareStatement(
             "INSERT INTO series(name)+" +
                 "VALUES(?)");
-            ps.setString(1,name);
+            ps.setString(1, name);
             return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,12 +114,18 @@ public class DatabaseManager {
     }
 
     //TODO: Optimize method
+    /**
+     * This method is used add a genre to an existing production in the database.
+     * @param production The production to add the genre to
+     * @param genreID The genre to add
+     * @return boolean Returns whether the execution succeeded.
+     */
     public boolean insertProductionGenre(Production production, int genreID) {
         try {
             PreparedStatement ps = connection.prepareStatement(
             "INSERT INTO productionGenres(productionID,genreID)+" +
                 "VALUES(?,?)");
-            ps.setInt(1,production.getId());
+            ps.setInt(1, production.getId());
             ps.setInt(2, genreID);
             return ps.execute();
         } catch (SQLException e) {
@@ -103,6 +134,12 @@ public class DatabaseManager {
         return false;
     }
 
+    // TODO: Use a genre string instead of Production
+    /**
+     * This method is used insert a category to the database.
+     * @param production The production to add the genre to
+     * @return boolean Returns whether the execution succeeded.
+     */
     public boolean insertGenre(Production production) {
         try {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO genres (name) VALUES (?)");
@@ -114,6 +151,11 @@ public class DatabaseManager {
         return false;
     }
 
+    /**
+     * This method is used insert a category to the database.
+     * @param production The production to add the genre to
+     * @return int Returns the ID of the category.
+     */
     public int insertCategory(Production production) {
         try {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO categories (name) VALUES (?)");
@@ -125,45 +167,13 @@ public class DatabaseManager {
         return getCategoryID(production);
     }
 
-    // read methods
+    // Delete methods
 
-    public Production getProduction(int productionID) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM productions WHERE productions.id = ?");
-            ps.setInt(1,productionID);
-            ResultSet resultSet = ps.executeQuery();
-            resultSet.next();
-            return new Production(
-                resultSet.getInt(2),
-                resultSet.getInt(5),
-                resultSet.getInt(6),
-                resultSet.getInt(1),
-                resultSet.getString(7),
-                getCategoryID(resultSet.getInt(4)),
-                resultSet.getString(3));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public SuperUser getSuperUser(int usrID) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.id = ?");
-            ps.setInt(1,usrID);
-            ResultSet resultSet = ps.executeQuery();
-            resultSet.next();
-            return new SuperUser(
-                    resultSet.getInt(1),
-                    resultSet.getString(4),
-                    resultSet.getString(3),
-                    resultSet.getBoolean(2));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
+    /**
+     * This method is used to delete a SuperUser from the database, given an ID.
+     * @param userID The ID of the SuperUser
+     * @return boolean Returns whether the execution succeeded.
+     */
     public boolean deleteSuperUser(int userID) {
         try {
             PreparedStatement ps = connection.prepareStatement("DELETE FROM superUsers WHERE superUsers.id = ?");
@@ -174,17 +184,28 @@ public class DatabaseManager {
         return false;
     }
 
-    public boolean deleteProduction(long userID) {
+    /**
+     * This method is used to delete a Production from the database, given an ID.
+     * @param productionID The ID of the Production
+     * @return boolean Returns whether the execution succeeded.
+     */
+    public boolean deleteProduction(int productionID) {
         try {
             PreparedStatement ps = connection.prepareStatement("DELETE FROM productions WHERE productions.id = ?");
-            ps.setInt(1, (int)userID);
+            ps.setInt(1, productionID);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public SuperUser checkIfUserExists(String inputUsername, String inputPassword){
+    /**
+     * This method is used to retrieve the SuperUser with the given username, if the passwords match.
+     * @param inputUsername The username to check for
+     * @param inputPassword The password of the user to match against
+     * @return SuperUser Returns the SuperUser or null, if incorrect.
+     */
+    public SuperUser checkIfUserExists(String inputUsername, String inputPassword) {
         try {
             PreparedStatement ps = connection.prepareStatement(
             "SELECT * FROM superUsers WHERE superUsers.userName = ?" +
@@ -204,7 +225,60 @@ public class DatabaseManager {
     }
 
 
-    // get methods
+    // Get methods
+
+    /**
+     * This method is used to retrieve a production from the database, given an ID.
+     * @param productionID The ID of the production
+     * @return Production Returns the production with the ID or null.
+     */
+    public Production getProduction(int productionID) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM productions WHERE productions.id = ?");
+            ps.setInt(1,productionID);
+            ResultSet resultSet = ps.executeQuery();
+            resultSet.next();
+            return new Production(
+                    resultSet.getInt(2),
+                    resultSet.getInt(5),
+                    resultSet.getInt(6),
+                    resultSet.getInt(1),
+                    resultSet.getString(7),
+                    getCategoryID(resultSet.getInt(4)),
+                    resultSet.getString(3));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * This method is used to retrieve a SuperUser from the database, given an ID.
+     * @param userID The ID of the SuperUser
+     * @return SuperUser Returns the SuperUser with the ID or null.
+     */
+    public SuperUser getSuperUser(int userID) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.id = ?");
+            ps.setInt(1, userID);
+            ResultSet resultSet = ps.executeQuery();
+            resultSet.next();
+            return new SuperUser(
+                    resultSet.getInt(1),
+                    resultSet.getString(4),
+                    resultSet.getString(3),
+                    resultSet.getBoolean(2));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * This method is used to retrieve the SuperUser with the given username, if the passwords match.
+     * @param production The production
+     * @return SuperUser Returns the SuperUser or null, if incorrect.
+     */
     public int getCategoryID(Production production) {
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT getCategoryID(?)");
@@ -221,12 +295,17 @@ public class DatabaseManager {
         return -1;
     }
 
-    public String getCategoryID(int id) {
+    /**
+     * This method is used to retrieve the category with the given ID.
+     * @param categoryID The ID of the category
+     * @return String Returns the name of the category or null.
+     */
+    public String getCategoryID(int categoryID) {
         try {
             PreparedStatement ps = connection.prepareStatement(
             "SELECT categories.name FROM categories " +
                 "WHERE categories.id = ?");
-            ps.setInt(1, id);
+            ps.setInt(1, categoryID);
             ResultSet set = ps.executeQuery();
             set.next();
             return set.getString(1);
@@ -236,6 +315,10 @@ public class DatabaseManager {
         return null;
     }
 
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Production> Returns a list of all productions.
+     */
     public ArrayList<Production> getAllProductions() {
         ArrayList<Production> productions = new ArrayList<>();
         try {
@@ -259,7 +342,10 @@ public class DatabaseManager {
         return null;
     }
 
-
+    /**
+     * This method is used to retrieve all SuperUsers from the database.
+     * @return ArrayList<SuperUser> Returns a list of all SuperUsers.
+     */
     public ArrayList<SuperUser> getSuperUsers() {
         ArrayList<SuperUser> users = new ArrayList<>();
         try {
