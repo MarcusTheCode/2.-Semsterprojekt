@@ -15,7 +15,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.util.converter.LongStringConverter;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
@@ -93,12 +92,12 @@ public class SearchController implements Initializable {
         loadProductions();
     }
 
-    public void loadProductions(){
+    public void loadProductions() {
         ArrayList<Production> productions = DataFacade.loadAllProductions();
 
-        if (DomainFacade.getCurrentUser() != null && DomainFacade.getCurrentUser().isSysAdmin() == false){
+        if (DomainFacade.getCurrentUser() != null && !DomainFacade.getCurrentUser().isSysAdmin()) {
             // remove productions from the list if they don't belong to the current user
-            productions.removeIf(production -> production.isOwner(DomainFacade.getCurrentUser()) == false);
+            productions.removeIf(production -> !production.isOwner(DomainFacade.getCurrentUser()));
         }
 
         productionObservableList = FXCollections.observableList(productions);
@@ -120,18 +119,18 @@ public class SearchController implements Initializable {
         goToLogin();
     }
 
-    private void goToLogin(){
+    private void goToLogin() {
         UIManager.changeScene(UIManager.getLoginScene());
     }
 
-    public void changeToLoggedOut(){
+    public void changeToLoggedOut() {
         usersButton.setVisible(false);
         loginButton.setText("Login");
         DomainFacade.logout();
         UIManager.getSearchController().setAdminToolsVisibility(false);
     }
 
-    public void changeToLoggedIn(){
+    public void changeToLoggedIn() {
         if (DomainFacade.getCurrentUser().isSysAdmin()) {
             usersButton.setVisible(true);
         }
@@ -218,9 +217,8 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void searchForProduction(KeyEvent event){
-        if (event.getCode() == KeyCode.ENTER);
-        {
+    void searchForProduction(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
             loadProductions();
         }
     }

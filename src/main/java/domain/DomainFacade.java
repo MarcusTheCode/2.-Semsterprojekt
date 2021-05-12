@@ -8,7 +8,7 @@ public class DomainFacade {
 
     private static System system = new System();
 
-    public static void saveProduction(Production production){
+    public static void saveProduction(Production production) {
         try {
             system.saveProduction(production);
         } catch (Exception e) {
@@ -17,7 +17,7 @@ public class DomainFacade {
         }
     }
 
-    public static void removeProduction(Production production){
+    public static void removeProduction(Production production) {
         try {
             system.deleteProduction(production);
         } catch (Exception e) {
@@ -26,20 +26,19 @@ public class DomainFacade {
         }
     }
 
-    public static Production getProduction(int ID){
+    public static Production getProduction(int ID) {
         return system.getProduction(ID);
     }
 
-    public static void editProduction(Production production){
+    public static void editProduction(Production production) {
         try {
             system.editProduction(production);
         } catch (Exception e) {
             e.printStackTrace();
-            java.lang.System.out.println(e.getMessage());
         }
     }
 
-    public static SuperUser getCurrentUser(){
+    public static SuperUser getCurrentUser() {
         return system.getCurrentUser();
     }
 
@@ -63,8 +62,8 @@ public class DomainFacade {
         return system.login(inputUsername, inputPassword);
     }
 
-    public static boolean logout(){
-        return system.logout();
+    public static void logout() {
+        system.logout();
     }
 }
 
