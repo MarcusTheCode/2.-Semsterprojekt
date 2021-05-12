@@ -154,6 +154,7 @@ public class DatabaseManager {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.id = ?");
             ps.setInt(1,usrID);
             ResultSet resultSet = ps.executeQuery();
+            resultSet.next();
             return new SuperUser(
                     resultSet.getInt(1),
                     resultSet.getString(4),
