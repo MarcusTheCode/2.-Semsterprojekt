@@ -52,7 +52,7 @@ public class SearchController implements Initializable {
     private TableColumn<Production, String> seasonColumn;
 
     @FXML
-    private TableColumn<Production, String> episodeColumn;
+    private TableColumn<Production, Integer> episodeColumn;
 
     @FXML
     private Button addProductionButton;
@@ -70,18 +70,18 @@ public class SearchController implements Initializable {
 
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         categoryColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-
+/*
         genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
         genreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         typeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        seasonColumn.setCellValueFactory(new PropertyValueFactory<>("season"));
+        seasonColumn.setCellValueFactory(new PropertyValueFactory<>("seasonsID"));
         seasonColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        episodeColumn.setCellValueFactory(new PropertyValueFactory<>("episode"));
-        episodeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        episodeColumn.setCellValueFactory(new PropertyValueFactory<>("episodeNumber"));
+        episodeColumn.setCellFactory(TextFieldTableCell.forTableColumn());*/
 
         loadProductions();
     }

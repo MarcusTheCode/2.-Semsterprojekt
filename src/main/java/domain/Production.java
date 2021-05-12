@@ -10,6 +10,9 @@ public class Production implements Serializable {
     String category;
     ArrayList<CastMember> castMembers;
     int ownerID;
+
+
+
     private Integer episodeNumber;
     private String type;
     private Integer categoryID;
@@ -36,13 +39,14 @@ public class Production implements Serializable {
     }
 
     //Tv-Series
-    public Production(int episodeNumber, int seasonsID, int producerID, int productionID, String title, String category) {
+    public Production(int episodeNumber, int seasonsID, int producerID, int productionID, String title, String category, String type) {
         this.ownerID = producerID;
         this.category = category;
         this.id = productionID;
         this.title = title;
         this.episodeNumber = episodeNumber;
         this.seasonsID = seasonsID;
+        this.type = type;
         castMembers = new ArrayList<>();
         genres = new ArrayList<>();
     }
@@ -108,7 +112,6 @@ public class Production implements Serializable {
         return category;
     }
 
-
     public void setId(int id) {
         this.id = id;
     }
@@ -153,6 +156,21 @@ public class Production implements Serializable {
         this.producerID = producerID;
     }
 
+    public void setEpisodeNumber(Integer episodeNumber) {
+        this.episodeNumber = episodeNumber;
+    }
+
+    public void setCategoryID(Integer categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    public void setSeasonsID(Integer seasonsID) {
+        this.seasonsID = seasonsID;
+    }
+
+    public void setProducerID(Integer producerID) {
+        this.producerID = producerID;
+    }
 }
 
 

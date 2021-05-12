@@ -54,7 +54,7 @@ public class DatabaseManager {
                                 "producerID, productionTitle)VALUES (?,?,?,?,?)");
                 ps.setInt(1,production.getEpisodeNumber());
                 ps.setString(2, production.getType());
-                ps.setInt(3, getCategory(production));
+                ps.setInt(3, getCategoryID(production));
                 ps.setLong(4,production.getOwnerID());
                 ps.setString(5,production.getTitle());
                 return ps.execute();
@@ -126,14 +126,14 @@ public class DatabaseManager {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return getCategory(production);
+        return getCategoryID(production);
     }
 
     // read methods
 
     public Production getProduction(int productionID){
         try{
-            PreparedStatement ps = connection.prepareStatement("SELECT 1 FROM productions WHERE productions.id = ?");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM productions WHERE productions.id = ?");
             ps.setInt(1,productionID);
             ResultSet resultSet = ps.executeQuery();
             resultSet.next();
@@ -143,7 +143,8 @@ public class DatabaseManager {
                     resultSet.getInt(6),
                     resultSet.getInt(1),
                     resultSet.getString(7),
-                    getCategory(resultSet.getInt(4)));
+                    getCategoryID(resultSet.getInt(4)),
+                    resultSet.getString(3));
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -152,7 +153,7 @@ public class DatabaseManager {
 
     public SuperUser getSuperUser(int usrID){
         try{
-            PreparedStatement ps = connection.prepareStatement("SELECT 1 FROM superUsers WHERE superUsers.id = ?");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.id = ?");
             ps.setInt(1,usrID);
             ResultSet resultSet = ps.executeQuery();
             resultSet.next();
@@ -189,7 +190,7 @@ public class DatabaseManager {
 
     public SuperUser checkIfUserExists(String inputUsername, String inputPassword){
         try {
-            PreparedStatement ps = connection.prepareStatement("SELECT 1 FROM superUsers WHERE superUsers.userName = ?" +
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.userName = ?" +
                     "AND superUsers.passWord = ?");
             ps.setString(1, inputUsername);
             ps.setString(2, inputPassword);
@@ -207,7 +208,7 @@ public class DatabaseManager {
 
 
     // get methods
-    public int getCategory(Production production){
+    public int getCategoryID(Production production){
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT getCategoryID(?)");
             ps.setString(1,production.getCategory().toLowerCase());
@@ -223,7 +224,7 @@ public class DatabaseManager {
         return -1;
     }
 
-    public String getCategory(int id){
+    public String getCategoryID(int id){
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT categories.name FROM categories " +
                     "WHERE categories.id = ?");
@@ -249,7 +250,8 @@ public class DatabaseManager {
                         resultSet.getInt(6),
                         resultSet.getInt(1),
                         resultSet.getString(7),
-                        getCategory(resultSet.getInt(4)));
+                        getCategoryID(resultSet.getInt(4)),
+                        resultSet.getString(3));
                 productions.add(p);
             }
             return productions;
