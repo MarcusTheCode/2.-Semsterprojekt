@@ -1,6 +1,9 @@
 package domain;
 
+import data.DataFacade;
+
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +13,11 @@ public class Production implements Serializable {
     String category;
     ArrayList<CastMember> castMembers;
     int ownerID;
-
-
-
     private Integer episodeNumber;
     private String type;
     private Integer categoryID;
     private Integer seasonsID;
+    private Integer seasonsNumber;
     private Integer producerID;
     private ArrayList<String> genres;
 
@@ -35,7 +36,8 @@ public class Production implements Serializable {
         this.id = productionID;
         this.title = title;
         castMembers = new ArrayList<>();
-        genres = new ArrayList<>();
+        genres = DataFacade.getGenres(productionID);
+
     }
 
     //Tv-Series
@@ -48,7 +50,8 @@ public class Production implements Serializable {
         this.seasonsID = seasonsID;
         this.type = type;
         castMembers = new ArrayList<>();
-        genres = new ArrayList<>();
+        genres = DataFacade.getGenres(productionID);;
+        this.seasonsNumber = DataFacade.getSeasonNumber(seasonsID);
     }
 
     public ArrayList<String> getGenres() {
@@ -170,6 +173,14 @@ public class Production implements Serializable {
 
     public void setProducerID(Integer producerID) {
         this.producerID = producerID;
+    }
+
+    public Integer getSeasonsNumber() {
+        return seasonsNumber;
+    }
+
+    public void setSeasonsNumber(Integer seasonsNumber) {
+        this.seasonsNumber = seasonsNumber;
     }
 }
 

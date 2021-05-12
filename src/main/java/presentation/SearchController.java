@@ -15,8 +15,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.util.StringConverter;
+import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.LongStringConverter;
 import javafx.scene.control.Button;
+import javafx.util.converter.NumberStringConverter;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,13 +46,10 @@ public class SearchController implements Initializable {
     private TableColumn<Production, String> categoryColumn;
 
     @FXML
-    private TableColumn<Production, String> genreColumn;
-
-    @FXML
     private TableColumn<Production, String> typeColumn;
 
     @FXML
-    private TableColumn<Production, String> seasonColumn;
+    private TableColumn<Production, Integer> seasonColumn;
 
     @FXML
     private TableColumn<Production, Integer> episodeColumn;
@@ -70,18 +70,15 @@ public class SearchController implements Initializable {
 
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         categoryColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-/*
-        genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
-        genreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         typeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        seasonColumn.setCellValueFactory(new PropertyValueFactory<>("seasonsID"));
-        seasonColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        seasonColumn.setCellValueFactory(new PropertyValueFactory<>("seasonsNumber"));
+        seasonColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 
         episodeColumn.setCellValueFactory(new PropertyValueFactory<>("episodeNumber"));
-        episodeColumn.setCellFactory(TextFieldTableCell.forTableColumn());*/
+        episodeColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 
         loadProductions();
     }
