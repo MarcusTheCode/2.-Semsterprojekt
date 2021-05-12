@@ -43,10 +43,10 @@
                <columns>
                   <TableColumn fx:id="titleColumn" editable="false" onEditCommit="#commitTitleChange" prefWidth="250.0" text="Title" />
                   <TableColumn fx:id="categoryColumn" editable="false" onEditCommit="#commitCategoryChange" prefWidth="100.0" text="Category" />
-                  <TableColumn fx:id="genreColumn" onEditCommit="#commitGenreChange" prefWidth="75.0" text="Genre" />
-                  <TableColumn fx:id="typeColumn" onEditCommit="#commitTypeChange" prefWidth="75.0" text="Type" />
-                  <TableColumn fx:id="seasonColumn" onEditCommit="#commitSeasonChange" prefWidth="75.0" text="Season" />
-                  <TableColumn fx:id="episodeColumn" onEditCommit="#commitEpisodeChange" prefWidth="75.0" text="Episode" />
+                  <TableColumn fx:id="genreColumn" prefWidth="75.0" text="Genre" />
+                  <TableColumn fx:id="typeColumn" prefWidth="75.0" text="Type" />
+                  <TableColumn fx:id="seasonColumn" prefWidth="75.0" text="Season" />
+                  <TableColumn fx:id="episodeColumn" prefWidth="75.0" text="Episode" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

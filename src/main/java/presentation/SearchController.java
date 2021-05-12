@@ -5,7 +5,6 @@ import domain.DomainFacade;
 import domain.Production;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -44,16 +43,16 @@ public class SearchController implements Initializable {
     private TableColumn<Production, String> categoryColumn;
 
     @FXML
-    private TableColumn<?, ?> genreColumn;
+    private TableColumn<Production, String> genreColumn;
 
     @FXML
-    private TableColumn<?, ?> typeColumn;
+    private TableColumn<Production, String> typeColumn;
 
     @FXML
-    private TableColumn<?, ?> seasonColumn;
+    private TableColumn<Production, String> seasonColumn;
 
     @FXML
-    private TableColumn<?, ?> episodeColumn;
+    private TableColumn<Production, Integer> episodeColumn;
 
     @FXML
     private Button addProductionButton;
@@ -71,8 +70,18 @@ public class SearchController implements Initializable {
 
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         categoryColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+/*
+        genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
+        genreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        typeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
+        seasonColumn.setCellValueFactory(new PropertyValueFactory<>("seasonsID"));
+        seasonColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        episodeColumn.setCellValueFactory(new PropertyValueFactory<>("episodeNumber"));
+        episodeColumn.setCellFactory(TextFieldTableCell.forTableColumn());*/
 
         loadProductions();
     }
@@ -157,36 +166,6 @@ public class SearchController implements Initializable {
         production.setID(event.getNewValue());
 
         DomainFacade.saveProduction(production);
-    }
-
-    @FXML
-    void commitCategoryChange(ActionEvent event) {
-
-    }
-
-    @FXML
-    void commitEpisodeChange(ActionEvent event) {
-
-    }
-
-    @FXML
-    void commitGenreChange(ActionEvent event) {
-
-    }
-
-    @FXML
-    void commitSeasonChange(ActionEvent event) {
-
-    }
-
-    @FXML
-    void commitTitleChange(ActionEvent event) {
-
-    }
-
-    @FXML
-    void commitTypeChange(ActionEvent event) {
-
     }
 
     @FXML
