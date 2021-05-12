@@ -84,15 +84,15 @@ public class DatabaseManager {
 
     /**
      * This method is used insert a new SuperUser into the database.
-     * @param user The SuperUser to insert into the database
+     * @param superUser The SuperUser to insert into the database
      * @return boolean Returns whether the execution succeeded.
      */
-    public boolean insertSuperUser(SuperUser user) {
+    public boolean insertSuperUser(SuperUser superUser) {
         try (PreparedStatement ps = connection.prepareStatement("INSERT INTO superUsers(isAdmin,username,password)" +
                 "VALUES (?,?,?)")) {
-            ps.setBoolean(1, user.isSysAdmin());
-            ps.setString(2, user.getUsername());
-            ps.setString(3, user.getPassword());
+            ps.setBoolean(1, superUser.isSysAdmin());
+            ps.setString(2, superUser.getUsername());
+            ps.setString(3, superUser.getPassword());
             return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
