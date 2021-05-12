@@ -10,12 +10,6 @@ public class System {
 
     }
 
-    public Production createProduction(int ownerID, String title, String category) {
-        Production production = new Production(ownerID, 0, title, category);
-        saveProduction(production);
-        return production;
-    }
-
     public void saveProduction(Production production) {
         DataFacade.insertProduction(production);
     }
