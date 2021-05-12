@@ -7,11 +7,7 @@ public class System {
     private static SuperUser currentUser;
 
     public System() {
-        //SuperUser user = new SuperUser(0, "pass123", "Ikke Albert", true);
-        //DataInterface.saveSuperUser(user);
 
-        //SuperUser user = DataInterface.getSuperUser(0);
-        //java.lang.System.out.println(user);
     }
 
     public Production createProduction(int ownerID, String title, String category) {
@@ -27,7 +23,6 @@ public class System {
     public void deleteProduction(Production production) {
         if (production.isOwner(currentUser) || currentUser.isSysAdmin()) {
             DataFacade.deleteProduction(production.getId());
-            return;
         } else {
             throw new RuntimeException("ERROR: user is not allowed to edit");
         }
@@ -36,7 +31,6 @@ public class System {
     public void editProduction(Production production) {
         if (production.isOwner(currentUser)) {
             DataFacade.editProduction(production);
-            return;
         } else {
             throw new RuntimeException("User is not allowed to edit this production");
         }
