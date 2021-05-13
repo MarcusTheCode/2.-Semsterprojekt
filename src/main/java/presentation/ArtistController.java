@@ -16,6 +16,9 @@ public class ArtistController implements Initializable {
     @FXML
     private TextField name;
 
+    @FXML
+    private TextField email;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -29,18 +32,18 @@ public class ArtistController implements Initializable {
 
     @FXML
     void saveArtist(MouseEvent event) {
-        createArtist(name.getText());
+        createArtist(name.getText(), email.getText());
     }
 
     @FXML
     void enterName(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
-            createArtist(name.getText());
+            createArtist(name.getText(), email.getText());
         }
     }
 
-    void createArtist(String artistName) {
-        DomainFacade.createArtist(artistName);
+    void createArtist(String artistName, String artistEmail) {
+        DomainFacade.createArtist(artistName, artistEmail);
         UIManager.changeScene(UIManager.getArtistsScene());
     }
 }

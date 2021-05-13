@@ -108,9 +108,10 @@ public class DatabaseManager {
      * @param artist The artist to insert into the database
      */
     public boolean insertArtist(Artist artist) {
-        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO artists(name)" +
-                "VALUES (?)")) {
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO artists(name,email)" +
+                "VALUES (?,?)")) {
             ps.setString(1, artist.getName());
+            ps.setString(2, artist.getEmail());
             return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -461,7 +462,8 @@ public class DatabaseManager {
                 while (resultSet.next()) {
                     users.add(new Artist(
                             resultSet.getInt(1),
-                            resultSet.getString(2)));
+                            resultSet.getString(2),
+                            resultSet.getString(3)));
                 }
             }
             return users;

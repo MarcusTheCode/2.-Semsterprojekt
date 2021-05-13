@@ -34,6 +34,11 @@
                   <Font size="24.0" />
                </font>
             </TextField>
+            <TextField fx:id="email" onKeyTyped="#enterName" promptText="Artist email">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </TextField>
             <HBox prefHeight="25.0" prefWidth="648.0">
                <children>
                   <Button mnemonicParsing="false" onMouseClicked="#saveArtist" text="Add artist">
