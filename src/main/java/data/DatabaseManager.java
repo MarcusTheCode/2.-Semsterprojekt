@@ -513,23 +513,39 @@ public class DatabaseManager {
     }
 
     public void updateProduction(Production production){
-        try{
-            PreparedStatement ps = connection.prepareStatement("" +
-                    "UPDATE productions SET " +
-                    "episodeNumber = ?," +
-                    "type = ?," +
-                    "categoryID = ?," +
-                    "seasonID = ?," +
-                    "producerID = ?," +
-                    "productionTitle = ?" +
-                    "WHERE id = ?");
+        String sqlCode;
+        if (production.getSeasonID() == null) {
+            sqlCode = "UPDATE productions SET " +
+                    "episodeNumber = ?, " +
+                    "type = ?, " +
+                    "categoryID = ?, " +
+                    "producerID = ?, " +
+                    "productionTitle = ? " +
+                    "WHERE id = ?;";
+        } else {
+            sqlCode = "UPDATE productions SET " +
+                    "episodeNumber = ?, " +
+                    "type = ?, " +
+                    "categoryID = ?, " +
+                    "producerID = ?, " +
+                    "productionTitle = ?, " +
+                    "seasonID = ? " +
+                    "WHERE id = ?; ";
+        }
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sqlCode);
             ps.setInt(1,production.getEpisodeNumber());
             ps.setString(2,production.getType());
             ps.setInt(3,production.getCategoryID());
-            ps.setInt(4,production.getSeasonID());
-            ps.setInt(5,production.getProducerID());
-            ps.setString(6,production.getTitle());
-            ps.setInt(7,production.getId());
+            ps.setInt(4,production.getProducerID());
+            ps.setString(5, production.getTitle());
+            if (production.getSeasonID() == null) {
+                ps.setInt(6, production.getId());
+            } else {
+                ps.setInt(6,production.getSeasonID());
+                ps.setInt(7, production.getId());
+            }
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
