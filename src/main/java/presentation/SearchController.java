@@ -209,11 +209,6 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void returnToStartup(MouseEvent event) {
-        UIManager.changeScene(UIManager.getSearchScene());
-    }
-
-    @FXML
     void searchForProduction(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             loadProductions();
