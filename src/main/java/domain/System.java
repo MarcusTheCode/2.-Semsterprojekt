@@ -103,7 +103,11 @@ public class System {
     /**
      * This method is used to log the user out of the system.
      */
-    public void logout() {
-       currentUser = null;
+    public boolean logout() {
+        if (currentUser != null) {
+            currentUser = null;
+            return true;
+        }
+        return false;
     }
 }

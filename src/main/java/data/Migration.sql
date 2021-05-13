@@ -61,7 +61,6 @@ CREATE TABLE castMembers (
     artistID INTEGER REFERENCES artists(id)
 );
 
-
 -- load test data
 INSERT INTO categories(name) VALUES ('news');
 INSERT INTO categories(name) VALUES ('documentary');
@@ -98,9 +97,15 @@ VALUES (2,'tv-series',4,2,3,'lucifer, stay. good devil.');
 INSERT INTO productions(episodeNumber, type, categoryID, producerID, productionTitle)
 VALUES (1,'movie',4,3,'bee movie');
 
+INSERT INTO artists(name,email)
+VALUES('Barry B. Benson ','BarryBeeBenson@bee.hive');
+
+INSERT INTO castMembers(productionID, role, artistID)
+VALUES (5,'Actor',1);
+
 -- getCategoryID
 CREATE OR REPLACE FUNCTION getCategoryID(nameVal VARCHAR (50))
-    RETURNS INTEGER AS $categoryID$
+    RETURNS INTEGER AS $$
 DECLARE
     categoryID INTEGER;
 BEGIN
@@ -108,11 +113,11 @@ BEGIN
     WHERE categories.name = nameVal;
     RETURN categoryID;
 END
-$categoryID$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 -- getGenreID
 CREATE OR REPLACE FUNCTION getGenreID(nameVal VARCHAR (50))
-    RETURNS INTEGER AS $genreID$
+    RETURNS INTEGER AS $$
 DECLARE
     genreID INTEGER;
 BEGIN
@@ -120,11 +125,11 @@ BEGIN
     WHERE genres.name = nameVal;
     RETURN genreID;
 END
-$genreID$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 -- getSeasonID
 CREATE OR REPLACE FUNCTION getSeasonID(nameVal VARCHAR (50))
-    RETURNS INTEGER AS $seasonID$
+    RETURNS INTEGER AS $$
 DECLARE
     seasonID INTEGER;
 BEGIN
@@ -132,12 +137,12 @@ BEGIN
     WHERE seasons.name = nameVal;
     RETURN seasonID;
 END
-$seasonID$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 -- getSeriesID
 
 CREATE OR REPLACE FUNCTION getSeriesID(nameVal VARCHAR (50))
-    RETURNS INTEGER AS $seriesID$
+    RETURNS INTEGER AS $$
 DECLARE
     seriesID INTEGER;
 BEGIN
@@ -145,12 +150,12 @@ BEGIN
     WHERE series.name = nameVal;
     RETURN seriesID;
 END
-$seriesID$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 -- getArtistID
 
 CREATE OR REPLACE FUNCTION getArtistID(nameVal VARCHAR (50))
-    RETURNS INTEGER AS $artistID$
+    RETURNS INTEGER AS $$
 DECLARE
     artistID INTEGER;
 BEGIN
@@ -158,12 +163,12 @@ BEGIN
     WHERE artists.name = nameVal;
     RETURN artistID;
 END
-$artistID$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 -- getProductionID
 
 CREATE OR REPLACE FUNCTION getProductionID(nameVal VARCHAR (50))
-    RETURNS INTEGER AS $productionID$
+    RETURNS INTEGER AS $$
 DECLARE
     productionID INTEGER;
 BEGIN
@@ -171,12 +176,12 @@ BEGIN
     WHERE productions.name = nameVal;
     RETURN productionID;
 END
-$productionID$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 -- getSuperUserID
 
 CREATE OR REPLACE FUNCTION getSuperUserID(nameVal VARCHAR (50))
-    RETURNS INTEGER AS $superUserID$
+    RETURNS INTEGER AS $$
 DECLARE
     superUserID INTEGER;
 BEGIN
@@ -184,7 +189,7 @@ BEGIN
     WHERE superUsers.name = nameVal;
     RETURN superUserID;
 END
-$superUserID$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 -- GUI data
 
@@ -228,3 +233,6 @@ BEGIN
 end;
 $$ LANGUAGE plpgsql;
 
+-- ENDFILE is used as a delimiter when parsing this file in the ScriptRunner. Otherwise, ScriptRunner doesn't know where the file ends.
+
+ENDFILE
