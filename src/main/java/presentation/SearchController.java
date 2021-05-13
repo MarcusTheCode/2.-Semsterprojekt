@@ -152,12 +152,17 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void removeProduction(MouseEvent event) {
-        int index = productionsTable.getSelectionModel().getFocusedIndex();
-        Production production = productionObservableList.get(index);
-        productionObservableList.remove(index);
-
-        DomainFacade.removeProduction(production);
+    void removeProduction(MouseEvent event) throws Exception {
+        Production production = productionsTable.getSelectionModel().getSelectedItem();
+        if (production == null) {
+            noProductionPane.setVisible(true);
+            throw new Exception("No production selected");
+        }else{
+            int index = productionsTable.getSelectionModel().getFocusedIndex();
+            Production productionIndex = productionObservableList.get(index);
+            productionObservableList.remove(index);
+            DomainFacade.removeProduction(productionIndex);
+        }
     }
 
     @FXML
