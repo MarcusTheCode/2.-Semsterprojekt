@@ -353,6 +353,19 @@ public class DatabaseManager {
         return null;
     }
 
+    public int getCategoryID(String name) {
+        try (PreparedStatement ps = connection.prepareStatement("SELECT categories.id FROM categories WHERE categories.name = ?")) {
+            ps.setString(1, name);
+            try (ResultSet set = ps.executeQuery()) {
+                set.next();
+                return set.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public Artist getArtist(String name){
         try{
             PreparedStatement ps = connection.prepareStatement("" +

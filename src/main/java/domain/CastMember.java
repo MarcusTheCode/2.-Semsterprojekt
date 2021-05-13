@@ -9,6 +9,7 @@ public class CastMember implements Serializable {
     private String jobTitle;
     private int artistID;
     private Artist artist;
+    String name;
 
     public CastMember(int productionID, String jobTitle, int artistID){
         this.productionID = productionID;
@@ -56,5 +57,13 @@ public class CastMember implements Serializable {
 
     public Artist getArtist() {
         return artist;
+    }
+
+    public String getName(){
+        return artist.getName();
+    }
+
+    public void setName(String name){
+        artist.setName(name);
     }
 }

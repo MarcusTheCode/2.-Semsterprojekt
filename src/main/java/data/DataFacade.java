@@ -155,4 +155,16 @@ public class DataFacade {
     public static ArrayList<String> getGenres(int productionID){
         return databaseManager.getGenres(productionID);
     }
+
+    public static int getCategory(String name){
+        return databaseManager.getCategoryID(name);
+    }
+
+    public static String getCategory(int id){
+        return databaseManager.getCategoryID(id);
+    }
+
+    public static int getCategoryID(Production production){
+        return databaseManager.getCategoryID(production);
+    }
 }
