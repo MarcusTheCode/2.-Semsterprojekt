@@ -161,8 +161,8 @@ public class DomainFacade {
     /**
      * This method is used to log the user out of the system.
      */
-    public static void logout() {
-        system.logout();
+    public static boolean logout() {
+        return system.logout();
     }
 
     public static Artist getArtist(){
