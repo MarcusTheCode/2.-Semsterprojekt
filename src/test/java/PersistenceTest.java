@@ -1,54 +1,29 @@
-import domain.Production;
 import org.apache.ibatis.jdbc.ScriptRunner;
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.*;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class PersistenceTest {
 
-    private Connection connection;
-    private String url;
-    private int port;
-    private String databaseName;
-    private String username;
-    private String password;
+    private static Connection connection;
 
-    @Before
-    public void establishConnection(){
-        this.connection = null;
+    @BeforeClass
+    public static void establishConnection(){
+        connection = null;
         try {
             FileReader fileReader = new FileReader("src/main/resources/TXT/DatabaseCredentials");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            url = bufferedReader.readLine();
-            port = Integer.parseInt(bufferedReader.readLine());
-            databaseName = bufferedReader.readLine();
-            username = bufferedReader.readLine();
-            password = bufferedReader.readLine();
+            String url = bufferedReader.readLine();
+            Integer port = Integer.parseInt(bufferedReader.readLine());
+            String databaseName = bufferedReader.readLine();
+            String username = bufferedReader.readLine();
+            String password = bufferedReader.readLine();
             DriverManager.registerDriver(new org.postgresql.Driver());
             connection = DriverManager.getConnection("jdbc:postgresql://" + url + ":" + port + "/" + databaseName, username, password);
-            migrate();
         } catch (SQLException | IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void migrate(){
-        System.out.println("\nRunning Migration.sql file\n");
-        try {
-            Reader reader = new BufferedReader(new FileReader("src/main/java/data/Migration.sql"));
-            ScriptRunner scriptRunner = new ScriptRunner(connection);
-            scriptRunner.setDelimiter("ENDFILE");
-            scriptRunner.setLogWriter(null);    // Disables output when running the sql file
-            scriptRunner.runScript(reader);
-            scriptRunner.closeConnection();
-        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -58,5 +33,28 @@ public class PersistenceTest {
         assertNotNull(connection);
     }
 
+    @Test
+    public void migrationTest(){
+        try {
+            Reader reader = new BufferedReader(new FileReader("src/main/java/data/Migration.sql"));
+            ScriptRunner scriptRunner = new ScriptRunner(connection);
+            scriptRunner.setDelimiter("ENDFILE");
+            scriptRunner.setLogWriter(null);    // Disables output when running the sql file
+            scriptRunner.runScript(reader);
+            scriptRunner.closeConnection();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
 
+    @AfterClass
+    public static void closeConnection(){
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            assertTrue(false);
+        }
+    }
 }
