@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class DataFacade {
 
     private static DatabaseManager databaseManager = new DatabaseManager();
-    //private static DataManager dataManager = new DataManager();
 
     /**
      * This method is used to retrieve a production from the database, given an ID.
@@ -135,10 +134,18 @@ public class DataFacade {
         return databaseManager.getAllProductions();
     }
 
+    /**
+     * This method is used to retrieve the season number.
+     * @return int Returns a season number.
+     */
     public static int getSeasonNumber(int ID){
         return databaseManager.getSeasonNumber(ID);
     }
 
+    /**
+     * This method is used to retrieve all genres from the database.
+     * @return ArrayList<String> Returns a list of all genres.
+     */
     public static ArrayList<String> getGenres(int productionID){
         return databaseManager.getGenres(productionID);
     }

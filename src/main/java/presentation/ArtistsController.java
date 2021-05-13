@@ -1,9 +1,7 @@
 package presentation;
 
 import domain.Artist;
-import domain.CastMember;
 import domain.DomainFacade;
-import domain.SuperUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
