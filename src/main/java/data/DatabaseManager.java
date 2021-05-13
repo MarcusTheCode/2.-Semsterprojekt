@@ -59,13 +59,22 @@ public class DatabaseManager {
      * @return boolean Returns whether the execution succeeded.
      */
     public boolean insertProduction(Production production) {
-        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO productions(episodeNumber,type,categoryID,seasonsID,producerID,productionTitle) " +
-                "VALUES (?,?,?,?,?)")) {
+        String sqlCode;
+        if (production.getSeasonsID() == null) {
+            sqlCode = "INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle) VALUES (?,?,?,?,?)";
+        }else{
+            sqlCode = "INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle,seasonID)" +
+                    " VALUES (?,?,?,?,?,?)";
+        }
+        try (PreparedStatement ps = connection.prepareStatement(sqlCode)) {
             ps.setInt(1, production.getEpisodeNumber());
             ps.setString(2, production.getType());
             ps.setInt(3, getCategoryID(production));
             ps.setLong(4, production.getOwnerID());
             ps.setString(5, production.getTitle());
+            if (production.getSeasonsID() != null) {
+                ps.setInt(6, production.getSeasonsID());
+            }
             return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,15 +84,15 @@ public class DatabaseManager {
 
     /**
      * This method is used insert a new SuperUser into the database.
-     * @param user The SuperUser to insert into the database
+     * @param superUser The SuperUser to insert into the database
      * @return boolean Returns whether the execution succeeded.
      */
-    public boolean insertSuperUser(SuperUser user) {
+    public boolean insertSuperUser(SuperUser superUser) {
         try (PreparedStatement ps = connection.prepareStatement("INSERT INTO superUsers(isAdmin,username,password)" +
                 "VALUES (?,?,?)")) {
-            ps.setBoolean(1, user.isSysAdmin());
-            ps.setString(2, user.getUsername());
-            ps.setString(3, user.getPassword());
+            ps.setBoolean(1, superUser.isSysAdmin());
+            ps.setString(2, superUser.getUsername());
+            ps.setString(3, superUser.getPassword());
             return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
