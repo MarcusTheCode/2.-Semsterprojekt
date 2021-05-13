@@ -1,9 +1,7 @@
 package presentation;
 
 import domain.Artist;
-import domain.CastMember;
 import domain.DomainFacade;
-import domain.SuperUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,12 +28,18 @@ public class ArtistsController implements Initializable {
     @FXML
     private TableColumn<Artist, String> nameColumn;
 
+    @FXML
+    private TableColumn<Artist, String> emailColumn;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        emailColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         loadArtists();
     }
@@ -68,6 +72,16 @@ public class ArtistsController implements Initializable {
 
     @FXML
     void commitNameChange(TableColumn.CellEditEvent<Artist, String> event) {
+        int row = event.getTablePosition().getRow();
+        if (true) return;
+        Artist artist = event.getTableView().getItems().get(row);
+        artist.setName(event.getNewValue());
+
+        //DomainFacade.editArtist(artist);
+    }
+
+    @FXML
+    void commitEmailChange(TableColumn.CellEditEvent<Artist, String> event) {
         int row = event.getTablePosition().getRow();
         if (true) return;
         Artist artist = event.getTableView().getItems().get(row);

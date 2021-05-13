@@ -5,6 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * <h1>UIManager</h1>
+ * <p>This class acts as the interactive part of the application.</p>
+ * <p>It handles loading of FXML scenes and Controllers</p>
+ * <p>It contains a nested class, SceneData</p>
+ */
+
 public class UIManager extends Application {
 
     private static Stage primaryStage;

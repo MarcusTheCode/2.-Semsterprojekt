@@ -152,12 +152,17 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void removeProduction(MouseEvent event) {
-        int index = productionsTable.getSelectionModel().getFocusedIndex();
-        Production production = productionObservableList.get(index);
-        productionObservableList.remove(index);
+    void removeProduction(MouseEvent event) throws Exception {
+        Production production = productionsTable.getSelectionModel().getSelectedItem();
+        if (production == null) {
+            noProductionPane.setVisible(true);
+            throw new Exception("No production selected");
+        }else{
+            int index = productionsTable.getSelectionModel().getFocusedIndex();
+            productionObservableList.remove(index);
 
-        DomainFacade.removeProduction(production);
+            DomainFacade.deleteProduction(production);
+        }
     }
 
     @FXML
@@ -174,7 +179,7 @@ public class SearchController implements Initializable {
         int row = event.getTablePosition().getRow();
         Production production = event.getTableView().getItems().get(row);
 
-        DomainFacade.removeProduction(production);
+        DomainFacade.deleteProduction(production);
 
         production.setID(event.getNewValue());
 
@@ -223,6 +228,11 @@ public class SearchController implements Initializable {
         if (event.getCode() == KeyCode.ENTER) {
             loadProductions();
         }
+    }
+
+    @FXML
+    void SaveChanges(MouseEvent event) {
+
     }
 
     public void setAdminToolsVisibility(boolean bool) {

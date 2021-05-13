@@ -11,7 +11,6 @@ public class Production implements Serializable {
     String title;
     String category;
     ArrayList<CastMember> castMembers;
-    int ownerID;
     private Integer episodeNumber;
     private String type;
     private Integer categoryID;
@@ -20,29 +19,31 @@ public class Production implements Serializable {
     private Integer producerID;
     private ArrayList<String> genres;
 
-    public Production(int ownerID) {
-        this.ownerID = ownerID;
+    public Production(int producerID) {
+        this.producerID = producerID;
         this.category = "news";
         this.title = "title";
         this.episodeNumber = 0;
         this.type = "type";
-        seasonsID = null;
-        castMembers = new ArrayList<>();
-        genres = new ArrayList<>();
+        this.seasonsID = null;
+        this.categoryID = DataFacade.getCategory(category);
+        this.castMembers = new ArrayList<>();
+        this.genres = new ArrayList<>();
     }
 
     //Tv-Series
     public Production(int episodeNumber, int seasonsID, int producerID, int productionID, String title, String category, String type) {
-        this.ownerID = producerID;
+        this.producerID = producerID;
         this.category = category;
         this.id = productionID;
         this.title = title;
         this.episodeNumber = episodeNumber;
         this.seasonsID = seasonsID;
         this.type = type;
-        castMembers = new ArrayList<>();
-        genres = DataFacade.getGenres(productionID);;
+        this.castMembers = new ArrayList<>();
+        this.genres = DataFacade.getGenres(productionID);;
         this.seasonsNumber = DataFacade.getSeasonNumber(seasonsID);
+        this.categoryID = DataFacade.getCategory(category);
     }
 
     public ArrayList<String> getGenres() {
@@ -58,7 +59,7 @@ public class Production implements Serializable {
     }
 
     public boolean isOwner(SuperUser superUser) {
-        return (ownerID == superUser.getId());
+        return (producerID == superUser.getId());
     }
 
     public ArrayList<CastMember> getCastMembers() {
@@ -74,11 +75,11 @@ public class Production implements Serializable {
     }
 
     public void setOwnerID(int ownerID) {
-        this.ownerID = ownerID;
+        this.producerID = ownerID;
     }
 
     public long getOwnerID() {
-        return ownerID;
+        return producerID;
     }
 
     public void setTitle(String title) {

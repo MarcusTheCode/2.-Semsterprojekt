@@ -1,12 +1,14 @@
 package data;
 
 import domain.Artist;
+import domain.CastMember;
 import domain.Production;
 import domain.SuperUser;
 
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseManager {
     // Structure of data for file DatabaseCredentials
@@ -106,9 +108,10 @@ public class DatabaseManager {
      * @param artist The artist to insert into the database
      */
     public boolean insertArtist(Artist artist) {
-        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO artists(name)" +
-                "VALUES (?)")) {
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO artists(name,email)" +
+                "VALUES (?,?)")) {
             ps.setString(1, artist.getName());
+            ps.setString(2, artist.getEmail());
             return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -351,6 +354,53 @@ public class DatabaseManager {
         return null;
     }
 
+    public int getCategoryID(String name) {
+        try (PreparedStatement ps = connection.prepareStatement("SELECT categories.id FROM categories WHERE categories.name = ?")) {
+            ps.setString(1, name);
+            try (ResultSet set = ps.executeQuery()) {
+                set.next();
+                return set.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public Artist getArtist(String name){
+        try{
+            PreparedStatement ps = connection.prepareStatement("" +
+                    "SELECT * FROM artists WHERE name = ?");
+            ps.setString(1,name);
+            ResultSet set = ps.executeQuery();
+            if (!set.next()){
+                return null;
+            }else{
+                return new Artist(set.getInt(1), set.getString(2), set.getString(3));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Artist getArtist(int id){
+        try{
+            PreparedStatement ps = connection.prepareStatement("" +
+                    "SELECT * FROM artists WHERE id = ?");
+            ps.setInt(1,id);
+            ResultSet set = ps.executeQuery();
+            if (!set.next()){
+                return null;
+            }else{
+                return new Artist(set.getInt(1), set.getString(2), set.getString(3));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     /**
      * This method is used to retrieve all productions from the database.
      * @return ArrayList<Production> Returns a list of all productions.
@@ -412,7 +462,8 @@ public class DatabaseManager {
                 while (resultSet.next()) {
                     users.add(new Artist(
                             resultSet.getInt(1),
-                            resultSet.getString(2)));
+                            resultSet.getString(2),
+                            resultSet.getString(3)));
                 }
             }
             return users;
@@ -483,6 +534,40 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<CastMember> getCastMembers(int ID){
+        ArrayList<CastMember> castMembers = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement("" +
+                "SELECT * FROM castMembers " +
+                "WHERE castMembers.productionID = ?;");
+            ResultSet set = ps.executeQuery();
+            while(set.next()){
+                castMembers.add(new CastMember(
+                        set.getInt(2),
+                        set.getString(1),
+                        set.getInt(3)
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return castMembers;
+    }
+
+    public void insertCastMember(CastMember c){
+        try {
+            PreparedStatement ps = connection.prepareStatement("" +
+                    "INSERT INTO castMembers(id,role,artistID) " +
+                    "VALUES(?,?,?)");
+            ps.setInt(1,c.getId());
+            ps.setString(2,c.getJobTitle());
+            ps.setInt(3,c.getArtistID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

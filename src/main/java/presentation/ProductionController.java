@@ -1,5 +1,6 @@
 package presentation;
 
+import data.DataFacade;
 import domain.CastMember;
 import domain.DomainFacade;
 import domain.Production;
@@ -102,7 +103,7 @@ public class ProductionController implements Initializable {
 
     @FXML
     void addEntry(MouseEvent event) {
-        CastMember castMember = new CastMember("\"name\"","\"job\"");
+        CastMember castMember = new CastMember("\"name\"", "\"email\"","\"job\"",currentProduction.getId());
         castMemberObservableList.add(castMember);
         currentProduction.addCastMember(castMember);
     }
@@ -124,7 +125,7 @@ public class ProductionController implements Initializable {
     void commitNameChange(TableColumn.CellEditEvent<CastMember, String> event) {
         int row = event.getTablePosition().getRow();
         CastMember castMember = ((CastMember) event.getTableView().getItems().get(row));
-        castMember.setName(event.getNewValue());
+        castMember.getArtist().setName(event.getNewValue());
     }
 
     @FXML
