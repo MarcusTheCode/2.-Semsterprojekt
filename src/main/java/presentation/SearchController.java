@@ -83,7 +83,7 @@ public class SearchController implements Initializable {
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         typeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        seasonColumn.setCellValueFactory(new PropertyValueFactory<>("seasonsNumber"));
+        seasonColumn.setCellValueFactory(new PropertyValueFactory<>("seasonNumber"));
         seasonColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 
         episodeColumn.setCellValueFactory(new PropertyValueFactory<>("episodeNumber"));
