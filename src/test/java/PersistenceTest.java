@@ -48,6 +48,20 @@ public class PersistenceTest {
         }
     }
 
+    // TODO: Get credit test
+
+    // TODO: Save credit test
+
+    // TODO: Delete credit test
+
+    // TODO: Edit credit test
+
+    // TODO: Save SuperUser test
+
+    // TODO: Delete Superuser test
+
+    // TODO: Edit SuperUser test
+
     @AfterClass
     public static void closeConnection(){
         try {

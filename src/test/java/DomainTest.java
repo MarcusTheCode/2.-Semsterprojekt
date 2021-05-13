@@ -12,6 +12,7 @@ public class DomainTest {
 
     @Test
     public void logOutTest(){
+        DomainFacade.login("admin","admin");
         assertTrue(DomainFacade.logout());
     }
 }
