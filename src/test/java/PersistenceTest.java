@@ -1,9 +1,14 @@
+import data.DataFacade;
+import domain.CastMember;
+import domain.Production;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.*;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class PersistenceTest {
@@ -48,7 +53,12 @@ public class PersistenceTest {
         }
     }
 
-    // TODO: Get credit test
+    @Test
+    public void getCreditTest(){
+        Production production = DataFacade.getProduction(5);
+        ArrayList<CastMember> castMembers = production.getCastMembers();
+        // TODO: finish
+    }
 
     // TODO: Save credit test
 

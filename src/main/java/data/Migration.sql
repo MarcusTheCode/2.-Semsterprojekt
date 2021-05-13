@@ -97,6 +97,12 @@ VALUES (2,'tv-series',4,2,3,'lucifer, stay. good devil.');
 INSERT INTO productions(episodeNumber, type, categoryID, producerID, productionTitle)
 VALUES (1,'movie',4,3,'bee movie');
 
+INSERT INTO artists(name,email)
+VALUES('Barry B. Benson ','BarryBeeBenson@bee.hive');
+
+INSERT INTO castMembers(productionID, role, artistID)
+VALUES (5,'Actor',1);
+
 -- getCategoryID
 CREATE OR REPLACE FUNCTION getCategoryID(nameVal VARCHAR (50))
     RETURNS INTEGER AS $$
