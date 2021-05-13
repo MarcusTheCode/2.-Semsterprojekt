@@ -1,6 +1,7 @@
 package data;
 
 import domain.Artist;
+import domain.CastMember;
 import domain.Production;
 import domain.SuperUser;
 
@@ -56,6 +57,10 @@ public class DataFacade {
         return databaseManager.insertArtist(artist);
     }
 
+    public static void insertCastMember(CastMember castMember){
+        databaseManager.insertCastMember(castMember);
+    }
+
     /**
      * This method is used to delete an artist from the database.
      * @param artistID The ID of the artist to delete from the database
@@ -80,6 +85,14 @@ public class DataFacade {
      */
     public static ArrayList<Artist> getArtists() {
         return databaseManager.getArtists();
+    }
+
+    public static Artist getArtist(String name){
+        return databaseManager.getArtist(name);
+    }
+
+    public static Artist getArtist(int artistID){
+        return databaseManager.getArtist(artistID);
     }
 
     /**

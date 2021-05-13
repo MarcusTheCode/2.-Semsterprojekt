@@ -26,9 +26,9 @@ public class Production implements Serializable {
         this.title = "title";
         this.episodeNumber = 0;
         this.type = "type";
-        seasonsID = null;
-        castMembers = new ArrayList<>();
-        genres = new ArrayList<>();
+        this.seasonsID = null;
+        this.castMembers = new ArrayList<>();
+        this.genres = new ArrayList<>();
     }
 
     //Tv-Series
@@ -40,8 +40,8 @@ public class Production implements Serializable {
         this.episodeNumber = episodeNumber;
         this.seasonsID = seasonsID;
         this.type = type;
-        castMembers = new ArrayList<>();
-        genres = DataFacade.getGenres(productionID);;
+        this.castMembers = new ArrayList<>();
+        this.genres = DataFacade.getGenres(productionID);;
         this.seasonsNumber = DataFacade.getSeasonNumber(seasonsID);
     }
 
