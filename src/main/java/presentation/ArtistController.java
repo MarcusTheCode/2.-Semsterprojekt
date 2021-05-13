@@ -24,6 +24,7 @@ public class ArtistController implements Initializable {
     @FXML
     void returnToArtists(MouseEvent event) {
         UIManager.changeScene(UIManager.getArtistsScene());
+        UIManager.getArtistsController().loadArtists();
     }
 
     @FXML
@@ -33,7 +34,7 @@ public class ArtistController implements Initializable {
 
     @FXML
     void enterName(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER); {
+        if (event.getCode() == KeyCode.ENTER) {
             createArtist(name.getText());
         }
     }

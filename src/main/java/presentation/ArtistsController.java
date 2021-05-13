@@ -59,15 +59,11 @@ public class ArtistsController implements Initializable {
     @FXML
     void deleteArtist(MouseEvent event) {
         int index = artists.getSelectionModel().getFocusedIndex();
-        int userID = artistsObservableList.get(index).getId();
-
-        if (artistsObservableList.get(index).getId() == 6){
-            return;
-        }
+        int artistID = artistsObservableList.get(index).getId();
 
         artistsObservableList.remove(index);
 
-        DomainFacade.deleteSuperUser(userID);
+        DomainFacade.deleteArtist(artistID);
     }
 
     @FXML
