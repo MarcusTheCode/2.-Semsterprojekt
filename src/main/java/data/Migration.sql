@@ -52,7 +52,7 @@ CREATE TABLE productionGenres (
 CREATE TABLE artists (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL
+    email VARCHAR(100) UNIQUE NOT NULL
 );
 
 CREATE TABLE castMembers (

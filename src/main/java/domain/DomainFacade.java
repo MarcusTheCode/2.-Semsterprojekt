@@ -74,8 +74,8 @@ public class DomainFacade {
      * @param name The name of the artist to insert into the database
      * @return Artist Returns the newly created artist.
      */
-    public static Artist createArtist(String name) {
-        Artist artist = new Artist(name);
+    public static Artist createArtist(String name, String email) {
+        Artist artist = new Artist(name, email);
         DataFacade.insertArtist(artist);
         return artist;
     }
