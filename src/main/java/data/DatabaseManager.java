@@ -1,5 +1,6 @@
 package data;
 
+import domain.Artist;
 import domain.Production;
 import domain.SuperUser;
 
@@ -101,6 +102,21 @@ public class DatabaseManager {
     }
 
     /**
+     * This method is used to insert a unique artist into the database.
+     * @param artist The artist to insert into the database
+     */
+    public boolean insertArtist(Artist artist) {
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO artists(name)" +
+                "VALUES (?)")) {
+            ps.setString(1, artist.getName());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
      * This method is used insert a series name into the database.
      * @param name The series name to insert into the database
      * @return boolean Returns whether the execution succeeded.
@@ -174,6 +190,7 @@ public class DatabaseManager {
     public boolean deleteSuperUser(int userID) {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM superUsers WHERE superUsers.id = ?")) {
             ps.setInt(1, userID);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -188,11 +205,30 @@ public class DatabaseManager {
     public boolean deleteProduction(int productionID) {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM productions WHERE productions.id = ?")) {
             ps.setInt(1, productionID);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
+
+    /**
+     * This method is used to delete an artist from the database.
+     * @param artistID The ID of the artist to delete from the database
+     * @return boolean Returns whether the execution succeeded.
+     */
+    public boolean deleteArtist(int artistID) {
+        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM artists WHERE artists.id = ?")) {
+            ps.setInt(1, artistID);
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    // Get methods
 
     /**
      * This method is used to retrieve the SuperUser with the given username, if the passwords match.
@@ -216,9 +252,6 @@ public class DatabaseManager {
         }
         return null;
     }
-
-
-    // Get methods
 
     /**
      * This method is used to retrieve a production from the database, given an ID.
@@ -347,6 +380,27 @@ public class DatabaseManager {
                             resultSet.getString(4),
                             resultSet.getString(3),
                             resultSet.getBoolean(2)));
+                }
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * This method is used to retrieve all Artists from the database.
+     * @return ArrayList<Artist> Returns a list of all Artists.
+     */
+    public ArrayList<Artist> getArtists() {
+        ArrayList<Artist> users = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM getAllArtists()")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    users.add(new Artist(
+                            resultSet.getInt(1),
+                            resultSet.getString(2)));
                 }
             }
             return users;
