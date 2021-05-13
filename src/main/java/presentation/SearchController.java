@@ -159,9 +159,9 @@ public class SearchController implements Initializable {
             throw new Exception("No production selected");
         }else{
             int index = productionsTable.getSelectionModel().getFocusedIndex();
-            Production productionIndex = productionObservableList.get(index);
             productionObservableList.remove(index);
-            DomainFacade.removeProduction(productionIndex);
+
+            DomainFacade.deleteProduction(production);
         }
     }
 
@@ -179,7 +179,7 @@ public class SearchController implements Initializable {
         int row = event.getTablePosition().getRow();
         Production production = event.getTableView().getItems().get(row);
 
-        DomainFacade.removeProduction(production);
+        DomainFacade.deleteProduction(production);
 
         production.setID(event.getNewValue());
 
