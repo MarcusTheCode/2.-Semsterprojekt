@@ -44,6 +44,7 @@ public class PersistenceTest {
         try {
             Reader reader = new BufferedReader(new FileReader("src/main/java/data/Migration.sql"));
             ScriptRunner scriptRunner = new ScriptRunner(connection);
+            scriptRunner.setDelimiter(";;");
             scriptRunner.runScript(reader);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
