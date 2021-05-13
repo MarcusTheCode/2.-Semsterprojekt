@@ -10,6 +10,10 @@ public class DomainFacade {
 
     // Productions
 
+    /**
+     * This method is used to insert a production into the database.
+     * @param production The production to save
+     */
     public static void saveProduction(Production production) {
         try {
             system.saveProduction(production);
@@ -19,7 +23,11 @@ public class DomainFacade {
         }
     }
 
-    public static void removeProduction(Production production) {
+    /**
+     * This method is used to delete a production from the database.
+     * @param production The production to delete
+     */
+    public static void deleteProduction(Production production) {
         try {
             system.deleteProduction(production);
         } catch (Exception e) {
@@ -28,10 +36,19 @@ public class DomainFacade {
         }
     }
 
+    /**
+     * This method is used to retrieve a production with the given ID.
+     * @param ID The ID of the production
+     * @return Production Returns the production.
+     */
     public static Production getProduction(int ID) {
         return system.getProduction(ID);
     }
 
+    /**
+     * This method is used to edit a production in the database.
+     * @param production The production to update
+     */
     public static void editProduction(Production production) {
         try {
             system.editProduction(production);
@@ -79,32 +96,65 @@ public class DomainFacade {
 
     // SuperUsers
 
+    /**
+     * This method is used to create a unique artist in the database.
+     * @return ArrayList<SuperUser> Returns a list of all SuperUsers.
+     */
     public static ArrayList<SuperUser> getUsers() {
         return DataFacade.getUsers();
     }
 
+    /**
+     * This method is used to create a SuperUser and save it in the database.
+     * @param password The password for this user
+     * @param username The name of the SuperUser
+     * @param sysAdmin Whether this SuperUser is a system administrator
+     * @return SuperUser Returns the newly created SuperUser.
+     */
     public static SuperUser createUser(String password, String username, boolean sysAdmin) {
         return system.createUser(password, username, sysAdmin);
     }
 
+    /**
+     * This method is used to update an existing SuperUser in the database.
+     * @deprecated Not up to date with current codebase.
+     * @param superUser The SuperUser to update
+     */
     public static void editUser(SuperUser superUser) {
         // TODO: Implement
     }
 
-    public static void deleteSuperUser(int ID) {
-        DataFacade.deleteSuperUser(ID);
+    /**
+     * This method is used to delete a SuperUser from the database.
+     * @param userID The ID of the SuperUser
+     */
+    public static void deleteSuperUser(int userID) {
+        DataFacade.deleteSuperUser(userID);
     }
 
     // Current user
 
+    /**
+     * This method is used to retrieve the currently logged in SuperUser.
+     * @return SuperUser Returns the current SuperUser or null.
+     */
     public static SuperUser getCurrentUser() {
         return system.getCurrentUser();
     }
 
+    /**
+     * This method is used to log the user in.
+     * @param inputUsername The username to login as
+     * @param inputPassword The password to match against
+     * @return boolean Whether the username and password match.
+     */
     public static boolean login(String inputUsername, String inputPassword) {
         return system.login(inputUsername, inputPassword);
     }
 
+    /**
+     * This method is used to log the user out of the system.
+     */
     public static void logout() {
         system.logout();
     }
