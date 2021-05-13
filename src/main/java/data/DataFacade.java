@@ -6,6 +6,12 @@ import domain.SuperUser;
 
 import java.util.ArrayList;
 
+/**
+ * <h1>DataFacade</h1>
+ * This class functions as a bridge between the domain layer and persistence layer
+ * in order to funnel method calls
+ */
+
 public class DataFacade {
 
     private static DatabaseManager databaseManager = new DatabaseManager();
@@ -136,17 +142,19 @@ public class DataFacade {
 
     /**
      * This method is used to retrieve the season number.
+     * @param ID The ID of the season
      * @return int Returns a season number.
      */
-    public static int getSeasonNumber(int ID){
+    public static int getSeasonNumber(int ID) {
         return databaseManager.getSeasonNumber(ID);
     }
 
     /**
-     * This method is used to retrieve all genres from the database.
-     * @return ArrayList<String> Returns a list of all genres.
+     * This method is used to retrieve all genres in a production from the database.
+     * @param productionID The ID of the production
+     * @return ArrayList<String> Returns a list of all genres in the production.
      */
-    public static ArrayList<String> getGenres(int productionID){
+    public static ArrayList<String> getGenres(int productionID) {
         return databaseManager.getGenres(productionID);
     }
 }
