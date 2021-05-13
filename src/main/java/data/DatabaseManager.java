@@ -368,8 +368,8 @@ public class DatabaseManager {
             }catch (Exception ignored){
                 return 0;
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return 0;
     }
@@ -393,6 +393,30 @@ public class DatabaseManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void updateProduction(Production production){
+        try{
+            PreparedStatement ps = connection.prepareStatement("" +
+                    "UPDATE productions SET " +
+                    "episodeNumber = ?," +
+                    "type = ?," +
+                    "categoryID = ?," +
+                    "seasonID = ?," +
+                    "producerID = ?," +
+                    "productionTitle = ?" +
+                    "WHERE id = ?");
+            ps.setInt(1,production.getEpisodeNumber());
+            ps.setString(2,production.getType());
+            ps.setInt(3,production.getCategoryID());
+            ps.setInt(4,production.getSeasonsID());
+            ps.setInt(5,production.getProducerID());
+            ps.setString(6,production.getTitle());
+            ps.setInt(7,production.getId());
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
