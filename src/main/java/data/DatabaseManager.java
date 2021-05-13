@@ -376,7 +376,7 @@ public class DatabaseManager {
             if (!set.next()){
                 return null;
             }else{
-                return new Artist(set.getInt(1),set.getString(2));
+                return new Artist(set.getInt(1), set.getString(2), set.getString(3));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -393,7 +393,7 @@ public class DatabaseManager {
             if (!set.next()){
                 return null;
             }else{
-                return new Artist(set.getInt(1),set.getString(2));
+                return new Artist(set.getInt(1), set.getString(2), set.getString(3));
             }
         } catch (SQLException e) {
             e.printStackTrace();

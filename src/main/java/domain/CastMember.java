@@ -9,21 +9,21 @@ public class CastMember implements Serializable {
     private String jobTitle;
     private int artistID;
     private Artist artist;
-    String name;
+    private String name;
 
-    public CastMember(int productionID, String jobTitle, int artistID){
+    public CastMember(int productionID, String jobTitle, int artistID) {
         this.productionID = productionID;
         this.jobTitle = jobTitle;
         this.artistID = artistID;
         artist = getArtistFormDatabase();
     }
 
-    public CastMember(String name, String jobTitle,int productionID){
+    public CastMember(String name, String email, String jobTitle, int productionID) {
         this.jobTitle = jobTitle;
         this.productionID = productionID;
         this.artist = DataFacade.getArtist(name);
         if (this.artist==null){
-            DataFacade.insertArtist(new Artist(name));
+            DataFacade.insertArtist(new Artist(name, email));
             this.artist = DataFacade.getArtist(name);
         }
         this.artistID = artist.getId();
