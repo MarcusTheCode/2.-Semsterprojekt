@@ -66,6 +66,15 @@ public class DataFacade {
     }
 
     /**
+     * This method is used to edit an Artist.
+     * @param artist The Artist to edit
+     * @return boolean Returns whether the execution succeeded.
+     */
+    public static boolean editArtist(Artist artist) {
+        return databaseManager.editArtist(artist);
+    }
+
+    /**
      * This method is used to retrieve a list of artists from the database.
      * @return ArrayList<Artist> Returns all artists from the database.
      */

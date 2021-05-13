@@ -62,6 +62,14 @@ public class DomainFacade {
     }
 
     /**
+     * This method is used to edit an Artist.
+     * @param artist The Artist to edit
+     */
+    public static void editArtist(Artist artist) {
+        DataFacade.editArtist(artist);
+    }
+
+    /**
      * This method is used to retrieve a list of artists from the database.
      * @return ArrayList<Artist> Returns all artists from the database.
      */

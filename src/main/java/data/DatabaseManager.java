@@ -180,6 +180,18 @@ public class DatabaseManager {
         return getCategoryID(production);
     }
 
+    // Edit methods
+
+    /**
+     * This method is used to edit an Artist.
+     * @param artist The Artist to edit
+     * @return boolean Returns whether the execution succeeded.
+     */
+    public boolean editArtist(Artist artist) {
+        // TODO: Implement
+        return false;
+    }
+
     // Delete methods
 
     /**
