@@ -32,7 +32,7 @@ public class Production implements Serializable {
     }
 
     //Tv-Series
-    public Production(int episodeNumber, int seasonsID, int producerID, int productionID, String title, String category, String type) {
+    public Production(int episodeNumber, Integer seasonsID, int producerID, int productionID, String title, String category, String type) {
         this.producerID = producerID;
         this.category = category;
         this.id = productionID;
