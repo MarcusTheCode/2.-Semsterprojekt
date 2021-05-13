@@ -1,34 +1,38 @@
 package domain;
 
+import data.DataFacade;
 import java.io.Serializable;
 
 public class CastMember implements Serializable {
 
-    private int id;
-    private String name;
+    private int productionID;
     private String jobTitle;
+    private int artistID;
+    private Artist artist;
+    String name;
 
-    public CastMember(int id, String name, String jobTitle){
-        this.id = id;
+    public CastMember(int productionID, String jobTitle, int artistID){
+        this.productionID = productionID;
         this.jobTitle = jobTitle;
-        this.name = name;
+        this.artistID = artistID;
+        artist = getArtistFormDatabase();
     }
 
-    public CastMember(String name, String jobTitle){
+    public CastMember(String name, String jobTitle,int productionID){
         this.jobTitle = jobTitle;
-        this.name = name;
+        this.productionID = productionID;
+        this.artist = DataFacade.getArtist(name);
+        if (this.artist==null){
+            DataFacade.insertArtist(new Artist(name));
+            this.artist = DataFacade.getArtist(name);
+        }
+        this.artistID = artist.getId();
+        DataFacade.insertCastMember(this);
     }
+
 
     public int getId() {
-        return id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
+        return productionID;
     }
 
     public void setJobTitle(String jobTitle) {
@@ -37,5 +41,29 @@ public class CastMember implements Serializable {
 
     public String getJobTitle() {
         return jobTitle;
+    }
+
+    public int getArtistID() {
+        return artistID;
+    }
+
+    public void setArtistID(int artistID) {
+        this.artistID = artistID;
+    }
+
+    private Artist getArtistFormDatabase(){
+        return DataFacade.getArtist(artistID);
+    }
+
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public String getName(){
+        return artist.getName();
+    }
+
+    public void setName(String name){
+        artist.setName(name);
     }
 }
