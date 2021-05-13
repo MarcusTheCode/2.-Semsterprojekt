@@ -1,7 +1,7 @@
 #.idea folder
 /.idea
 
-/resources/TXT/DatabaseCredentials
+/src/main/resources/TXT/DatabaseCredentials
 
 #build output
 /out

@@ -26,7 +26,7 @@ public class DatabaseManager {
     // Constructor
     public DatabaseManager() {
         try {
-            FileReader fileReader = new FileReader("resources/TXT/DatabaseCredentials");
+            FileReader fileReader = new FileReader("src/main/resources/TXT/DatabaseCredentials");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             this.url = bufferedReader.readLine();
             this.port = Integer.parseInt(bufferedReader.readLine());
