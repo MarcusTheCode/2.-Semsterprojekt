@@ -29,6 +29,9 @@ public class ProductionController implements Initializable {
     private Text productionTitle;
 
     @FXML
+    private Text saveText;
+
+    @FXML
     private Button addEntry;
 
     @FXML
@@ -75,11 +78,13 @@ public class ProductionController implements Initializable {
         saveEntry.setVisible(bool);
         nameColumn.setEditable(bool);
         roleColumn.setEditable(bool);
+
     }
 
     @FXML
     void returnToSearch(MouseEvent event) {
         UIManager.changeScene(UIManager.getSearchScene());
+        saveText.setVisible(false);
     }
 
     public void loadProduction(int ID) {
@@ -125,5 +130,7 @@ public class ProductionController implements Initializable {
     @FXML
     void saveChanges(MouseEvent event) {
         DomainFacade.editProduction(currentProduction);
+        saveText.setVisible(true);
+
     }
 }
