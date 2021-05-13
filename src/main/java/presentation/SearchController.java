@@ -15,7 +15,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.LongStringConverter;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
@@ -150,12 +152,17 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void removeProduction(MouseEvent event) {
-        int index = productionsTable.getSelectionModel().getFocusedIndex();
-        Production production = productionObservableList.get(index);
-        productionObservableList.remove(index);
+    void removeProduction(MouseEvent event) throws Exception {
+        Production production = productionsTable.getSelectionModel().getSelectedItem();
+        if (production == null) {
+            noProductionPane.setVisible(true);
+            throw new Exception("No production selected");
+        }else{
+            int index = productionsTable.getSelectionModel().getFocusedIndex();
+            productionObservableList.remove(index);
 
-        DomainFacade.deleteProduction(production);
+            DomainFacade.deleteProduction(production);
+        }
     }
 
     @FXML
