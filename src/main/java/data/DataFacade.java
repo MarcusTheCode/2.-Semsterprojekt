@@ -44,8 +44,7 @@ public class DataFacade {
      * @deprecated Not up to date with current codebase.
      */
     public static void editProduction(Production production) {
-        // TODO: Implement
-        //databaseManager.editProduction(production);
+        databaseManager.updateProduction(production);
     }
 
     /**
