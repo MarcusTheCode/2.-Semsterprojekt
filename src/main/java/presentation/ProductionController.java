@@ -41,6 +41,8 @@ public class ProductionController implements Initializable {
 
     private ObservableList<CastMember> castMemberObservableList;
 
+    private ObservableList<String> genresOberservableList;
+
     @FXML
     private TableView<CastMember> castMembers;
 
@@ -60,8 +62,10 @@ public class ProductionController implements Initializable {
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         castMemberObservableList = FXCollections.observableArrayList();
+        genresOberservableList = FXCollections.observableArrayList();
 
         castMembers.setItems(castMemberObservableList);
+        genreList.setItems(genresOberservableList);
 
     }
 
@@ -85,6 +89,10 @@ public class ProductionController implements Initializable {
         ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();
         castMemberObservableList = FXCollections.observableArrayList(castMemberArrayList);
         castMembers.setItems(castMemberObservableList);
+
+        ArrayList<String> genres = currentProduction.getGenres();
+        genresOberservableList = FXCollections.observableArrayList(genres);
+        genreList.setItems(genresOberservableList);
     }
 
     @FXML
