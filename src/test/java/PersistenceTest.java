@@ -1,10 +1,9 @@
 import domain.Production;
+import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -34,7 +33,19 @@ public class PersistenceTest {
             password = bufferedReader.readLine();
             DriverManager.registerDriver(new org.postgresql.Driver());
             connection = DriverManager.getConnection("jdbc:postgresql://" + url + ":" + port + "/" + databaseName, username, password);
+            migrate();
         } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void migrate(){
+        System.out.println("\nRunning Migration.sql file\n");
+        try {
+            Reader reader = new BufferedReader(new FileReader("src/main/java/data/Migration.sql"));
+            ScriptRunner scriptRunner = new ScriptRunner(connection);
+            scriptRunner.runScript(reader);
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -43,4 +54,6 @@ public class PersistenceTest {
     public void connectionTest(){
         assertNotNull(connection);
     }
+
+
 }
