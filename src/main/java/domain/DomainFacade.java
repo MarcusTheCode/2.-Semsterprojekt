@@ -38,6 +38,18 @@ public class DomainFacade {
         }
     }
 
+    public static void createArtist(String name) {
+
+    }
+
+    /**
+     * This method is used to retrieve a list of artists from the database.
+     * @return ArrayList<Artist> Returns all artists from the database.
+     */
+    public static ArrayList<Artist> getArtists() {
+        return DataFacade.getArtists();
+    }
+
     public static SuperUser getCurrentUser() {
         return system.getCurrentUser();
     }

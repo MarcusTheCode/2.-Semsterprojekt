@@ -30,7 +30,7 @@
                   <Insets />
                </VBox.margin>
             </Text>
-            <TableView fx:id="superUsers" editable="true" minHeight="200.0" prefHeight="0.0" prefWidth="500.0">
+            <TableView fx:id="artists" editable="true" minHeight="200.0" prefHeight="0.0" prefWidth="500.0">
                <VBox.margin>
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>

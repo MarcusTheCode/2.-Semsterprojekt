@@ -1,5 +1,6 @@
 package data;
 
+import domain.Artist;
 import domain.Production;
 import domain.SuperUser;
 
@@ -347,6 +348,27 @@ public class DatabaseManager {
                             resultSet.getString(4),
                             resultSet.getString(3),
                             resultSet.getBoolean(2)));
+                }
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * This method is used to retrieve all Artists from the database.
+     * @return ArrayList<Artist> Returns a list of all Artists.
+     */
+    public ArrayList<Artist> getArtists() {
+        ArrayList<Artist> users = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM getAllArtists()")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    users.add(new Artist(
+                            resultSet.getInt(1),
+                            resultSet.getString(2)));
                 }
             }
             return users;

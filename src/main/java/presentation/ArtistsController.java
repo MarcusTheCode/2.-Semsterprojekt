@@ -1,5 +1,6 @@
 package presentation;
 
+import domain.Artist;
 import domain.CastMember;
 import domain.DomainFacade;
 import domain.SuperUser;
@@ -18,29 +19,31 @@ import java.util.ResourceBundle;
 
 public class ArtistsController implements Initializable {
 
-    private ObservableList<CastMember> artistsObservableList;
-
-    // TODO: Change to Artist instead of SuperUser
-    @FXML
-    private TableView<CastMember> artists;
+    private ObservableList<Artist> artistsObservableList;
 
     @FXML
-    private TableColumn<CastMember, Integer> idColumn;
+    private TableView<Artist> artists;
 
     @FXML
-    private TableColumn<CastMember, String> nameColumn;
+    private TableColumn<Artist, Integer> idColumn;
+
+    @FXML
+    private TableColumn<Artist, String> nameColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        //artistsObservableList = FXCollections.observableArrayList(DomainFacade.getArtists());
+        loadArtists();
+    }
 
-        //superUsers.setItems(artists);
+    public void loadArtists() {
+        artistsObservableList = FXCollections.observableArrayList(DomainFacade.getArtists());
+
+        artists.setItems(artistsObservableList);
     }
 
     @FXML
@@ -68,12 +71,12 @@ public class ArtistsController implements Initializable {
     }
 
     @FXML
-    void commitNameChange(TableColumn.CellEditEvent<SuperUser, String> event) {
+    void commitNameChange(TableColumn.CellEditEvent<Artist, String> event) {
         int row = event.getTablePosition().getRow();
         if (true) return;
-        SuperUser superUser = event.getTableView().getItems().get(row);
-        superUser.setUsername(event.getNewValue());
+        Artist artist = event.getTableView().getItems().get(row);
+        artist.setName(event.getNewValue());
 
-        DomainFacade.editUser(superUser);
+        //DomainFacade.editArtist(artist);
     }
 }

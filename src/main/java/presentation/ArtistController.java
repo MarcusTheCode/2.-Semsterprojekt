@@ -1,5 +1,6 @@
 package presentation;
 
+import domain.DomainFacade;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
@@ -32,13 +33,13 @@ public class ArtistController implements Initializable {
 
     @FXML
     void enterName(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER);
-        {
+        if (event.getCode() == KeyCode.ENTER); {
             createArtist(name.getText());
         }
     }
 
     void createArtist(String artistName) {
-        //DomainFacade.createArtist(artistName);
+        DomainFacade.createArtist(artistName);
+        UIManager.changeScene(UIManager.getArtistsScene());
     }
 }

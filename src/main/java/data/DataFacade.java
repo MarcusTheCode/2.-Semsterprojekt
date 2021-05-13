@@ -1,5 +1,6 @@
 package data;
 
+import domain.Artist;
 import domain.Production;
 import domain.SuperUser;
 
@@ -45,6 +46,14 @@ public class DataFacade {
     public static void editProduction(Production production) {
         // TODO: Implement
         //databaseManager.editProduction(production);
+    }
+
+    /**
+     * This method is used to retrieve a list of artists from the database.
+     * @return ArrayList<Artist> Returns all artists from the database.
+     */
+    public static ArrayList<Artist> getArtists() {
+        return databaseManager.getArtists();
     }
 
     /**
