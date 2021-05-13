@@ -103,7 +103,7 @@ public class ProductionController implements Initializable {
 
     @FXML
     void addEntry(MouseEvent event) {
-        CastMember castMember = new CastMember("\"name\"","\"job\"",currentProduction.getId());
+        CastMember castMember = new CastMember("\"name\"", "\"email\"","\"job\"",currentProduction.getId());
         castMemberObservableList.add(castMember);
         currentProduction.addCastMember(castMember);
     }

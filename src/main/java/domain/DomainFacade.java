@@ -5,13 +5,9 @@ import data.DataFacade;
 import java.util.ArrayList;
 
 /**
- * <h1>Add Two Numbers!</h1>
- * The AddNum program implements an application that
- * simply adds two given integer numbers and Prints
- * the output on the screen.
- * <p>
- * <b>Note:</b> Giving proper comments in your program makes it more
- * user friendly and it is assumed as a high quality code.
+ * <h1>DomainFacade</h1>
+ * This class functions as a bridge between the presentation layer and domain layer
+ * in order to funnel method calls
  */
 
 public class DomainFacade {
