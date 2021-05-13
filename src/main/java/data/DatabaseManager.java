@@ -63,7 +63,7 @@ public class DatabaseManager {
      */
     public boolean insertProduction(Production production) {
         String sqlCode;
-        if (production.getSeasonsID() == null) {
+        if (production.getSeasonID() == null) {
             sqlCode = "INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle) VALUES (?,?,?,?,?)";
         }else{
             sqlCode = "INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle,seasonID)" +
@@ -75,8 +75,8 @@ public class DatabaseManager {
             ps.setInt(3, getCategoryID(production));
             ps.setLong(4, production.getOwnerID());
             ps.setString(5, production.getTitle());
-            if (production.getSeasonsID() != null) {
-                ps.setInt(6, production.getSeasonsID());
+            if (production.getSeasonID() != null) {
+                ps.setInt(6, production.getSeasonID());
             }
             return ps.execute();
         } catch (SQLException e) {
@@ -514,7 +514,7 @@ public class DatabaseManager {
 
     public void updateProduction(Production production){
         String sqlCode;
-        if (production.getSeasonsID() == null) {
+        if (production.getSeasonID() == null) {
             sqlCode = "UPDATE productions SET " +
                     "episodeNumber = ?, " +
                     "type = ?, " +
@@ -540,10 +540,10 @@ public class DatabaseManager {
             ps.setInt(3,production.getCategoryID());
             ps.setInt(4,production.getProducerID());
             ps.setString(5, production.getTitle());
-            if (production.getSeasonsID() == null) {
+            if (production.getSeasonID() == null) {
                 ps.setInt(6, production.getId());
             } else {
-                ps.setInt(6,production.getSeasonsID());
+                ps.setInt(6,production.getSeasonID());
                 ps.setInt(7, production.getId());
             }
             ps.execute();

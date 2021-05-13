@@ -3,7 +3,6 @@ package domain;
 import data.DataFacade;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Production implements Serializable {
@@ -14,8 +13,8 @@ public class Production implements Serializable {
     private Integer episodeNumber;
     private String type;
     private Integer categoryID;
-    private Integer seasonsID;
-    private Integer seasonsNumber;
+    private Integer seasonID;
+    private Integer seasonNumber;
     private Integer producerID;
     private ArrayList<String> genres;
 
@@ -25,7 +24,7 @@ public class Production implements Serializable {
         this.title = "title";
         this.episodeNumber = 0;
         this.type = "type";
-        this.seasonsID = null;
+        this.seasonID = null;
         this.categoryID = DataFacade.getCategory(category);
         this.castMembers = new ArrayList<>();
         this.genres = new ArrayList<>();
@@ -38,11 +37,11 @@ public class Production implements Serializable {
         this.id = productionID;
         this.title = title;
         this.episodeNumber = episodeNumber;
-        this.seasonsID = seasonsID;
+        this.seasonID = seasonsID;
         this.type = type;
         this.castMembers = new ArrayList<>();
         this.genres = DataFacade.getGenres(productionID);;
-        this.seasonsNumber = DataFacade.getSeasonNumber(seasonsID);
+        this.seasonNumber = DataFacade.getSeasonNumber(seasonsID);
         this.categoryID = DataFacade.getCategory(category);
     }
 
@@ -135,12 +134,12 @@ public class Production implements Serializable {
         this.categoryID = categoryID;
     }
 
-    public Integer getSeasonsID() {
-        return seasonsID;
+    public Integer getSeasonID() {
+        return seasonID;
     }
 
-    public void setSeasonsID(int seasonsID) {
-        this.seasonsID = seasonsID;
+    public void setSeasonID(int seasonsID) {
+        this.seasonID = seasonsID;
     }
 
     public int getProducerID() {
@@ -159,20 +158,20 @@ public class Production implements Serializable {
         this.categoryID = categoryID;
     }
 
-    public void setSeasonsID(Integer seasonsID) {
-        this.seasonsID = seasonsID;
+    public void setSeasonID(Integer seasonsID) {
+        this.seasonID = seasonsID;
     }
 
     public void setProducerID(Integer producerID) {
         this.producerID = producerID;
     }
 
-    public Integer getSeasonsNumber() {
-        return seasonsNumber;
+    public Integer getSeasonNumber() {
+        return seasonNumber;
     }
 
-    public void setSeasonsNumber(Integer seasonsNumber) {
-        this.seasonsNumber = seasonsNumber;
+    public void setSeasonNumber(Integer seasonNumber) {
+        this.seasonNumber = seasonNumber;
     }
 }
 
