@@ -34,6 +34,9 @@ public class SearchController implements Initializable {
     private Button usersButton;
 
     @FXML
+    private Button artistsButton;
+
+    @FXML
     private Button loginButton;
 
     @FXML
@@ -107,6 +110,11 @@ public class SearchController implements Initializable {
     }
 
     @FXML
+    void openArtists(MouseEvent event) {
+        UIManager.changeScene(UIManager.getArtistsScene());
+    }
+
+    @FXML
     void toggleLogin(MouseEvent event) {
         if (DomainFacade.getCurrentUser() != null){
             changeToLoggedOut();
@@ -122,6 +130,7 @@ public class SearchController implements Initializable {
 
     public void changeToLoggedOut(){
         usersButton.setVisible(false);
+        artistsButton.setVisible(false);
         loginButton.setText("Login");
         DomainFacade.logout();
         UIManager.getSearchController().setAdminToolsVisibility(false);
@@ -130,6 +139,7 @@ public class SearchController implements Initializable {
     public void changeToLoggedIn(){
         if (DomainFacade.getCurrentUser().isSysAdmin()) {
             usersButton.setVisible(true);
+            artistsButton.setVisible(true);
         }
         loginButton.setText("Logout");
     }

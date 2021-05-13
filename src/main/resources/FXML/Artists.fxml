@@ -16,7 +16,7 @@
          <children>
             <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" onKeyPressed="#returnToStartup" prefHeight="41.0" prefWidth="55.0" text="Return">
+                  <Button mnemonicParsing="false" onMouseClicked="#returnToStartup" prefHeight="41.0" prefWidth="55.0" text="Return">
                      <HBox.margin>
                         <Insets right="5.0" top="5.0" />
                      </HBox.margin></Button>
@@ -30,7 +30,7 @@
                   <Insets />
                </VBox.margin>
             </Text>
-            <TableView fx:id="superUsers" editable="true" minHeight="200.0" prefHeight="0.0" prefWidth="500.0">
+            <TableView fx:id="artists" editable="true" minHeight="200.0" prefHeight="0.0" prefWidth="500.0">
                <VBox.margin>
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>

@@ -1,5 +1,6 @@
 package data;
 
+import domain.Artist;
 import domain.Production;
 import domain.SuperUser;
 
@@ -44,6 +45,41 @@ public class DataFacade {
      */
     public static void editProduction(Production production) {
         databaseManager.updateProduction(production);
+    }
+
+    /**
+     * This method is used to insert a unique artist into the database.
+     * @param artist The artist to insert into the database
+     * @return boolean Returns whether the execution succeeded.
+     */
+    public static boolean insertArtist(Artist artist) {
+        return databaseManager.insertArtist(artist);
+    }
+
+    /**
+     * This method is used to delete an artist from the database.
+     * @param artistID The ID of the artist to delete from the database
+     * @return boolean Returns whether the execution succeeded.
+     */
+    public static boolean deleteArtist(int artistID) {
+        return databaseManager.deleteArtist(artistID);
+    }
+
+    /**
+     * This method is used to edit an Artist.
+     * @param artist The Artist to edit
+     * @return boolean Returns whether the execution succeeded.
+     */
+    public static boolean editArtist(Artist artist) {
+        return databaseManager.editArtist(artist);
+    }
+
+    /**
+     * This method is used to retrieve a list of artists from the database.
+     * @return ArrayList<Artist> Returns all artists from the database.
+     */
+    public static ArrayList<Artist> getArtists() {
+        return databaseManager.getArtists();
     }
 
     /**
