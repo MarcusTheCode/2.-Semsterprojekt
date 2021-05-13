@@ -230,6 +230,11 @@ public class SearchController implements Initializable {
         }
     }
 
+    @FXML
+    void SaveChanges(MouseEvent event) {
+
+    }
+
     public void setAdminToolsVisibility(boolean bool) {
         removeProductionButton.setVisible(bool);
         addProductionButton.setVisible(bool);

@@ -164,5 +164,10 @@ public class DomainFacade {
     public static void logout() {
         system.logout();
     }
+
+    public static Artist getArtist(){
+        //TODO: Implement
+        return null;
+    }
 }
 

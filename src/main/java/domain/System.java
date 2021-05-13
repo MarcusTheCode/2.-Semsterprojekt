@@ -36,7 +36,7 @@ public class System {
      * @param production The production to edit
      */
     public void editProduction(Production production) {
-        if (production.isOwner(currentUser)) {
+        if (production.isOwner(currentUser)||currentUser.isSysAdmin()) {
             DataFacade.editProduction(production);
         } else {
             throw new RuntimeException("User is not allowed to edit this production");
