@@ -154,14 +154,14 @@ public class ProductionController implements Initializable {
     void commitNameChange(TableColumn.CellEditEvent<CastMember, String> event) {
         int row = event.getTablePosition().getRow();
         CastMember castMember = ((CastMember) event.getTableView().getItems().get(row));
-        castMember.getArtist().setName(event.getNewValue());
+        castMember.setName(event.getNewValue());
     }
 
     @FXML
     void commitEmailChange(TableColumn.CellEditEvent<CastMember, String> event) {
         int row = event.getTablePosition().getRow();
         CastMember castMember = ((CastMember) event.getTableView().getItems().get(row));
-        castMember.getArtist().setName(event.getNewValue());
+        castMember.setName(event.getNewValue());
     }
 
     @FXML
