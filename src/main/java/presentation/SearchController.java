@@ -92,7 +92,7 @@ public class SearchController implements Initializable {
         loadProductions();
     }
 
-    public void loadProductions(){
+    public void loadProductions() {
         ArrayList<Production> productions = DataFacade.loadAllProductions();
 
         if (DomainFacade.getCurrentUser() != null && !DomainFacade.getCurrentUser().isSysAdmin()) {
@@ -147,7 +147,11 @@ public class SearchController implements Initializable {
     void addProduction(MouseEvent event) {
         Production production = new Production(DomainFacade.getCurrentUser().getId());
         productionObservableList.add(production);
-        DomainFacade.saveProduction(production);
+        //DomainFacade.saveProduction(production);
+
+        ProductionController productionController = UIManager.getProductionController();
+        UIManager.changeScene(UIManager.getProductionScene());
+        productionController.setProduction(production);
     }
 
     @FXML

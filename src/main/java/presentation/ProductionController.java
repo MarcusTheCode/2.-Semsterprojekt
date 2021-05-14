@@ -1,11 +1,9 @@
 package presentation;
 
-import data.DataFacade;
-import domain.CastMember;
-import domain.DomainFacade;
-import domain.Production;
+import domain.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -21,25 +19,19 @@ import java.util.ResourceBundle;
 public class ProductionController implements Initializable {
 
     @FXML
-    private ListView<String> attributesList;
-
-    @FXML
     private ListView<String> genreList;
 
     @FXML
-    private Text productionTitle;
+    private Text productionTitle, saveText;
 
     @FXML
-    private Text saveText;
+    private TextField title, type, category, episode;
 
     @FXML
-    private Button addEntry;
+    private Button addEntry, deleteEntry, saveEntry;
 
     @FXML
-    private Button deleteEntry;
-
-    @FXML
-    private Button saveEntry;
+    private ComboBox<String> series, season;
 
     private Production currentProduction;
 
@@ -51,19 +43,18 @@ public class ProductionController implements Initializable {
     private TableView<CastMember> castMembers;
 
     @FXML
-    private TableColumn<CastMember, String> roleColumn;
-
-    @FXML
-    private TableColumn<CastMember, String> nameColumn;
+    private TableColumn<CastMember, String> roleColumn, nameColumn, emailColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        roleColumn.setCellValueFactory(new PropertyValueFactory<CastMember, String>("jobTitle"));
+        roleColumn.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
         roleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        nameColumn.setCellValueFactory(new PropertyValueFactory<CastMember, String>("name"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        emailColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         castMemberObservableList = FXCollections.observableArrayList();
         genresOberservableList = FXCollections.observableArrayList();
@@ -71,6 +62,17 @@ public class ProductionController implements Initializable {
         castMembers.setItems(castMemberObservableList);
         genreList.setItems(genresOberservableList);
 
+        series.setOnAction((ActionEvent e) -> {
+            season.getItems().clear();
+
+            Series seriesName = DomainFacade.getSeries(series.getValue());
+
+            if (seriesName != null) {
+                for (Season s : DomainFacade.getSeasons(seriesName.getId())) {
+                    season.getItems().add(String.valueOf(s.getSeasonNumber()));
+                }
+            }
+        });
     }
 
     public void setAdminToolsVisibility(Boolean bool){
@@ -79,7 +81,6 @@ public class ProductionController implements Initializable {
         saveEntry.setVisible(bool);
         nameColumn.setEditable(bool);
         roleColumn.setEditable(bool);
-
     }
 
     @FXML
@@ -89,7 +90,34 @@ public class ProductionController implements Initializable {
     }
 
     public void loadProduction(int ID) {
-        this.currentProduction = DomainFacade.getProduction(ID);
+        Production production = DomainFacade.getProduction(ID);
+
+        setProduction(production);
+    }
+
+    public void setProduction(Production production) {
+        series.getItems().clear();
+        for (Series s : DomainFacade.getAllSeries()) {
+            series.getItems().add(s.getName());
+        }
+
+        currentProduction = production;
+
+        // Populate general data
+        title.setText(production.getTitle());
+        type.setText(production.getType());
+        category.setText(production.getCategory());
+        episode.setText(String.valueOf(production.getEpisodeNumber()));
+
+        // Populate series and season
+        Integer seasonID = production.getSeasonID();
+        if (seasonID != null) {
+            Series s = DomainFacade.getSeriesBySeason(seasonID);
+            if (s != null) {
+                series.setValue(s.getName());
+                season.setValue(String.valueOf(production.getSeasonNumber()));
+            }
+        }
 
         productionTitle.setText(currentProduction.getTitle());
         ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();
@@ -129,9 +157,24 @@ public class ProductionController implements Initializable {
     }
 
     @FXML
-    void saveChanges(MouseEvent event) {
-        DomainFacade.editProduction(currentProduction);
-        saveText.setVisible(true);
+    void commitEmailChange(TableColumn.CellEditEvent<CastMember, String> event) {
+        int row = event.getTablePosition().getRow();
+        CastMember castMember = ((CastMember) event.getTableView().getItems().get(row));
+        castMember.getArtist().setName(event.getNewValue());
+    }
 
+    @FXML
+    void saveChanges(MouseEvent event) {
+        // Bit of an ugly hack
+        if (currentProduction.getId() == null) {
+            // TODO: Insert series, if not exist
+            // TODO: Insert season, if not exist
+            // TODO: Insert genres, if not exist
+
+            DomainFacade.saveProduction(currentProduction);
+        } else {
+            DomainFacade.editProduction(currentProduction);
+        }
+        saveText.setVisible(true);
     }
 }
