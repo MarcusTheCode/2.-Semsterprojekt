@@ -100,15 +100,20 @@ public class ProductionController implements Initializable {
 
         currentProduction = production;
 
+        // Populate general data
         title.setText(production.getTitle());
         type.setText(production.getType());
         category.setText(production.getCategory());
         episode.setText(String.valueOf(production.getEpisodeNumber()));
 
-        Series s = DomainFacade.getSeriesBySeason(production.getSeasonID());
-        if (s != null) {
-            series.setValue(s.getName());
-            season.setValue(String.valueOf(production.getSeasonNumber()));
+        // Populate series and season
+        Integer seasonID = production.getSeasonID();
+        if (seasonID != null) {
+            Series s = DomainFacade.getSeriesBySeason(seasonID);
+            if (s != null) {
+                series.setValue(s.getName());
+                season.setValue(String.valueOf(production.getSeasonNumber()));
+            }
         }
 
         productionTitle.setText(currentProduction.getTitle());
@@ -157,8 +162,12 @@ public class ProductionController implements Initializable {
 
     @FXML
     void saveChanges(MouseEvent event) {
-        // Bit of a hack
+        // Bit of an ugly hack
         if (currentProduction.getId() == null) {
+            // TODO: Insert series, if not exist
+            // TODO: Insert season, if not exist
+            // TODO: Insert genres, if not exist
+
             DomainFacade.saveProduction(currentProduction);
         } else {
             DomainFacade.editProduction(currentProduction);

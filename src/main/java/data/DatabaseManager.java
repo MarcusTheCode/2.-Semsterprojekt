@@ -417,6 +417,40 @@ public class DatabaseManager {
     }
 
     /**
+     * This method is used insert a category to the database.
+     * @param series The production to add the genre to
+     * @return boolean Returns the ID of the category.
+     */
+    public boolean insertSeries(Series series) {
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO series (name) VALUES (?)")) {
+            ps.setString(1, series.getName());
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * This method is used insert a category to the database.
+     * @param season The production to add the genre to
+     * @param seriesID The production to add the genre to
+     * @return boolean Returns the ID of the category.
+     */
+    public boolean insertSeason(Season season, int seriesID) {
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO seasons (seasonNumber, seriesID) VALUES (?, ?)")) {
+            ps.setInt(1, season.getSeasonNumber());
+            ps.setInt(2, seriesID);
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
      * This method is used to retrieve all series from the database.
      * @param seriesID The ID of the series
      * @return ArrayList<Season> Returns a list of all series.
