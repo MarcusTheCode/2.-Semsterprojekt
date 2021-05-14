@@ -33,6 +33,7 @@ public class ArtistController implements Initializable {
     @FXML
     void saveArtist(MouseEvent event) {
         createArtist(name.getText(), email.getText());
+        UIManager.getArtistsController().loadArtists();
     }
 
     @FXML
@@ -45,5 +46,10 @@ public class ArtistController implements Initializable {
     void createArtist(String artistName, String artistEmail) {
         DomainFacade.createArtist(artistName, artistEmail);
         UIManager.changeScene(UIManager.getArtistsScene());
+    }
+
+    void clearTextField() {
+        name.clear();
+        email.clear();
     }
 }

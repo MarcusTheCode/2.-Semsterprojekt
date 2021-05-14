@@ -120,7 +120,6 @@ public class SearchController implements Initializable {
             changeToLoggedOut();
             UIManager.getProductionController().setAdminToolsVisibility(false);
         }
-
         goToLogin();
     }
 
