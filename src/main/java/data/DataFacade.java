@@ -89,8 +89,8 @@ public class DataFacade {
         return databaseManager.getArtists();
     }
 
-    public static Artist getArtist(String name){
-        return databaseManager.getArtist(name);
+    public static Artist getArtist(String email){
+        return databaseManager.getArtist(email);
     }
 
     public static Artist getArtist(int artistID){
@@ -234,8 +234,16 @@ public class DataFacade {
         return databaseManager.getCategoryID(production);
     }
 
+    public static boolean saveCastMember(CastMember castMember) {
+        return databaseManager.insertCastMember(castMember);
+    }
+
     public static boolean castMemberExists(CastMember castMember){
         return databaseManager.chekIfCastMemberExists(castMember);
+    }
+
+    public static ArrayList<CastMember> getCastMembers(int productionID) {
+        return databaseManager.getCastMembers(productionID);
     }
 
 

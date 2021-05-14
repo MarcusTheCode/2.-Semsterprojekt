@@ -25,13 +25,16 @@ public class ProductionController implements Initializable {
     private Text productionTitle, saveText;
 
     @FXML
-    private TextField title, type, category, episode;
+    private TextField title, type, category, episode, role;
 
     @FXML
     private Button addEntry, deleteEntry, saveEntry;
 
     @FXML
     private ComboBox<String> series, season;
+
+    @FXML
+    private ComboBox<Artist> artist;
 
     private Production currentProduction;
 
@@ -43,10 +46,12 @@ public class ProductionController implements Initializable {
     private TableView<CastMember> castMembers;
 
     @FXML
-    private TableColumn<CastMember, String> roleColumn, nameColumn, emailColumn;
+    private TableColumn<CastMember, String> idColumn, roleColumn, nameColumn, emailColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("artistID"));
+
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
         roleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
@@ -99,6 +104,11 @@ public class ProductionController implements Initializable {
         series.getItems().clear();
         for (Series s : DomainFacade.getAllSeries()) {
             series.getItems().add(s.getName());
+        }
+
+        artist.getItems().clear();
+        for (Artist a : DomainFacade.getArtists()) {
+            artist.getItems().add(a);
         }
 
         currentProduction = production;
@@ -188,6 +198,13 @@ public class ProductionController implements Initializable {
             if (season != null)
                 currentProduction.setSeasonID(season.getId());
         }
+
+        // TODO: Insert new CastMembers
+        /*for (CastMember castMember : currentProduction.getCastMembers()) {
+            if (!DomainFacade.castMemberExists(castMember)) {
+                DomainFacade.saveCastMember(castMember);
+            }
+        }*/
 
         // Save general data
         currentProduction.setTitle(title.getText());

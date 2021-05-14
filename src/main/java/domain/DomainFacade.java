@@ -225,5 +225,17 @@ public class DomainFacade {
         //TODO: Implement
         return null;
     }
+
+    public static boolean saveCastMember(CastMember castMember) {
+        return DataFacade.saveCastMember(castMember);
+    }
+
+    public static boolean castMemberExists(CastMember castMember){
+        return DataFacade.castMemberExists(castMember);
+    }
+
+    public static ArrayList<CastMember> getCastMembers(int productionID) {
+        return DataFacade.getCastMembers(productionID);
+    }
 }
 
