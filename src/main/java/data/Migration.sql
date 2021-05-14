@@ -98,7 +98,7 @@ INSERT INTO productions(episodeNumber, type, categoryID, producerID, productionT
 VALUES (1,'movie',4,3,'bee movie');
 
 INSERT INTO artists(name,email)
-VALUES('Barry B. Benson ','BarryBeeBenson@bee.hive');
+VALUES('Barry B. Benson','BarryBeeBenson@bee.hive');
 
 INSERT INTO castMembers(productionID, role, artistID)
 VALUES (5,'Actor',1);

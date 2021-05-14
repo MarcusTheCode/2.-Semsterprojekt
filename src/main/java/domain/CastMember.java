@@ -10,6 +10,7 @@ public class CastMember implements Serializable {
     private int artistID;
     private Artist artist;
     private String name;
+    private String email;
 
     public CastMember(int productionID, String jobTitle, int artistID) {
         this.productionID = productionID;
@@ -23,8 +24,11 @@ public class CastMember implements Serializable {
 
     // TODO: change getArtist(name) to getArtist(email) after implementation of email in production.fxml
     public CastMember(String name, String email, String jobTitle, int productionID) {
+        this.name = name;
+        this.email =
         this.jobTitle = jobTitle;
         this.productionID = productionID;
+        /*
         this.artist = DataFacade.getArtist(name);
         if (this.artist==null){
             DataFacade.insertArtist(new Artist(name, email));
@@ -34,6 +38,7 @@ public class CastMember implements Serializable {
         if (!DataFacade.castMemberExists(this)){
             DataFacade.insertCastMember(this);
         }
+         */
 
     }
 
