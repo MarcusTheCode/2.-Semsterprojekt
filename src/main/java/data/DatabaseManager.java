@@ -569,23 +569,22 @@ public class DatabaseManager {
         }
     }
 
-    public List<CastMember> getCastMembers(int ID){
+    public List<CastMember> getCastMembers(int productionID){
         ArrayList<CastMember> castMembers = new ArrayList<>();
         try {
-            PreparedStatement ps = connection.prepareStatement("" +
-                "SELECT * FROM castMembers " +
-                "WHERE castMembers.productionID = ?;");
-            ResultSet set = ps.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM getcastmembers(?)");
+            preparedStatement.setInt(1,productionID);
+            ResultSet set = preparedStatement.executeQuery();
             while(set.next()){
                 castMembers.add(new CastMember(
-                        set.getInt(2),
+                        set.getString(2),
+                        set.getString(3),
                         set.getString(1),
-                        set.getInt(3)
+                        productionID
                 ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
         return castMembers;
     }
