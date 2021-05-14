@@ -274,11 +274,12 @@ public class DatabaseManager {
      * @return Production Returns the production with the ID or null.
      */
     public Production getProduction(int productionID) {
+        Production production = null;
         try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM productions WHERE productions.id = ?")) {
             ps.setInt(1, productionID);
             try (ResultSet resultSet = ps.executeQuery()) {
                 resultSet.next();
-                return new Production(
+                production = new Production(
                         resultSet.getInt(2),
                         resultSet.getInt(5),
                         resultSet.getInt(6),
@@ -286,11 +287,12 @@ public class DatabaseManager {
                         resultSet.getString(7),
                         getCategoryID(resultSet.getInt(4)),
                         resultSet.getString(3));
+                production.setCastMembers((ArrayList<CastMember>) this.getCastMembers(production.getId()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return production;
     }
 
     /**
@@ -568,6 +570,7 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
         return castMembers;
     }
