@@ -17,9 +17,6 @@ public class CastMember implements Serializable {
         this.jobTitle = jobTitle;
         this.artistID = artistID;
         this.artist = getArtistFormDatabase();
-        if (!DataFacade.castMemberExists(this)){
-            DataFacade.insertCastMember(this);
-        }
     }
 
     // TODO: change getArtist(name) to getArtist(email) after implementation of email in production.fxml
@@ -28,20 +25,14 @@ public class CastMember implements Serializable {
         this.email = email;
         this.jobTitle = jobTitle;
         this.productionID = productionID;
-        /*
-        this.artist = DataFacade.getArtist(name);
-        if (this.artist==null){
-            DataFacade.insertArtist(new Artist(name, email));
-            this.artist = DataFacade.getArtist(name);
-        }
-        this.artistID = artist.getId();
-        if (!DataFacade.castMemberExists(this)){
-            DataFacade.insertCastMember(this);
-        }
-         */
-
+        this.artist = DataFacade.getArtist(email); //if null artist doesn't exists
+        if (this.artist != null)
+            this.artistID = artist.getId();
     }
 
+    public int getProductionID() {
+        return productionID;
+    }
 
     public int getId() {
         return productionID;
@@ -81,5 +72,9 @@ public class CastMember implements Serializable {
 
     public void setName(String name){
         artist.setName(name);
+    }
+
+    public void setProductionID(int productionID) {
+        this.productionID = productionID;
     }
 }

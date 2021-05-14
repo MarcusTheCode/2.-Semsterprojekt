@@ -58,6 +58,7 @@ public class UsersController implements Initializable {
     @FXML
     void returnToStartup(MouseEvent event) {
         UIManager.changeScene(UIManager.getSearchScene());
+        UIManager.getUsersController().loadUser();
     }
 
    /* @FXML
