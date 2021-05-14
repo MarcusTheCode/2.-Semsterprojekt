@@ -182,4 +182,11 @@ public class DataFacade {
     public static int getCategoryID(Production production){
         return databaseManager.getCategoryID(production);
     }
+
+    public static boolean castMemberExists(CastMember castMember){
+        return databaseManager.chekIfCastMemberExists(castMember);
+    }
+
+
+
 }
