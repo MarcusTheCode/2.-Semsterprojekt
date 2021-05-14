@@ -89,8 +89,8 @@ public class DataFacade {
         return databaseManager.getArtists();
     }
 
-    public static Artist getArtist(String name){
-        return databaseManager.getArtist(name);
+    public static Artist getArtist(String email){
+        return databaseManager.getArtist(email);
     }
 
     public static Artist getArtist(int artistID){
@@ -148,6 +148,28 @@ public class DataFacade {
      */
     public static ArrayList<Season> getSeasons(int seriesID) {
         return databaseManager.getSeasons(seriesID);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Series> Returns a list of all productions.
+     */
+    public static Season getSeason(int episodeNumber, int seriesID) {
+        return databaseManager.getSeason(episodeNumber, seriesID);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     */
+    public static boolean insertSeries(Series series) {
+        return databaseManager.insertSeries(series);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     */
+    public static boolean insertSeason(Season season) {
+        return databaseManager.insertSeason(season);
     }
 
     /**
@@ -212,8 +234,20 @@ public class DataFacade {
         return databaseManager.getCategoryID(production);
     }
 
+    public static boolean saveCastMember(CastMember castMember) {
+        return databaseManager.insertCastMember(castMember);
+    }
+
+    public static boolean deleteCastMember(CastMember castMember) {
+        return databaseManager.deleteCastMember(castMember);
+    }
+
     public static boolean castMemberExists(CastMember castMember){
         return databaseManager.chekIfCastMemberExists(castMember);
+    }
+
+    public static ArrayList<CastMember> getCastMembers(int productionID) {
+        return databaseManager.getCastMembers(productionID);
     }
 
     public static ArrayList<String> getSeriesAndProductionID(){

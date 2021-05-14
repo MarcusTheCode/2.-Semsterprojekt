@@ -25,8 +25,9 @@ public class CastMember implements Serializable {
         this.email = email;
         this.jobTitle = jobTitle;
         this.productionID = productionID;
-       //this.artist = DataFacade.getArtist(email); //if null artist doesn't exists
-       //this.artistID = artist.getId();
+        this.artist = DataFacade.getArtist(email); //if null artist doesn't exists
+        if (this.artist != null)
+            this.artistID = artist.getId();
     }
 
     public int getProductionID() {
@@ -71,5 +72,9 @@ public class CastMember implements Serializable {
 
     public void setName(String name){
         artist.setName(name);
+    }
+
+    public void setProductionID(int productionID) {
+        this.productionID = productionID;
     }
 }

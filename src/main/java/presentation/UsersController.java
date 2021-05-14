@@ -58,12 +58,19 @@ public class UsersController implements Initializable {
     @FXML
     void returnToStartup(MouseEvent event) {
         UIManager.changeScene(UIManager.getSearchScene());
+        UIManager.getUsersController().loadUser();
     }
 
-    @FXML
+   /* @FXML
     void addEntry(MouseEvent event) {
         SuperUser user = DomainFacade.createUser("password1234", "Name", false);
         usersObservableList.add(user);
+    } */
+
+    @FXML
+    void addUser(MouseEvent event) {
+        UIManager.changeScene(UIManager.getUsersInputScene());
+        UIManager.getUsersInputController().clearTextField();
     }
 
     @FXML
@@ -71,7 +78,7 @@ public class UsersController implements Initializable {
         int index = superUsers.getSelectionModel().getFocusedIndex();
         int userID = usersObservableList.get(index).getId();
 
-        if (usersObservableList.get(index).getId() == 6){
+        if (usersObservableList.get(index).getId() == 1){
             return;
         }
 
@@ -105,5 +112,11 @@ public class UsersController implements Initializable {
         superUser.setSysAdmin(event.getNewValue());
 
         DomainFacade.editUser(superUser);
+    }
+
+    public void loadUser() {
+        usersObservableList = FXCollections.observableArrayList(DomainFacade.getUsers());
+
+        superUsers.setItems(usersObservableList);
     }
 }

@@ -55,19 +55,31 @@ public class PersistenceTest {
 
     @Test
     public void getCreditTest(){
-        CastMember castMember = new CastMember("Barry B. Benson","BarryBeeBenson@bee.hive","Actor",5);
-        ArrayList<CastMember> expectedCastMembers = new ArrayList<>();
-        expectedCastMembers.add(castMember);
+        TestCastMember expectedCastMember = new TestCastMember("Barry B. Benson","BarryBeeBenson@bee.hive","Actor",5);
 
         Production production = DataFacade.getProduction(5);
-        ArrayList<CastMember> castMembers = production.getCastMembers();
+        TestCastMember castMember = new TestCastMember(production.getCastMembers().get(0));
 
-        assertEquals(castMembers, expectedCastMembers);
+        assertTrue(castMember.equals(expectedCastMember));
     }
 
-    // TODO: Save credit test
+    @Test
+    public void saveProductionTest(){
+        Production production = new Production("Shrek",2,"documentary",1,"movie");
+        assertTrue(DataFacade.insertProduction(production));
+    }
 
-    // TODO: Delete credit test
+    @Test
+    public void deleteProductionTest(){
+        DataFacade.insertProduction(new Production("Shrek",2,"documentary",1,"movie"));
+        Production production1 = DataFacade.getProduction(6);
+        assertNotNull(production1);
+
+        DataFacade.deleteProduction(6);
+        Production production2 = DataFacade.getProduction(6);
+        assertNull(production2);
+        // TODO: finish this shit
+    }
 
     // TODO: Edit credit test
 
