@@ -1,5 +1,6 @@
 package presentation;
 
+import data.DataFacade;
 import domain.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -174,6 +175,13 @@ public class ProductionController implements Initializable {
             DomainFacade.saveProduction(currentProduction);
         } else {
             DomainFacade.editProduction(currentProduction);
+        }
+        for (CastMember castMember: castMemberObservableList){
+            if (!DataFacade.castMemberExists(castMember)){
+                DataFacade.insertCastMember(castMember);
+            }else{
+
+            }
         }
         saveText.setVisible(true);
     }

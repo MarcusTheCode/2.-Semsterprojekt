@@ -72,4 +72,8 @@ public class CastMember implements Serializable {
     public void setName(String name){
         artist.setName(name);
     }
+
+    public void setProductionID(int productionID) {
+        this.productionID = productionID;
+    }
 }
