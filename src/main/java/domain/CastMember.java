@@ -22,13 +22,16 @@ public class CastMember implements Serializable {
     // TODO: change getArtist(name) to getArtist(email) after implementation of email in production.fxml
     public CastMember(String name, String email, String jobTitle, int productionID) {
         this.name = name;
-        this.email =
+        this.email = email;
         this.jobTitle = jobTitle;
         this.productionID = productionID;
         this.artist = DataFacade.getArtist(email); //if null artist doesn't exists
         this.artistID = artist.getId();
     }
 
+    public int getProductionID() {
+        return productionID;
+    }
 
     public int getId() {
         return productionID;
@@ -59,7 +62,11 @@ public class CastMember implements Serializable {
     }
 
     public String getName(){
-        return artist.getName();
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setName(String name){
