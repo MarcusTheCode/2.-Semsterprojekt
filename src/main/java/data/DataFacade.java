@@ -78,7 +78,7 @@ public class DataFacade {
      * @return boolean Returns whether the execution succeeded.
      */
     public static boolean editArtist(Artist artist) {
-        return databaseManager.editArtist(artist);
+        return databaseManager.updateArtist(artist);
     }
 
     /**
