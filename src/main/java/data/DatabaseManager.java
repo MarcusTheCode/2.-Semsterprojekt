@@ -78,11 +78,14 @@ public class DatabaseManager {
             if (production.getSeasonID() != null) {
                 ps.setInt(6, production.getSeasonID());
             }
-            return ps.execute();
+            ps.execute();
+            // If an error occurs when executing the ps, it jumps to the catch statement
+            // otherwise, it is safe to assume that the statement executed correctly
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**
