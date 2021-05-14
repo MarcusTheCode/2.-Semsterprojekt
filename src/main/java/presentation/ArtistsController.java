@@ -58,6 +58,7 @@ public class ArtistsController implements Initializable {
     @FXML
     void addArtist(MouseEvent event) {
         UIManager.changeScene(UIManager.getArtistScene());
+        UIManager.getArtistController().clearTextField();
     }
 
     @FXML

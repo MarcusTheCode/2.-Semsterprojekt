@@ -47,4 +47,9 @@ public class ArtistController implements Initializable {
         DomainFacade.createArtist(artistName, artistEmail);
         UIManager.changeScene(UIManager.getArtistsScene());
     }
+
+    void clearTextField() {
+        name.clear();
+        email.clear();
+    }
 }
