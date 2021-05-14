@@ -80,7 +80,7 @@ public class ProductionController implements Initializable {
         });
     }
 
-    public void setAdminToolsVisibility(Boolean bool){
+    public void setAdminToolsVisibility(Boolean bool) {
         addEntry.setVisible(bool);
         deleteEntry.setVisible(bool);
         saveEntry.setVisible(bool);
@@ -141,15 +141,22 @@ public class ProductionController implements Initializable {
 
     @FXML
     void addEntry(MouseEvent event) {
-        CastMember castMember = new CastMember("\"name\"", "\"email\"","\"job\"",currentProduction.getId());
+        Artist a = artist.getValue();
+        CastMember castMember = new CastMember(a.getName(), a.getEmail(), role.getText(), currentProduction.getId());
         castMemberObservableList.add(castMember);
         currentProduction.addCastMember(castMember);
+
+        DomainFacade.saveCastMember(castMember);
     }
 
     @FXML
     void deleteEntry(MouseEvent event) {
         int index = castMembers.getSelectionModel().getFocusedIndex();
+        CastMember castMember = castMembers.getSelectionModel().getSelectedItem();
         castMemberObservableList.remove(index);
+        currentProduction.removeCastMember(castMember);
+
+        DomainFacade.deleteCastMember(castMember);
     }
 
     @FXML
@@ -198,13 +205,6 @@ public class ProductionController implements Initializable {
             if (season != null)
                 currentProduction.setSeasonID(season.getId());
         }
-
-        // TODO: Insert new CastMembers
-        /*for (CastMember castMember : currentProduction.getCastMembers()) {
-            if (!DomainFacade.castMemberExists(castMember)) {
-                DomainFacade.saveCastMember(castMember);
-            }
-        }*/
 
         // Save general data
         currentProduction.setTitle(title.getText());
