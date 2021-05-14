@@ -739,7 +739,7 @@ public class DatabaseManager {
     public void insertCastMember(CastMember c){
         try {
             PreparedStatement ps = connection.prepareStatement("" +
-                    "INSERT INTO castMembers(id,role,artistID) " +
+                    "INSERT INTO castMembers(productionID,role,artistID) " +
                     "VALUES(?,?,?)");
             ps.setInt(1,c.getId());
             ps.setString(2,c.getJobTitle());
