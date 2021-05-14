@@ -43,7 +43,7 @@ public class ProductionController implements Initializable {
     private TableView<CastMember> castMembers;
 
     @FXML
-    private TableColumn<CastMember, String> roleColumn, nameColumn;
+    private TableColumn<CastMember, String> roleColumn, nameColumn, emailColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,6 +52,9 @@ public class ProductionController implements Initializable {
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        emailColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         castMemberObservableList = FXCollections.observableArrayList();
         genresOberservableList = FXCollections.observableArrayList();
