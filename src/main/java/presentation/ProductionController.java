@@ -4,6 +4,7 @@ import data.DataFacade;
 import domain.CastMember;
 import domain.DomainFacade;
 import domain.Production;
+import domain.Series;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -41,6 +42,12 @@ public class ProductionController implements Initializable {
     @FXML
     private Button saveEntry;
 
+    @FXML
+    private ComboBox<String> series;
+
+    @FXML
+    private ComboBox<String> season;
+
     private Production currentProduction;
 
     private ObservableList<CastMember> castMemberObservableList;
@@ -58,7 +65,6 @@ public class ProductionController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         roleColumn.setCellValueFactory(new PropertyValueFactory<CastMember, String>("jobTitle"));
         roleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
@@ -71,6 +77,8 @@ public class ProductionController implements Initializable {
         castMembers.setItems(castMemberObservableList);
         genreList.setItems(genresOberservableList);
 
+        series.setEditable(true);
+        season.setEditable(true);
     }
 
     public void setAdminToolsVisibility(Boolean bool){
@@ -89,7 +97,17 @@ public class ProductionController implements Initializable {
     }
 
     public void loadProduction(int ID) {
-        this.currentProduction = DomainFacade.getProduction(ID);
+        Production production = DomainFacade.getProduction(ID);
+
+        setProduction(production);
+    }
+
+    public void setProduction(Production production) {
+        for (Series s: DomainFacade.getAllSeries()) {
+            series.getItems().add(s.getName());
+        }
+
+        currentProduction = production;
 
         productionTitle.setText(currentProduction.getTitle());
         ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();
@@ -129,9 +147,20 @@ public class ProductionController implements Initializable {
     }
 
     @FXML
-    void saveChanges(MouseEvent event) {
-        DomainFacade.editProduction(currentProduction);
-        saveText.setVisible(true);
+    void commitEmailChange(TableColumn.CellEditEvent<CastMember, String> event) {
+        int row = event.getTablePosition().getRow();
+        CastMember castMember = ((CastMember) event.getTableView().getItems().get(row));
+        castMember.getArtist().setName(event.getNewValue());
+    }
 
+    @FXML
+    void saveChanges(MouseEvent event) {
+        // Bit of a hack
+        if (currentProduction.getId() == null) {
+            DomainFacade.saveProduction(currentProduction);
+        } else {
+            DomainFacade.editProduction(currentProduction);
+        }
+        saveText.setVisible(true);
     }
 }
