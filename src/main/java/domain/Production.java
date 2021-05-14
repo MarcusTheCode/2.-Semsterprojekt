@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Production implements Serializable {
-    int id;
+    Integer id;
     String title;
     String category;
     ArrayList<CastMember> castMembers;
@@ -69,7 +69,7 @@ public class Production implements Serializable {
         this.castMembers = castMembers;
     }
 
-    public void setID(int ID) {
+    public void setID(Integer ID) {
         this.id = ID;
     }
 
@@ -89,7 +89,7 @@ public class Production implements Serializable {
         this.category = category;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

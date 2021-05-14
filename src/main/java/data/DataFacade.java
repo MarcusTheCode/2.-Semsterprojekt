@@ -1,9 +1,6 @@
 package data;
 
-import domain.Artist;
-import domain.CastMember;
-import domain.Production;
-import domain.SuperUser;
+import domain.*;
 
 import java.util.ArrayList;
 
@@ -143,6 +140,30 @@ public class DataFacade {
      */
     public static SuperUser login(String inputUsername, String inputPassword) {
         return databaseManager.checkIfUserExists(inputUsername, inputPassword);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Season> Returns a list of all productions.
+     */
+    public static ArrayList<Season> getSeasons(int seriesID) {
+        return databaseManager.getSeasons(seriesID);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Series> Returns a list of all productions.
+     */
+    public static Series getSeries(String name) {
+        return databaseManager.getSeries(name);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Series> Returns a list of all productions.
+     */
+    public static ArrayList<Series> getAllSeries() {
+        return databaseManager.getAllSeries();
     }
 
     /**

@@ -1,11 +1,9 @@
 package data;
 
-import domain.Artist;
-import domain.CastMember;
-import domain.Production;
-import domain.SuperUser;
+import domain.*;
 
 import java.io.*;
+import java.lang.System;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -424,6 +422,66 @@ public class DatabaseManager {
             }else{
                 return new Artist(set.getInt(1), set.getString(2), set.getString(3));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * This method is used to retrieve all series from the database.
+     * @param seriesID The ID of the series
+     * @return ArrayList<Season> Returns a list of all series.
+     */
+    public ArrayList<Season> getSeasons(int seriesID) {
+        ArrayList<Season> series = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM seasons WHERE seriesID = ?")) {
+            ps.setInt(1, seriesID);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    Season s = new Season(resultSet.getInt(1),
+                            resultSet.getInt(2));
+                    series.add(s);
+                }
+            }
+            return series;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * This method is used to retrieve all series from the database.
+     * @return Series Returns a series.
+     */
+    public Series getSeries(String name) {
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM series WHERE name = ?")) {
+            ps.setString(1, name);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                resultSet.next();
+                return new Series(resultSet.getInt(1), resultSet.getString(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * This method is used to retrieve all series from the database.
+     * @return ArrayList<Series> Returns a list of all series.
+     */
+    public ArrayList<Series> getAllSeries() {
+        ArrayList<Series> series = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM series")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    Series s = new Series(resultSet.getInt(1), resultSet.getString(2));
+                    series.add(s);
+                }
+            }
+            return series;
         } catch (SQLException e) {
             e.printStackTrace();
         }
