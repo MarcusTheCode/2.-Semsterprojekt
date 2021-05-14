@@ -96,11 +96,12 @@ public class DatabaseManager {
     public boolean deleteProduction(int productionID) {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM productions WHERE productions.id = ?")) {
             ps.setInt(1, productionID);
+            ps.execute();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     public void updateProduction(Production production){
