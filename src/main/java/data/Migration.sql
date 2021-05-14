@@ -82,7 +82,7 @@ INSERT INTO series(name) VALUES('after life');
 INSERT INTO seasons(seasonnumber, seriesid) VALUES(1,1);
 INSERT INTO seasons(seasonnumber, seriesid) VALUES(1,2);
 
-INSERT INTO superUsers(isAdmin, userName, password) VALUES (TRUE,'admin','admin');
+INSERT INTO superUsers(isAdmin, userName, password) VALUES (true,'admin','admin');
 INSERT INTO superUsers(isAdmin, userName, password) VALUES (false,'poul','1234');
 INSERT INTO superUsers(isAdmin, userName, password) VALUES (false,'john','1234');
 
@@ -96,6 +96,15 @@ INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, p
 VALUES (2,'tv-series',4,2,3,'lucifer, stay. good devil.');
 INSERT INTO productions(episodeNumber, type, categoryID, producerID, productionTitle)
 VALUES (1,'movie',4,3,'bee movie');
+
+INSERT INTO productionGenres(productionID, genreID)
+VALUES(1, 1);
+INSERT INTO productionGenres(productionID, genreID)
+VALUES(2, 2);
+INSERT INTO productionGenres(productionID, genreID)
+VALUES(5, 3);
+INSERT INTO productionGenres(productionID, genreID)
+VALUES(5, 4);
 
 INSERT INTO artists(name,email)
 VALUES('Barry B. Benson ','BarryBeeBenson@bee.hive');

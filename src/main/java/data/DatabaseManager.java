@@ -600,7 +600,7 @@ public class DatabaseManager {
             ps.setInt(1,productionID);
             ResultSet resultSet = ps.executeQuery();
             while(resultSet.next()) {
-                PreparedStatement ps2 = connection.prepareStatement("SELECT * FROM genres.name WHERE genresID = ?");
+                PreparedStatement ps2 = connection.prepareStatement("SELECT name FROM genres WHERE id = ?");
                 ps2.setInt(1,resultSet.getInt(1));
                 ResultSet set =  ps2.executeQuery();
                 set.next();

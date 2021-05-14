@@ -1,6 +1,5 @@
 package presentation;
 
-import data.DataFacade;
 import domain.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
