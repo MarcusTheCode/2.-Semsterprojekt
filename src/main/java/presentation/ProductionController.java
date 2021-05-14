@@ -1,12 +1,10 @@
 package presentation;
 
 import data.DataFacade;
-import domain.CastMember;
-import domain.DomainFacade;
-import domain.Production;
-import domain.Series;
+import domain.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -22,31 +20,19 @@ import java.util.ResourceBundle;
 public class ProductionController implements Initializable {
 
     @FXML
-    private ListView<String> attributesList;
-
-    @FXML
     private ListView<String> genreList;
 
     @FXML
-    private Text productionTitle;
+    private Text productionTitle, saveText;
 
     @FXML
-    private Text saveText;
+    private TextField title, type, episode;
 
     @FXML
-    private Button addEntry;
+    private Button addEntry, deleteEntry, saveEntry;
 
     @FXML
-    private Button deleteEntry;
-
-    @FXML
-    private Button saveEntry;
-
-    @FXML
-    private ComboBox<String> series;
-
-    @FXML
-    private ComboBox<String> season;
+    private ComboBox<String> series, season;
 
     private Production currentProduction;
 
@@ -58,17 +44,14 @@ public class ProductionController implements Initializable {
     private TableView<CastMember> castMembers;
 
     @FXML
-    private TableColumn<CastMember, String> roleColumn;
-
-    @FXML
-    private TableColumn<CastMember, String> nameColumn;
+    private TableColumn<CastMember, String> roleColumn, nameColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        roleColumn.setCellValueFactory(new PropertyValueFactory<CastMember, String>("jobTitle"));
+        roleColumn.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
         roleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        nameColumn.setCellValueFactory(new PropertyValueFactory<CastMember, String>("name"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         castMemberObservableList = FXCollections.observableArrayList();
@@ -77,8 +60,17 @@ public class ProductionController implements Initializable {
         castMembers.setItems(castMemberObservableList);
         genreList.setItems(genresOberservableList);
 
-        series.setEditable(true);
-        season.setEditable(true);
+        series.setOnAction((ActionEvent e) -> {
+            season.getItems().clear();
+
+            Series seriesName = DomainFacade.getSeries(series.getValue());
+
+            if (seriesName != null) {
+                for (Season s : DomainFacade.getSeasons(seriesName.getId())) {
+                    season.getItems().add(String.valueOf(s.getSeasonNumber()));
+                }
+            }
+        });
     }
 
     public void setAdminToolsVisibility(Boolean bool){
@@ -87,7 +79,6 @@ public class ProductionController implements Initializable {
         saveEntry.setVisible(bool);
         nameColumn.setEditable(bool);
         roleColumn.setEditable(bool);
-
     }
 
     @FXML
@@ -103,11 +94,14 @@ public class ProductionController implements Initializable {
     }
 
     public void setProduction(Production production) {
-        for (Series s: DomainFacade.getAllSeries()) {
+        series.getItems().clear();
+        for (Series s : DomainFacade.getAllSeries()) {
             series.getItems().add(s.getName());
         }
 
         currentProduction = production;
+
+        title.setText(production.getTitle());
 
         productionTitle.setText(currentProduction.getTitle());
         ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();

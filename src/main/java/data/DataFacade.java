@@ -154,6 +154,14 @@ public class DataFacade {
      * This method is used to retrieve all productions from the database.
      * @return ArrayList<Series> Returns a list of all productions.
      */
+    public static Series getSeries(String name) {
+        return databaseManager.getSeries(name);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Series> Returns a list of all productions.
+     */
     public static ArrayList<Series> getAllSeries() {
         return databaseManager.getAllSeries();
     }

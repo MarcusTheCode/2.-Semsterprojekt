@@ -28,6 +28,14 @@ public class DomainFacade {
      * This method is used to retrieve all productions from the database.
      * @return ArrayList<Series> Returns a list of all productions.
      */
+    public static Series getSeries(String name) {
+        return DataFacade.getSeries(name);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Series> Returns a list of all productions.
+     */
     public static ArrayList<Series> getAllSeries() {
         return DataFacade.getAllSeries();
     }

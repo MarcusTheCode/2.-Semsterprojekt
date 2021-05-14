@@ -42,16 +42,15 @@
                      <children>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <TextField promptText="Season" />
-                              <TextField promptText="Title" />
-                              <TextField promptText="Type" />
-                              <TextField promptText="Episode" />
+                              <TextField fx:id="title" promptText="Title" />
+                              <TextField fx:id="type" promptText="Type" />
                            </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <ComboBox fx:id="series" prefWidth="150.0" promptText="Series" />
-                              <ComboBox fx:id="season" prefWidth="150.0" promptText="Season" />
+                              <ComboBox fx:id="series" editable="true" prefWidth="150.0" promptText="Series" />
+                              <ComboBox fx:id="season" editable="true" prefWidth="150.0" promptText="Season" />
+                              <TextField fx:id="episode" promptText="Episode" />
                            </children>
                         </VBox>
                         <VBox prefHeight="100.0" prefWidth="232.0">

@@ -406,16 +406,33 @@ public class DatabaseManager {
      */
     public ArrayList<Season> getSeasons(int seriesID) {
         ArrayList<Season> series = new ArrayList<>();
-        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM seasons WHERE id = seriesID")) {
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM seasons WHERE seriesID = ?")) {
+            ps.setInt(1, seriesID);
             try (ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {
                     Season s = new Season(resultSet.getInt(1),
-                            resultSet.getString(2),
-                            resultSet.getInt(3));
+                            resultSet.getInt(2));
                     series.add(s);
                 }
             }
             return series;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * This method is used to retrieve all series from the database.
+     * @return Series Returns a series.
+     */
+    public Series getSeries(String name) {
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM series WHERE name = ?")) {
+            ps.setString(1, name);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                resultSet.next();
+                return new Series(resultSet.getInt(1), resultSet.getString(2));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
