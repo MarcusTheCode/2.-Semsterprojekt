@@ -238,6 +238,10 @@ public class DataFacade {
         return databaseManager.insertCastMember(castMember);
     }
 
+    public static boolean deleteCastMember(CastMember castMember) {
+        return databaseManager.deleteCastMember(castMember);
+    }
+
     public static boolean castMemberExists(CastMember castMember){
         return databaseManager.chekIfCastMemberExists(castMember);
     }

@@ -80,7 +80,7 @@
             </TableView>
             <HBox prefHeight="25.0" prefWidth="648.0">
                <children>
-                  <ComboBox fx:id="artist" editable="true" prefWidth="150.0" promptText="Artist" />
+                  <ComboBox fx:id="artist" prefWidth="150.0" promptText="Artist" />
                   <TextField fx:id="role" promptText="Role" />
                   <Button fx:id="addEntry" mnemonicParsing="false" onMouseClicked="#addEntry" text="Add entry">
                      <HBox.margin>

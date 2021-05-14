@@ -230,6 +230,10 @@ public class DomainFacade {
         return DataFacade.saveCastMember(castMember);
     }
 
+    public static boolean deleteCastMember(CastMember castMember) {
+        return DataFacade.deleteCastMember(castMember);
+    }
+
     public static boolean castMemberExists(CastMember castMember){
         return DataFacade.castMemberExists(castMember);
     }
