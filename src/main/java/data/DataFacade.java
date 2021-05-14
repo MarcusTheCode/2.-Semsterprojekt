@@ -154,6 +154,28 @@ public class DataFacade {
      * This method is used to retrieve all productions from the database.
      * @return ArrayList<Series> Returns a list of all productions.
      */
+    public static Season getSeason(int episodeNumber, int seriesID) {
+        return databaseManager.getSeason(episodeNumber, seriesID);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     */
+    public static boolean insertSeries(Series series) {
+        return databaseManager.insertSeries(series);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     */
+    public static boolean insertSeason(Season season) {
+        return databaseManager.insertSeason(season);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Series> Returns a list of all productions.
+     */
     public static Series getSeries(String name) {
         return databaseManager.getSeries(name);
     }

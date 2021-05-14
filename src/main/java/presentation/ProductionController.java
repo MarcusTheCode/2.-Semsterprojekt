@@ -1,6 +1,5 @@
 package presentation;
 
-import data.DataFacade;
 import domain.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -166,23 +165,43 @@ public class ProductionController implements Initializable {
 
     @FXML
     void saveChanges(MouseEvent event) {
+        // Create series, if it doesn't exist
+        String seriesValue = series.getValue();
+        Series s = DomainFacade.getSeries(seriesValue);
+        if (s == null)
+            DomainFacade.createSeries(seriesValue);
+
+        // Create season, if it doesn't exist
+        String seasonValue = season.getValue();
+        s = DomainFacade.getSeries(seriesValue);
+        if (s != null) {
+            Season season = DomainFacade.getSeason(Integer.parseInt(seasonValue), s.getId());
+            if (season == null)
+                DomainFacade.createSeason(Integer.parseInt(seasonValue), s.getId());
+        }
+
+        // TODO: Create genres, if they don't exist
+
+        // Save seasonID
+        if (s != null) {
+            Season season = DomainFacade.getSeason(Integer.parseInt(seasonValue), s.getId());
+            if (season != null)
+                currentProduction.setSeasonID(season.getId());
+        }
+
+        // Save general data
+        currentProduction.setTitle(title.getText());
+        currentProduction.setCategory(category.getText());
+        currentProduction.setType(type.getText());
+        currentProduction.setEpisodeNumber(Integer.parseInt(episode.getText()));
+
         // Bit of an ugly hack
         if (currentProduction.getId() == null) {
-            // TODO: Insert series, if not exist
-            // TODO: Insert season, if not exist
-            // TODO: Insert genres, if not exist
-
             DomainFacade.saveProduction(currentProduction);
         } else {
             DomainFacade.editProduction(currentProduction);
         }
-        for (CastMember castMember: castMemberObservableList){
-            if (!DataFacade.castMemberExists(castMember)){
-                DataFacade.insertCastMember(castMember);
-            }else{
 
-            }
-        }
         saveText.setVisible(true);
     }
 }
