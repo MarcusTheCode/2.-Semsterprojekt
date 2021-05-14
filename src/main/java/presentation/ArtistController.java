@@ -33,6 +33,7 @@ public class ArtistController implements Initializable {
     @FXML
     void saveArtist(MouseEvent event) {
         createArtist(name.getText(), email.getText());
+        UIManager.getArtistsController().loadArtists();
     }
 
     @FXML
