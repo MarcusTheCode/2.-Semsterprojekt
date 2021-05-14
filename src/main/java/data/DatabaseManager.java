@@ -78,11 +78,14 @@ public class DatabaseManager {
             if (production.getSeasonID() != null) {
                 ps.setInt(6, production.getSeasonID());
             }
-            return ps.execute();
+            ps.execute();
+            // If an error occurs when executing the ps, it jumps to the catch statement
+            // otherwise, it is safe to assume that the statement executed correctly
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**
@@ -656,19 +659,36 @@ public class DatabaseManager {
     /**
      * This method is used insert a category to the database.
      * @param season The production to add the genre to
-     * @param seriesID The production to add the genre to
      * @return boolean Returns the ID of the category.
      */
-    public boolean insertSeason(Season season, int seriesID) {
+    public boolean insertSeason(Season season) {
         try (PreparedStatement ps = connection.prepareStatement("INSERT INTO seasons (seasonNumber, seriesID) VALUES (?, ?)")) {
             ps.setInt(1, season.getSeasonNumber());
-            ps.setInt(2, seriesID);
+            ps.setInt(2, season.getSeriesID());
             ps.execute();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public Season getSeason(int seasonNumber, int seriesID) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM seasons " +
+                    "WHERE seasonNumber = ? AND seriesID = ?");
+            ps.setInt(1, seasonNumber);
+            ps.setInt(2, seriesID);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                return new Season(resultSet.getInt(1),
+                        resultSet.getInt(2),
+                        resultSet.getInt(3));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -683,7 +703,8 @@ public class DatabaseManager {
             try (ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {
                     Season s = new Season(resultSet.getInt(1),
-                            resultSet.getInt(2));
+                            resultSet.getInt(2),
+                            resultSet.getInt(3));
                     series.add(s);
                 }
             }
@@ -739,7 +760,7 @@ public class DatabaseManager {
     public void insertCastMember(CastMember c){
         try {
             PreparedStatement ps = connection.prepareStatement("" +
-                    "INSERT INTO castMembers(id,role,artistID) " +
+                    "INSERT INTO castMembers(productionID,role,artistID) " +
                     "VALUES(?,?,?)");
             ps.setInt(1,c.getId());
             ps.setString(2,c.getJobTitle());

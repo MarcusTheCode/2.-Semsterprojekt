@@ -26,6 +26,30 @@ public class DomainFacade {
 
     /**
      * This method is used to retrieve all productions from the database.
+     */
+    public static boolean createSeries(String seriesName) {
+        Series series = new Series(seriesName);
+        return DataFacade.insertSeries(series);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     */
+    public static boolean createSeason(int seasonNumber, int seriesID) {
+        Season season = new Season(seasonNumber, seriesID);
+        return DataFacade.insertSeason(season);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Series> Returns a list of all productions.
+     */
+    public static Season getSeason(int episodeNumber, int seriesID) {
+        return DataFacade.getSeason(episodeNumber, seriesID);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
      * @return ArrayList<Series> Returns a list of all productions.
      */
     public static Series getSeries(String name) {
