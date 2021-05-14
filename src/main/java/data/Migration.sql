@@ -107,7 +107,7 @@ INSERT INTO productionGenres(productionID, genreID)
 VALUES(5, 4);
 
 INSERT INTO artists(name,email)
-VALUES('Barry B. Benson ','BarryBeeBenson@bee.hive');
+VALUES('Barry B. Benson','BarryBeeBenson@bee.hive');
 
 INSERT INTO castMembers(productionID, role, artistID)
 VALUES (5,'Actor',1);
@@ -235,10 +235,10 @@ end;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION getCastMembers(productionIDVal INTEGER)
-    RETURNS TABLE (role VARCHAR(50), name VARCHAR(100)) AS $$
+    RETURNS TABLE (role VARCHAR(50), name VARCHAR(100), email VARCHAR(100)) AS $$
 BEGIN
-    RETURN QUERY SELECT castMembers.role, artists.name FROM castMembers
-    LEFT JOIN artists ON castMembers.artistID = artists.id;
+    RETURN QUERY SELECT castMembers.role, artists.name, artists.email FROM castMembers
+    JOIN artists ON castMembers.artistID = artists.id;
 end;
 $$ LANGUAGE plpgsql;
 
