@@ -40,7 +40,7 @@ public class Production implements Serializable {
         this.seasonID = seasonsID;
         this.type = type;
         this.castMembers = new ArrayList<>();
-        this.genres = DataFacade.getGenres(productionID);;
+        this.genres = DataFacade.getGenres(productionID);
         this.seasonNumber = DataFacade.getSeasonNumber(seasonsID);
         this.categoryID = DataFacade.getCategory(category);
     }
