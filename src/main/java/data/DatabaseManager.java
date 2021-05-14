@@ -386,6 +386,21 @@ public class DatabaseManager {
         return null;
     }
 
+    /*public boolean artistExists(String name){
+        try{
+            PreparedStatement ps = connection.prepareStatement("" +
+                    "SELECT * FROM artists WHERE name = ?");
+            ps.setString(1,name);
+            ResultSet set = ps.executeQuery();
+            if(set.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }*/
+
     public Artist getArtist(int id){
         try{
             PreparedStatement ps = connection.prepareStatement("" +
@@ -589,6 +604,20 @@ public class DatabaseManager {
 
     }
 
-
+    public boolean chekIfCastMemberExists(CastMember castMember){
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM castMembers WHERE castMembers.id = ?");
+            ps.setInt(1,castMember.getId());
+            ResultSet set = ps.executeQuery();
+            if(set.next()){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }
