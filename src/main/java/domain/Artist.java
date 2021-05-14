@@ -38,4 +38,9 @@ public class Artist implements Serializable {
     public String getEmail() {
         return email;
     }
+
+    @Override
+    public String toString() {
+        return "(" + id + ") " + name + " - " + email;
+    }
 }

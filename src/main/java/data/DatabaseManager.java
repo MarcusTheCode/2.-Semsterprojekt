@@ -376,12 +376,11 @@ public class DatabaseManager {
         return null;
     }
 
-    // TODO: Why is this here? Names aren't unique
-    public Artist getArtist(String name) {
+    public Artist getArtist(String email) {
         try{
             PreparedStatement ps = connection.prepareStatement("" +
-                    "SELECT * FROM artists WHERE name = ?");
-            ps.setString(1,name);
+                    "SELECT * FROM artists WHERE email = ?");
+            ps.setString(1, email);
             ResultSet set = ps.executeQuery();
             if (!set.next()){
                 return null;
@@ -734,7 +733,7 @@ public class DatabaseManager {
 
     // CastMember
 
-    public List<CastMember> getCastMembers(int productionID){
+    public ArrayList<CastMember> getCastMembers(int productionID) {
         ArrayList<CastMember> castMembers = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM getcastmembers(?)");
@@ -754,7 +753,22 @@ public class DatabaseManager {
         return castMembers;
     }
 
-    public void insertCastMember(CastMember c){
+    public boolean insertCastMember(CastMember c){
+        try {
+            PreparedStatement ps = connection.prepareStatement("" +
+                    "INSERT INTO castMembers(id,role,artistID) " +
+                    "VALUES(?,?,?)");
+            ps.setInt(1,c.getId());
+            ps.setString(2,c.getJobTitle());
+            ps.setInt(3,c.getArtistID());
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /*public void deleteCastMember(CastMember c) {
         try {
             PreparedStatement ps = connection.prepareStatement("" +
                     "INSERT INTO castMembers(productionID,role,artistID) " +
@@ -765,8 +779,7 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-    }
+    }*/
 
     public boolean chekIfCastMemberExists(CastMember castMember){
         try {
