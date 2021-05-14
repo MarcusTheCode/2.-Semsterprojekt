@@ -42,6 +42,9 @@ public class CastMember implements Serializable {
 
     }
 
+    public int getProductionID() {
+        return productionID;
+    }
 
     public int getId() {
         return productionID;
