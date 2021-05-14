@@ -238,7 +238,8 @@ CREATE OR REPLACE FUNCTION getCastMembers(productionIDVal INTEGER)
     RETURNS TABLE (role VARCHAR(50), name VARCHAR(100), email VARCHAR(100)) AS $$
 BEGIN
     RETURN QUERY SELECT castMembers.role, artists.name, artists.email FROM castMembers
-    JOIN artists ON castMembers.artistID = artists.id;
+    JOIN artists ON castMembers.artistID = artists.id
+    WHERE castMembers.productionID = productionIDVal;
 end;
 $$ LANGUAGE plpgsql;
 
