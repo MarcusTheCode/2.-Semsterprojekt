@@ -44,7 +44,7 @@
             </TextField>
          </children>
       </VBox>
-      <Button layoutX="21.0" layoutY="301.0" mnemonicParsing="false" text="Add user" />
+      <Button layoutX="21.0" layoutY="301.0" mnemonicParsing="false" onMouseClicked="#saveUser" text="Add user" />
       <CheckBox fx:id="isAdminCheckbox" layoutX="27.0" layoutY="274.0" mnemonicParsing="false" text="Admin" />
    </children>
 </AnchorPane>
