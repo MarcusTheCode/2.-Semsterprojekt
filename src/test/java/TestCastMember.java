@@ -15,9 +15,10 @@ public class TestCastMember extends CastMember {
     }
 
     public boolean equals(CastMember castMember) {
-        if (this.getName() == castMember.getName()
-            && this.getJobTitle() == castMember.getJobTitle()
-            && this.getEmail() == castMember.getEmail()) {
+
+        if (this.getName().equals(castMember.getName())
+                && this.getName().equals(castMember.getName())
+                && this.getJobTitle().equals(castMember.getJobTitle())) {
             return true;
         }
         return false;
