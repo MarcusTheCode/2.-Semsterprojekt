@@ -44,6 +44,7 @@
                            <children>
                               <TextField fx:id="title" promptText="Title" />
                               <TextField fx:id="type" promptText="Type" />
+                              <TextField fx:id="category" promptText="Category" />
                            </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
