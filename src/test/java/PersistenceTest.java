@@ -55,9 +55,14 @@ public class PersistenceTest {
 
     @Test
     public void getCreditTest(){
+        CastMember castMember = new CastMember("Barry B. Benson","BarryBeeBenson@bee.hive","Actor",5);
+        ArrayList<CastMember> expectedCastMembers = new ArrayList<>();
+        expectedCastMembers.add(castMember);
+
         Production production = DataFacade.getProduction(5);
         ArrayList<CastMember> castMembers = production.getCastMembers();
-        // TODO: finish
+
+        assertEquals(castMembers, expectedCastMembers);
     }
 
     // TODO: Save credit test

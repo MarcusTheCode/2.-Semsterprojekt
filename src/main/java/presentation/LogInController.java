@@ -22,6 +22,7 @@ public class LogInController {
     void returnToStartup(MouseEvent event) {
         UIManager.getSearchController().loadProductions();
         UIManager.changeScene(UIManager.getSearchScene());
+        clearLoginTextField();
     }
 
     @FXML
@@ -33,6 +34,7 @@ public class LogInController {
 
     public void login(MouseEvent event) {
         loginUser();
+        clearLoginTextField();
     }
 
     private void loginUser() {
@@ -52,4 +54,10 @@ public class LogInController {
     public void hideErrorMessage() {
         errorMessage.setVisible(false);
     }
+
+    void clearLoginTextField() {
+        inputUsername.clear();
+        inputPassword.clear();
+    }
+
 }
