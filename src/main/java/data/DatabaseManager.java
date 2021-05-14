@@ -756,35 +756,36 @@ public class DatabaseManager {
     public boolean insertCastMember(CastMember c){
         try {
             PreparedStatement ps = connection.prepareStatement("" +
-                    "INSERT INTO castMembers(id,role,artistID) " +
+                    "INSERT INTO castMembers(productionID, role, artistID) " +
                     "VALUES(?,?,?)");
-            ps.setInt(1,c.getId());
-            ps.setString(2,c.getJobTitle());
-            ps.setInt(3,c.getArtistID());
-            return true;
+            ps.setInt(1, c.getProductionID());
+            ps.setString(2, c.getJobTitle());
+            ps.setInt(3, c.getArtistID());
+            return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    /*public void deleteCastMember(CastMember c) {
+    public boolean deleteCastMember(CastMember c) {
         try {
-            PreparedStatement ps = connection.prepareStatement("" +
-                    "INSERT INTO castMembers(productionID,role,artistID) " +
-                    "VALUES(?,?,?)");
-            ps.setInt(1,c.getId());
-            ps.setString(2,c.getJobTitle());
-            ps.setInt(3,c.getArtistID());
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM castMembers " +
+                    "WHERE productionID = ? AND role = ? AND artistID = ?");
+            ps.setInt(1, c.getProductionID());
+            ps.setString(2, c.getJobTitle());
+            ps.setInt(3, c.getArtistID());
+            return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }*/
+        return false;
+    }
 
     public boolean chekIfCastMemberExists(CastMember castMember){
         try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM castMembers WHERE castMembers.id = ?");
-            ps.setInt(1,castMember.getId());
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM castMembers WHERE castMembers.artistID = ?");
+            ps.setInt(1, castMember.getArtistID());
             ResultSet set = ps.executeQuery();
             if(set.next()){
                 return true;

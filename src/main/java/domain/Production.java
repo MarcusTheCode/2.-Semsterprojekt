@@ -57,6 +57,10 @@ public class Production implements Serializable {
         castMembers.add(castMember);
     }
 
+    public void removeCastMember(CastMember castMember) {
+        castMembers.remove(castMember);
+    }
+
     public boolean isOwner(SuperUser superUser) {
         return (producerID == superUser.getId());
     }
