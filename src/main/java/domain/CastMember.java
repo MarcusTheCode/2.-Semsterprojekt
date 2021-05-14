@@ -16,25 +16,14 @@ public class CastMember implements Serializable {
         this.jobTitle = jobTitle;
         this.artistID = artistID;
         this.artist = getArtistFormDatabase();
-        if (!DataFacade.castMemberExists(this)){
-            DataFacade.insertCastMember(this);
-        }
     }
 
     // TODO: change getArtist(name) to getArtist(email) after implementation of email in production.fxml
     public CastMember(String name, String email, String jobTitle, int productionID) {
         this.jobTitle = jobTitle;
         this.productionID = productionID;
-        this.artist = DataFacade.getArtist(name);
-        if (this.artist==null){
-            DataFacade.insertArtist(new Artist(name, email));
-            this.artist = DataFacade.getArtist(name);
-        }
+        this.artist = DataFacade.getArtist(email); //if null artist doesn't exists
         this.artistID = artist.getId();
-        if (!DataFacade.castMemberExists(this)){
-            DataFacade.insertCastMember(this);
-        }
-
     }
 
 

@@ -191,7 +191,19 @@ public class DatabaseManager {
      * @return boolean Returns whether the execution succeeded.
      */
     public boolean editArtist(Artist artist) {
-        // TODO: Implement
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("UPDATE artists SET " +
+                    "name = ?," +
+                    "email = ?" +
+                    "WHERE id = ?");
+            ps.setString(1,artist.getName());
+            ps.setString(2, artist.getEmail());
+            ps.setInt(3,artist.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -358,7 +370,7 @@ public class DatabaseManager {
 
     public int getCategoryID(String name) {
         try (PreparedStatement ps = connection.prepareStatement("SELECT categories.id FROM categories WHERE categories.name = ?")) {
-            ps.setString(1, name);
+            ps.setString(1, name.toLowerCase());
             try (ResultSet set = ps.executeQuery()) {
                 set.next();
                 return set.getInt(1);
@@ -369,11 +381,11 @@ public class DatabaseManager {
         return 0;
     }
 
-    public Artist getArtist(String name){
+    public Artist getArtist(String email){
         try{
             PreparedStatement ps = connection.prepareStatement("" +
-                    "SELECT * FROM artists WHERE name = ?");
-            ps.setString(1,name);
+                    "SELECT * FROM artists WHERE email = ?");
+            ps.setString(1,email);
             ResultSet set = ps.executeQuery();
             if (!set.next()){
                 return null;
