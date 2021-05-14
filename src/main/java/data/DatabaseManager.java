@@ -224,6 +224,7 @@ public class DatabaseManager {
     public boolean deleteSuperUser(int userID) {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM superUsers WHERE superUsers.id = ?")) {
             ps.setInt(1, userID);
+            ps.execute();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

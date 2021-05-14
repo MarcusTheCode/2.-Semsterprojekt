@@ -77,7 +77,7 @@ public class UsersController implements Initializable {
         int index = superUsers.getSelectionModel().getFocusedIndex();
         int userID = usersObservableList.get(index).getId();
 
-        if (usersObservableList.get(index).getId() == 6){
+        if (usersObservableList.get(index).getId() == 1){
             return;
         }
 
