@@ -274,11 +274,12 @@ public class DatabaseManager {
      * @return Production Returns the production with the ID or null.
      */
     public Production getProduction(int productionID) {
+        Production production = null;
         try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM productions WHERE productions.id = ?")) {
             ps.setInt(1, productionID);
             try (ResultSet resultSet = ps.executeQuery()) {
                 resultSet.next();
-                return new Production(
+                production = new Production(
                         resultSet.getInt(2),
                         resultSet.getInt(5),
                         resultSet.getInt(6),
@@ -286,11 +287,12 @@ public class DatabaseManager {
                         resultSet.getString(7),
                         getCategoryID(resultSet.getInt(4)),
                         resultSet.getString(3));
+                production.setCastMembers((ArrayList<CastMember>) this.getCastMembers(production.getId()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return production;
     }
 
     /**
@@ -383,6 +385,21 @@ public class DatabaseManager {
         }
         return null;
     }
+
+    /*public boolean artistExists(String name){
+        try{
+            PreparedStatement ps = connection.prepareStatement("" +
+                    "SELECT * FROM artists WHERE name = ?");
+            ps.setString(1,name);
+            ResultSet set = ps.executeQuery();
+            if(set.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }*/
 
     public Artist getArtist(int id){
         try{
@@ -552,18 +569,18 @@ public class DatabaseManager {
         }
     }
 
-    public List<CastMember> getCastMembers(int ID){
+    public List<CastMember> getCastMembers(int productionID){
         ArrayList<CastMember> castMembers = new ArrayList<>();
         try {
-            PreparedStatement ps = connection.prepareStatement("" +
-                "SELECT * FROM castMembers " +
-                "WHERE castMembers.productionID = ?;");
-            ResultSet set = ps.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM getcastmembers(?)");
+            preparedStatement.setInt(1,productionID);
+            ResultSet set = preparedStatement.executeQuery();
             while(set.next()){
                 castMembers.add(new CastMember(
-                        set.getInt(2),
+                        set.getString(2),
+                        set.getString(3),
                         set.getString(1),
-                        set.getInt(3)
+                        productionID
                 ));
             }
         } catch (SQLException e) {
@@ -584,6 +601,22 @@ public class DatabaseManager {
             e.printStackTrace();
         }
 
+    }
+
+    public boolean chekIfCastMemberExists(CastMember castMember){
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM castMembers WHERE castMembers.id = ?");
+            ps.setInt(1,castMember.getId());
+            ResultSet set = ps.executeQuery();
+            if(set.next()){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }
