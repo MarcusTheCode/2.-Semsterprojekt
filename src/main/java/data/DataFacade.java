@@ -162,6 +162,14 @@ public class DataFacade {
      * This method is used to retrieve all productions from the database.
      * @return ArrayList<Series> Returns a list of all productions.
      */
+    public static Series getSeriesBySeason(int seasonID) {
+        return databaseManager.getSeriesBySeason(seasonID);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Series> Returns a list of all productions.
+     */
     public static ArrayList<Series> getAllSeries() {
         return databaseManager.getAllSeries();
     }

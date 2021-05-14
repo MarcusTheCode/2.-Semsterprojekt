@@ -26,7 +26,7 @@ public class ProductionController implements Initializable {
     private Text productionTitle, saveText;
 
     @FXML
-    private TextField title, type, episode;
+    private TextField title, type, category, episode;
 
     @FXML
     private Button addEntry, deleteEntry, saveEntry;
@@ -102,6 +102,15 @@ public class ProductionController implements Initializable {
         currentProduction = production;
 
         title.setText(production.getTitle());
+        type.setText(production.getType());
+        category.setText(production.getCategory());
+        episode.setText(String.valueOf(production.getEpisodeNumber()));
+
+        Series s = DomainFacade.getSeriesBySeason(production.getSeasonID());
+        if (s != null) {
+            series.setValue(s.getName());
+            season.setValue(String.valueOf(production.getSeasonNumber()));
+        }
 
         productionTitle.setText(currentProduction.getTitle());
         ArrayList<CastMember> castMemberArrayList = currentProduction.getCastMembers();

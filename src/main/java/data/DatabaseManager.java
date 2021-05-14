@@ -459,13 +459,56 @@ public class DatabaseManager {
         try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM series WHERE name = ?")) {
             ps.setString(1, name);
             try (ResultSet resultSet = ps.executeQuery()) {
-                resultSet.next();
-                return new Series(resultSet.getInt(1), resultSet.getString(2));
+                if (resultSet.next())
+                    return new Series(resultSet.getInt(1), resultSet.getString(2));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * This method is used to retrieve all series from the database.
+     * @return Series Returns a series.
+     */
+    public Series getSeriesBySeason(int seasonID) {
+        int seriesID = getSeriesID(seasonID);
+        return getSeries(seriesID);
+    }
+
+    /**
+     * This method is used to retrieve all series from the database.
+     * @return Series Returns a series.
+     */
+    public Series getSeries(int seriesID) {
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM series WHERE id = ?")) {
+            ps.setInt(1, seriesID);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next())
+                    return new Series(resultSet.getInt(1), resultSet.getString(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * This method is used to retrieve all series from the database.
+     * @return Series Returns a series.
+     */
+    public int getSeriesID(int seasonID) {
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM seasons WHERE id = ?")) {
+            ps.setInt(1, seasonID);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next())
+                    return resultSet.getInt(3);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
