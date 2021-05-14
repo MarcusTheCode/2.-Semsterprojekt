@@ -63,10 +63,10 @@ public class PersistenceTest {
         assertTrue(castMember.equals(expectedCastMember));
     }
 
-    // TODO: Save credit test
     @Test
-    public void saveProduction(){
-
+    public void saveProductionTest(){
+        Production production = new Production("Shrek",2,"documentary",1,"movie");
+        assertTrue(DataFacade.insertProduction(production));
     }
 
     // TODO: Delete credit test

@@ -30,6 +30,14 @@ public class Production implements Serializable {
         this.genres = new ArrayList<>();
     }
 
+    public Production(String title, Integer producerID, String category, Integer episodeNumber, String type) {
+        this.title = title;
+        this.producerID = producerID;
+        this.category = category;
+        this.episodeNumber = episodeNumber;
+        this.type = type;
+    }
+
     //Tv-Series
     public Production(int episodeNumber, Integer seasonsID, int producerID, int productionID, String title, String category, String type) {
         this.producerID = producerID;
