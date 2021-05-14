@@ -250,6 +250,9 @@ public class DataFacade {
         return databaseManager.getCastMembers(productionID);
     }
 
+    public static ArrayList<String> getSeriesAndProductionID(){
+        return databaseManager.getSeriesAndProductionID();
+    }
 
 
 }

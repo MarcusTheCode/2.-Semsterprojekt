@@ -34,6 +34,10 @@ public class CastMember implements Serializable {
         return productionID;
     }
 
+    public int getId() {
+        return productionID;
+    }
+
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
