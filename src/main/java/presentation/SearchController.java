@@ -7,8 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
@@ -18,11 +17,11 @@ import javafx.scene.layout.HBox;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.LongStringConverter;
-import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class SearchController implements Initializable {
@@ -38,6 +37,9 @@ public class SearchController implements Initializable {
 
     @FXML
     private Button loginButton;
+
+    @FXML
+    private ComboBox<String> SearchFilterComboBox;
 
     @FXML
     private TableView<Production> productionsTable;
@@ -65,11 +67,16 @@ public class SearchController implements Initializable {
 
     private ObservableList<Production> productionObservableList;
 
+    private ObservableList<String> searchOptionsObservableList;
+
     @FXML
     private AnchorPane noProductionPane;
 
     @FXML
     private Button alertPaneButton;
+
+    @FXML
+    private TextField SearchBar;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -88,6 +95,11 @@ public class SearchController implements Initializable {
 
         episodeColumn.setCellValueFactory(new PropertyValueFactory<>("episodeNumber"));
         episodeColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+
+        searchOptionsObservableList = FXCollections.observableArrayList("Search By Production","Search by Series");
+        SearchFilterComboBox.setItems(searchOptionsObservableList);
+
+        SearchBar = new TextField();
 
         loadProductions();
     }
@@ -226,10 +238,30 @@ public class SearchController implements Initializable {
         noProductionPane.setVisible(false);
     }
 
+    //Search by name
+    //Search by series
     @FXML
     void searchForProduction(KeyEvent event) {
+        productionObservableList.clear();
         if (event.getCode() == KeyCode.ENTER) {
-            loadProductions();
+        }
+        ArrayList<Production> productions;
+        productions = new ArrayList<>(DataFacade.loadAllProductions());
+        if (SearchFilterComboBox.getValue()=="Search By Production"){
+            for (Production production: productions){
+                if (production.getTitle().matches(SearchBar.getText())){
+                    productionObservableList.add(production);
+                }
+            }
+        }else if (SearchFilterComboBox.getValue()=="Search By Series"){
+            ArrayList<String> SeriesProduction = new ArrayList<>(DataFacade.getSeriesAndProductionID());
+            String[] val;
+            for (String sp: SeriesProduction){
+                val = sp.split(",");
+                if (val[0].toLowerCase().contains(SearchBar.getText()) && SearchBar.getText()!=null){
+                    productionObservableList.add(DomainFacade.getProduction(Integer.parseInt(val[1])));
+                }
+            }
         }
     }
 

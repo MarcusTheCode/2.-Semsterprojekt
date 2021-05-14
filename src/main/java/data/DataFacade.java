@@ -216,6 +216,9 @@ public class DataFacade {
         return databaseManager.chekIfCastMemberExists(castMember);
     }
 
+    public static ArrayList<String> getSeriesAndProductionID(){
+        return databaseManager.getSeriesAndProductionID();
+    }
 
 
 }

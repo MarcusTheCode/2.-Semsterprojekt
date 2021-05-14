@@ -516,7 +516,22 @@ public class DatabaseManager {
         return null;
     }
 
-
+    public ArrayList<String> getSeriesAndProductionID(){
+        ArrayList<String> seriesAndProduction = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement("" +
+                    "SELECT * FROM getSeriesAndProductionID()");
+            ResultSet set = ps.executeQuery();
+            String result;
+            while (set.next()){
+               result = ""+set.getString(1)+","+set.getInt(2);
+                seriesAndProduction.add(result);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return seriesAndProduction;
+    }
 
     // ProductionGenre
 

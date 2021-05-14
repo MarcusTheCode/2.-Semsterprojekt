@@ -242,6 +242,17 @@ BEGIN
 end;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION getSeriesAndProductionID()
+    RETURNS TABLE (series varchar(50), id INTEGER)
+AS $$
+BEGIN
+    RETURN QUERY SELECT DISTINCT(series.name), productions.id
+FROM productions JOIN seasons ON productions.seasonID = seasons.id
+	JOIN series ON seasons.seriesID = series.id;
+END; $$
+LANGUAGE plpgsql;
+
+
 -- ENDFILE is used as a delimiter when parsing this file in the ScriptRunner. Otherwise, ScriptRunner doesn't know where the file ends.
 
 ENDFILE
