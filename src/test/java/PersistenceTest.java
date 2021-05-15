@@ -17,21 +17,48 @@ import static org.junit.Assert.*;
 
 public class PersistenceTest {
 
-    private static Connection connection;
+    /**
+     * Note: when debugging the tests, its sometimes needed to run
+     * the tests again without debugging, to 'clean' the database.
+     * I don't know why this happens.
+     */
 
+    private static Connection connection;
+    private static ScriptRunner scriptRunner;
+    private static Reader reader;
+    private static String url;
+    private static Integer port;
+    private static String databaseName;
+    private static String username;
+    private static String password;
+
+    /**
+     * This method runs once before all the tests
+     * it reads the DatabaseCredentials file and connects
+     * to the database
+     */
     @BeforeClass
-    public static void establishConnection(){
+    public static void setUp(){
         connection = null;
         try {
+            // Load DatabaseCredentials
             FileReader fileReader = new FileReader("src/main/resources/TXT/DatabaseCredentials");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String url = bufferedReader.readLine();
-            Integer port = Integer.parseInt(bufferedReader.readLine());
-            String databaseName = bufferedReader.readLine();
-            String username = bufferedReader.readLine();
-            String password = bufferedReader.readLine();
+            url = bufferedReader.readLine();
+            port = Integer.parseInt(bufferedReader.readLine());
+            databaseName = bufferedReader.readLine();
+            username = bufferedReader.readLine();
+            password = bufferedReader.readLine();
+
+            // Register driver and connect to database
             DriverManager.registerDriver(new org.postgresql.Driver());
             connection = DriverManager.getConnection("jdbc:postgresql://" + url + ":" + port + "/" + databaseName, username, password);
+
+            // Load the migration script
+            reader = new BufferedReader(new FileReader("src/main/java/data/Migration.sql"));
+            scriptRunner = new ScriptRunner(connection);
+            scriptRunner.setDelimiter("ENDFILE");
+            scriptRunner.setLogWriter(null);    // Disables output when running the sql file
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
@@ -44,17 +71,7 @@ public class PersistenceTest {
 
     @Test
     public void migrationTest(){
-        try {
-            Reader reader = new BufferedReader(new FileReader("src/main/java/data/Migration.sql"));
-            ScriptRunner scriptRunner = new ScriptRunner(connection);
-            scriptRunner.setDelimiter("ENDFILE");
-            scriptRunner.setLogWriter(null);    // Disables output when running the sql file
-            scriptRunner.runScript(reader);
-            scriptRunner.closeConnection();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
+        scriptRunner.runScript(reader);
     }
 
     @Test
@@ -69,12 +86,23 @@ public class PersistenceTest {
 
     @Test
     public void saveProductionTest(){
+        /**
+         * TODO: Its a problem that the tests are not run sequentially, fix that
+         * production ID is 7, and not 6, because this test runs after the deleteproduction-
+         * test which autoincrements the primary key for the productions table. We need
+         * to be able to control this instead of hardcoding ID's. This problem occurs with
+         * multiple tests. I have the following solutions:
+         *
+         * Either, we to
+         *  (a) make a method that retrieves a productions ID based on a name
+         *  (b) make a method that resets the database before each test.
+         */
+
         Production production = new Production("Shrek",2,"documentary",1,"movie");
         DataFacade.insertProduction(production);
 
-        production = DataFacade.getProduction(7); // "why 7?" you might ask.. idk, but it works
+        production = DataFacade.getProduction(7);
         assertNotNull(production);
-        // TODO: control that this actually works
     }
 
     @Test
@@ -101,20 +129,17 @@ public class PersistenceTest {
         assertNotNull(superUser2);
     }
 
-    // TODO: Save SuperUser test
-
     // TODO: Delete Superuser test
 
     // TODO: Edit SuperUser test
 
-
     @AfterClass
     public static void tearDown(){
         try {
-            // TODO: clean up DB - run migration.sql
+            scriptRunner.closeConnection();
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
             assertTrue(false);
         }
     }
