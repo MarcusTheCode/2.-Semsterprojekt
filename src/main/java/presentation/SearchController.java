@@ -237,6 +237,7 @@ public class SearchController implements Initializable {
     }
 
     // TODO: Consider only searching after typing enter, since this is very power hungry.
+    // TODO: searchForProduction method probably needs to be either split up, refactored or documented.
     @FXML
     void searchForProduction(KeyEvent event) {
        if (SearchFilterComboBox.getValue()!=null && SearchBar.getText()!=null) {
