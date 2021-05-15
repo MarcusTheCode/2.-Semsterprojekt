@@ -5,6 +5,8 @@ import domain.Production;
 import domain.SuperUser;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.*;
+
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -68,8 +70,11 @@ public class PersistenceTest {
     @Test
     public void saveProductionTest(){
         Production production = new Production("Shrek",2,"documentary",1,"movie");
-        assertTrue(DataFacade.insertProduction(production));
-        // TODO: test if the production can be retrived after insertion
+        DataFacade.insertProduction(production);
+
+        production = DataFacade.getProduction(7); // "why 7?" you might ask.. idk, but it works
+        assertNotNull(production);
+        // TODO: control that this actually works
     }
 
     @Test
@@ -102,9 +107,11 @@ public class PersistenceTest {
 
     // TODO: Edit SuperUser test
 
+
     @AfterClass
-    public static void closeConnection(){
+    public static void tearDown(){
         try {
+            // TODO: clean up DB - run migration.sql
             connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
