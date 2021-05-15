@@ -70,18 +70,15 @@ public class PersistenceTest {
     }
 
     @Test
-    public void deleteProductionTest(){
-        DataFacade.insertProduction(new Production("Shrek",2,"documentary",1,"movie"));
+    public void deleteProductionTest() {
+        DataFacade.insertProduction(new Production("Shrek", 2, "documentary", 1, "movie"));
         Production production1 = DataFacade.getProduction(6);
         assertNotNull(production1);
 
         DataFacade.deleteProduction(6);
         Production production2 = DataFacade.getProduction(6);
         assertNull(production2);
-        // TODO: finish this shit
     }
-
-    // TODO: Edit credit test
 
     // TODO: Save SuperUser test
 
