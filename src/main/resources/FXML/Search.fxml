@@ -40,7 +40,7 @@
             </HBox>
             <HBox prefHeight="52.0" prefWidth="1200.0">
                <children>
-                  <TextField onKeyTyped="#searchForProduction" prefHeight="51.0" prefWidth="900.0" promptText="Search for production">
+                  <TextField fx:id="SearchBar" onKeyTyped="#searchForProduction" prefHeight="51.0" prefWidth="900.0" promptText="Search for production">
                      <font>
                         <Font size="24.0" />
                      </font>

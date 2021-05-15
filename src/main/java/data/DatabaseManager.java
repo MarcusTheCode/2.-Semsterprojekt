@@ -277,8 +277,8 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     /**
@@ -300,8 +300,8 @@ public class DatabaseManager {
             return users;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
 
