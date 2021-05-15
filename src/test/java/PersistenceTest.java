@@ -1,6 +1,8 @@
 import data.DataFacade;
 import domain.CastMember;
+import domain.DomainFacade;
 import domain.Production;
+import domain.SuperUser;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.*;
 import java.io.*;
@@ -67,6 +69,7 @@ public class PersistenceTest {
     public void saveProductionTest(){
         Production production = new Production("Shrek",2,"documentary",1,"movie");
         assertTrue(DataFacade.insertProduction(production));
+        // TODO: test if the production can be retrived after insertion
     }
 
     @Test
@@ -76,8 +79,21 @@ public class PersistenceTest {
         assertNotNull(production1);
 
         DataFacade.deleteProduction(6);
-        Production production2 = DataFacade.getProduction(6);
+        System.out.println("Trying to retrieve non-existing production...");
+        Production production2 = DataFacade.getProduction(6);   // Meant to cause an exception, see message above
         assertNull(production2);
+    }
+
+    @Test
+    public void saveSuperUserTest() {
+        System.out.println("Trying to retrieve non-existing SuperUser...");
+        SuperUser superUser1 = DataFacade.getSuperUser(4);  // Meant to cause an exception, see message above
+        assertNull(superUser1);
+
+        SuperUser superUser2 = new SuperUser("Thomas Vinterberg","druk123",false);
+        DataFacade.insertSuperUser(superUser2);
+        superUser2 = DataFacade.getSuperUser(4);
+        assertNotNull(superUser2);
     }
 
     // TODO: Save SuperUser test
