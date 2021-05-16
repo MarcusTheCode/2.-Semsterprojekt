@@ -139,6 +139,20 @@ public class PersistenceTest {
 
     // TODO: Edit Production test
 
+
+    @Test
+    public void editProductionTest() {
+        // TODO: Implement (:
+        /**
+         * (1) add producer
+         * (2) add production
+         * (3) change something about productions
+         * (4) retrieve changed production
+         * (5) compare it to the original produciotn
+         */
+        assertTrue(false);
+    }
+
     @Test
     public void saveSuperUserTest() {
         HashMap<String, Integer> superUsersMap = DataFacade.getSuperUsersMap();
