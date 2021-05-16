@@ -116,6 +116,15 @@ public class DataFacade {
     }
 
     /**
+     * This method is used to retrieve a SuperUser from the database, given a name.
+     * @param superUserUsername The username of the SuperUser
+     * @return SuperUser Returns the SuperUser with the username or null.
+     */
+    public static SuperUser getSuperUser(String superUserUsername) {
+        return databaseManager.getSuperUser(superUserUsername);
+    }
+
+    /**
      * This method is used insert a new SuperUser into the database.
      * @param superUser The SuperUser to insert into the database
      * @return boolean Returns whether the execution succeeded.
@@ -131,6 +140,15 @@ public class DataFacade {
      */
     public static boolean deleteSuperUser(int userID) {
         return databaseManager.deleteSuperUser(userID);
+    }
+
+    /**
+     * This method is used to edit a SuperUser
+     * @param superUserUsername the username of the SuperUser that should be edited
+     * @param newSuperUser what the SuperUser with the ID SuperUserID should be edited to
+     */
+    public static void editSuperUser(String superUserUsername,SuperUser newSuperUser){
+        databaseManager.updateSuperUser(superUserUsername,newSuperUser);
     }
 
     /**

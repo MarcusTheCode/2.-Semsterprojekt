@@ -1,5 +1,6 @@
 import data.DataFacade;
 import domain.*;
+import jdk.jshell.spi.ExecutionControl;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.*;
 
@@ -172,8 +173,19 @@ public class PersistenceTest {
         assertNull(superUserID);
     }
 
+    @Test
+    public void editSuperUserTest() {
+        SuperUser superUser = new SuperUser("James Cameron","1954",false);
+        DataFacade.insertSuperUser(superUser);
 
-    // TODO: Edit SuperUser test
+        SuperUser newSuperUser = new SuperUser("James Francis Cameron","abc1954",false);
+        DataFacade.editSuperUser(superUser.getUsername(),newSuperUser);
+
+        SuperUser editedSuperUser = DataFacade.getSuperUser(newSuperUser.getUsername());
+
+        assertNotNull(editedSuperUser);
+        assertTrue(editedSuperUser.getUsername() != superUser.getUsername());
+    }
 
     @AfterClass
     public static void tearDown(){
