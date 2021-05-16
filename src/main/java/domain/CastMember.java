@@ -77,4 +77,13 @@ public class CastMember implements Serializable {
     public void setProductionID(int productionID) {
         this.productionID = productionID;
     }
+
+    public boolean equals(CastMember castMember) {
+        if (this.getName().equals(castMember.getName())
+                && this.getEmail().equals(castMember.getEmail())
+                && this.getJobTitle().equals(castMember.getJobTitle())) {
+            return true;
+        }
+        return false;
+    }
 }

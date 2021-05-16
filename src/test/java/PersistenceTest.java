@@ -1,8 +1,5 @@
 import data.DataFacade;
-import domain.CastMember;
-import domain.DomainFacade;
-import domain.Production;
-import domain.SuperUser;
+import domain.*;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.*;
 
@@ -19,9 +16,9 @@ import static org.junit.Assert.*;
 public class PersistenceTest {
 
     /**
-     * Note: when debugging the tests, its sometimes needed to run
+     * Note: when debugging the tests individually, its sometimes needed to run
      * the tests again without debugging, to 'clean' the database.
-     * I don't know why this happens.
+     * I don't know why this happens (:
      */
 
     private static Connection connection;
@@ -77,12 +74,36 @@ public class PersistenceTest {
 
     @Test
     public void getCreditTest(){
-        TestCastMember expectedCastMember = new TestCastMember("Barry B. Benson","BarryBeeBenson@bee.hive","Actor",5);
+        HashMap<String, Integer> superUsersMap;
+        HashMap<String, Integer> productionsMap;
+        HashMap<String, Integer> artistsMap;
 
-        Production production = DataFacade.getProduction(5);
-        TestCastMember castMember = new TestCastMember(production.getCastMembers().get(0));
+        SuperUser superUser = new SuperUser("Thomas Vinterberg","druk123",false);
+        DataFacade.insertSuperUser(superUser);
 
-        assertTrue(castMember.equals(expectedCastMember));
+        superUsersMap = DataFacade.getSuperUsersMap();
+        Integer superUserID = superUsersMap.get(superUser.getUsername());
+
+        Production production = new Production("Druk",superUserID,"entertainment",1,"movie");
+        DataFacade.insertProduction(production);
+
+        productionsMap = DataFacade.getProductionsMap();
+        Integer productionID = productionsMap.get(production.getTitle());
+
+        Artist artist = new Artist("Mads Mikkelsen","madsmikkelsen@mail.dk");
+        DataFacade.insertArtist(artist);
+
+        artistsMap = DataFacade.getArtistsMap();
+        Integer artistID = artistsMap.get(artist.getName());
+
+        CastMember castMember = new CastMember("Mads Mikkelsen","madsmikkelsen@mail.dk","Actor",productionID);
+        DataFacade.insertCastMember(castMember);
+
+        ArrayList<CastMember> castMembers = DataFacade.getCastMembers(productionID);
+        CastMember retrievedCastMember = castMembers.get(0);
+        CastMember expectedCastMember = new CastMember("Mads Mikkelsen","madsmikkelsen@mail.dk","Actor",productionID);
+
+        assertTrue(retrievedCastMember.equals(expectedCastMember));
     }
 
     @Test
@@ -115,10 +136,12 @@ public class PersistenceTest {
         assertNull(productionID);
     }
 
+    // TODO: Edit Production test
+
     @Test
     public void saveSuperUserTest() {
         HashMap<String, Integer> superUsersMap = DataFacade.getSuperUsersMap();
-        SuperUser superUser = new SuperUser("Thomas Vinterberg","druk123",false);
+        SuperUser superUser = new SuperUser("Susanne bier","bb",false);
 
         Integer superUserID = superUsersMap.get(superUser.getUsername());
         assertNull(superUserID);

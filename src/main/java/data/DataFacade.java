@@ -99,6 +99,14 @@ public class DataFacade {
     }
 
     /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with artists name as key and ID as value
+     */
+    public static HashMap<String,Integer> getArtistsMap(){
+        return databaseManager.getArtistsMap();
+    }
+
+    /**
      * This method is used to retrieve a SuperUser from the database, given an ID.
      * @param userID The ID of the SuperUser
      * @return SuperUser Returns the SuperUser with the ID or null.

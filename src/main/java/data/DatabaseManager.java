@@ -417,6 +417,21 @@ public class DatabaseManager {
         return null;
     }
 
+    public HashMap<String, Integer> getArtistsMap(){
+        HashMap<String,Integer> artistsMap = new HashMap<>();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT artists.name, artists.id FROM artists")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    artistsMap.put(resultSet.getString(1),resultSet.getInt(2));
+                }
+            }
+            return artistsMap;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Artist getArtist(String email) {
         try{
             PreparedStatement ps = connection.prepareStatement("" +
