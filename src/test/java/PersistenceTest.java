@@ -109,9 +109,10 @@ public class PersistenceTest {
         assertNotNull(tempProduction);
 
         DataFacade.deleteProduction(productionID);
-        System.out.println("Trying to retrieve non-existing production...");
-        Production production2 = DataFacade.getProduction(productionID);   // Meant to cause an exception, see message above
-        assertNull(production2);
+        productionsMap = DataFacade.getProductionsMap();
+
+        productionID = productionsMap.get(production.getTitle());
+        assertNull(productionID);
     }
 
     @Test
