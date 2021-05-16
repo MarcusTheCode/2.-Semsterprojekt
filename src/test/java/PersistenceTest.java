@@ -131,7 +131,24 @@ public class PersistenceTest {
         assertNotNull(superUser);
     }
 
-    // TODO: Delete Superuser test
+    @Test
+    public void deleteSuperUserTest() {
+        SuperUser superUser = new SuperUser("Steven Spielberg","1218",false);
+        DataFacade.insertSuperUser(superUser);
+
+        HashMap<String, Integer> superUsersMap = DataFacade.getSuperUsersMap();
+        Integer superUserID = superUsersMap.get(superUser.getUsername());
+
+        SuperUser tempSuperUser = DataFacade.getSuperUser(superUserID);
+        assertNotNull(tempSuperUser);
+
+        DataFacade.deleteSuperUser(superUserID);
+        superUsersMap = DataFacade.getProductionsMap();
+
+        superUserID = superUsersMap.get(superUser.getUsername());
+        assertNull(superUserID);
+    }
+
 
     // TODO: Edit SuperUser test
 
