@@ -201,7 +201,7 @@ public class DatabaseManager {
 
     /**
      * This method is used in the persistence tests to retrieve the ID in a non-hacky way
-     * * @return HashMap with production name as key and ID as value
+     * @return HashMap with production name as key and ID as value
      */
     public HashMap<String,Integer> getProductionsMap(){
         HashMap<String,Integer> productionMap = new HashMap<>();
@@ -323,6 +323,24 @@ public class DatabaseManager {
     }
 
     // TODO: implement a corresponding getProductionsMap for SuperUser
+    /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with production name as key and ID as value
+     */
+    public HashMap<String,Integer> getSuperUsersMap(){
+        HashMap<String,Integer> superUsersMap = new HashMap<>();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT superusers.username, superusers.id FROM superusers")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    superUsersMap.put(resultSet.getString(1),resultSet.getInt(2));
+                }
+            }
+            return superUsersMap;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     // Artist
 

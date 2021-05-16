@@ -134,6 +134,12 @@ public class DataFacade {
     }
 
     /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with superUser name as key and ID as value
+     */
+    public static HashMap<String,Integer> getSuperUsersMap(){ return databaseManager.getSuperUsersMap();}
+
+    /**
      * This method is used to retrieve the SuperUser with the given username, if the passwords match.
      * @param inputUsername The username to check for
      * @param inputPassword The password of the user to match against

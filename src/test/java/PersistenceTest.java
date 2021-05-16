@@ -116,14 +116,18 @@ public class PersistenceTest {
 
     @Test
     public void saveSuperUserTest() {
-        System.out.println("Trying to retrieve non-existing SuperUser...");
-        SuperUser superUser1 = DataFacade.getSuperUser(4);  // Meant to cause an exception, see message above
-        assertNull(superUser1);
+        HashMap<String, Integer> superUsersMap = DataFacade.getSuperUsersMap();
+        SuperUser superUser = new SuperUser("Thomas Vinterberg","druk123",false);
 
-        SuperUser superUser2 = new SuperUser("Thomas Vinterberg","druk123",false);
-        DataFacade.insertSuperUser(superUser2);
-        superUser2 = DataFacade.getSuperUser(4); // TODO: implement and use a getSuperUserMap, instead of using hard coded IDs
-        assertNotNull(superUser2);
+        Integer superUserID = superUsersMap.get(superUser.getUsername());
+        assertNull(superUserID);
+
+        DataFacade.insertSuperUser(superUser);
+        superUsersMap = DataFacade.getSuperUsersMap();
+        superUserID = superUsersMap.get(superUser.getUsername());
+
+        superUser = DataFacade.getSuperUser(superUserID);
+        assertNotNull(superUser);
     }
 
     // TODO: Delete Superuser test
