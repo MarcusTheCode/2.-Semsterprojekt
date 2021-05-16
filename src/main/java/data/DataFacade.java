@@ -3,6 +3,7 @@ package data;
 import domain.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * <h1>DataFacade</h1>
@@ -203,6 +204,12 @@ public class DataFacade {
     public static ArrayList<Production> loadAllProductions() {
         return databaseManager.getAllProductions();
     }
+
+    /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with production name as key and ID as value
+     */
+    public static HashMap<String,Integer> getProductionsMap(){ return databaseManager.getProductionsMap();}
 
     /**
      * This method is used to retrieve the season number.

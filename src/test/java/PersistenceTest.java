@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -86,34 +87,30 @@ public class PersistenceTest {
 
     @Test
     public void saveProductionTest(){
-        /**
-         * TODO: Its a problem that the tests are not run sequentially, fix that
-         * production ID is 7, and not 6, because this test runs after the deleteproduction-
-         * test which autoincrements the primary key for the productions table. We need
-         * to be able to control this instead of hardcoding ID's. This problem occurs with
-         * multiple tests. I have the following solutions:
-         *
-         * Either, we to
-         *  (a) make a method that retrieves a productions ID based on a name
-         *  (b) make a method that resets the database before each test.
-         */
-
         Production production = new Production("Shrek",2,"documentary",1,"movie");
         DataFacade.insertProduction(production);
 
-        production = DataFacade.getProduction(7);
+        HashMap<String, Integer> productionsMap = DataFacade.getProductionsMap();
+        Integer productionID = productionsMap.get(production.getTitle());
+
+        production = DataFacade.getProduction(productionID);
         assertNotNull(production);
     }
 
     @Test
     public void deleteProductionTest() {
-        DataFacade.insertProduction(new Production("Shrek", 2, "documentary", 1, "movie"));
-        Production production1 = DataFacade.getProduction(6);
-        assertNotNull(production1);
+        Production production = new Production("Shrek", 2, "documentary", 1, "movie");
+        DataFacade.insertProduction(production);
 
-        DataFacade.deleteProduction(6);
+        HashMap<String, Integer> productionsMap = DataFacade.getProductionsMap();
+        Integer productionID = productionsMap.get(production.getTitle());
+
+        Production tempProduction = DataFacade.getProduction(productionID);
+        assertNotNull(tempProduction);
+
+        DataFacade.deleteProduction(productionID);
         System.out.println("Trying to retrieve non-existing production...");
-        Production production2 = DataFacade.getProduction(6);   // Meant to cause an exception, see message above
+        Production production2 = DataFacade.getProduction(productionID);   // Meant to cause an exception, see message above
         assertNull(production2);
     }
 
@@ -125,7 +122,7 @@ public class PersistenceTest {
 
         SuperUser superUser2 = new SuperUser("Thomas Vinterberg","druk123",false);
         DataFacade.insertSuperUser(superUser2);
-        superUser2 = DataFacade.getSuperUser(4);
+        superUser2 = DataFacade.getSuperUser(4); // TODO: implement and use a getSuperUserMap, instead of using hard coded IDs
         assertNotNull(superUser2);
     }
 

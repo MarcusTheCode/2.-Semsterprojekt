@@ -6,6 +6,7 @@ import java.io.*;
 import java.lang.System;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DatabaseManager {
@@ -198,7 +199,24 @@ public class DatabaseManager {
         return null;
     }
 
-
+    /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * * @return HashMap with production name as key and ID as value
+     */
+    public HashMap<String,Integer> getProductionsMap(){
+        HashMap<String,Integer> productionMap = new HashMap<>();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT productions.productiontitle, productions.id FROM productions")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    productionMap.put(resultSet.getString(1),resultSet.getInt(2));
+                }
+            }
+            return productionMap;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     // SuperUser
 
@@ -304,7 +322,7 @@ public class DatabaseManager {
         }
     }
 
-
+    // TODO: implement a corresponding getProductionsMap for SuperUser
 
     // Artist
 
