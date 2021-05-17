@@ -62,22 +62,20 @@ public class DatabaseManager {
      * @return boolean Returns whether the execution succeeded.
      */
     public boolean insertProduction(Production production) {
-        String sqlCode;
-        if (production.getSeasonID() == null) {
-            sqlCode = "INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle) VALUES (?,?,?,?,?)";
-        }else{
-            sqlCode = "INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle,seasonID)" +
-                    " VALUES (?,?,?,?,?,?)";
-        }
-        try (PreparedStatement ps = connection.prepareStatement(sqlCode)) {
-            ps.setInt(1, production.getEpisodeNumber());
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle,seasonID)" +
+                " VALUES (?,?,?,?,?,?)")) {
+            if (production.getSeasonID() != null)
+                ps.setInt(1, production.getEpisodeNumber());
+            else
+                ps.setNull(1, Types.INTEGER);
             ps.setString(2, production.getType());
             ps.setInt(3, getCategory(production));
             ps.setLong(4, production.getOwnerID());
             ps.setString(5, production.getTitle());
-            if (production.getSeasonID() != null) {
+            if (production.getSeasonID() != null)
                 ps.setInt(6, production.getSeasonID());
-            }
+            else
+                ps.setNull(6, Types.INTEGER);
             ps.execute();
             // If an error occurs when executing the ps, it jumps to the catch statement
             // otherwise, it is safe to assume that the statement executed correctly
