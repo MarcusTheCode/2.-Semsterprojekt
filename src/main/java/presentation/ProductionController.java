@@ -170,8 +170,13 @@ public class ProductionController implements Initializable {
     @FXML
     void addGenre(MouseEvent event) {
         Genre g = genre.getValue();
-        genresOberservableList.add(g);
 
+        for (Genre gen : currentProduction.getGenres()) {
+            if (gen.getId() == g.getId())
+                return;
+        }
+
+        genresOberservableList.add(g);
         DomainFacade.insertGenre(currentProduction, g);
     }
 
