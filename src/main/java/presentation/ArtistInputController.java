@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ArtistController implements Initializable {
+public class ArtistInputController implements Initializable {
 
     @FXML
     private TextField name;

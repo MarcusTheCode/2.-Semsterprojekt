@@ -1,7 +1,6 @@
 package presentation;
 
 import data.DataFacade;
-import domain.Artist;
 import domain.DomainFacade;
 import domain.SuperUser;
 import javafx.application.Application;
@@ -117,8 +116,8 @@ public class UIManager extends Application {
         return (ArtistsController) artistsSceneData.controller;
     }
 
-    public static ArtistController getArtistController() {
-        return (ArtistController) artistSceneData.controller;
+    public static ArtistInputController getArtistController() {
+        return (ArtistInputController) artistSceneData.controller;
     }
 
     public static UsersInputController getUsersInputController() {return (UsersInputController) usersInputSceneData.controller; }
