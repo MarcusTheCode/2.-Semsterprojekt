@@ -470,6 +470,34 @@ public class DatabaseManager {
         return false;
     }
 
+    public boolean editArtistName(Artist artist) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("UPDATE artists SET " +
+                    "name = ? " +
+                    "WHERE artists.id = ?");
+            ps.setString(1,artist.getName());
+            ps.setInt(2,artist.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean editArtistEmail(Artist artist) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("UPDATE artists SET " +
+                    "email = ? " +
+                    "WHERE artists.id = ?");
+            ps.setString(1,artist.getEmail());
+            ps.setInt(2,artist.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public Artist getArtist(int id) {
         try (PreparedStatement ps = connection.prepareStatement("" +
                 "SELECT * FROM artists WHERE id = ?")) {

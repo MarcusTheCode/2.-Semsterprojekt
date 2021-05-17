@@ -105,6 +105,11 @@ public class DataFacade {
         return databaseManager.editArtist(artist);
     }
 
+    public static void saveArtistChanges(Artist artist) {
+        databaseManager.editArtistName(artist);
+        databaseManager.editArtistEmail(artist);
+    }
+
     /**
      * This method is used to retrieve a list of artists from the database.
      * @return ArrayList<Artist> Returns all artists from the database.

@@ -110,8 +110,8 @@ public class UsersController implements Initializable {
         UIManager.changeScene(UIManager.getUsersInputScene());
         UIManager.getUsersInputController().editUser();}
         else{
-            noUserSelected.setVisible(true);}
-            errorPaneText.setText("You don't have permission to do that");
+            noUserSelected.setVisible(true);
+            errorPaneText.setText("You don't have permission to do that");}
         }
     }
 

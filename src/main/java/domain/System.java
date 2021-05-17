@@ -117,4 +117,6 @@ public class System {
     public static void saveUserChanges(SuperUser superUser) {
         DataFacade.saveUserChanges(superUser);
     }
+
+    public static void saveArtistChanges(Artist artist) { DataFacade.saveArtistChanges(artist); }
 }
