@@ -908,49 +908,19 @@ public class DatabaseManager {
             ps.setInt(3, castMember.getArtistID());
             ps.execute();
             return true;
-    public boolean changeUsername(SuperUser user){
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean changeUsername(SuperUser user) {
         try {
             PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
                     "username = ? " +
                     "WHERE id = ?");
             ps.setString(1,user.getUsername());
             ps.setInt(2,user.getId());
-            return ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean changeAdminStatus(SuperUser user){
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
-                    "isAdmin = ? " +
-                    "WHERE id = ?");
-            ps.setBoolean(1,user.isSysAdmin());
-            ps.setInt(2,user.getId());
-            return ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-
-    /**
-     * This method is used to edit an Artist.
-     * @param artist The Artist to edit
-     * @return boolean Returns whether the execution succeeded.
-     */
-    public boolean editArtist(Artist artist){
-        try{
-            PreparedStatement ps = connection.prepareStatement("UPDATE artists SET  " +
-                    "email = ?," +
-                    "name = ?" +
-                    "WHERE artists.id = ?,");
-            ps.setString(1, artist.getEmail());
-            ps.setString(2,artist.getName());
-            ps.setInt(3,artist.getId());
             return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
