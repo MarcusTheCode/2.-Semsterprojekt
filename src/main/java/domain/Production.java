@@ -131,7 +131,7 @@ public class Production implements Serializable {
         this.id = id;
     }
 
-    public int getEpisodeNumber() {
+    public Integer getEpisodeNumber() {
         return episodeNumber;
     }
 

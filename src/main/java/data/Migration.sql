@@ -24,7 +24,7 @@ CREATE TABLE series (
 CREATE TABLE seasons (
     id SERIAL PRIMARY KEY,
     seasonNumber INTEGER NOT NULL,
-    seriesID INTEGER REFERENCES series(id)
+    seriesID INTEGER NOT NULL REFERENCES series(id)
 );
 
 CREATE TABLE superUsers (
@@ -40,13 +40,14 @@ CREATE TABLE productions (
     type VARCHAR(50) NOT NULL,
     categoryID INTEGER REFERENCES categories(id),
     seasonID INTEGER REFERENCES seasons(id),
-    producerID INTEGER REFERENCES superUsers(id),
+    producerID INTEGER NOT NULL REFERENCES superUsers(id),
     productionTitle VARCHAR(150)
 );
 
 CREATE TABLE productionGenres (
-    productionID INTEGER REFERENCES productions(id),
-    genreID INTEGER REFERENCES genres(id)
+    productionID INTEGER NOT NULL REFERENCES productions(id),
+    genreID INTEGER NOT NULL REFERENCES genres(id),
+    CONSTRAINT UQ_ProductionGenre UNIQUE(productionID, genreID)
 );
 
 CREATE TABLE artists (
@@ -56,9 +57,10 @@ CREATE TABLE artists (
 );
 
 CREATE TABLE castMembers (
-    productionID INTEGER REFERENCES productions(id),
+    productionID INTEGER NOT NULL REFERENCES productions(id),
     role VARCHAR(50) NOT NULL,
-    artistID INTEGER REFERENCES artists(id)
+    artistID INTEGER NOT NULL REFERENCES artists(id),
+    CONSTRAINT UQ_CastMember UNIQUE(productionID, role, artistID)
 );
 
 -- load test data

@@ -194,7 +194,7 @@ public class ProductionController implements Initializable {
     @FXML
     void commitJobTitleChange(TableColumn.CellEditEvent<CastMember, String> event) {
         int row = event.getTablePosition().getRow();
-        CastMember castMember = ((CastMember) event.getTableView().getItems().get(row));
+        CastMember castMember = event.getTableView().getItems().get(row);
         castMember.setJobTitle(event.getNewValue());
     }
 
@@ -215,20 +215,23 @@ public class ProductionController implements Initializable {
                 DomainFacade.createSeason(Integer.parseInt(seasonValue), s.getId());
         }
 
-        // TODO: Create genres, if they don't exist
-
         // Save seasonID
         if (seasonValue != null && !seasonValue.isEmpty() && s != null) {
             Season season = DomainFacade.getSeason(Integer.parseInt(seasonValue), s.getId());
             if (season != null)
                 currentProduction.setSeasonID(season.getId());
+        } else {
+            currentProduction.setSeasonID(null);
         }
 
         // Save general data
         currentProduction.setTitle(title.getText());
         currentProduction.setCategory(category.getText());
         currentProduction.setType(type.getText());
-        currentProduction.setEpisodeNumber(Integer.parseInt(episode.getText()));
+        if (!episode.getText().isEmpty())
+            currentProduction.setEpisodeNumber(Integer.parseInt(episode.getText()));
+        else
+            currentProduction.setEpisodeNumber(null);
 
         // Bit of an ugly hack
         if (currentProduction.getId() == null) {
