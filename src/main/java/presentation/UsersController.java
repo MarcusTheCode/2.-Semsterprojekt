@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.converter.BooleanStringConverter;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,6 +35,9 @@ public class UsersController implements Initializable {
 
     @FXML
     private TableColumn<SuperUser, Boolean> adminColumn;
+
+    @FXML
+    private AnchorPane noUserSelected;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,6 +75,7 @@ public class UsersController implements Initializable {
     void addUser(MouseEvent event) {
         UIManager.changeScene(UIManager.getUsersInputScene());
         UIManager.getUsersInputController().clearTextField();
+        UIManager.getUsersInputController().addUser();
     }
 
     @FXML
@@ -85,6 +90,23 @@ public class UsersController implements Initializable {
         usersObservableList.remove(index);
 
         DomainFacade.deleteSuperUser(userID);
+    }
+
+    @FXML
+    void editUser(MouseEvent event) throws Exception {
+        SuperUser superUser = superUsers.getSelectionModel().getSelectedItem();
+        if (superUser == null) {
+            noUserSelected.setVisible(true);
+            throw new Exception("No user selected");
+        }else{
+        UIManager.changeScene(UIManager.getUsersInputScene());
+        UIManager.getUsersInputController().editUser();
+        }
+    }
+
+    @FXML
+    void closeAlertPane(MouseEvent event) {
+        noUserSelected.setVisible(false);
     }
 
     @FXML

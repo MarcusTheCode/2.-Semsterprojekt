@@ -56,6 +56,7 @@
                         <Insets />
                      </HBox.margin>
                   </Button>
+                  <Button mnemonicParsing="false" onMouseClicked="#editUser" text="Edit user" />
                </children>
                <padding>
                   <Insets left="50.0" />
@@ -63,5 +64,15 @@
             </HBox>
          </children>
       </VBox>
+      <AnchorPane fx:id="noUserSelected" layoutX="500.0" layoutY="300.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C0C0C0;" visible="false">
+         <children>
+            <Button layoutX="84.0" layoutY="155.0" mnemonicParsing="false" onMouseClicked="#closeAlertPane" text="OK" />
+            <Text fill="RED" layoutX="4.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No user is selected" textAlignment="CENTER" wrappingWidth="191.13671875">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
