@@ -1,6 +1,5 @@
 package presentation;
 
-import data.DataFacade;
 import domain.DomainFacade;
 import domain.SuperUser;
 import javafx.application.Application;
@@ -47,7 +46,7 @@ public class UIManager extends Application {
             searchSceneData = loadScene("../FXML/Search.fxml");
             usersSceneData = loadScene("../FXML/Users.fxml");
             artistsSceneData = loadScene("../FXML/Artists.fxml");
-            artistSceneData = loadScene("../FXML/Artist.fxml");
+            artistSceneData = loadScene("../FXML/ArtistInput.fxml");
             usersInputSceneData = loadScene("../FXML/UsersInput.fxml");
 
         } catch (Exception exception) {
@@ -116,8 +115,8 @@ public class UIManager extends Application {
         return (ArtistsController) artistsSceneData.controller;
     }
 
-    public static ArtistController getArtistController() {
-        return (ArtistController) artistSceneData.controller;
+    public static ArtistInputController getArtistController() {
+        return (ArtistInputController) artistSceneData.controller;
     }
 
     public static UsersInputController getUsersInputController() {return (UsersInputController) usersInputSceneData.controller; }
