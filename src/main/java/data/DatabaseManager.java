@@ -165,7 +165,8 @@ public class DatabaseManager {
                         resultSet.getString(7),
                         getCategoryID(resultSet.getInt(4)),
                         resultSet.getString(3));
-                production.setCastMembers(this.getCastMembers(production.getId()));
+                production.setCastMembers(getCastMembers(productionID));
+                production.setGenres(getGenres(productionID));
             }
         } catch (SQLException e) {
             e.printStackTrace();

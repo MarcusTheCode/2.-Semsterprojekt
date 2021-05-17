@@ -58,6 +58,14 @@ public class Production implements Serializable {
         return genres;
     }
 
+    public void addGenre(Genre genre) {
+        this.genres.add(genre);
+    }
+
+    public void removeGenre(Genre genre) {
+        this.genres.remove(genre);
+    }
+
     public void setGenres(ArrayList<Genre> genres) {
         this.genres = genres;
     }

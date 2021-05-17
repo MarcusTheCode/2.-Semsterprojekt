@@ -79,10 +79,10 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                <columns>
-                  <TableColumn fx:id="idColumn" editable="false" onEditCommit="#commitJobTitleChange" prefWidth="75.0" text="ID" />
+                  <TableColumn fx:id="idColumn" editable="false" prefWidth="75.0" text="ID" />
                   <TableColumn fx:id="roleColumn" editable="false" onEditCommit="#commitJobTitleChange" prefWidth="75.0" text="Role" />
-                  <TableColumn fx:id="nameColumn" editable="false" onEditCommit="#commitNameChange" prefWidth="75.0" text="Name" />
-                  <TableColumn fx:id="emailColumn" editable="false" onEditCommit="#commitEmailChange" prefWidth="75.0" text="Email" />
+                  <TableColumn fx:id="nameColumn" editable="false" prefWidth="75.0" text="Name" />
+                  <TableColumn fx:id="emailColumn" editable="false" prefWidth="75.0" text="Email" />
                </columns>
             </TableView>
             <HBox prefHeight="25.0" prefWidth="648.0">

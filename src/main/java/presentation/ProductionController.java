@@ -176,6 +176,7 @@ public class ProductionController implements Initializable {
                 return;
         }
 
+        currentProduction.addGenre(g);
         genresOberservableList.add(g);
         DomainFacade.insertGenre(currentProduction, g);
     }
@@ -185,6 +186,7 @@ public class ProductionController implements Initializable {
         int index = genreList.getSelectionModel().getSelectedIndex();
         Genre g = genreList.getSelectionModel().getSelectedItem();
 
+        currentProduction.removeGenre(g);
         genresOberservableList.remove(index);
         DomainFacade.deleteGenre(currentProduction, g);
     }
@@ -194,20 +196,6 @@ public class ProductionController implements Initializable {
         int row = event.getTablePosition().getRow();
         CastMember castMember = ((CastMember) event.getTableView().getItems().get(row));
         castMember.setJobTitle(event.getNewValue());
-    }
-
-    @FXML
-    void commitNameChange(TableColumn.CellEditEvent<CastMember, String> event) {
-        int row = event.getTablePosition().getRow();
-        CastMember castMember = ((CastMember) event.getTableView().getItems().get(row));
-        castMember.getArtist().setName(event.getNewValue());
-    }
-
-    @FXML
-    void commitEmailChange(TableColumn.CellEditEvent<CastMember, String> event) {
-        int row = event.getTablePosition().getRow();
-        CastMember castMember = ((CastMember) event.getTableView().getItems().get(row));
-        castMember.getArtist().setName(event.getNewValue());
     }
 
     @FXML
