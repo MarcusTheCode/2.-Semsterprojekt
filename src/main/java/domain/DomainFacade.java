@@ -14,63 +14,7 @@ public class DomainFacade {
 
     private static System system = new System();
 
-    // Productions
-
-    /**
-     * This method is used to retrieve all productions from the database.
-     * @return ArrayList<Season> Returns a list of all productions.
-     */
-    public static ArrayList<Season> getSeasons(int seriesID) {
-        return DataFacade.getSeasons(seriesID);
-    }
-
-    /**
-     * This method is used to retrieve all productions from the database.
-     */
-    public static boolean createSeries(String seriesName) {
-        Series series = new Series(seriesName);
-        return DataFacade.insertSeries(series);
-    }
-
-    /**
-     * This method is used to retrieve all productions from the database.
-     */
-    public static boolean createSeason(int seasonNumber, int seriesID) {
-        Season season = new Season(seasonNumber, seriesID);
-        return DataFacade.insertSeason(season);
-    }
-
-    /**
-     * This method is used to retrieve all productions from the database.
-     * @return ArrayList<Series> Returns a list of all productions.
-     */
-    public static Season getSeason(int episodeNumber, int seriesID) {
-        return DataFacade.getSeason(episodeNumber, seriesID);
-    }
-
-    /**
-     * This method is used to retrieve all productions from the database.
-     * @return ArrayList<Series> Returns a list of all productions.
-     */
-    public static Series getSeries(String name) {
-        return DataFacade.getSeries(name);
-    }
-
-    /**
-     * This method is used to retrieve all productions from the database.
-     * @return ArrayList<Series> Returns a list of all productions.
-     */
-    public static Series getSeriesBySeason(int seasonID) {
-        return DataFacade.getSeriesBySeason(seasonID);
-    }
-
-    /**
-     * This method is used to retrieve all productions from the database.
-     * @return ArrayList<Series> Returns a list of all productions.
-     */
-    public static ArrayList<Series> getAllSeries() {
-        return DataFacade.getAllSeries();
-    }
+    //region Production
 
     /**
      * This method is used to insert a production into the database.
@@ -99,15 +43,6 @@ public class DomainFacade {
     }
 
     /**
-     * This method is used to retrieve a production with the given ID.
-     * @param ID The ID of the production
-     * @return Production Returns the production.
-     */
-    public static Production getProduction(int ID) {
-        return system.getProduction(ID);
-    }
-
-    /**
      * This method is used to edit a production in the database.
      * @param production The production to update
      */
@@ -119,60 +54,18 @@ public class DomainFacade {
         }
     }
 
-    public static void insertGenre(Production production, Genre genre) {
-        DataFacade.insertGenre(production, genre);
-    }
-
-    public static boolean deleteGenre(Production production, Genre genre) {
-        return DataFacade.deleteGenre(production, genre);
-    }
-
     /**
-     * This method is used to retrieve all genres in a production from the database.
-     * @return ArrayList<String> Returns a list of all genres in the production.
+     * This method is used to retrieve a production with the given ID.
+     * @param ID The ID of the production
+     * @return Production Returns the production.
      */
-    public static ArrayList<Genre> getAllGenres() {
-        return DataFacade.getAllGenres();
+    public static Production getProduction(int ID) {
+        return system.getProduction(ID);
     }
 
-    // Artists
+    //endregion
 
-    /**
-     * This method is used to create a unique artist in the database.
-     * @param name The name of the artist to insert into the database
-     * @return Artist Returns the newly created artist.
-     */
-    public static Artist createArtist(String name, String email) {
-        Artist artist = new Artist(name, email);
-        DataFacade.insertArtist(artist);
-        return artist;
-    }
-
-    /**
-     * This method is used to delete an artist from the database.
-     * @param artistID The ID of the artist to delete from the database
-     */
-    public static void deleteArtist(int artistID) {
-        DataFacade.deleteArtist(artistID);
-    }
-
-    /**
-     * This method is used to edit an Artist.
-     * @param artist The Artist to edit
-     */
-    public static void editArtist(Artist artist) {
-        DataFacade.editArtist(artist);
-    }
-
-    /**
-     * This method is used to retrieve a list of artists from the database.
-     * @return ArrayList<Artist> Returns all artists from the database.
-     */
-    public static ArrayList<Artist> getArtists() {
-        return DataFacade.getArtists();
-    }
-
-    // SuperUsers
+    //region SuperUser
 
     /**
      * This method is used to create a unique artist in the database.
@@ -200,6 +93,10 @@ public class DomainFacade {
      */
     public static void editUser(SuperUser superUser) {
         // TODO: Implement
+    }
+
+    public static void saveUserChanges(SuperUser superUser) {
+        System.saveUserChanges(superUser);
     }
 
     /**
@@ -237,14 +134,145 @@ public class DomainFacade {
         return system.logout();
     }
 
+    //endregion
+
+    //region Artist
+
+    /**
+     * This method is used to create a unique artist in the database.
+     * @param name The name of the artist to insert into the database
+     * @return Artist Returns the newly created artist.
+     */
+    public static Artist createArtist(String name, String email) {
+        Artist artist = new Artist(name, email);
+        DataFacade.insertArtist(artist);
+        return artist;
+    }
+
+    /**
+     * This method is used to delete an artist from the database.
+     * @param artistID The ID of the artist to delete from the database
+     */
+    public static void deleteArtist(int artistID) {
+        DataFacade.deleteArtist(artistID);
+    }
+
+    /**
+     * This method is used to edit an Artist.
+     * @param artist The Artist to edit
+     */
+    public static void editArtist(Artist artist) {
+        DataFacade.editArtist(artist);
+    }
+
+    /**
+     * This method is used to retrieve a list of artists from the database.
+     * @return ArrayList<Artist> Returns all artists from the database.
+     */
+    public static ArrayList<Artist> getArtists() {
+        return DataFacade.getArtists();
+    }
+
     public static Artist getArtist(){
         //TODO: Implement
         return null;
     }
 
+    //endregion
+
+    //region Series
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     */
+    public static boolean createSeries(String seriesName) {
+        Series series = new Series(seriesName);
+        return DataFacade.insertSeries(series);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Series> Returns a list of all productions.
+     */
+    public static Series getSeries(String name) {
+        return DataFacade.getSeries(name);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Series> Returns a list of all productions.
+     */
+    public static Series getSeriesBySeason(int seasonID) {
+        return DataFacade.getSeriesBySeason(seasonID);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Series> Returns a list of all productions.
+     */
+    public static ArrayList<Series> getAllSeries() {
+        return DataFacade.getAllSeries();
+    }
+
+    //endregion
+
+    //region Genre
+
+    public static void insertGenre(Production production, Genre genre) {
+        DataFacade.insertGenre(production, genre);
+    }
+
+    public static boolean deleteGenre(Production production, Genre genre) {
+        return DataFacade.deleteGenre(production, genre);
+    }
+
+    /**
+     * This method is used to retrieve all genres in a production from the database.
+     * @return ArrayList<String> Returns a list of all genres in the production.
+     */
+    public static ArrayList<Genre> getAllGenres() {
+        return DataFacade.getAllGenres();
+    }
+
+    //endregion
+
+    //region Category
+
     public static ArrayList<String> getAllCategories() {
         return DataFacade.getAllCategories();
     }
+
+    //endregion
+
+    //region Season
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     */
+    public static boolean createSeason(int seasonNumber, int seriesID) {
+        Season season = new Season(seasonNumber, seriesID);
+        return DataFacade.insertSeason(season);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Series> Returns a list of all productions.
+     */
+    public static Season getSeason(int episodeNumber, int seriesID) {
+        return DataFacade.getSeason(episodeNumber, seriesID);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Season> Returns a list of all productions.
+     */
+    public static ArrayList<Season> getSeasons(int seriesID) {
+        return DataFacade.getSeasons(seriesID);
+    }
+
+    //endregion
+
+    //region CastMember
 
     public static boolean saveCastMember(CastMember castMember) {
         return DataFacade.saveCastMember(castMember);
@@ -261,8 +289,7 @@ public class DomainFacade {
     public static ArrayList<CastMember> getCastMembers(int productionID) {
         return DataFacade.getCastMembers(productionID);
     }
-    public static void saveUserChanges(SuperUser superUser) {
-        System.saveUserChanges(superUser);
-    }
+
+    //endregion
 }
 
