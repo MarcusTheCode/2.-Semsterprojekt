@@ -39,14 +39,17 @@ public class UsersInputController implements Initializable {
 
     @FXML
     void saveUser(MouseEvent event) {
-        UIManager.getUsersController().loadUser();
-        isAdminCheckbox.isSelected();
         createUser(username.getText(), password.getText(), isAdminCheckbox.isSelected());
         UIManager.getUsersController().loadUser();
     }
 
     @FXML
-    void saveChanges(){};
+    void saveChanges(MouseEvent event) {
+        UIManager.saveUserChanges(UIManager.getUsersController().getSelectedID(), password.getText(), username.getText(), isAdminCheckbox.isSelected());
+        UIManager.changeScene(UIManager.getUsersScene());
+        UIManager.getUsersController().loadUser();
+    }
+
 
     void createUser(String username, String password, boolean isAdmin) {
         DomainFacade.createUser(password, username, isAdmin);
@@ -71,7 +74,4 @@ public class UsersInputController implements Initializable {
         addUserButton.setVisible(true);
         saveChangesButton.setVisible(false);
     }
-
-
-
 }
