@@ -55,25 +55,28 @@ public class ArtistsController implements Initializable {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-            emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-            emailColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            disableButtons();
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        emailColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        disableButtons();
 
         loadArtists();
+        idColumn.setEditable(false);
     }
 
     public void enableButtons(){
         emailColumn.setVisible(true);
         addArtistButton.setVisible(true);
         deleteArtistButton.setVisible(true);
-        editArtistButton.setVisible(true);
+        nameColumn.setEditable(true);
+        emailColumn.setEditable(true);
     }
 
     public void disableButtons(){
         emailColumn.setVisible(false);
         addArtistButton.setVisible(false);
         deleteArtistButton.setVisible(false);
-        editArtistButton.setVisible(false);
+        nameColumn.setEditable(false);
+        emailColumn.setEditable(false);
     }
 
     public void loadArtists() {
@@ -104,21 +107,21 @@ public class ArtistsController implements Initializable {
     @FXML
     void commitNameChange(TableColumn.CellEditEvent<Artist, String> event) {
         int row = event.getTablePosition().getRow();
-        if (true) return;
+        if (DomainFacade.getCurrentUser()==null) return;
         Artist artist = event.getTableView().getItems().get(row);
+        artistsObservableList.remove(row);
         artist.setName(event.getNewValue());
-
-        //DomainFacade.editArtist(artist);
+        artistsObservableList.add(artist);
+        DomainFacade.editArtist(artist);
     }
 
     @FXML
     void commitEmailChange(TableColumn.CellEditEvent<Artist, String> event) {
         int row = event.getTablePosition().getRow();
-        if (true) return;
+        if (DomainFacade.getCurrentUser()==null) return;
         Artist artist = event.getTableView().getItems().get(row);
         artist.setName(event.getNewValue());
-
-        //DomainFacade.editArtist(artist);
+        DomainFacade.editArtist(artist);
     }
 
     @FXML
