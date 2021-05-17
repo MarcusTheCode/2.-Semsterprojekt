@@ -334,6 +334,10 @@ public class DataFacade {
         return databaseManager.getCategory(production);
     }
 
+    public static ArrayList<String> getAllCategories() {
+        return databaseManager.getAllCategories();
+    }
+
     //endregion
 
     //region CastMembers
