@@ -16,7 +16,7 @@ public class Production implements Serializable {
     private Integer seasonID;
     private Integer seasonNumber;
     private Integer producerID;
-    private ArrayList<String> genres;
+    private ArrayList<Genre> genres;
 
     public Production(int producerID) {
         this.producerID = producerID;
@@ -45,7 +45,8 @@ public class Production implements Serializable {
         this.id = productionID;
         this.title = title;
         this.episodeNumber = episodeNumber;
-        this.seasonID = seasonsID;
+        if (seasonsID != 0)
+            this.seasonID = seasonsID;
         this.type = type;
         this.castMembers = new ArrayList<>();
         this.genres = DataFacade.getGenres(productionID);
@@ -53,11 +54,19 @@ public class Production implements Serializable {
         this.categoryID = DataFacade.getCategory(category);
     }
 
-    public ArrayList<String> getGenres() {
+    public ArrayList<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(ArrayList<String> genres) {
+    public void addGenre(Genre genre) {
+        this.genres.add(genre);
+    }
+
+    public void removeGenre(Genre genre) {
+        this.genres.remove(genre);
+    }
+
+    public void setGenres(ArrayList<Genre> genres) {
         this.genres = genres;
     }
 
@@ -122,7 +131,7 @@ public class Production implements Serializable {
         this.id = id;
     }
 
-    public int getEpisodeNumber() {
+    public Integer getEpisodeNumber() {
         return episodeNumber;
     }
 

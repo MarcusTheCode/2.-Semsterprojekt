@@ -139,7 +139,7 @@ public class SearchController implements Initializable {
 
     public void changeToLoggedOut(){
         usersButton.setVisible(false);
-        artistsButton.setVisible(false);
+        //artistsButton.setVisible(false);
         loginButton.setText("Login");
         DomainFacade.logout();
         UIManager.getSearchController().setAdminToolsVisibility(false);
@@ -148,7 +148,7 @@ public class SearchController implements Initializable {
     public void changeToLoggedIn(){
         if (DomainFacade.getCurrentUser().isSysAdmin()) {
             usersButton.setVisible(true);
-            artistsButton.setVisible(true);
+            //artistsButton.setVisible(true);
         }
         loginButton.setText("Logout");
     }
