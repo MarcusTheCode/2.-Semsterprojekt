@@ -16,7 +16,7 @@ public class DataFacade {
     private static DatabaseManager databaseManager = new DatabaseManager();
 
 
-    //region Productions
+    //region Production
 
     /**
      * This method is used insert a new production into the database.
@@ -72,7 +72,7 @@ public class DataFacade {
 
     //endregion
 
-    //region Artists
+    //region Artist
 
     /**
      * This method is used to insert a unique artist into the database.
@@ -105,6 +105,11 @@ public class DataFacade {
         return databaseManager.editArtist(artist);
     }
 
+    public static void saveArtistChanges(Artist artist) {
+        databaseManager.editArtistName(artist);
+        databaseManager.editArtistEmail(artist);
+    }
+
     /**
      * This method is used to retrieve a list of artists from the database.
      * @return ArrayList<Artist> Returns all artists from the database.
@@ -131,7 +136,7 @@ public class DataFacade {
 
     //endregion
 
-    //region SuperUsers
+    //region SuperUser
 
     /**
      * This method is used to retrieve a SuperUser from the database, given an ID.
@@ -167,6 +172,12 @@ public class DataFacade {
      */
     public static boolean deleteSuperUser(int userID) {
         return databaseManager.deleteSuperUser(userID);
+    }
+
+    public static void saveUserChanges(SuperUser superUser) {
+        databaseManager.changePassword(superUser);
+        databaseManager.changeAdminStatus(superUser);
+        databaseManager.changeUsername(superUser);
     }
 
     /**
@@ -222,7 +233,7 @@ public class DataFacade {
 
     //endregion
 
-    //region Seasons
+    //region Season
 
     /**
      * This method is used to retrieve all productions from the database.
@@ -291,7 +302,7 @@ public class DataFacade {
 
     //endregion
 
-    //region Genres
+    //region Genre
 
     public static boolean insertGenre(Production production, Genre genre) {
         return databaseManager.insertGenre(production, genre);
@@ -320,7 +331,7 @@ public class DataFacade {
 
     //endregion
 
-    //region Categories
+    //region Category
 
     public static int getCategory(String name) {
         return databaseManager.getCategoryID(name);
@@ -340,7 +351,7 @@ public class DataFacade {
 
     //endregion
 
-    //region CastMembers
+    //region CastMember
 
     public static boolean saveCastMember(CastMember castMember) {
         return databaseManager.insertCastMember(castMember);
@@ -363,14 +374,4 @@ public class DataFacade {
     }
 
     //endregion
-
-    public static void saveUserChanges(SuperUser superUser) {
-        databaseManager.changePassword(superUser);
-        databaseManager.changeAdminStatus(superUser);
-        databaseManager.changeUsername(superUser);
-    }
-    public static void saveArtistChanges(Artist artist) {
-        databaseManager.editArtistName(artist);
-        databaseManager.editArtistEmail(artist);
-    }
 }
