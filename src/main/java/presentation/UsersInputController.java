@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Button;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,6 +22,9 @@ public class UsersInputController implements Initializable {
 
     @FXML
     private CheckBox isAdminCheckbox;
+
+    @FXML
+    private Button addUserButton, saveChangesButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -41,6 +45,9 @@ public class UsersInputController implements Initializable {
         UIManager.getUsersController().loadUser();
     }
 
+    @FXML
+    void saveChanges(){};
+
     void createUser(String username, String password, boolean isAdmin) {
         DomainFacade.createUser(password, username, isAdmin);
         UIManager.changeScene(UIManager.getUsersScene());
@@ -49,6 +56,20 @@ public class UsersInputController implements Initializable {
     void clearTextField() {
         username.clear();
         password.clear();
+        isAdminCheckbox.setSelected(false);
+    }
+
+    void editUser() {
+        addUserButton.setVisible(false);
+        saveChangesButton.setVisible(true);
+        username.setText(UIManager.getUsersController().getUsername());
+        password.setText(UIManager.getUsersController().getPassword());
+        isAdminCheckbox.setSelected(UIManager.getUsersController().getAdminStatus());
+    }
+
+    void addUser() {
+        addUserButton.setVisible(true);
+        saveChangesButton.setVisible(false);
     }
 
 
