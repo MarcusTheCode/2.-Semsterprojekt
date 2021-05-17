@@ -1,11 +1,13 @@
 package data;
 
 import domain.*;
+import jdk.jshell.spi.ExecutionControl;
 
 import java.io.*;
 import java.lang.System;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DatabaseManager {
@@ -78,11 +80,14 @@ public class DatabaseManager {
             if (production.getSeasonID() != null) {
                 ps.setInt(6, production.getSeasonID());
             }
-            return ps.execute();
+            ps.execute();
+            // If an error occurs when executing the ps, it jumps to the catch statement
+            // otherwise, it is safe to assume that the statement executed correctly
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**
@@ -93,11 +98,12 @@ public class DatabaseManager {
     public boolean deleteProduction(int productionID) {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM productions WHERE productions.id = ?")) {
             ps.setInt(1, productionID);
+            ps.execute();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     public void updateProduction(Production production){
@@ -194,7 +200,24 @@ public class DatabaseManager {
         return null;
     }
 
-
+    /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with production name as key and ID as value
+     */
+    public HashMap<String,Integer> getProductionsMap(){
+        HashMap<String,Integer> productionMap = new HashMap<>();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT productions.productiontitle, productions.id FROM productions")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    productionMap.put(resultSet.getString(1),resultSet.getInt(2));
+                }
+            }
+            return productionMap;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     // SuperUser
 
@@ -224,11 +247,40 @@ public class DatabaseManager {
     public boolean deleteSuperUser(int userID) {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM superUsers WHERE superUsers.id = ?")) {
             ps.setInt(1, userID);
+            ps.execute();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * This method is used to edit a SuperUser
+     * @param superUserUsername the username of the SuperUser that should be edited
+     * @param newSuperUser what the SuperUser with the ID SuperUserID should be edited to
+     */
+    public void updateSuperUser(String superUserUsername, SuperUser newSuperUser){
+        HashMap<String, Integer> superUsersMap = getSuperUsersMap();
+        Integer superUserID = superUsersMap.get(superUserUsername);
+
+        String sqlCode;
+        sqlCode = "UPDATE superusers SET " +
+                "username = ?, " +
+                "password = ?, " +
+                "isadmin = ? " +
+                "WHERE id = ?;";
+
+        try (PreparedStatement ps = connection.prepareStatement(sqlCode)) {
+            ps.setString(1,newSuperUser.getUsername());
+            ps.setString(2,newSuperUser.getPassword());
+            ps.setBoolean(3,newSuperUser.isSysAdmin());
+            ps.setInt(4,superUserID);
+
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -272,8 +324,42 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
+    }
+
+    /**
+     * This method is used to retrieve a SuperUser from the database, given a name.
+     * @param superUserUsername The username of the SuperUser
+     * @return SuperUser Returns the SuperUser with the username or null.
+     */
+    public SuperUser getSuperUser(String superUserUsername){
+        HashMap<String, Integer> superUsersMap = getSuperUsersMap();
+        Integer superUserID = superUsersMap.get(superUserUsername);
+
+        if (superUserID == null){
+            try {
+                throw new Exception("ERROR: no SuperUser with name: " + superUserUsername);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.id = ?")) {
+            ps.setInt(1, superUserID);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                resultSet.next();
+                return new SuperUser(
+                        resultSet.getInt(1),
+                        resultSet.getString(4),
+                        resultSet.getString(3),
+                        resultSet.getBoolean(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -295,11 +381,28 @@ public class DatabaseManager {
             return users;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
-
+    /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with production name as key and ID as value
+     */
+    public HashMap<String,Integer> getSuperUsersMap(){
+        HashMap<String,Integer> superUsersMap = new HashMap<>();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT superusers.username, superusers.id FROM superusers")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    superUsersMap.put(resultSet.getString(1),resultSet.getInt(2));
+                }
+            }
+            return superUsersMap;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     // Artist
 
@@ -341,7 +444,12 @@ public class DatabaseManager {
      */
     public boolean updateArtist(Artist artist) {
         // TODO: Implement
-        return false;
+        try {
+            throw new ExecutionControl.NotImplementedException("Implement updateArtist method");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /*public boolean artistExists(String name){
@@ -376,12 +484,26 @@ public class DatabaseManager {
         return null;
     }
 
-    // TODO: Why is this here? Names aren't unique
-    public Artist getArtist(String name) {
+    public HashMap<String, Integer> getArtistsMap(){
+        HashMap<String,Integer> artistsMap = new HashMap<>();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT artists.name, artists.id FROM artists")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    artistsMap.put(resultSet.getString(1),resultSet.getInt(2));
+                }
+            }
+            return artistsMap;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Artist getArtist(String email) {
         try{
             PreparedStatement ps = connection.prepareStatement("" +
-                    "SELECT * FROM artists WHERE name = ?");
-            ps.setString(1,name);
+                    "SELECT * FROM artists WHERE email = ?");
+            ps.setString(1, email);
             ResultSet set = ps.executeQuery();
             if (!set.next()){
                 return null;
@@ -516,7 +638,22 @@ public class DatabaseManager {
         return null;
     }
 
-
+    public ArrayList<String> getSeriesAndProductionID(){
+        ArrayList<String> seriesAndProduction = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement("" +
+                    "SELECT * FROM getSeriesAndProductionID()");
+            ResultSet set = ps.executeQuery();
+            String result;
+            while (set.next()){
+               result = ""+set.getString(1)+","+set.getInt(2);
+                seriesAndProduction.add(result);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return seriesAndProduction;
+    }
 
     // ProductionGenre
 
@@ -656,19 +793,36 @@ public class DatabaseManager {
     /**
      * This method is used insert a category to the database.
      * @param season The production to add the genre to
-     * @param seriesID The production to add the genre to
      * @return boolean Returns the ID of the category.
      */
-    public boolean insertSeason(Season season, int seriesID) {
+    public boolean insertSeason(Season season) {
         try (PreparedStatement ps = connection.prepareStatement("INSERT INTO seasons (seasonNumber, seriesID) VALUES (?, ?)")) {
             ps.setInt(1, season.getSeasonNumber());
-            ps.setInt(2, seriesID);
+            ps.setInt(2, season.getSeriesID());
             ps.execute();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public Season getSeason(int seasonNumber, int seriesID) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM seasons " +
+                    "WHERE seasonNumber = ? AND seriesID = ?");
+            ps.setInt(1, seasonNumber);
+            ps.setInt(2, seriesID);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                return new Season(resultSet.getInt(1),
+                        resultSet.getInt(2),
+                        resultSet.getInt(3));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -683,7 +837,8 @@ public class DatabaseManager {
             try (ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {
                     Season s = new Season(resultSet.getInt(1),
-                            resultSet.getInt(2));
+                            resultSet.getInt(2),
+                            resultSet.getInt(3));
                     series.add(s);
                 }
             }
@@ -716,7 +871,7 @@ public class DatabaseManager {
 
     // CastMember
 
-    public List<CastMember> getCastMembers(int productionID){
+    public ArrayList<CastMember> getCastMembers(int productionID) {
         ArrayList<CastMember> castMembers = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM getcastmembers(?)");
@@ -736,24 +891,39 @@ public class DatabaseManager {
         return castMembers;
     }
 
-    public void insertCastMember(CastMember c){
+    public boolean insertCastMember(CastMember c){
         try {
             PreparedStatement ps = connection.prepareStatement("" +
-                    "INSERT INTO castMembers(id,role,artistID) " +
+                    "INSERT INTO castMembers(productionID, role, artistID) " +
                     "VALUES(?,?,?)");
-            ps.setInt(1,c.getId());
-            ps.setString(2,c.getJobTitle());
-            ps.setInt(3,c.getArtistID());
+            ps.setInt(1, c.getProductionID());
+            ps.setString(2, c.getJobTitle());
+            ps.setInt(3, c.getArtistID());
+            return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+    }
 
+    public boolean deleteCastMember(CastMember c) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM castMembers " +
+                    "WHERE productionID = ? AND role = ? AND artistID = ?");
+            ps.setInt(1, c.getProductionID());
+            ps.setString(2, c.getJobTitle());
+            ps.setInt(3, c.getArtistID());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public boolean chekIfCastMemberExists(CastMember castMember){
         try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM castMembers WHERE castMembers.id = ?");
-            ps.setInt(1,castMember.getId());
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM castMembers WHERE castMembers.artistID = ?");
+            ps.setInt(1, castMember.getArtistID());
             ResultSet set = ps.executeQuery();
             if(set.next()){
                 return true;
@@ -765,5 +935,65 @@ public class DatabaseManager {
         }
         return false;
     }
+
+    public boolean changePassword(SuperUser user){
+        try {
+            PreparedStatement ps = connection.prepareStatement("UPDATE SET superUsers " +
+                    "password = ? " +
+                    "WHERE id = ?");
+            ps.setString(1,user.getPassword());
+            ps.setInt(2,user.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean removeAdminStatus(SuperUser user){
+        try {
+            PreparedStatement ps = connection.prepareStatement("UPDATE SET superUsers " +
+                    "isSysAdmin = ? " +
+                    "WHERE id = ?");
+            ps.setBoolean(1,false);
+            ps.setInt(2,user.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean changeEmail(Artist artist){
+        try{
+            PreparedStatement ps = connection.prepareStatement("UPDATE SET artists " +
+                    "email = ?" +
+                    "WHERE artists.id = ?");
+            ps.setString(1, artist.getEmail());
+            ps.setInt(2,artist.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean changeName(Artist artist){
+        try{
+            PreparedStatement ps = connection.prepareStatement("UPDATE SET artists " +
+                    "name = ?" +
+                    "WHERE artists.id = ?");
+            ps.setString(1, artist.getName());
+            ps.setInt(2,artist.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+
+
 
 }

@@ -1,6 +1,5 @@
 package presentation;
 
-import data.DataFacade;
 import domain.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,13 +25,16 @@ public class ProductionController implements Initializable {
     private Text productionTitle, saveText;
 
     @FXML
-    private TextField title, type, category, episode;
+    private TextField title, type, category, episode, role;
 
     @FXML
     private Button addEntry, deleteEntry, saveEntry;
 
     @FXML
     private ComboBox<String> series, season;
+
+    @FXML
+    private ComboBox<Artist> artist;
 
     private Production currentProduction;
 
@@ -44,10 +46,12 @@ public class ProductionController implements Initializable {
     private TableView<CastMember> castMembers;
 
     @FXML
-    private TableColumn<CastMember, String> roleColumn, nameColumn, emailColumn;
+    private TableColumn<CastMember, String> idColumn, roleColumn, nameColumn, emailColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("artistID"));
+
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
         roleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
@@ -76,7 +80,7 @@ public class ProductionController implements Initializable {
         });
     }
 
-    public void setAdminToolsVisibility(Boolean bool){
+    public void setAdminToolsVisibility(Boolean bool) {
         addEntry.setVisible(bool);
         deleteEntry.setVisible(bool);
         saveEntry.setVisible(bool);
@@ -100,6 +104,11 @@ public class ProductionController implements Initializable {
         series.getItems().clear();
         for (Series s : DomainFacade.getAllSeries()) {
             series.getItems().add(s.getName());
+        }
+
+        artist.getItems().clear();
+        for (Artist a : DomainFacade.getArtists()) {
+            artist.getItems().add(a);
         }
 
         currentProduction = production;
@@ -132,15 +141,22 @@ public class ProductionController implements Initializable {
 
     @FXML
     void addEntry(MouseEvent event) {
-        CastMember castMember = new CastMember("\"name\"", "\"email\"","\"job\"",currentProduction.getId());
+        Artist a = artist.getValue();
+        CastMember castMember = new CastMember(a.getName(), a.getEmail(), role.getText(), currentProduction.getId());
         castMemberObservableList.add(castMember);
         currentProduction.addCastMember(castMember);
+
+        DomainFacade.saveCastMember(castMember);
     }
 
     @FXML
     void deleteEntry(MouseEvent event) {
         int index = castMembers.getSelectionModel().getFocusedIndex();
+        CastMember castMember = castMembers.getSelectionModel().getSelectedItem();
         castMemberObservableList.remove(index);
+        currentProduction.removeCastMember(castMember);
+
+        DomainFacade.deleteCastMember(castMember);
     }
 
     @FXML
@@ -166,23 +182,43 @@ public class ProductionController implements Initializable {
 
     @FXML
     void saveChanges(MouseEvent event) {
+        // Create series, if it doesn't exist
+        String seriesValue = series.getValue();
+        Series s = DomainFacade.getSeries(seriesValue);
+        if (s == null)
+            DomainFacade.createSeries(seriesValue);
+
+        // Create season, if it doesn't exist
+        String seasonValue = season.getValue();
+        s = DomainFacade.getSeries(seriesValue);
+        if (s != null) {
+            Season season = DomainFacade.getSeason(Integer.parseInt(seasonValue), s.getId());
+            if (season == null)
+                DomainFacade.createSeason(Integer.parseInt(seasonValue), s.getId());
+        }
+
+        // TODO: Create genres, if they don't exist
+
+        // Save seasonID
+        if (s != null) {
+            Season season = DomainFacade.getSeason(Integer.parseInt(seasonValue), s.getId());
+            if (season != null)
+                currentProduction.setSeasonID(season.getId());
+        }
+
+        // Save general data
+        currentProduction.setTitle(title.getText());
+        currentProduction.setCategory(category.getText());
+        currentProduction.setType(type.getText());
+        currentProduction.setEpisodeNumber(Integer.parseInt(episode.getText()));
+
         // Bit of an ugly hack
         if (currentProduction.getId() == null) {
-            // TODO: Insert series, if not exist
-            // TODO: Insert season, if not exist
-            // TODO: Insert genres, if not exist
-
             DomainFacade.saveProduction(currentProduction);
         } else {
             DomainFacade.editProduction(currentProduction);
         }
-        for (CastMember castMember: castMemberObservableList){
-            if (!DataFacade.castMemberExists(castMember)){
-                DataFacade.insertCastMember(castMember);
-            }else{
 
-            }
-        }
         saveText.setVisible(true);
     }
 }

@@ -46,7 +46,7 @@
             </TableView>
             <HBox prefHeight="25.0" prefWidth="648.0">
                <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#addEntry" text="Add user">
+                  <Button mnemonicParsing="false" onMouseClicked="#addUser" text="Add user">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

@@ -3,6 +3,7 @@ package data;
 import domain.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * <h1>DataFacade</h1>
@@ -89,12 +90,20 @@ public class DataFacade {
         return databaseManager.getArtists();
     }
 
-    public static Artist getArtist(String name){
-        return databaseManager.getArtist(name);
+    public static Artist getArtist(String email){
+        return databaseManager.getArtist(email);
     }
 
     public static Artist getArtist(int artistID){
         return databaseManager.getArtist(artistID);
+    }
+
+    /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with artists name as key and ID as value
+     */
+    public static HashMap<String,Integer> getArtistsMap(){
+        return databaseManager.getArtistsMap();
     }
 
     /**
@@ -104,6 +113,15 @@ public class DataFacade {
      */
     public static SuperUser getSuperUser(int userID) {
         return databaseManager.getSuperUser(userID);
+    }
+
+    /**
+     * This method is used to retrieve a SuperUser from the database, given a name.
+     * @param superUserUsername The username of the SuperUser
+     * @return SuperUser Returns the SuperUser with the username or null.
+     */
+    public static SuperUser getSuperUser(String superUserUsername) {
+        return databaseManager.getSuperUser(superUserUsername);
     }
 
     /**
@@ -125,12 +143,27 @@ public class DataFacade {
     }
 
     /**
+     * This method is used to edit a SuperUser
+     * @param superUserUsername the username of the SuperUser that should be edited
+     * @param newSuperUser what the SuperUser with the ID SuperUserID should be edited to
+     */
+    public static void editSuperUser(String superUserUsername,SuperUser newSuperUser){
+        databaseManager.updateSuperUser(superUserUsername,newSuperUser);
+    }
+
+    /**
      * This method is used to retrieve all SuperUsers from the database.
      * @return ArrayList<SuperUser> Returns a list of all SuperUsers.
      */
     public static ArrayList<SuperUser> getUsers() {
         return databaseManager.getSuperUsers();
     }
+
+    /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with superUser name as key and ID as value
+     */
+    public static HashMap<String,Integer> getSuperUsersMap(){ return databaseManager.getSuperUsersMap();}
 
     /**
      * This method is used to retrieve the SuperUser with the given username, if the passwords match.
@@ -148,6 +181,28 @@ public class DataFacade {
      */
     public static ArrayList<Season> getSeasons(int seriesID) {
         return databaseManager.getSeasons(seriesID);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Series> Returns a list of all productions.
+     */
+    public static Season getSeason(int episodeNumber, int seriesID) {
+        return databaseManager.getSeason(episodeNumber, seriesID);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     */
+    public static boolean insertSeries(Series series) {
+        return databaseManager.insertSeries(series);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     */
+    public static boolean insertSeason(Season season) {
+        return databaseManager.insertSeason(season);
     }
 
     /**
@@ -183,6 +238,12 @@ public class DataFacade {
     }
 
     /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with production name as key and ID as value
+     */
+    public static HashMap<String,Integer> getProductionsMap(){ return databaseManager.getProductionsMap();}
+
+    /**
      * This method is used to retrieve the season number.
      * @param ID The ID of the season
      * @return int Returns a season number.
@@ -212,10 +273,41 @@ public class DataFacade {
         return databaseManager.getCategoryID(production);
     }
 
+    public static boolean saveCastMember(CastMember castMember) {
+        return databaseManager.insertCastMember(castMember);
+    }
+
+    public static boolean deleteCastMember(CastMember castMember) {
+        return databaseManager.deleteCastMember(castMember);
+    }
+
     public static boolean castMemberExists(CastMember castMember){
         return databaseManager.chekIfCastMemberExists(castMember);
     }
 
+    public static ArrayList<CastMember> getCastMembers(int productionID) {
+        return databaseManager.getCastMembers(productionID);
+    }
+
+    public static ArrayList<String> getSeriesAndProductionID(){
+        return databaseManager.getSeriesAndProductionID();
+    }
+
+    public boolean changePassword(SuperUser user){
+        return databaseManager.changePassword(user);
+    }
+
+    public boolean removeAdminStatus(SuperUser user){
+        return databaseManager.removeAdminStatus(user);
+    }
+
+    public boolean changeEmail(Artist artist){
+        return databaseManager.changeEmail(artist);
+    }
+
+    public boolean changeName(Artist artist){
+        return databaseManager.changeName(artist);
+    }
 
 
 }

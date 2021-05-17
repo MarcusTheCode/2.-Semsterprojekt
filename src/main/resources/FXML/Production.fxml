@@ -72,6 +72,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                <columns>
+                  <TableColumn fx:id="idColumn" editable="false" onEditCommit="#commitJobTitleChange" prefWidth="75.0" text="ID" />
                   <TableColumn fx:id="roleColumn" editable="false" onEditCommit="#commitJobTitleChange" prefWidth="75.0" text="Role" />
                   <TableColumn fx:id="nameColumn" editable="false" onEditCommit="#commitNameChange" prefWidth="75.0" text="Name" />
                   <TableColumn fx:id="emailColumn" editable="false" onEditCommit="#commitEmailChange" prefWidth="75.0" text="Email" />
@@ -79,12 +80,14 @@
             </TableView>
             <HBox prefHeight="25.0" prefWidth="648.0">
                <children>
-                  <Button fx:id="addEntry" mnemonicParsing="false" onMouseClicked="#addEntry" text="Add entry" visible="false">
+                  <ComboBox fx:id="artist" prefWidth="150.0" promptText="Artist" />
+                  <TextField fx:id="role" promptText="Role" />
+                  <Button fx:id="addEntry" mnemonicParsing="false" onMouseClicked="#addEntry" text="Add entry">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="deleteEntry" mnemonicParsing="false" onMouseClicked="#deleteEntry" text="Delete entry" visible="false">
+                  <Button fx:id="deleteEntry" mnemonicParsing="false" onMouseClicked="#deleteEntry" text="Delete entry">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -101,7 +104,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Button>
-                  <Text fx:id="saveText" fill="#5dab0a" strokeType="OUTSIDE" strokeWidth="0.0" text="All changes was saved" textAlignment="CENTER" visible="false">
+                  <Text fx:id="saveText" fill="#5dab0a" strokeType="OUTSIDE" strokeWidth="0.0" text="All changes were saved" textAlignment="CENTER" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>

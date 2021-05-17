@@ -1,33 +1,63 @@
 import data.DataFacade;
-import domain.CastMember;
-import domain.Production;
+import domain.*;
+import jdk.jshell.spi.ExecutionControl;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.*;
+
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
 public class PersistenceTest {
 
-    private static Connection connection;
+    /**
+     * Note: when debugging the tests individually, its sometimes needed to run
+     * the tests again without debugging, to 'clean' the database.
+     * I don't know why this happens (:
+     */
 
+    private static Connection connection;
+    private static ScriptRunner scriptRunner;
+    private static Reader reader;
+    private static String url;
+    private static Integer port;
+    private static String databaseName;
+    private static String username;
+    private static String password;
+
+    /**
+     * This method runs once before all the tests
+     * it reads the DatabaseCredentials file and connects
+     * to the database
+     */
     @BeforeClass
-    public static void establishConnection(){
+    public static void setUp(){
         connection = null;
         try {
+            // Load DatabaseCredentials
             FileReader fileReader = new FileReader("src/main/resources/TXT/DatabaseCredentials");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String url = bufferedReader.readLine();
-            Integer port = Integer.parseInt(bufferedReader.readLine());
-            String databaseName = bufferedReader.readLine();
-            String username = bufferedReader.readLine();
-            String password = bufferedReader.readLine();
+            url = bufferedReader.readLine();
+            port = Integer.parseInt(bufferedReader.readLine());
+            databaseName = bufferedReader.readLine();
+            username = bufferedReader.readLine();
+            password = bufferedReader.readLine();
+
+            // Register driver and connect to database
             DriverManager.registerDriver(new org.postgresql.Driver());
             connection = DriverManager.getConnection("jdbc:postgresql://" + url + ":" + port + "/" + databaseName, username, password);
+
+            // Load the migration script
+            reader = new BufferedReader(new FileReader("src/main/java/data/Migration.sql"));
+            scriptRunner = new ScriptRunner(connection);
+            scriptRunner.setDelimiter("ENDFILE");
+            scriptRunner.setLogWriter(null);    // Disables output when running the sql file
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
@@ -40,47 +70,141 @@ public class PersistenceTest {
 
     @Test
     public void migrationTest(){
-        try {
-            Reader reader = new BufferedReader(new FileReader("src/main/java/data/Migration.sql"));
-            ScriptRunner scriptRunner = new ScriptRunner(connection);
-            scriptRunner.setDelimiter("ENDFILE");
-            scriptRunner.setLogWriter(null);    // Disables output when running the sql file
-            scriptRunner.runScript(reader);
-            scriptRunner.closeConnection();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
+        scriptRunner.runScript(reader);
     }
 
     @Test
     public void getCreditTest(){
-        TestCastMember expectedCastMember = new TestCastMember("Barry B. Benson","BarryBeeBenson@bee.hive","Actor",5);
+        HashMap<String, Integer> superUsersMap;
+        HashMap<String, Integer> productionsMap;
+        HashMap<String, Integer> artistsMap;
 
-        Production production = DataFacade.getProduction(5);
-        TestCastMember castMember = new TestCastMember(production.getCastMembers().get(0));
+        SuperUser superUser = new SuperUser("Thomas Vinterberg","druk123",false);
+        DataFacade.insertSuperUser(superUser);
 
-        assertTrue(castMember.equals(expectedCastMember));
+        superUsersMap = DataFacade.getSuperUsersMap();
+        Integer superUserID = superUsersMap.get(superUser.getUsername());
+
+        Production production = new Production("Druk",superUserID,"entertainment",1,"movie");
+        DataFacade.insertProduction(production);
+
+        productionsMap = DataFacade.getProductionsMap();
+        Integer productionID = productionsMap.get(production.getTitle());
+
+        Artist artist = new Artist("Mads Mikkelsen","madsmikkelsen@mail.dk");
+        DataFacade.insertArtist(artist);
+
+        artistsMap = DataFacade.getArtistsMap();
+        Integer artistID = artistsMap.get(artist.getName());
+
+        CastMember castMember = new CastMember("Mads Mikkelsen","madsmikkelsen@mail.dk","Actor",productionID);
+        DataFacade.insertCastMember(castMember);
+
+        ArrayList<CastMember> castMembers = DataFacade.getCastMembers(productionID);
+        CastMember retrievedCastMember = castMembers.get(0);
+        CastMember expectedCastMember = new CastMember("Mads Mikkelsen","madsmikkelsen@mail.dk","Actor",productionID);
+
+        assertTrue(retrievedCastMember.equals(expectedCastMember));
     }
 
-    // TODO: Save credit test
+    @Test
+    public void saveProductionTest(){
+        Production production = new Production("Shrek",2,"documentary",1,"movie");
+        DataFacade.insertProduction(production);
 
-    // TODO: Delete credit test
+        HashMap<String, Integer> productionsMap = DataFacade.getProductionsMap();
+        Integer productionID = productionsMap.get(production.getTitle());
 
-    // TODO: Edit credit test
+        production = DataFacade.getProduction(productionID);
+        assertNotNull(production);
+    }
 
-    // TODO: Save SuperUser test
+    @Test
+    public void deleteProductionTest() {
+        Production production = new Production("Shrek", 2, "documentary", 1, "movie");
+        DataFacade.insertProduction(production);
 
-    // TODO: Delete Superuser test
+        HashMap<String, Integer> productionsMap = DataFacade.getProductionsMap();
+        Integer productionID = productionsMap.get(production.getTitle());
 
-    // TODO: Edit SuperUser test
+        Production tempProduction = DataFacade.getProduction(productionID);
+        assertNotNull(tempProduction);
+
+        DataFacade.deleteProduction(productionID);
+        productionsMap = DataFacade.getProductionsMap();
+
+        productionID = productionsMap.get(production.getTitle());
+        assertNull(productionID);
+    }
+
+    @Test
+    public void editProductionTest() {
+        // TODO: Implement (:
+        /**
+         * (1) add producer
+         * (2) add production
+         * (3) change something about productions
+         * (4) retrieve changed production
+         * (5) compare it to the original produciotn
+         */
+        assertTrue(false);
+    }
+
+    @Test
+    public void saveSuperUserTest() {
+        HashMap<String, Integer> superUsersMap = DataFacade.getSuperUsersMap();
+        SuperUser superUser = new SuperUser("Susanne bier","bb",false);
+
+        Integer superUserID = superUsersMap.get(superUser.getUsername());
+        assertNull(superUserID);
+
+        DataFacade.insertSuperUser(superUser);
+        superUsersMap = DataFacade.getSuperUsersMap();
+        superUserID = superUsersMap.get(superUser.getUsername());
+
+        superUser = DataFacade.getSuperUser(superUserID);
+        assertNotNull(superUser);
+    }
+
+    @Test
+    public void deleteSuperUserTest() {
+        SuperUser superUser = new SuperUser("Steven Spielberg","1218",false);
+        DataFacade.insertSuperUser(superUser);
+
+        HashMap<String, Integer> superUsersMap = DataFacade.getSuperUsersMap();
+        Integer superUserID = superUsersMap.get(superUser.getUsername());
+
+        SuperUser tempSuperUser = DataFacade.getSuperUser(superUserID);
+        assertNotNull(tempSuperUser);
+
+        DataFacade.deleteSuperUser(superUserID);
+        superUsersMap = DataFacade.getProductionsMap();
+
+        superUserID = superUsersMap.get(superUser.getUsername());
+        assertNull(superUserID);
+    }
+
+    @Test
+    public void editSuperUserTest() {
+        SuperUser superUser = new SuperUser("James Cameron","1954",false);
+        DataFacade.insertSuperUser(superUser);
+
+        SuperUser newSuperUser = new SuperUser("James Francis Cameron","abc1954",false);
+        DataFacade.editSuperUser(superUser.getUsername(),newSuperUser);
+
+        SuperUser editedSuperUser = DataFacade.getSuperUser(newSuperUser.getUsername());
+
+        assertNotNull(editedSuperUser);
+        assertTrue(editedSuperUser.getUsername() != superUser.getUsername());
+    }
 
     @AfterClass
-    public static void closeConnection(){
+    public static void tearDown(){
         try {
+            scriptRunner.closeConnection();
             connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
             assertTrue(false);
         }
     }

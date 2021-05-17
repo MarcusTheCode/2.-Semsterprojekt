@@ -24,6 +24,7 @@ public class UIManager extends Application {
     private static SceneData usersSceneData;
     private static SceneData artistsSceneData;
     private static SceneData artistSceneData;
+    private static SceneData usersInputSceneData;
 
     public static void launchApplication() {
         launch();
@@ -44,6 +45,7 @@ public class UIManager extends Application {
             usersSceneData = loadScene("../FXML/Users.fxml");
             artistsSceneData = loadScene("../FXML/Artists.fxml");
             artistSceneData = loadScene("../FXML/Artist.fxml");
+            usersInputSceneData = loadScene("../FXML/UsersInput.fxml");
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -91,13 +93,13 @@ public class UIManager extends Application {
         return artistSceneData.scene;
     }
 
+    public static Scene getUsersInputScene() {return usersInputSceneData.scene; }
+
     public static LogInController getLoginController() {
         return (LogInController) loginSceneData.controller;
     }
 
-    public static ProductionController getProductionController() {
-        return (ProductionController) productionSceneData.controller;
-    }
+    public static ProductionController getProductionController() { return (ProductionController) productionSceneData.controller; }
 
     public static SearchController getSearchController() {
         return (SearchController) searchSceneData.controller;
@@ -114,6 +116,8 @@ public class UIManager extends Application {
     public static ArtistController getArtistController() {
         return (ArtistController) artistSceneData.controller;
     }
+
+    public static UsersInputController getUsersInputController() {return (UsersInputController) usersInputSceneData.controller; }
 
     private class SceneData {
         public Scene scene;

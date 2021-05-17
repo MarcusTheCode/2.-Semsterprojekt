@@ -26,7 +26,8 @@ public class CastMember implements Serializable {
         this.jobTitle = jobTitle;
         this.productionID = productionID;
         this.artist = DataFacade.getArtist(email); //if null artist doesn't exists
-        this.artistID = artist.getId();
+        if (this.artist != null)
+            this.artistID = artist.getId();
     }
 
     public int getProductionID() {
@@ -75,5 +76,14 @@ public class CastMember implements Serializable {
 
     public void setProductionID(int productionID) {
         this.productionID = productionID;
+    }
+
+    public boolean equals(CastMember castMember) {
+        if (this.getName().equals(castMember.getName())
+                && this.getEmail().equals(castMember.getEmail())
+                && this.getJobTitle().equals(castMember.getJobTitle())) {
+            return true;
+        }
+        return false;
     }
 }
