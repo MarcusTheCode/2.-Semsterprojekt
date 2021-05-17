@@ -325,4 +325,9 @@ public class DataFacade {
         return databaseManager.changeCastMemberRole(castMember);
     }
 
+    public static void saveUserChanges(SuperUser superUser) {
+        databaseManager.changePassword(superUser);
+        databaseManager.changeAdminStatus(superUser);
+        databaseManager.changeUsername(superUser);
+    }
 }

@@ -257,5 +257,8 @@ public class DomainFacade {
     public static ArrayList<CastMember> getCastMembers(int productionID) {
         return DataFacade.getCastMembers(productionID);
     }
+    public static void saveUserChanges(SuperUser superUser) {
+        System.saveUserChanges(superUser);
+    }
 }
 

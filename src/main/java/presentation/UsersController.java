@@ -83,17 +83,20 @@ public class UsersController implements Initializable {
     }
 
     @FXML
-    void deleteSuperUser(MouseEvent event) {
+    void deleteSuperUser(MouseEvent event) throws Exception {
+        SuperUser superUser = superUsers.getSelectionModel().getSelectedItem();
         int index = superUsers.getSelectionModel().getFocusedIndex();
         int userID = usersObservableList.get(index).getId();
 
-        if (usersObservableList.get(index).getId() == 1){
-            return;
-        }
-
+        if (superUser == null) {
+            noUserSelected.setVisible(true);
+            throw new Exception("No user selected");}
+        else { if (superUsers.getSelectionModel().getSelectedItem().getId() != 1){
         usersObservableList.remove(index);
-
         DomainFacade.deleteSuperUser(userID);
+        }else{
+            noUserSelected.setVisible(true);}
+            errorPaneText.setText("You don't have permission to do that");}
     }
 
     @FXML
@@ -160,6 +163,10 @@ public class UsersController implements Initializable {
 
     public boolean getAdminStatus() {
         return superUsers.getSelectionModel().getSelectedItem().isSysAdmin();
+    }
+
+    public int getSelectedID() {
+        return superUsers.getSelectionModel().getSelectedItem().getId();
     }
 
 }
