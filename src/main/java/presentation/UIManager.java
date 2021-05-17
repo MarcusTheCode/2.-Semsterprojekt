@@ -1,5 +1,7 @@
 package presentation;
 
+import data.DataFacade;
+import domain.Artist;
 import domain.DomainFacade;
 import domain.SuperUser;
 import javafx.application.Application;
@@ -136,6 +138,11 @@ public class UIManager extends Application {
     public static void saveUserChanges(int ID, String password, String username, boolean sysAdmin) {
         SuperUser user = new SuperUser(ID, password, username, sysAdmin);
         DomainFacade.saveUserChanges(user);
+    }
+
+    public static void saveArtistChanges(int ID, String name, String email){
+        Artist artist = new Artist(ID, name, email);
+        DomainFacade.saveArtistChanges(artist);
     }
 
 }

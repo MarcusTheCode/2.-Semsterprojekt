@@ -264,5 +264,9 @@ public class DomainFacade {
     public static void saveUserChanges(SuperUser superUser) {
         System.saveUserChanges(superUser);
     }
+
+    public static void saveArtistChanges(Artist artist) {
+        System.saveArtistChanges(artist);
+    }
 }
 

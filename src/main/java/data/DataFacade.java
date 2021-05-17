@@ -369,4 +369,8 @@ public class DataFacade {
         databaseManager.changeAdminStatus(superUser);
         databaseManager.changeUsername(superUser);
     }
+    public static void saveArtistChanges(Artist artist) {
+        databaseManager.editArtistName(artist);
+        databaseManager.editArtistEmail(artist);
+    }
 }
