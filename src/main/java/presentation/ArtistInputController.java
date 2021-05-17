@@ -48,9 +48,11 @@ public class ArtistInputController implements Initializable {
 
     @FXML
     void saveChanges(MouseEvent event) {
-        UIManager.saveArtistChanges(UIManager.getArtistsController().getSelectedID(), name.getText(), email.getText());
-        UIManager.changeScene(UIManager.getArtistsScene());
-        UIManager.getArtistsController().loadArtists();
+        if (name.getText().matches(nameRegularExpression) && email.getText().matches(emailRegularExpression)) {
+            UIManager.saveArtistChanges(UIManager.getArtistsController().getSelectedID(), name.getText(), email.getText());
+            UIManager.changeScene(UIManager.getArtistsScene());
+            UIManager.getArtistsController().loadArtists();
+        }
     }
 
     @FXML
