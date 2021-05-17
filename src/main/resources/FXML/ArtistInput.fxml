@@ -39,19 +39,9 @@
                   <Font size="24.0" />
                </font>
             </TextField>
-            <HBox prefHeight="25.0" prefWidth="648.0">
-               <children>
-                  <Button mnemonicParsing="false" onMouseClicked="#saveArtist" text="Add artist">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-               </children>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-            </HBox>
          </children>
       </VBox>
+      <Button fx:id="addArtistButton" layoutX="10.0" layoutY="261.0" mnemonicParsing="false" onMouseClicked="#saveArtist" text="Add artist" />
+      <Button fx:id="saveChangesButton" layoutX="14.0" layoutY="261.0" mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save changes" visible="false" />
    </children>
 </AnchorPane>

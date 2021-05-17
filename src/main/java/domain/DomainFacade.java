@@ -242,6 +242,10 @@ public class DomainFacade {
         return null;
     }
 
+    public static ArrayList<String> getAllCategories() {
+        return DataFacade.getAllCategories();
+    }
+
     public static boolean saveCastMember(CastMember castMember) {
         return DataFacade.saveCastMember(castMember);
     }
@@ -259,6 +263,10 @@ public class DomainFacade {
     }
     public static void saveUserChanges(SuperUser superUser) {
         System.saveUserChanges(superUser);
+    }
+
+    public static void saveArtistChanges(Artist artist) {
+        System.saveArtistChanges(artist);
     }
 }
 

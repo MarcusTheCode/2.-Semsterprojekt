@@ -15,14 +15,8 @@ public class DataFacade {
 
     private static DatabaseManager databaseManager = new DatabaseManager();
 
-    /**
-     * This method is used to retrieve a production from the database, given an ID.
-     * @param productionID The ID of the production
-     * @return Production Returns the production with the ID or null.
-     */
-    public static Production getProduction(int productionID) {
-        return databaseManager.getProduction(productionID);
-    }
+
+    //region Productions
 
     /**
      * This method is used insert a new production into the database.
@@ -50,6 +44,35 @@ public class DataFacade {
     public static void editProduction(Production production) {
         databaseManager.updateProduction(production);
     }
+
+    /**
+     * This method is used to retrieve a production from the database, given an ID.
+     * @param productionID The ID of the production
+     * @return Production Returns the production with the ID or null.
+     */
+    public static Production getProduction(int productionID) {
+        return databaseManager.getProduction(productionID);
+    }
+
+    /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with production name as key and ID as value
+     */
+    public static HashMap<String,Integer> getProductionsMap() {
+        return databaseManager.getProductionsMap();
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Production> Returns a list of all productions.
+     */
+    public static ArrayList<Production> loadAllProductions() {
+        return databaseManager.getAllProductions();
+    }
+
+    //endregion
+
+    //region Artists
 
     /**
      * This method is used to insert a unique artist into the database.
@@ -106,6 +129,10 @@ public class DataFacade {
         return databaseManager.getArtistsMap();
     }
 
+    //endregion
+
+    //region SuperUsers
+
     /**
      * This method is used to retrieve a SuperUser from the database, given an ID.
      * @param userID The ID of the SuperUser
@@ -151,6 +178,22 @@ public class DataFacade {
         databaseManager.updateSuperUser(superUserUsername,newSuperUser);
     }
 
+    public static ArrayList<String> getSeriesAndProductionID(){
+        return databaseManager.getSeriesAndProductionID();
+    }
+
+    public boolean changePassword(SuperUser user){
+        return databaseManager.changePassword(user);
+    }
+
+    public boolean removeAdminStatus(SuperUser user){
+        return databaseManager.changeAdminStatus(user);
+    }
+
+    public boolean changeEmail(Artist artist){
+        return databaseManager.editArtist(artist);
+    }
+
     /**
      * This method is used to retrieve all SuperUsers from the database.
      * @return ArrayList<SuperUser> Returns a list of all SuperUsers.
@@ -163,7 +206,9 @@ public class DataFacade {
      * This method is used in the persistence tests to retrieve the ID in a non-hacky way
      * @return HashMap with superUser name as key and ID as value
      */
-    public static HashMap<String,Integer> getSuperUsersMap(){ return databaseManager.getSuperUsersMap();}
+    public static HashMap<String, Integer> getSuperUsersMap() {
+        return databaseManager.getSuperUsersMap();
+    }
 
     /**
      * This method is used to retrieve the SuperUser with the given username, if the passwords match.
@@ -175,12 +220,22 @@ public class DataFacade {
         return databaseManager.checkIfUserExists(inputUsername, inputPassword);
     }
 
+    //endregion
+
+    //region Seasons
+
     /**
      * This method is used to retrieve all productions from the database.
-     * @return ArrayList<Season> Returns a list of all productions.
      */
-    public static ArrayList<Season> getSeasons(int seriesID) {
-        return databaseManager.getSeasons(seriesID);
+    public static boolean insertSeason(Season season) {
+        return databaseManager.insertSeason(season);
+    }/**
+     * This method is used to retrieve the season number.
+     * @param ID The ID of the season
+     * @return int Returns a season number.
+     */
+    public static int getSeasonNumber(int ID) {
+        return databaseManager.getSeasonNumber(ID);
     }
 
     /**
@@ -193,16 +248,21 @@ public class DataFacade {
 
     /**
      * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Season> Returns a list of all productions.
      */
-    public static boolean insertSeries(Series series) {
-        return databaseManager.insertSeries(series);
+    public static ArrayList<Season> getSeasons(int seriesID) {
+        return databaseManager.getSeasons(seriesID);
     }
+
+    //endregion
+
+    //region Series
 
     /**
      * This method is used to retrieve all productions from the database.
      */
-    public static boolean insertSeason(Season season) {
-        return databaseManager.insertSeason(season);
+    public static boolean insertSeries(Series series) {
+        return databaseManager.insertSeries(series);
     }
 
     /**
@@ -229,28 +289,9 @@ public class DataFacade {
         return databaseManager.getAllSeries();
     }
 
-    /**
-     * This method is used to retrieve all productions from the database.
-     * @return ArrayList<Production> Returns a list of all productions.
-     */
-    public static ArrayList<Production> loadAllProductions() {
-        return databaseManager.getAllProductions();
-    }
+    //endregion
 
-    /**
-     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
-     * @return HashMap with production name as key and ID as value
-     */
-    public static HashMap<String,Integer> getProductionsMap(){ return databaseManager.getProductionsMap();}
-
-    /**
-     * This method is used to retrieve the season number.
-     * @param ID The ID of the season
-     * @return int Returns a season number.
-     */
-    public static int getSeasonNumber(int ID) {
-        return databaseManager.getSeasonNumber(ID);
-    }
+    //region Genres
 
     public static boolean insertGenre(Production production, Genre genre) {
         return databaseManager.insertGenre(production, genre);
@@ -277,17 +318,29 @@ public class DataFacade {
         return databaseManager.getAllGenres();
     }
 
-    public static int getCategory(String name){
+    //endregion
+
+    //region Categories
+
+    public static int getCategory(String name) {
         return databaseManager.getCategoryID(name);
     }
 
-    public static String getCategory(int id){
-        return databaseManager.getCategoryID(id);
+    public static String getCategory(int id) {
+        return databaseManager.getCategory(id);
     }
 
-    public static int getCategoryID(Production production){
-        return databaseManager.getCategoryID(production);
+    public static int getCategoryID(Production production) {
+        return databaseManager.getCategory(production);
     }
+
+    public static ArrayList<String> getAllCategories() {
+        return databaseManager.getAllCategories();
+    }
+
+    //endregion
+
+    //region CastMembers
 
     public static boolean saveCastMember(CastMember castMember) {
         return databaseManager.insertCastMember(castMember);
@@ -295,6 +348,10 @@ public class DataFacade {
 
     public static boolean deleteCastMember(CastMember castMember) {
         return databaseManager.deleteCastMember(castMember);
+    }
+
+    public boolean changeCastMemberRole(CastMember castMember){
+        return databaseManager.changeCastMemberRole(castMember);
     }
 
     public static boolean castMemberExists(CastMember castMember){
@@ -305,29 +362,15 @@ public class DataFacade {
         return databaseManager.getCastMembers(productionID);
     }
 
-    public static ArrayList<String> getSeriesAndProductionID(){
-        return databaseManager.getSeriesAndProductionID();
-    }
-
-    public boolean changePassword(SuperUser user){
-        return databaseManager.changePassword(user);
-    }
-
-    public boolean removeAdminStatus(SuperUser user){
-        return databaseManager.changeAdminStatus(user);
-    }
-
-    public boolean changeEmail(Artist artist){
-        return databaseManager.editArtist(artist);
-    }
-
-    public boolean changeCastMemberRole(CastMember castMember){
-        return databaseManager.changeCastMemberRole(castMember);
-    }
+    //endregion
 
     public static void saveUserChanges(SuperUser superUser) {
         databaseManager.changePassword(superUser);
         databaseManager.changeAdminStatus(superUser);
         databaseManager.changeUsername(superUser);
+    }
+    public static void saveArtistChanges(Artist artist) {
+        databaseManager.editArtistName(artist);
+        databaseManager.editArtistEmail(artist);
     }
 }

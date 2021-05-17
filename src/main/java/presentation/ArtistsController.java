@@ -12,7 +12,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -38,6 +39,15 @@ public class ArtistsController implements Initializable {
     @FXML
     private Button deleteArtistButton;
 
+    @FXML
+    private Button editArtistButton;
+
+    @FXML
+    private AnchorPane noArtistSelected;
+
+    @FXML
+    private Text errorPaneText;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -56,12 +66,14 @@ public class ArtistsController implements Initializable {
         emailColumn.setVisible(true);
         addArtistButton.setVisible(true);
         deleteArtistButton.setVisible(true);
+        editArtistButton.setVisible(true);
     }
 
     public void disableButtons(){
         emailColumn.setVisible(false);
         addArtistButton.setVisible(false);
         deleteArtistButton.setVisible(false);
+        editArtistButton.setVisible(false);
     }
 
     public void loadArtists() {
@@ -105,5 +117,33 @@ public class ArtistsController implements Initializable {
         Artist artist = event.getTableView().getItems().get(row);
         artist.setName(event.getNewValue());
         DomainFacade.editArtist(artist);
+    }
+
+    @FXML
+    void editArtist(MouseEvent event) {
+        Artist artist = artists.getSelectionModel().getSelectedItem();
+        if (artist == null) {
+            noArtistSelected.setVisible(true);
+            errorPaneText.setText("No artist is selected");
+        }else{
+            UIManager.changeScene(UIManager.getArtistScene());
+            UIManager.getArtistController().editArtist(); }
+    }
+
+    @FXML
+    void closeAlertPane(MouseEvent event) {
+        noArtistSelected.setVisible(false);
+    }
+
+    public String getName() {
+        return artists.getSelectionModel().getSelectedItem().getName();
+    }
+
+    public String getEmail() {
+        return artists.getSelectionModel().getSelectedItem().getEmail();
+    }
+
+    public int getSelectedID() {
+        return artists.getSelectionModel().getSelectedItem().getId();
     }
 }
