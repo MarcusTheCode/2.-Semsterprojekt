@@ -110,4 +110,8 @@ public class System {
         }
         return false;
     }
+
+    public static void saveUserChanges(SuperUser superUser) {
+        DataFacade.saveUserChanges(superUser);
+    }
 }

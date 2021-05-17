@@ -950,10 +950,24 @@ public class DatabaseManager {
         return false;
     }
 
+    public boolean changeUsername(SuperUser user){
+        try {
+            PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
+                    "username = ? " +
+                    "WHERE id = ?");
+            ps.setString(1,user.getUsername());
+            ps.setInt(2,user.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public boolean changeAdminStatus(SuperUser user){
         try {
             PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
-                    "isSysAdmin = ? " +
+                    "isAdmin = ? " +
                     "WHERE id = ?");
             ps.setBoolean(1,user.isSysAdmin());
             ps.setInt(2,user.getId());

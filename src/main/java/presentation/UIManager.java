@@ -1,5 +1,8 @@
 package presentation;
 
+import data.DataFacade;
+import domain.DomainFacade;
+import domain.SuperUser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -119,6 +122,8 @@ public class UIManager extends Application {
 
     public static UsersInputController getUsersInputController() {return (UsersInputController) usersInputSceneData.controller; }
 
+
+
     private class SceneData {
         public Scene scene;
         public Object controller;
@@ -128,4 +133,10 @@ public class UIManager extends Application {
             this.controller = controller;
         }
     }
+
+    public static void saveUserChanges(int ID, String password, String username, boolean sysAdmin) {
+        SuperUser user = new SuperUser(ID, password, username, sysAdmin);
+        DomainFacade.saveUserChanges(user);
+    }
+
 }
