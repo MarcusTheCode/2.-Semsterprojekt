@@ -98,20 +98,23 @@ public class DatabaseManager {
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
-    public void updateProduction(Production production){
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE productions SET " +
-                    "episodeNumber = ?, " +
-                    "type = ?, " +
-                    "categoryID = ?, " +
-                    "producerID = ?, " +
-                    "productionTitle = ?, " +
-                    "seasonID = ? " +
-                    "WHERE id = ?; ");
+    /**
+     * This method is used to update a Production in the database.
+     * @param production The Production to update
+     */
+    public boolean updateProduction(Production production) {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE productions SET " +
+                "episodeNumber = ?, " +
+                "type = ?, " +
+                "categoryID = ?, " +
+                "producerID = ?, " +
+                "productionTitle = ?, " +
+                "seasonID = ? " +
+                "WHERE id = ?; ")) {
             if (production.getEpisodeNumber() == null)
                 ps.setNull(1, Types.INTEGER);
             else
@@ -126,9 +129,11 @@ public class DatabaseManager {
                 ps.setInt(6,production.getSeasonID());
             ps.setInt(7, production.getId());
             ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     /**
@@ -179,11 +184,10 @@ public class DatabaseManager {
                     productions.add(p);
                 }
             }
-            return productions;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return productions;
     }
 
     /**
@@ -198,11 +202,10 @@ public class DatabaseManager {
                     productionMap.put(resultSet.getString(1),resultSet.getInt(2));
                 }
             }
-            return productionMap;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return productionMap;
     }
 
     //endregion
@@ -220,7 +223,8 @@ public class DatabaseManager {
             ps.setBoolean(1, superUser.isSysAdmin());
             ps.setString(2, superUser.getUsername());
             ps.setString(3, superUser.getPassword());
-            return ps.execute();
+            ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -245,12 +249,12 @@ public class DatabaseManager {
 
     /**
      * This method is used to edit a SuperUser
-     * @param superUserUsername the username of the SuperUser that should be edited
-     * @param newSuperUser what the SuperUser with the ID SuperUserID should be edited to
+     * @param username the username of the SuperUser that should be edited
+     * @param superUser what the SuperUser with the ID SuperUserID should be edited to
      */
-    public void updateSuperUser(String superUserUsername, SuperUser newSuperUser){
+    public boolean updateSuperUser(String username, SuperUser superUser) {
         HashMap<String, Integer> superUsersMap = getSuperUsersMap();
-        Integer superUserID = superUsersMap.get(superUserUsername);
+        Integer superUserID = superUsersMap.get(username);
 
         String sqlCode;
         sqlCode = "UPDATE superusers SET " +
@@ -260,39 +264,41 @@ public class DatabaseManager {
                 "WHERE id = ?;";
 
         try (PreparedStatement ps = connection.prepareStatement(sqlCode)) {
-            ps.setString(1,newSuperUser.getUsername());
-            ps.setString(2,newSuperUser.getPassword());
-            ps.setBoolean(3,newSuperUser.isSysAdmin());
+            ps.setString(1,superUser.getUsername());
+            ps.setString(2,superUser.getPassword());
+            ps.setBoolean(3,superUser.isSysAdmin());
             ps.setInt(4,superUserID);
 
             ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public boolean changePassword(SuperUser user){
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
-                    "password = ? " +
-                    "WHERE id = ?");
-            ps.setString(1,user.getPassword());
-            ps.setInt(2,user.getId());
-            return ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public boolean changeAdminStatus(SuperUser user){
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
-                    "isSysAdmin = ? " +
-                    "WHERE id = ?");
+    public boolean changePassword(SuperUser user) {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
+                "password = ? " +
+                "WHERE id = ?")) {;
+            ps.setString(1,user.getPassword());
+            ps.setInt(2,user.getId());
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean changeAdminStatus(SuperUser user) {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
+                "isSysAdmin = ? " +
+                "WHERE id = ?")) {
             ps.setBoolean(1,user.isSysAdmin());
             ps.setInt(2,user.getId());
-            return ps.execute();
+            ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -310,11 +316,10 @@ public class DatabaseManager {
             ps.setString(1, inputUsername);
             ps.setString(2, inputPassword);
             try (ResultSet resultSet = ps.executeQuery()) {
-                if (resultSet.next()) {
+                if (resultSet.next())
                     return getSuperUser(resultSet.getInt(1));
-                } else {
+                else
                     return null;
-                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -346,24 +351,12 @@ public class DatabaseManager {
 
     /**
      * This method is used to retrieve a SuperUser from the database, given a name.
-     * @param superUserUsername The username of the SuperUser
+     * @param username The username of the SuperUser
      * @return SuperUser Returns the SuperUser with the username or null.
      */
-    public SuperUser getSuperUser(String superUserUsername){
-        HashMap<String, Integer> superUsersMap = getSuperUsersMap();
-        Integer superUserID = superUsersMap.get(superUserUsername);
-
-        if (superUserID == null){
-            try {
-                throw new Exception("ERROR: no SuperUser with name: " + superUserUsername);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.id = ?")) {
-            ps.setInt(1, superUserID);
+    public SuperUser getSuperUser(String username) {
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.username = ?")) {
+            ps.setString(1, username);
             try (ResultSet resultSet = ps.executeQuery()) {
                 resultSet.next();
                 return new SuperUser(
@@ -374,8 +367,8 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     /**
@@ -397,27 +390,26 @@ public class DatabaseManager {
             return users;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     /**
      * This method is used in the persistence tests to retrieve the ID in a non-hacky way
      * @return HashMap with production name as key and ID as value
      */
-    public HashMap<String,Integer> getSuperUsersMap(){
+    public HashMap<String,Integer> getSuperUsersMap() {
         HashMap<String,Integer> superUsersMap = new HashMap<>();
         try (PreparedStatement ps = connection.prepareStatement("SELECT superusers.username, superusers.id FROM superusers")) {
             try (ResultSet resultSet = ps.executeQuery()) {
-                while (resultSet.next()) {
-                    superUsersMap.put(resultSet.getString(1),resultSet.getInt(2));
-                }
+                while (resultSet.next())
+                    superUsersMap.put(resultSet.getString(1), resultSet.getInt(2));
             }
             return superUsersMap;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     //endregion
@@ -433,7 +425,8 @@ public class DatabaseManager {
                 "VALUES (?,?)")) {
             ps.setString(1, artist.getName());
             ps.setString(2, artist.getEmail());
-            return ps.execute();
+            ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
