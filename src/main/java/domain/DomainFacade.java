@@ -119,6 +119,22 @@ public class DomainFacade {
         }
     }
 
+    public static void insertGenre(Production production, Genre genre) {
+        DataFacade.insertGenre(production, genre);
+    }
+
+    public static boolean deleteGenre(Production production, Genre genre) {
+        return DataFacade.deleteGenre(production, genre);
+    }
+
+    /**
+     * This method is used to retrieve all genres in a production from the database.
+     * @return ArrayList<String> Returns a list of all genres in the production.
+     */
+    public static ArrayList<Genre> getAllGenres() {
+        return DataFacade.getAllGenres();
+    }
+
     // Artists
 
     /**
