@@ -277,6 +277,10 @@ public class DataFacade {
         return databaseManager.getAllGenres();
     }
 
+    public static ArrayList<String> getAllCategories() {
+        return databaseManager.getAllCategories();
+    }
+
     public static int getCategory(String name){
         return databaseManager.getCategoryID(name);
     }

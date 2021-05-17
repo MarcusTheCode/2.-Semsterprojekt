@@ -40,19 +40,19 @@
                <children>
                   <HBox prefHeight="146.0" prefWidth="1100.0">
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
+                        <VBox prefHeight="146.0" prefWidth="151.0">
                            <children>
-                              <TextField fx:id="title" promptText="Title" />
-                              <TextField fx:id="type" promptText="Type" />
-                              <TextField fx:id="category" promptText="Category" />
+                              <TextField fx:id="title" editable="false" promptText="Title" />
+                              <TextField fx:id="type" editable="false" promptText="Type" />
+                              <ComboBox fx:id="category" disable="true" prefWidth="150.0" promptText="Category" />
                               <Button fx:id="saveEntry" mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save meta data" />
                            </children>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
+                        <VBox prefHeight="146.0" prefWidth="150.0">
                            <children>
-                              <ComboBox fx:id="series" editable="true" prefWidth="150.0" promptText="Series" />
-                              <ComboBox fx:id="season" editable="true" prefWidth="150.0" promptText="Season" />
-                              <TextField fx:id="episode" promptText="Episode" />
+                              <ComboBox fx:id="series" disable="true" editable="true" prefWidth="150.0" promptText="Series" />
+                              <ComboBox fx:id="season" disable="true" editable="true" prefWidth="150.0" promptText="Season" />
+                              <TextField fx:id="episode" editable="false" prefWidth="145.0" promptText="Episode" />
                            </children>
                         </VBox>
                         <VBox prefHeight="100.0" prefWidth="232.0">

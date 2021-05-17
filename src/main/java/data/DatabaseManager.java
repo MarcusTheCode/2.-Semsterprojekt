@@ -792,6 +792,21 @@ public class DatabaseManager {
         return 0;
     }
 
+    public ArrayList<String> getAllCategories() {
+        ArrayList<String> categories = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM categories");
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                categories.add(resultSet.getString(2));
+            }
+            return categories;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 
     // Season

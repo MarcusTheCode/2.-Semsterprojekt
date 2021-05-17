@@ -25,13 +25,13 @@ public class ProductionController implements Initializable {
     private Text productionTitle, saveText;
 
     @FXML
-    private TextField title, type, category, episode, role;
+    private TextField title, type, episode, role;
 
     @FXML
     private Button addEntry, deleteEntry, saveEntry, addGenre, deleteGenre;
 
     @FXML
-    private ComboBox<String> series, season;
+    private ComboBox<String> series, season, category;
 
     @FXML
     private ComboBox<Genre> genre;
@@ -39,17 +39,17 @@ public class ProductionController implements Initializable {
     @FXML
     private ComboBox<Artist> artist;
 
-    private Production currentProduction;
-
-    private ObservableList<CastMember> castMemberObservableList;
-
-    private ObservableList<Genre> genresOberservableList;
-
     @FXML
     private TableView<CastMember> castMembers;
 
     @FXML
     private TableColumn<CastMember, String> idColumn, roleColumn, nameColumn, emailColumn;
+
+    private Production currentProduction;
+
+    private ObservableList<CastMember> castMemberObservableList;
+
+    private ObservableList<Genre> genresObservableList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -63,14 +63,19 @@ public class ProductionController implements Initializable {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
         castMemberObservableList = FXCollections.observableArrayList();
-        genresOberservableList = FXCollections.observableArrayList();
+        genresObservableList = FXCollections.observableArrayList();
 
         castMembers.setItems(castMemberObservableList);
-        genreList.setItems(genresOberservableList);
+        genreList.setItems(genresObservableList);
 
         genre.getItems().clear();
         for (Genre g : DomainFacade.getAllGenres()) {
             genre.getItems().add(g);
+        }
+
+        category.getItems().clear();
+        for (String c : DomainFacade.getAllCategories()) {
+            category.getItems().add(c);
         }
 
         series.setOnAction((ActionEvent e) -> {
@@ -87,14 +92,27 @@ public class ProductionController implements Initializable {
     }
 
     public void setAdminToolsVisibility(Boolean bool) {
-        addEntry.setVisible(bool);
-        deleteEntry.setVisible(bool);
+        // Metadata
+        title.setEditable(bool);
+        type.setEditable(bool);
+        category.setDisable(!bool);
+        series.setDisable(!bool);
+        season.setDisable(!bool);
+        episode.setEditable(bool);
         saveEntry.setVisible(bool);
+
+        // Genres
         addGenre.setVisible(bool);
         deleteGenre.setVisible(bool);
         genre.setVisible(bool);
+
+        // New CastMember
         artist.setVisible(bool);
         role.setVisible(bool);
+        addEntry.setVisible(bool);
+        deleteEntry.setVisible(bool);
+
+        // CastMembers
         nameColumn.setEditable(bool);
         roleColumn.setEditable(bool);
         emailColumn.setVisible(bool);
@@ -128,7 +146,7 @@ public class ProductionController implements Initializable {
         // Populate general data
         title.setText(production.getTitle());
         type.setText(production.getType());
-        category.setText(production.getCategory());
+        category.setValue(production.getCategory());
         episode.setText(String.valueOf(production.getEpisodeNumber()));
 
         // Populate series and season
@@ -147,8 +165,8 @@ public class ProductionController implements Initializable {
         castMembers.setItems(castMemberObservableList);
 
         ArrayList<Genre> genres = currentProduction.getGenres();
-        genresOberservableList = FXCollections.observableArrayList(genres);
-        genreList.setItems(genresOberservableList);
+        genresObservableList = FXCollections.observableArrayList(genres);
+        genreList.setItems(genresObservableList);
     }
 
     @FXML
@@ -181,7 +199,7 @@ public class ProductionController implements Initializable {
         }
 
         currentProduction.addGenre(g);
-        genresOberservableList.add(g);
+        genresObservableList.add(g);
         DomainFacade.insertGenre(currentProduction, g);
     }
 
@@ -191,7 +209,7 @@ public class ProductionController implements Initializable {
         Genre g = genreList.getSelectionModel().getSelectedItem();
 
         currentProduction.removeGenre(g);
-        genresOberservableList.remove(index);
+        genresObservableList.remove(index);
         DomainFacade.deleteGenre(currentProduction, g);
     }
 
@@ -230,7 +248,7 @@ public class ProductionController implements Initializable {
 
         // Save general data
         currentProduction.setTitle(title.getText());
-        currentProduction.setCategory(category.getText());
+        currentProduction.setCategory(category.getValue());
         currentProduction.setType(type.getText());
         if (!episode.getText().isEmpty())
             currentProduction.setEpisodeNumber(Integer.parseInt(episode.getText()));
