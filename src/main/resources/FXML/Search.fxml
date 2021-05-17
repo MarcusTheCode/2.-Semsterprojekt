@@ -18,12 +18,12 @@
          <children>
             <HBox fx:id="loginHBox" alignment="TOP_RIGHT">
                <children>
-                  <Button fx:id="artistsButton" mnemonicParsing="false" onMouseClicked="#openArtists" prefHeight="37.0" prefWidth="68.0" text="Artists" visible="false">
+                  <Button fx:id="usersButton" mnemonicParsing="false" onMouseClicked="#openUsers" prefHeight="37.0" prefWidth="68.0" text="Users" visible="false">
                      <HBox.margin>
                         <Insets right="10.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="usersButton" mnemonicParsing="false" onMouseClicked="#openUsers" prefHeight="37.0" prefWidth="68.0" text="Users" visible="false">
+                  <Button fx:id="artistsButton" mnemonicParsing="false" onMouseClicked="#openArtists" prefHeight="37.0" prefWidth="68.0" text="Artists">
                      <HBox.margin>
                         <Insets right="10.0" top="10.0" />
                      </HBox.margin>
@@ -68,9 +68,9 @@
                <columns>
                   <TableColumn fx:id="titleColumn" editable="false" onEditCommit="#commitTitleChange" prefWidth="250.0" text="Title" />
                   <TableColumn fx:id="categoryColumn" editable="false" onEditCommit="#commitCategoryChange" prefWidth="100.0" text="Category" />
-                  <TableColumn fx:id="typeColumn" prefWidth="75.0" text="Type" />
-                  <TableColumn fx:id="seasonColumn" prefWidth="75.0" text="Season" />
-                  <TableColumn fx:id="episodeColumn" prefWidth="75.0" text="Episode" />
+                  <TableColumn fx:id="typeColumn" editable="false" prefWidth="75.0" text="Type" />
+                  <TableColumn fx:id="seasonColumn" editable="false" prefWidth="75.0" text="Season" />
+                  <TableColumn fx:id="episodeColumn" editable="false" prefWidth="75.0" text="Episode" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
