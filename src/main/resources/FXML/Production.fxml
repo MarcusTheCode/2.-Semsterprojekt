@@ -40,29 +40,29 @@
                <children>
                   <HBox prefHeight="146.0" prefWidth="1100.0">
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
+                        <VBox prefHeight="146.0" prefWidth="151.0">
                            <children>
-                              <TextField fx:id="title" promptText="Title" />
-                              <TextField fx:id="type" promptText="Type" />
-                              <TextField fx:id="category" promptText="Category" />
+                              <TextField fx:id="title" editable="false" promptText="Title" />
+                              <TextField fx:id="type" editable="false" promptText="Type" />
+                              <ComboBox fx:id="category" disable="true" prefWidth="150.0" promptText="Category" />
                               <Button fx:id="saveEntry" mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save meta data" />
                            </children>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
+                        <VBox prefHeight="146.0" prefWidth="150.0">
                            <children>
-                              <ComboBox fx:id="series" editable="true" prefWidth="150.0" promptText="Series" />
-                              <ComboBox fx:id="season" editable="true" prefWidth="150.0" promptText="Season" />
-                              <TextField fx:id="episode" promptText="Episode" />
+                              <ComboBox fx:id="series" disable="true" editable="true" prefWidth="150.0" promptText="Series" />
+                              <ComboBox fx:id="season" disable="true" editable="true" prefWidth="150.0" promptText="Season" />
+                              <TextField fx:id="episode" editable="false" prefWidth="145.0" promptText="Episode" />
                            </children>
                         </VBox>
                         <VBox prefHeight="100.0" prefWidth="232.0">
                            <children>
-                              <ComboBox fx:id="genre" prefWidth="150.0" promptText="Genre" />
                               <ListView fx:id="genreList" prefHeight="200.0" prefWidth="163.0" />
+                              <ComboBox fx:id="genre" prefWidth="150.0" promptText="Genre" visible="false" />
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="addGenre" mnemonicParsing="false" onMouseClicked="#addGenre" text="Add genre" />
-                                    <Button fx:id="deleteGenre" mnemonicParsing="false" onMouseClicked="#deleteGenre" text="Delete genre" />
+                                    <Button fx:id="addGenre" mnemonicParsing="false" onMouseClicked="#addGenre" text="Add genre" visible="false" />
+                                    <Button fx:id="deleteGenre" mnemonicParsing="false" onMouseClicked="#deleteGenre" text="Delete genre" visible="false" />
                                  </children>
                               </HBox>
                            </children>
@@ -82,19 +82,19 @@
                   <TableColumn fx:id="idColumn" editable="false" prefWidth="75.0" text="ID" />
                   <TableColumn fx:id="roleColumn" editable="false" onEditCommit="#commitJobTitleChange" prefWidth="75.0" text="Role" />
                   <TableColumn fx:id="nameColumn" editable="false" prefWidth="75.0" text="Name" />
-                  <TableColumn fx:id="emailColumn" editable="false" prefWidth="75.0" text="Email" />
+                  <TableColumn fx:id="emailColumn" editable="false" prefWidth="75.0" text="Email" visible="false" />
                </columns>
             </TableView>
             <HBox prefHeight="25.0" prefWidth="648.0">
                <children>
-                  <ComboBox fx:id="artist" prefWidth="150.0" promptText="Artist" />
-                  <TextField fx:id="role" promptText="Role" />
-                  <Button fx:id="addEntry" mnemonicParsing="false" onMouseClicked="#addEntry" text="Add entry">
+                  <ComboBox fx:id="artist" prefWidth="150.0" promptText="Artist" visible="false" />
+                  <TextField fx:id="role" promptText="Role" visible="false" />
+                  <Button fx:id="addEntry" mnemonicParsing="false" onMouseClicked="#addEntry" text="Add entry" visible="false">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="deleteEntry" mnemonicParsing="false" onMouseClicked="#deleteEntry" text="Delete entry">
+                  <Button fx:id="deleteEntry" mnemonicParsing="false" onMouseClicked="#deleteEntry" text="Delete entry" visible="false">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

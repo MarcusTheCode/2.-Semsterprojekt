@@ -242,6 +242,10 @@ public class DomainFacade {
         return null;
     }
 
+    public static ArrayList<String> getAllCategories() {
+        return DataFacade.getAllCategories();
+    }
+
     public static boolean saveCastMember(CastMember castMember) {
         return DataFacade.saveCastMember(castMember);
     }

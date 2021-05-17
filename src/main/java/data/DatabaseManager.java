@@ -1,14 +1,12 @@
 package data;
 
 import domain.*;
-import jdk.jshell.spi.ExecutionControl;
 
 import java.io.*;
 import java.lang.System;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class DatabaseManager {
     // Structure of data for file DatabaseCredentials
@@ -56,7 +54,7 @@ public class DatabaseManager {
 
 
 
-    // Production
+    //region Production
 
     /**
      * This method is used insert a new production into the database.
@@ -64,22 +62,20 @@ public class DatabaseManager {
      * @return boolean Returns whether the execution succeeded.
      */
     public boolean insertProduction(Production production) {
-        String sqlCode;
-        if (production.getSeasonID() == null) {
-            sqlCode = "INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle) VALUES (?,?,?,?,?)";
-        }else{
-            sqlCode = "INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle,seasonID)" +
-                    " VALUES (?,?,?,?,?,?)";
-        }
-        try (PreparedStatement ps = connection.prepareStatement(sqlCode)) {
-            ps.setInt(1, production.getEpisodeNumber());
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle,seasonID)" +
+                " VALUES (?,?,?,?,?,?)")) {
+            if (production.getSeasonID() != null)
+                ps.setInt(1, production.getEpisodeNumber());
+            else
+                ps.setNull(1, Types.INTEGER);
             ps.setString(2, production.getType());
-            ps.setInt(3, getCategoryID(production));
+            ps.setInt(3, getCategory(production));
             ps.setLong(4, production.getOwnerID());
             ps.setString(5, production.getTitle());
-            if (production.getSeasonID() != null) {
+            if (production.getSeasonID() != null)
                 ps.setInt(6, production.getSeasonID());
-            }
+            else
+                ps.setNull(6, Types.INTEGER);
             ps.execute();
             // If an error occurs when executing the ps, it jumps to the catch statement
             // otherwise, it is safe to assume that the statement executed correctly
@@ -102,20 +98,23 @@ public class DatabaseManager {
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
-    public void updateProduction(Production production){
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE productions SET " +
-                    "episodeNumber = ?, " +
-                    "type = ?, " +
-                    "categoryID = ?, " +
-                    "producerID = ?, " +
-                    "productionTitle = ?, " +
-                    "seasonID = ? " +
-                    "WHERE id = ?; ");
+    /**
+     * This method is used to update a Production in the database.
+     * @param production The Production to update
+     */
+    public boolean updateProduction(Production production) {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE productions SET " +
+                "episodeNumber = ?, " +
+                "type = ?, " +
+                "categoryID = ?, " +
+                "producerID = ?, " +
+                "productionTitle = ?, " +
+                "seasonID = ? " +
+                "WHERE id = ?; ")) {
             if (production.getEpisodeNumber() == null)
                 ps.setNull(1, Types.INTEGER);
             else
@@ -130,9 +129,11 @@ public class DatabaseManager {
                 ps.setInt(6,production.getSeasonID());
             ps.setInt(7, production.getId());
             ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     /**
@@ -152,7 +153,7 @@ public class DatabaseManager {
                         resultSet.getInt(6),
                         resultSet.getInt(1),
                         resultSet.getString(7),
-                        getCategoryID(resultSet.getInt(4)),
+                        getCategory(resultSet.getInt(4)),
                         resultSet.getString(3));
                 production.setCastMembers(getCastMembers(productionID));
                 production.setGenres(getGenres(productionID));
@@ -178,16 +179,15 @@ public class DatabaseManager {
                             resultSet.getInt(6),
                             resultSet.getInt(1),
                             resultSet.getString(7),
-                            getCategoryID(resultSet.getInt(4)),
+                            getCategory(resultSet.getInt(4)),
                             resultSet.getString(3));
                     productions.add(p);
                 }
             }
-            return productions;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return productions;
     }
 
     /**
@@ -202,14 +202,15 @@ public class DatabaseManager {
                     productionMap.put(resultSet.getString(1),resultSet.getInt(2));
                 }
             }
-            return productionMap;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return productionMap;
     }
 
-    // SuperUser
+    //endregion
+
+    //region SuperUser
 
     /**
      * This method is used insert a new SuperUser into the database.
@@ -222,7 +223,8 @@ public class DatabaseManager {
             ps.setBoolean(1, superUser.isSysAdmin());
             ps.setString(2, superUser.getUsername());
             ps.setString(3, superUser.getPassword());
-            return ps.execute();
+            ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -247,12 +249,12 @@ public class DatabaseManager {
 
     /**
      * This method is used to edit a SuperUser
-     * @param superUserUsername the username of the SuperUser that should be edited
-     * @param newSuperUser what the SuperUser with the ID SuperUserID should be edited to
+     * @param username the username of the SuperUser that should be edited
+     * @param superUser what the SuperUser with the ID SuperUserID should be edited to
      */
-    public void updateSuperUser(String superUserUsername, SuperUser newSuperUser){
+    public boolean updateSuperUser(String username, SuperUser superUser) {
         HashMap<String, Integer> superUsersMap = getSuperUsersMap();
-        Integer superUserID = superUsersMap.get(superUserUsername);
+        Integer superUserID = superUsersMap.get(username);
 
         String sqlCode;
         sqlCode = "UPDATE superusers SET " +
@@ -262,15 +264,45 @@ public class DatabaseManager {
                 "WHERE id = ?;";
 
         try (PreparedStatement ps = connection.prepareStatement(sqlCode)) {
-            ps.setString(1,newSuperUser.getUsername());
-            ps.setString(2,newSuperUser.getPassword());
-            ps.setBoolean(3,newSuperUser.isSysAdmin());
+            ps.setString(1,superUser.getUsername());
+            ps.setString(2,superUser.getPassword());
+            ps.setBoolean(3,superUser.isSysAdmin());
             ps.setInt(4,superUserID);
 
             ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+    }
+
+    public boolean changePassword(SuperUser user) {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
+                "password = ? " +
+                "WHERE id = ?")) {;
+            ps.setString(1,user.getPassword());
+            ps.setInt(2,user.getId());
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean changeAdminStatus(SuperUser user) {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
+                "isSysAdmin = ? " +
+                "WHERE id = ?")) {
+            ps.setBoolean(1,user.isSysAdmin());
+            ps.setInt(2,user.getId());
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**
@@ -284,11 +316,10 @@ public class DatabaseManager {
             ps.setString(1, inputUsername);
             ps.setString(2, inputPassword);
             try (ResultSet resultSet = ps.executeQuery()) {
-                if (resultSet.next()) {
+                if (resultSet.next())
                     return getSuperUser(resultSet.getInt(1));
-                } else {
+                else
                     return null;
-                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -320,24 +351,12 @@ public class DatabaseManager {
 
     /**
      * This method is used to retrieve a SuperUser from the database, given a name.
-     * @param superUserUsername The username of the SuperUser
+     * @param username The username of the SuperUser
      * @return SuperUser Returns the SuperUser with the username or null.
      */
-    public SuperUser getSuperUser(String superUserUsername){
-        HashMap<String, Integer> superUsersMap = getSuperUsersMap();
-        Integer superUserID = superUsersMap.get(superUserUsername);
-
-        if (superUserID == null){
-            try {
-                throw new Exception("ERROR: no SuperUser with name: " + superUserUsername);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.id = ?")) {
-            ps.setInt(1, superUserID);
+    public SuperUser getSuperUser(String username) {
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.username = ?")) {
+            ps.setString(1, username);
             try (ResultSet resultSet = ps.executeQuery()) {
                 resultSet.next();
                 return new SuperUser(
@@ -348,8 +367,8 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     /**
@@ -371,30 +390,31 @@ public class DatabaseManager {
             return users;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     /**
      * This method is used in the persistence tests to retrieve the ID in a non-hacky way
      * @return HashMap with production name as key and ID as value
      */
-    public HashMap<String,Integer> getSuperUsersMap(){
+    public HashMap<String,Integer> getSuperUsersMap() {
         HashMap<String,Integer> superUsersMap = new HashMap<>();
         try (PreparedStatement ps = connection.prepareStatement("SELECT superusers.username, superusers.id FROM superusers")) {
             try (ResultSet resultSet = ps.executeQuery()) {
-                while (resultSet.next()) {
-                    superUsersMap.put(resultSet.getString(1),resultSet.getInt(2));
-                }
+                while (resultSet.next())
+                    superUsersMap.put(resultSet.getString(1), resultSet.getInt(2));
             }
             return superUsersMap;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
-    // Artist
+    //endregion
+
+    //region Artist
 
     /**
      * This method is used to insert a unique artist into the database.
@@ -405,7 +425,8 @@ public class DatabaseManager {
                 "VALUES (?,?)")) {
             ps.setString(1, artist.getName());
             ps.setString(2, artist.getEmail());
-            return ps.execute();
+            ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -420,6 +441,42 @@ public class DatabaseManager {
     public boolean deleteArtist(int artistID) {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM artists WHERE artists.id = ?")) {
             ps.setInt(1, artistID);
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * This method is used to edit an Artist.
+     * @param artist The Artist to edit
+     * @return boolean Returns whether the execution succeeded.
+     */
+    public boolean editArtist(Artist artist) {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE artists SET " +
+                "email = ?, " +
+                "name = ? " +
+                "WHERE artists.id = ?")) {
+            ps.setString(1, artist.getEmail());
+            ps.setString(2,artist.getName());
+            ps.setInt(3,artist.getId());
+            ps.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean editArtistName(Artist artist) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("UPDATE artists SET " +
+                    "name = ? " +
+                    "WHERE artists.id = ?");
+            ps.setString(1,artist.getName());
+            ps.setInt(2,artist.getId());
             return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -427,49 +484,57 @@ public class DatabaseManager {
         return false;
     }
 
-    public Artist getArtist(int id){
-        try{
-            PreparedStatement ps = connection.prepareStatement("" +
-                    "SELECT * FROM artists WHERE id = ?");
+    public boolean editArtistEmail(Artist artist) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("UPDATE artists SET " +
+                    "email = ? " +
+                    "WHERE artists.id = ?");
+            ps.setString(1,artist.getEmail());
+            ps.setInt(2,artist.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Artist getArtist(int id) {
+        try (PreparedStatement ps = connection.prepareStatement("" +
+                "SELECT * FROM artists WHERE id = ?")) {
             ps.setInt(1,id);
             ResultSet set = ps.executeQuery();
-            if (!set.next()){
-                return null;
-            }else{
+            if (set.next())
                 return new Artist(set.getInt(1), set.getString(2), set.getString(3));
-            }
+            else
+                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public HashMap<String, Integer> getArtistsMap(){
+    public HashMap<String, Integer> getArtistsMap() {
         HashMap<String,Integer> artistsMap = new HashMap<>();
         try (PreparedStatement ps = connection.prepareStatement("SELECT artists.name, artists.id FROM artists")) {
             try (ResultSet resultSet = ps.executeQuery()) {
-                while (resultSet.next()) {
+                while (resultSet.next())
                     artistsMap.put(resultSet.getString(1),resultSet.getInt(2));
-                }
             }
-            return artistsMap;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return artistsMap;
     }
 
     public Artist getArtist(String email) {
-        try{
-            PreparedStatement ps = connection.prepareStatement("" +
-                    "SELECT * FROM artists WHERE email = ?");
+        try (PreparedStatement ps = connection.prepareStatement("" +
+                "SELECT * FROM artists WHERE email = ?")) {
             ps.setString(1, email);
             ResultSet set = ps.executeQuery();
-            if (!set.next()){
-                return null;
-            }else{
+            if (set.next())
                 return new Artist(set.getInt(1), set.getString(2), set.getString(3));
-            }
+            else
+                return null;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -491,16 +556,15 @@ public class DatabaseManager {
                             resultSet.getString(3)));
                 }
             }
-            return users;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return users;
     }
 
+    //endregion
 
-
-    // Series
+    //region Series
 
     /**
      * This method is used insert a series name into the database.
@@ -591,22 +655,20 @@ public class DatabaseManager {
                     series.add(s);
                 }
             }
-            return series;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return series;
     }
 
-    public ArrayList<String> getSeriesAndProductionID(){
+    public ArrayList<String> getSeriesAndProductionID() {
         ArrayList<String> seriesAndProduction = new ArrayList<>();
-        try {
-            PreparedStatement ps = connection.prepareStatement("" +
-                    "SELECT * FROM getSeriesAndProductionID()");
+        try (PreparedStatement ps = connection.prepareStatement("" +
+                "SELECT * FROM getSeriesAndProductionID()")) {
             ResultSet set = ps.executeQuery();
             String result;
-            while (set.next()){
-               result = ""+set.getString(1)+","+set.getInt(2);
+            while (set.next()) {
+                result = set.getString(1) + "," + set.getInt(2);
                 seriesAndProduction.add(result);
             }
         } catch (SQLException e) {
@@ -615,8 +677,9 @@ public class DatabaseManager {
         return seriesAndProduction;
     }
 
+    //endregion
 
-    // Genre
+    //region Genre
 
     /**
      * This method is used add a genre to an existing production in the database.
@@ -628,7 +691,8 @@ public class DatabaseManager {
         try (PreparedStatement ps = connection.prepareStatement("INSERT INTO productionGenres (productionID, genreID) VALUES (?,?)")) {
             ps.setInt(1, production.getId());
             ps.setInt(2, genre.getId());
-            return ps.execute();
+            ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -646,57 +710,55 @@ public class DatabaseManager {
                 "WHERE productionID = ? AND genreID = ?")) {
             ps.setInt(1, production.getId());
             ps.setInt(2, genre.getId());
-            return ps.execute();
+            ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
+    /**
+     * This method is used retrieve all genres of a given production in the database.
+     * @param productionID The ID of the production
+     * @return ArrayList<Genre> Returns a list of this production's genres.
+     */
     public ArrayList<Genre> getGenres(int productionID) {
         ArrayList<Genre> genres = new ArrayList<>();
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT genreID FROM productionGenres " +
-                    "WHERE productionGenres.productionID = ?");
+        try (PreparedStatement ps = connection.prepareStatement("SELECT id,name FROM productionGenres " +
+                "INNER JOIN genres ON productiongenres.genreid = genres.id " +
+                "WHERE productiongenres.productionid = ?;")) {
             ps.setInt(1, productionID);
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                PreparedStatement ps2 = connection.prepareStatement("SELECT * FROM genres WHERE id = ?");
-                ps2.setInt(1, resultSet.getInt(1));
-                ResultSet set =  ps2.executeQuery();
-                set.next();
-                Genre genre = new Genre(set.getInt(1), set.getString(2));
-                genres.add(genre);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next())
+                    genres.add(new Genre(resultSet.getInt(1), resultSet.getString(2)));
             }
-            return genres;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return genres;
     }
 
     public ArrayList<Genre> getAllGenres() {
         ArrayList<Genre> genres = new ArrayList<>();
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM genres");
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                Genre genre = new Genre(resultSet.getInt(1), resultSet.getString(2));
-                genres.add(genre);
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM genres")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next())
+                    genres.add(new Genre(resultSet.getInt(1), resultSet.getString(2)));
             }
-            return genres;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return genres;
     }
 
+    //endregion
 
-
-    // Category
+    //region Category
 
     /**
      * This method is used insert a category to the database.
+     * @deprecated Unused? Might work tho
      * @param production The production to add the genre to
      * @return int Returns the ID of the category.
      */
@@ -707,7 +769,7 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return getCategoryID(production);
+        return getCategory(production);
     }
 
     /**
@@ -715,7 +777,7 @@ public class DatabaseManager {
      * @param production The production
      * @return SuperUser Returns the SuperUser or null, if incorrect.
      */
-    public int getCategoryID(Production production) {
+    public int getCategory(Production production) {
         try (PreparedStatement ps = connection.prepareStatement("SELECT getCategoryID(?)")) {
             ps.setString(1, production.getCategory().toLowerCase());
             try (ResultSet set = ps.executeQuery()) {
@@ -736,7 +798,7 @@ public class DatabaseManager {
      * @param categoryID The ID of the category
      * @return String Returns the name of the category or null.
      */
-    public String getCategoryID(int categoryID) {
+    public String getCategory(int categoryID) {
         try (PreparedStatement ps = connection.prepareStatement("SELECT categories.name FROM categories WHERE categories.id = ?")) {
             ps.setInt(1, categoryID);
             try (ResultSet set = ps.executeQuery()) {
@@ -762,9 +824,24 @@ public class DatabaseManager {
         return 0;
     }
 
+    public ArrayList<String> getAllCategories() {
+        ArrayList<String> categories = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM categories");
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                categories.add(resultSet.getString(2));
+            }
+            return categories;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+    //endregion
 
-    // Season
+    //region Season
 
     /**
      * This method is used insert a category to the database.
@@ -783,17 +860,23 @@ public class DatabaseManager {
         return false;
     }
 
+    /**
+     * This method is used retrieve a season, given a series ID and season number.
+     * @param seasonNumber The season number
+     * @param seriesID The ID of the series this season belongs to
+     * @return Season Returns the Season within the series.
+     */
     public Season getSeason(int seasonNumber, int seriesID) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM seasons " +
-                    "WHERE seasonNumber = ? AND seriesID = ?");
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM seasons " +
+                "WHERE seasonNumber = ? AND seriesID = ?")) {
             ps.setInt(1, seasonNumber);
             ps.setInt(2, seriesID);
-            ResultSet resultSet = ps.executeQuery();
-            if (resultSet.next()) {
-                return new Season(resultSet.getInt(1),
-                        resultSet.getInt(2),
-                        resultSet.getInt(3));
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Season(resultSet.getInt(1),
+                            resultSet.getInt(2),
+                            resultSet.getInt(3));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -826,16 +909,14 @@ public class DatabaseManager {
     }
 
     public int getSeasonNumber(int id){
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT seasons.seasonNumber FROM seasons " +
-                    "WHERE seasons.id = ?");
+        try (PreparedStatement ps = connection.prepareStatement("SELECT seasons.seasonNumber FROM seasons " +
+                "WHERE seasons.id = ?")) {
             ps.setInt(1,id);
-            ResultSet set = ps.executeQuery();
-            set.next();
-            try{
-                return set.getInt(1);
-            }catch (Exception ignored){
-                return 0;
+            try (ResultSet set = ps.executeQuery()) {
+                if (set.next())
+                    return set.getInt(1);
+                else
+                    return 0;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -843,90 +924,40 @@ public class DatabaseManager {
         return 0;
     }
 
+    //endregion
 
-
-    // CastMember
-
-    public ArrayList<CastMember> getCastMembers(int productionID) {
-        ArrayList<CastMember> castMembers = new ArrayList<>();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM getcastmembers(?)");
-            preparedStatement.setInt(1,productionID);
-            ResultSet set = preparedStatement.executeQuery();
-            while(set.next()){
-                castMembers.add(new CastMember(
-                        set.getString(2),
-                        set.getString(3),
-                        set.getString(1),
-                        productionID
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return castMembers;
-    }
+    //region CastMember
 
     public boolean insertCastMember(CastMember c){
-        try {
-            PreparedStatement ps = connection.prepareStatement("" +
-                    "INSERT INTO castMembers(productionID, role, artistID) " +
-                    "VALUES(?,?,?)");
+        try (PreparedStatement ps = connection.prepareStatement("" +
+                "INSERT INTO castMembers(productionID, role, artistID) " +
+                "VALUES(?,?,?)")) {
             ps.setInt(1, c.getProductionID());
             ps.setString(2, c.getJobTitle());
             ps.setInt(3, c.getArtistID());
-            return ps.execute();
+            ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public boolean deleteCastMember(CastMember c) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM castMembers " +
-                    "WHERE productionID = ? AND role = ? AND artistID = ?");
-            ps.setInt(1, c.getProductionID());
-            ps.setString(2, c.getJobTitle());
-            ps.setInt(3, c.getArtistID());
-            return ps.execute();
+    public boolean deleteCastMember(CastMember castMember) {
+        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM castMembers " +
+                "WHERE productionID = ? AND role = ? AND artistID = ?")) {
+            ps.setInt(1, castMember.getProductionID());
+            ps.setString(2, castMember.getJobTitle());
+            ps.setInt(3, castMember.getArtistID());
+            ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public boolean chekIfCastMemberExists(CastMember castMember){
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM castMembers WHERE castMembers.artistID = ?");
-            ps.setInt(1, castMember.getArtistID());
-            ResultSet set = ps.executeQuery();
-            if(set.next()){
-                return true;
-            }else{
-                return false;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean changePassword(SuperUser user){
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
-                    "password = ? " +
-                    "WHERE id = ?");
-            ps.setString(1,user.getPassword());
-            ps.setInt(2,user.getId());
-            return ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean changeUsername(SuperUser user){
+    public boolean changeUsername(SuperUser user) {
         try {
             PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
                     "username = ? " +
@@ -940,84 +971,55 @@ public class DatabaseManager {
         return false;
     }
 
-    public boolean changeAdminStatus(SuperUser user){
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
-                    "isAdmin = ? " +
-                    "WHERE id = ?");
-            ps.setBoolean(1,user.isSysAdmin());
-            ps.setInt(2,user.getId());
-            return ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-
-    /**
-     * This method is used to edit an Artist.
-     * @param artist The Artist to edit
-     * @return boolean Returns whether the execution succeeded.
-     */
-    public boolean editArtist(Artist artist){
-        try{
-            PreparedStatement ps = connection.prepareStatement("UPDATE artists SET  " +
-                    "email = ?" +
-                    "name = ?" +
-                    "WHERE artists.id = ?");
-            ps.setString(1, artist.getEmail());
-            ps.setString(2,artist.getName());
-            ps.setInt(3,artist.getId());
-            return ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean editArtistName(Artist artist) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE artists SET " +
-                    "name = ? " +
-                    "WHERE artists.id = ?");
-            ps.setString(1,artist.getName());
-            ps.setInt(2,artist.getId());
-            return ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean editArtistEmail(Artist artist) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE artists SET " +
-                    "email = ? " +
-                    "WHERE artists.id = ?");
-            ps.setString(1,artist.getEmail());
-            ps.setInt(2,artist.getId());
-            return ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean changeCastMemberRole(CastMember castMember){
-        try{
-            PreparedStatement ps = connection.prepareStatement("UPDATE castMembers SET " +
-                    "role = ? " +
-                    "WHERE productionID = ?" +
-                    "AND artistID = ?");
+    public boolean changeCastMemberRole(CastMember castMember) {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE castMembers SET " +
+                "role = ? " +
+                "WHERE productionID = ?" +
+                "AND artistID = ?")) {
             ps.setString(1,castMember.getJobTitle());
             ps.setInt(2,castMember.getProductionID());
             ps.setInt(3,castMember.getArtistID());
-            return ps.execute();
+            ps.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
+
+    public boolean chekIfCastMemberExists(CastMember castMember){
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM castMembers " +
+                "WHERE castMembers.artistID = ?")) {
+            ps.setInt(1, castMember.getArtistID());
+            try (ResultSet set = ps.executeQuery()) {
+                return set.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public ArrayList<CastMember> getCastMembers(int productionID) {
+        ArrayList<CastMember> castMembers = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM getcastmembers(?)")) {
+            preparedStatement.setInt(1,productionID);
+            try (ResultSet set = preparedStatement.executeQuery()) {
+                while (set.next()) {
+                    castMembers.add(new CastMember(
+                            set.getString(2),
+                            set.getString(3),
+                            set.getString(1),
+                            productionID
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return castMembers;
+    }
+
+    //endregion
 
 }
