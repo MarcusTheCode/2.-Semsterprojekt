@@ -15,6 +15,9 @@ public class DataFacade {
 
     private static DatabaseManager databaseManager = new DatabaseManager();
 
+
+    // Productions
+
     /**
      * This method is used to retrieve a production from the database, given an ID.
      * @param productionID The ID of the production
@@ -50,6 +53,10 @@ public class DataFacade {
     public static void editProduction(Production production) {
         databaseManager.updateProduction(production);
     }
+
+
+
+    // Artists
 
     /**
      * This method is used to insert a unique artist into the database.
@@ -282,11 +289,11 @@ public class DataFacade {
     }
 
     public static String getCategory(int id){
-        return databaseManager.getCategoryID(id);
+        return databaseManager.getCategory(id);
     }
 
     public static int getCategoryID(Production production){
-        return databaseManager.getCategoryID(production);
+        return databaseManager.getCategory(production);
     }
 
     public static boolean saveCastMember(CastMember castMember) {
