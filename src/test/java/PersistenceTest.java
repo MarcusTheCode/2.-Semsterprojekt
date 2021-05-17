@@ -1,8 +1,6 @@
 import data.DataFacade;
-import domain.CastMember;
-import domain.DomainFacade;
-import domain.Production;
-import domain.SuperUser;
+import domain.*;
+import jdk.jshell.spi.ExecutionControl;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.*;
 
@@ -12,15 +10,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
 public class PersistenceTest {
 
     /**
-     * Note: when debugging the tests, its sometimes needed to run
+     * Note: when debugging the tests individually, its sometimes needed to run
      * the tests again without debugging, to 'clean' the database.
-     * I don't know why this happens.
+     * I don't know why this happens (:
      */
 
     private static Connection connection;
@@ -76,62 +75,128 @@ public class PersistenceTest {
 
     @Test
     public void getCreditTest(){
-        TestCastMember expectedCastMember = new TestCastMember("Barry B. Benson","BarryBeeBenson@bee.hive","Actor",5);
+        HashMap<String, Integer> superUsersMap;
+        HashMap<String, Integer> productionsMap;
+        HashMap<String, Integer> artistsMap;
 
-        Production production = DataFacade.getProduction(5);
-        TestCastMember castMember = new TestCastMember(production.getCastMembers().get(0));
+        SuperUser superUser = new SuperUser("Thomas Vinterberg","druk123",false);
+        DataFacade.insertSuperUser(superUser);
 
-        assertTrue(castMember.equals(expectedCastMember));
+        superUsersMap = DataFacade.getSuperUsersMap();
+        Integer superUserID = superUsersMap.get(superUser.getUsername());
+
+        Production production = new Production("Druk",superUserID,"entertainment",1,"movie");
+        DataFacade.insertProduction(production);
+
+        productionsMap = DataFacade.getProductionsMap();
+        Integer productionID = productionsMap.get(production.getTitle());
+
+        Artist artist = new Artist("Mads Mikkelsen","madsmikkelsen@mail.dk");
+        DataFacade.insertArtist(artist);
+
+        artistsMap = DataFacade.getArtistsMap();
+        Integer artistID = artistsMap.get(artist.getName());
+
+        CastMember castMember = new CastMember("Mads Mikkelsen","madsmikkelsen@mail.dk","Actor",productionID);
+        DataFacade.insertCastMember(castMember);
+
+        ArrayList<CastMember> castMembers = DataFacade.getCastMembers(productionID);
+        CastMember retrievedCastMember = castMembers.get(0);
+        CastMember expectedCastMember = new CastMember("Mads Mikkelsen","madsmikkelsen@mail.dk","Actor",productionID);
+
+        assertTrue(retrievedCastMember.equals(expectedCastMember));
     }
 
     @Test
     public void saveProductionTest(){
-        /**
-         * TODO: Its a problem that the tests are not run sequentially, fix that
-         * production ID is 7, and not 6, because this test runs after the deleteproduction-
-         * test which autoincrements the primary key for the productions table. We need
-         * to be able to control this instead of hardcoding ID's. This problem occurs with
-         * multiple tests. I have the following solutions:
-         *
-         * Either, we to
-         *  (a) make a method that retrieves a productions ID based on a name
-         *  (b) make a method that resets the database before each test.
-         */
-
         Production production = new Production("Shrek",2,"documentary",1,"movie");
         DataFacade.insertProduction(production);
 
-        production = DataFacade.getProduction(7);
+        HashMap<String, Integer> productionsMap = DataFacade.getProductionsMap();
+        Integer productionID = productionsMap.get(production.getTitle());
+
+        production = DataFacade.getProduction(productionID);
         assertNotNull(production);
     }
 
     @Test
     public void deleteProductionTest() {
-        DataFacade.insertProduction(new Production("Shrek", 2, "documentary", 1, "movie"));
-        Production production1 = DataFacade.getProduction(6);
-        assertNotNull(production1);
+        Production production = new Production("Shrek", 2, "documentary", 1, "movie");
+        DataFacade.insertProduction(production);
 
-        DataFacade.deleteProduction(6);
-        System.out.println("Trying to retrieve non-existing production...");
-        Production production2 = DataFacade.getProduction(6);   // Meant to cause an exception, see message above
-        assertNull(production2);
+        HashMap<String, Integer> productionsMap = DataFacade.getProductionsMap();
+        Integer productionID = productionsMap.get(production.getTitle());
+
+        Production tempProduction = DataFacade.getProduction(productionID);
+        assertNotNull(tempProduction);
+
+        DataFacade.deleteProduction(productionID);
+        productionsMap = DataFacade.getProductionsMap();
+
+        productionID = productionsMap.get(production.getTitle());
+        assertNull(productionID);
+    }
+
+    @Test
+    public void editProductionTest() {
+        // TODO: Implement (:
+        /**
+         * (1) add producer
+         * (2) add production
+         * (3) change something about productions
+         * (4) retrieve changed production
+         * (5) compare it to the original produciotn
+         */
+        assertTrue(false);
     }
 
     @Test
     public void saveSuperUserTest() {
-        System.out.println("Trying to retrieve non-existing SuperUser...");
-        SuperUser superUser1 = DataFacade.getSuperUser(4);  // Meant to cause an exception, see message above
-        assertNull(superUser1);
+        HashMap<String, Integer> superUsersMap = DataFacade.getSuperUsersMap();
+        SuperUser superUser = new SuperUser("Susanne bier","bb",false);
 
-        SuperUser superUser2 = new SuperUser("Thomas Vinterberg","druk123",false);
-        DataFacade.insertSuperUser(superUser2);
-        superUser2 = DataFacade.getSuperUser(4);
-        assertNotNull(superUser2);
+        Integer superUserID = superUsersMap.get(superUser.getUsername());
+        assertNull(superUserID);
+
+        DataFacade.insertSuperUser(superUser);
+        superUsersMap = DataFacade.getSuperUsersMap();
+        superUserID = superUsersMap.get(superUser.getUsername());
+
+        superUser = DataFacade.getSuperUser(superUserID);
+        assertNotNull(superUser);
     }
 
-    // TODO: Delete Superuser test
+    @Test
+    public void deleteSuperUserTest() {
+        SuperUser superUser = new SuperUser("Steven Spielberg","1218",false);
+        DataFacade.insertSuperUser(superUser);
 
-    // TODO: Edit SuperUser test
+        HashMap<String, Integer> superUsersMap = DataFacade.getSuperUsersMap();
+        Integer superUserID = superUsersMap.get(superUser.getUsername());
+
+        SuperUser tempSuperUser = DataFacade.getSuperUser(superUserID);
+        assertNotNull(tempSuperUser);
+
+        DataFacade.deleteSuperUser(superUserID);
+        superUsersMap = DataFacade.getProductionsMap();
+
+        superUserID = superUsersMap.get(superUser.getUsername());
+        assertNull(superUserID);
+    }
+
+    @Test
+    public void editSuperUserTest() {
+        SuperUser superUser = new SuperUser("James Cameron","1954",false);
+        DataFacade.insertSuperUser(superUser);
+
+        SuperUser newSuperUser = new SuperUser("James Francis Cameron","abc1954",false);
+        DataFacade.editSuperUser(superUser.getUsername(),newSuperUser);
+
+        SuperUser editedSuperUser = DataFacade.getSuperUser(newSuperUser.getUsername());
+
+        assertNotNull(editedSuperUser);
+        assertTrue(editedSuperUser.getUsername() != superUser.getUsername());
+    }
 
     @AfterClass
     public static void tearDown(){

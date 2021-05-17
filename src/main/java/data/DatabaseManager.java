@@ -1,11 +1,13 @@
 package data;
 
 import domain.*;
+import jdk.jshell.spi.ExecutionControl;
 
 import java.io.*;
 import java.lang.System;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DatabaseManager {
@@ -198,7 +200,24 @@ public class DatabaseManager {
         return null;
     }
 
-
+    /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with production name as key and ID as value
+     */
+    public HashMap<String,Integer> getProductionsMap(){
+        HashMap<String,Integer> productionMap = new HashMap<>();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT productions.productiontitle, productions.id FROM productions")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    productionMap.put(resultSet.getString(1),resultSet.getInt(2));
+                }
+            }
+            return productionMap;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     // SuperUser
 
@@ -234,6 +253,34 @@ public class DatabaseManager {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * This method is used to edit a SuperUser
+     * @param superUserUsername the username of the SuperUser that should be edited
+     * @param newSuperUser what the SuperUser with the ID SuperUserID should be edited to
+     */
+    public void updateSuperUser(String superUserUsername, SuperUser newSuperUser){
+        HashMap<String, Integer> superUsersMap = getSuperUsersMap();
+        Integer superUserID = superUsersMap.get(superUserUsername);
+
+        String sqlCode;
+        sqlCode = "UPDATE superusers SET " +
+                "username = ?, " +
+                "password = ?, " +
+                "isadmin = ? " +
+                "WHERE id = ?;";
+
+        try (PreparedStatement ps = connection.prepareStatement(sqlCode)) {
+            ps.setString(1,newSuperUser.getUsername());
+            ps.setString(2,newSuperUser.getPassword());
+            ps.setBoolean(3,newSuperUser.isSysAdmin());
+            ps.setInt(4,superUserID);
+
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -282,6 +329,40 @@ public class DatabaseManager {
     }
 
     /**
+     * This method is used to retrieve a SuperUser from the database, given a name.
+     * @param superUserUsername The username of the SuperUser
+     * @return SuperUser Returns the SuperUser with the username or null.
+     */
+    public SuperUser getSuperUser(String superUserUsername){
+        HashMap<String, Integer> superUsersMap = getSuperUsersMap();
+        Integer superUserID = superUsersMap.get(superUserUsername);
+
+        if (superUserID == null){
+            try {
+                throw new Exception("ERROR: no SuperUser with name: " + superUserUsername);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.id = ?")) {
+            ps.setInt(1, superUserID);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                resultSet.next();
+                return new SuperUser(
+                        resultSet.getInt(1),
+                        resultSet.getString(4),
+                        resultSet.getString(3),
+                        resultSet.getBoolean(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * This method is used to retrieve all SuperUsers from the database.
      * @return ArrayList<SuperUser> Returns a list of all SuperUsers.
      */
@@ -304,7 +385,24 @@ public class DatabaseManager {
         }
     }
 
-
+    /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with production name as key and ID as value
+     */
+    public HashMap<String,Integer> getSuperUsersMap(){
+        HashMap<String,Integer> superUsersMap = new HashMap<>();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT superusers.username, superusers.id FROM superusers")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    superUsersMap.put(resultSet.getString(1),resultSet.getInt(2));
+                }
+            }
+            return superUsersMap;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     // Artist
 
@@ -346,7 +444,12 @@ public class DatabaseManager {
      */
     public boolean updateArtist(Artist artist) {
         // TODO: Implement
-        return false;
+        try {
+            throw new ExecutionControl.NotImplementedException("Implement updateArtist method");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /*public boolean artistExists(String name){
@@ -379,6 +482,21 @@ public class DatabaseManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public HashMap<String, Integer> getArtistsMap(){
+        HashMap<String,Integer> artistsMap = new HashMap<>();
+        try (PreparedStatement ps = connection.prepareStatement("SELECT artists.name, artists.id FROM artists")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    artistsMap.put(resultSet.getString(1),resultSet.getInt(2));
+                }
+            }
+            return artistsMap;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Artist getArtist(String email) {

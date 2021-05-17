@@ -3,6 +3,7 @@ package data;
 import domain.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * <h1>DataFacade</h1>
@@ -98,12 +99,29 @@ public class DataFacade {
     }
 
     /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with artists name as key and ID as value
+     */
+    public static HashMap<String,Integer> getArtistsMap(){
+        return databaseManager.getArtistsMap();
+    }
+
+    /**
      * This method is used to retrieve a SuperUser from the database, given an ID.
      * @param userID The ID of the SuperUser
      * @return SuperUser Returns the SuperUser with the ID or null.
      */
     public static SuperUser getSuperUser(int userID) {
         return databaseManager.getSuperUser(userID);
+    }
+
+    /**
+     * This method is used to retrieve a SuperUser from the database, given a name.
+     * @param superUserUsername The username of the SuperUser
+     * @return SuperUser Returns the SuperUser with the username or null.
+     */
+    public static SuperUser getSuperUser(String superUserUsername) {
+        return databaseManager.getSuperUser(superUserUsername);
     }
 
     /**
@@ -125,12 +143,27 @@ public class DataFacade {
     }
 
     /**
+     * This method is used to edit a SuperUser
+     * @param superUserUsername the username of the SuperUser that should be edited
+     * @param newSuperUser what the SuperUser with the ID SuperUserID should be edited to
+     */
+    public static void editSuperUser(String superUserUsername,SuperUser newSuperUser){
+        databaseManager.updateSuperUser(superUserUsername,newSuperUser);
+    }
+
+    /**
      * This method is used to retrieve all SuperUsers from the database.
      * @return ArrayList<SuperUser> Returns a list of all SuperUsers.
      */
     public static ArrayList<SuperUser> getUsers() {
         return databaseManager.getSuperUsers();
     }
+
+    /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with superUser name as key and ID as value
+     */
+    public static HashMap<String,Integer> getSuperUsersMap(){ return databaseManager.getSuperUsersMap();}
 
     /**
      * This method is used to retrieve the SuperUser with the given username, if the passwords match.
@@ -203,6 +236,12 @@ public class DataFacade {
     public static ArrayList<Production> loadAllProductions() {
         return databaseManager.getAllProductions();
     }
+
+    /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap with production name as key and ID as value
+     */
+    public static HashMap<String,Integer> getProductionsMap(){ return databaseManager.getProductionsMap();}
 
     /**
      * This method is used to retrieve the season number.
