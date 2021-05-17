@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,6 +32,12 @@ public class ArtistsController implements Initializable {
     @FXML
     private TableColumn<Artist, String> emailColumn;
 
+    @FXML
+    private Button addArtistButton;
+
+    @FXML
+    private Button deleteArtistButton;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -38,10 +45,23 @@ public class ArtistsController implements Initializable {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        emailColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+            emailColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            disableButtons();
 
         loadArtists();
+    }
+
+    public void enableButtons(){
+        emailColumn.setVisible(true);
+        addArtistButton.setVisible(true);
+        deleteArtistButton.setVisible(true);
+    }
+
+    public void disableButtons(){
+        emailColumn.setVisible(false);
+        addArtistButton.setVisible(false);
+        deleteArtistButton.setVisible(false);
     }
 
     public void loadArtists() {
@@ -65,9 +85,7 @@ public class ArtistsController implements Initializable {
     void deleteArtist(MouseEvent event) {
         int index = artists.getSelectionModel().getFocusedIndex();
         int artistID = artistsObservableList.get(index).getId();
-
         artistsObservableList.remove(index);
-
         DomainFacade.deleteArtist(artistID);
     }
 
