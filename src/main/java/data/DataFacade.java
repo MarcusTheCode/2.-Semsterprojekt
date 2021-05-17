@@ -298,7 +298,7 @@ public class DataFacade {
     }
 
     public boolean removeAdminStatus(SuperUser user){
-        return databaseManager.removeAdminStatus(user);
+        return databaseManager.changeAdminStatus(user);
     }
 
     public boolean changeEmail(Artist artist){
