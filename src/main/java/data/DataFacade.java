@@ -79,7 +79,7 @@ public class DataFacade {
      * @return boolean Returns whether the execution succeeded.
      */
     public static boolean editArtist(Artist artist) {
-        return databaseManager.updateArtist(artist);
+        return databaseManager.editArtist(artist);
     }
 
     /**
@@ -314,15 +314,11 @@ public class DataFacade {
     }
 
     public boolean removeAdminStatus(SuperUser user){
-        return databaseManager.removeAdminStatus(user);
+        return databaseManager.changeAdminStatus(user);
     }
 
     public boolean changeEmail(Artist artist){
-        return databaseManager.changeEmail(artist);
-    }
-
-    public boolean changeName(Artist artist){
-        return databaseManager.changeName(artist);
+        return databaseManager.editArtist(artist);
     }
 
     public boolean changeCastMemberRole(CastMember castMember){

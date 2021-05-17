@@ -427,36 +427,6 @@ public class DatabaseManager {
         return false;
     }
 
-    /**
-     * This method is used to edit an Artist.
-     * @param artist The Artist to edit
-     * @return boolean Returns whether the execution succeeded.
-     */
-    public boolean updateArtist(Artist artist) {
-        // TODO: Implement
-        try {
-            throw new ExecutionControl.NotImplementedException("Implement updateArtist method");
-        } catch (ExecutionControl.NotImplementedException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /*public boolean artistExists(String name){
-        try{
-            PreparedStatement ps = connection.prepareStatement("" +
-                    "SELECT * FROM artists WHERE name = ?");
-            ps.setString(1,name);
-            ResultSet set = ps.executeQuery();
-            if(set.next()){
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }*/
-
     public Artist getArtist(int id){
         try{
             PreparedStatement ps = connection.prepareStatement("" +
@@ -956,12 +926,12 @@ public class DatabaseManager {
         return false;
     }
 
-    public boolean removeAdminStatus(SuperUser user){
+    public boolean changeAdminStatus(SuperUser user){
         try {
             PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
                     "isSysAdmin = ? " +
                     "WHERE id = ?");
-            ps.setBoolean(1,false);
+            ps.setBoolean(1,user.isSysAdmin());
             ps.setInt(2,user.getId());
             return ps.execute();
         } catch (SQLException e) {
@@ -970,27 +940,21 @@ public class DatabaseManager {
         return false;
     }
 
-    public boolean changeEmail(Artist artist){
-        try{
-            PreparedStatement ps = connection.prepareStatement("UPDATE artists SET  " +
-                    "email = ?" +
-                    "WHERE artists.id = ?");
-            ps.setString(1, artist.getEmail());
-            ps.setInt(2,artist.getId());
-            return ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 
-    public boolean changeName(Artist artist){
+    /**
+     * This method is used to edit an Artist.
+     * @param artist The Artist to edit
+     * @return boolean Returns whether the execution succeeded.
+     */
+    public boolean editArtist(Artist artist){
         try{
             PreparedStatement ps = connection.prepareStatement("UPDATE artists SET  " +
+                    "email = ?," +
                     "name = ?" +
-                    "WHERE artists.id = ?");
-            ps.setString(1, artist.getName());
-            ps.setInt(2,artist.getId());
+                    "WHERE artists.id = ?,");
+            ps.setString(1, artist.getEmail());
+            ps.setString(2,artist.getName());
+            ps.setInt(3,artist.getId());
             return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
