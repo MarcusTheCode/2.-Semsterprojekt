@@ -95,8 +95,7 @@ public class ArtistsController implements Initializable {
         if (true) return;
         Artist artist = event.getTableView().getItems().get(row);
         artist.setName(event.getNewValue());
-
-        //DomainFacade.editArtist(artist);
+        DomainFacade.editArtist(artist);
     }
 
     @FXML
@@ -105,7 +104,6 @@ public class ArtistsController implements Initializable {
         if (true) return;
         Artist artist = event.getTableView().getItems().get(row);
         artist.setName(event.getNewValue());
-
-        //DomainFacade.editArtist(artist);
+        DomainFacade.editArtist(artist);
     }
 }

@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class ArtistInputController implements Initializable {
 
@@ -18,6 +19,10 @@ public class ArtistInputController implements Initializable {
 
     @FXML
     private TextField email;
+
+    private final String emailRegularExpression = "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+";
+
+    private final String nameRegularExpression = "[a-zA-Z]+";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -32,14 +37,18 @@ public class ArtistInputController implements Initializable {
 
     @FXML
     void saveArtist(MouseEvent event) {
-        createArtist(name.getText(), email.getText());
-        UIManager.getArtistsController().loadArtists();
+        if (name.getText().matches(nameRegularExpression) && email.getText().matches(emailRegularExpression)) {
+            createArtist(name.getText(), email.getText());
+            UIManager.getArtistsController().loadArtists();
+        }
     }
 
     @FXML
     void enterName(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
-            createArtist(name.getText(), email.getText());
+           if (name.getText().matches(nameRegularExpression) && email.getText().matches(emailRegularExpression)) {
+                createArtist(name.getText(), email.getText());
+            }
         }
     }
 
