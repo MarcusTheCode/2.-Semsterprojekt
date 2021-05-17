@@ -252,13 +252,29 @@ public class DataFacade {
         return databaseManager.getSeasonNumber(ID);
     }
 
+    public static boolean insertGenre(Production production, Genre genre) {
+        return databaseManager.insertGenre(production, genre);
+    }
+
+    public static boolean deleteGenre(Production production, Genre genre) {
+        return databaseManager.deleteGenre(production, genre);
+    }
+
     /**
      * This method is used to retrieve all genres in a production from the database.
      * @param productionID The ID of the production
      * @return ArrayList<String> Returns a list of all genres in the production.
      */
-    public static ArrayList<String> getGenres(int productionID) {
+    public static ArrayList<Genre> getGenres(int productionID) {
         return databaseManager.getGenres(productionID);
+    }
+
+    /**
+     * This method is used to retrieve all genres in a production from the database.
+     * @return ArrayList<String> Returns a list of all genres in the production.
+     */
+    public static ArrayList<Genre> getAllGenres() {
+        return databaseManager.getAllGenres();
     }
 
     public static int getCategory(String name){
