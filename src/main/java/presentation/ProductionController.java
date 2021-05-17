@@ -59,10 +59,8 @@ public class ProductionController implements Initializable {
         roleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        emailColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         castMemberObservableList = FXCollections.observableArrayList();
         genresOberservableList = FXCollections.observableArrayList();
@@ -92,8 +90,14 @@ public class ProductionController implements Initializable {
         addEntry.setVisible(bool);
         deleteEntry.setVisible(bool);
         saveEntry.setVisible(bool);
+        addGenre.setVisible(bool);
+        deleteGenre.setVisible(bool);
+        genre.setVisible(bool);
+        artist.setVisible(bool);
+        role.setVisible(bool);
         nameColumn.setEditable(bool);
         roleColumn.setEditable(bool);
+        emailColumn.setVisible(bool);
     }
 
     @FXML
@@ -242,6 +246,7 @@ public class ProductionController implements Initializable {
 
         UIManager.getSearchController().loadProductions();
 
+        productionTitle.setText(currentProduction.getTitle());
         saveText.setVisible(true);
     }
 }
