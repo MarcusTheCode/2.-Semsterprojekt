@@ -56,11 +56,15 @@ public class UsersInputController implements Initializable {
     void clearTextField() {
         username.clear();
         password.clear();
+        isAdminCheckbox.setSelected(false);
     }
 
     void editUser() {
         addUserButton.setVisible(false);
         saveChangesButton.setVisible(true);
+        username.setText(UIManager.getUsersController().getUsername());
+        password.setText(UIManager.getUsersController().getPassword());
+        isAdminCheckbox.setSelected(UIManager.getUsersController().getAdminStatus());
     }
 
     void addUser() {

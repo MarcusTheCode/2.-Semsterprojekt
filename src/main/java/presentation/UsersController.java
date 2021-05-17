@@ -13,6 +13,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.converter.BooleanStringConverter;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,6 +39,9 @@ public class UsersController implements Initializable {
 
     @FXML
     private AnchorPane noUserSelected;
+
+    @FXML
+    private Text errorPaneText;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -99,8 +103,12 @@ public class UsersController implements Initializable {
             noUserSelected.setVisible(true);
             throw new Exception("No user selected");
         }else{
+            if (superUsers.getSelectionModel().getSelectedItem().getId() != 1){
         UIManager.changeScene(UIManager.getUsersInputScene());
-        UIManager.getUsersInputController().editUser();
+        UIManager.getUsersInputController().editUser();}
+        else{
+            noUserSelected.setVisible(true);}
+            errorPaneText.setText("You don't have permission to do that");
         }
     }
 
@@ -141,4 +149,17 @@ public class UsersController implements Initializable {
 
         superUsers.setItems(usersObservableList);
     }
+
+    public String getUsername() {
+        return superUsers.getSelectionModel().getSelectedItem().getUsername();
+    }
+
+    public String getPassword() {
+        return superUsers.getSelectionModel().getSelectedItem().getPassword();
+    }
+
+    public boolean getAdminStatus() {
+        return superUsers.getSelectionModel().getSelectedItem().isSysAdmin();
+    }
+
 }
