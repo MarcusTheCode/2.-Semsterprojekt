@@ -45,6 +45,7 @@
                               <TextField fx:id="title" promptText="Title" />
                               <TextField fx:id="type" promptText="Type" />
                               <TextField fx:id="category" promptText="Category" />
+                              <Button fx:id="saveEntry" mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save meta data" />
                            </children>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
@@ -56,8 +57,14 @@
                         </VBox>
                         <VBox prefHeight="100.0" prefWidth="232.0">
                            <children>
-                              <TextField editable="false" text="Genre" />
+                              <ComboBox fx:id="genre" prefWidth="150.0" promptText="Genre" />
                               <ListView fx:id="genreList" prefHeight="200.0" prefWidth="163.0" />
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="addGenre" mnemonicParsing="false" onMouseClicked="#addGenre" text="Add genre" />
+                                    <Button fx:id="deleteGenre" mnemonicParsing="false" onMouseClicked="#deleteGenre" text="Delete genre" />
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>
@@ -72,10 +79,10 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                <columns>
-                  <TableColumn fx:id="idColumn" editable="false" onEditCommit="#commitJobTitleChange" prefWidth="75.0" text="ID" />
+                  <TableColumn fx:id="idColumn" editable="false" prefWidth="75.0" text="ID" />
                   <TableColumn fx:id="roleColumn" editable="false" onEditCommit="#commitJobTitleChange" prefWidth="75.0" text="Role" />
-                  <TableColumn fx:id="nameColumn" editable="false" onEditCommit="#commitNameChange" prefWidth="75.0" text="Name" />
-                  <TableColumn fx:id="emailColumn" editable="false" onEditCommit="#commitEmailChange" prefWidth="75.0" text="Email" />
+                  <TableColumn fx:id="nameColumn" editable="false" prefWidth="75.0" text="Name" />
+                  <TableColumn fx:id="emailColumn" editable="false" prefWidth="75.0" text="Email" />
                </columns>
             </TableView>
             <HBox prefHeight="25.0" prefWidth="648.0">
@@ -99,11 +106,6 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="saveEntry" mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save changes " visible="false">
-                     <HBox.margin>
-                        <Insets left="50.0" />
-                     </HBox.margin>
-                  </Button>
                   <Text fx:id="saveText" fill="#5dab0a" strokeType="OUTSIDE" strokeWidth="0.0" text="All changes were saved" textAlignment="CENTER" visible="false">
                      <font>
                         <Font size="14.0" />

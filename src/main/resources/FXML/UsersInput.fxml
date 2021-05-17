@@ -10,7 +10,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.UsersInputController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="248.0" prefWidth="1200.0">
@@ -44,7 +43,8 @@
             </TextField>
          </children>
       </VBox>
-      <Button layoutX="21.0" layoutY="301.0" mnemonicParsing="false" onMouseClicked="#saveUser" text="Add user" />
+      <Button fx:id="addUserButton" layoutX="21.0" layoutY="301.0" mnemonicParsing="false" onMouseClicked="#saveUser" text="Add user" />
       <CheckBox fx:id="isAdminCheckbox" layoutX="27.0" layoutY="274.0" mnemonicParsing="false" text="Admin" />
+      <Button fx:id="saveChangesButton" layoutX="21.0" layoutY="301.0" mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save changes" visible="false" />
    </children>
 </AnchorPane>
