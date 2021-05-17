@@ -165,7 +165,7 @@ public class DatabaseManager {
                         resultSet.getString(7),
                         getCategoryID(resultSet.getInt(4)),
                         resultSet.getString(3));
-                production.setCastMembers((ArrayList<CastMember>) this.getCastMembers(production.getId()));
+                production.setCastMembers(this.getCastMembers(production.getId()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -938,7 +938,7 @@ public class DatabaseManager {
 
     public boolean changePassword(SuperUser user){
         try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE SET superUsers " +
+            PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
                     "password = ? " +
                     "WHERE id = ?");
             ps.setString(1,user.getPassword());
@@ -952,7 +952,7 @@ public class DatabaseManager {
 
     public boolean removeAdminStatus(SuperUser user){
         try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE SET superUsers " +
+            PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
                     "isSysAdmin = ? " +
                     "WHERE id = ?");
             ps.setBoolean(1,false);
@@ -966,7 +966,7 @@ public class DatabaseManager {
 
     public boolean changeEmail(Artist artist){
         try{
-            PreparedStatement ps = connection.prepareStatement("UPDATE SET artists " +
+            PreparedStatement ps = connection.prepareStatement("UPDATE artists SET  " +
                     "email = ?" +
                     "WHERE artists.id = ?");
             ps.setString(1, artist.getEmail());
@@ -980,7 +980,7 @@ public class DatabaseManager {
 
     public boolean changeName(Artist artist){
         try{
-            PreparedStatement ps = connection.prepareStatement("UPDATE SET artists " +
+            PreparedStatement ps = connection.prepareStatement("UPDATE artists SET  " +
                     "name = ?" +
                     "WHERE artists.id = ?");
             ps.setString(1, artist.getName());
@@ -992,8 +992,20 @@ public class DatabaseManager {
         return false;
     }
 
-
-
-
+    public boolean changeCastMemberRole(CastMember castMember){
+        try{
+            PreparedStatement ps = connection.prepareStatement("UPDATE castMembers SET " +
+                    "role = ? " +
+                    "WHERE productionID = ?" +
+                    "AND artistID = ?");
+            ps.setString(1,castMember.getJobTitle());
+            ps.setInt(2,castMember.getProductionID());
+            ps.setInt(3,castMember.getArtistID());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

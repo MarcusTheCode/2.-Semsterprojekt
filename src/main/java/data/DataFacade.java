@@ -309,5 +309,8 @@ public class DataFacade {
         return databaseManager.changeName(artist);
     }
 
+    public boolean changeCastMemberRole(CastMember castMember){
+        return databaseManager.changeCastMemberRole(castMember);
+    }
 
 }
