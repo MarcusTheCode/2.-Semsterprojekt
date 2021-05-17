@@ -55,7 +55,7 @@
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onMouseClicked="#editArtist" text="Edit artist" />
+                  <Button fx:id="editArtistButton" mnemonicParsing="false" onMouseClicked="#editArtist" text="Edit artist" visible="false" />
                </children>
                <padding>
                   <Insets left="50.0" />

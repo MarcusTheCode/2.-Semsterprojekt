@@ -40,6 +40,9 @@ public class ArtistsController implements Initializable {
     private Button deleteArtistButton;
 
     @FXML
+    private Button editArtistButton;
+
+    @FXML
     private AnchorPane noArtistSelected;
 
     @FXML
@@ -63,12 +66,14 @@ public class ArtistsController implements Initializable {
         emailColumn.setVisible(true);
         addArtistButton.setVisible(true);
         deleteArtistButton.setVisible(true);
+        editArtistButton.setVisible(true);
     }
 
     public void disableButtons(){
         emailColumn.setVisible(false);
         addArtistButton.setVisible(false);
         deleteArtistButton.setVisible(false);
+        editArtistButton.setVisible(false);
     }
 
     public void loadArtists() {
