@@ -936,4 +936,64 @@ public class DatabaseManager {
         return false;
     }
 
+    public boolean changePassword(SuperUser user){
+        try {
+            PreparedStatement ps = connection.prepareStatement("UPDATE SET superUsers " +
+                    "password = ? " +
+                    "WHERE id = ?");
+            ps.setString(1,user.getPassword());
+            ps.setInt(2,user.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean removeAdminStatus(SuperUser user){
+        try {
+            PreparedStatement ps = connection.prepareStatement("UPDATE SET superUsers " +
+                    "isSysAdmin = ? " +
+                    "WHERE id = ?");
+            ps.setBoolean(1,false);
+            ps.setInt(2,user.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean changeEmail(Artist artist){
+        try{
+            PreparedStatement ps = connection.prepareStatement("UPDATE SET artists " +
+                    "email = ?" +
+                    "WHERE artists.id = ?");
+            ps.setString(1, artist.getEmail());
+            ps.setInt(2,artist.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean changeName(Artist artist){
+        try{
+            PreparedStatement ps = connection.prepareStatement("UPDATE SET artists " +
+                    "name = ?" +
+                    "WHERE artists.id = ?");
+            ps.setString(1, artist.getName());
+            ps.setInt(2,artist.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+
+
+
 }

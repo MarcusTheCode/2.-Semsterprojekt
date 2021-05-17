@@ -293,5 +293,21 @@ public class DataFacade {
         return databaseManager.getSeriesAndProductionID();
     }
 
+    public boolean changePassword(SuperUser user){
+        return databaseManager.changePassword(user);
+    }
+
+    public boolean removeAdminStatus(SuperUser user){
+        return databaseManager.removeAdminStatus(user);
+    }
+
+    public boolean changeEmail(Artist artist){
+        return databaseManager.changeEmail(artist);
+    }
+
+    public boolean changeName(Artist artist){
+        return databaseManager.changeName(artist);
+    }
+
 
 }
