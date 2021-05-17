@@ -1,6 +1,7 @@
 package presentation;
 
 import data.DataFacade;
+import domain.Artist;
 import domain.DomainFacade;
 import domain.SuperUser;
 import javafx.application.Application;
@@ -47,7 +48,7 @@ public class UIManager extends Application {
             searchSceneData = loadScene("../FXML/Search.fxml");
             usersSceneData = loadScene("../FXML/Users.fxml");
             artistsSceneData = loadScene("../FXML/Artists.fxml");
-            artistSceneData = loadScene("../FXML/Artist.fxml");
+            artistSceneData = loadScene("../FXML/ArtistInput.fxml");
             usersInputSceneData = loadScene("../FXML/UsersInput.fxml");
 
         } catch (Exception exception) {
