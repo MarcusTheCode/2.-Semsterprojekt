@@ -82,19 +82,14 @@ public class SearchController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        titleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
-        categoryColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        typeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         seasonColumn.setCellValueFactory(new PropertyValueFactory<>("seasonNumber"));
-        seasonColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 
         episodeColumn.setCellValueFactory(new PropertyValueFactory<>("episodeNumber"));
-        episodeColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 
         searchOptionsObservableList = FXCollections.observableArrayList("Search By Production","Search By Series");
         SearchFilterComboBox.setItems(searchOptionsObservableList);
@@ -139,7 +134,6 @@ public class SearchController implements Initializable {
 
     public void changeToLoggedOut(){
         usersButton.setVisible(false);
-        //artistsButton.setVisible(false);
         loginButton.setText("Login");
         DomainFacade.logout();
         UIManager.getSearchController().setAdminToolsVisibility(false);
@@ -148,7 +142,6 @@ public class SearchController implements Initializable {
     public void changeToLoggedIn(){
         if (DomainFacade.getCurrentUser().isSysAdmin()) {
             usersButton.setVisible(true);
-            //artistsButton.setVisible(true);
         }
         loginButton.setText("Logout");
     }
@@ -157,7 +150,6 @@ public class SearchController implements Initializable {
     void addProduction(MouseEvent event) {
         Production production = new Production(DomainFacade.getCurrentUser().getId());
         productionObservableList.add(production);
-        //DomainFacade.saveProduction(production);
 
         ProductionController productionController = UIManager.getProductionController();
         UIManager.changeScene(UIManager.getProductionScene());

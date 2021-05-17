@@ -53,10 +53,8 @@ public class ArtistsController implements Initializable {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        emailColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         disableButtons();
 
         loadArtists();
@@ -67,16 +65,14 @@ public class ArtistsController implements Initializable {
         emailColumn.setVisible(true);
         addArtistButton.setVisible(true);
         deleteArtistButton.setVisible(true);
-        nameColumn.setEditable(true);
-        emailColumn.setEditable(true);
+        editArtistButton.setVisible(true);
     }
 
     public void disableButtons(){
         emailColumn.setVisible(false);
         addArtistButton.setVisible(false);
         deleteArtistButton.setVisible(false);
-        nameColumn.setEditable(false);
-        emailColumn.setEditable(false);
+        editArtistButton.setVisible(false);
     }
 
     public void loadArtists() {
@@ -130,9 +126,10 @@ public class ArtistsController implements Initializable {
         if (artist == null) {
             noArtistSelected.setVisible(true);
             errorPaneText.setText("No artist is selected");
-        }else{
+        } else {
             UIManager.changeScene(UIManager.getArtistScene());
-            UIManager.getArtistController().editArtist(); }
+            UIManager.getArtistController().editArtist();
+        }
     }
 
     @FXML

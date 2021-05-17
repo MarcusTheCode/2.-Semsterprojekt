@@ -47,16 +47,12 @@ public class UsersController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        //idColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         passColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
-        passColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 
         adminColumn.setCellValueFactory(new PropertyValueFactory<>("sysAdmin"));
-        adminColumn.setCellFactory(TextFieldTableCell.forTableColumn(new BooleanStringConverter()));
 
         usersObservableList = FXCollections.observableArrayList(DomainFacade.getUsers());
 
