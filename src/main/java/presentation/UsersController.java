@@ -74,18 +74,23 @@ public class UsersController implements Initializable {
         SuperUser user = superUsers.getSelectionModel().getSelectedItem();
         int index = superUsers.getSelectionModel().getFocusedIndex();
 
-        if(user == null) {
+        if (user == null) {
             errorPaneText.setText("No User is highlighted");
             noUserSelected.setVisible(true);
             throw new Exception("No User is highlighted");
 
-        }else if(user.getId() == 1) {
+        } else if (user.getId() == 1) {
             errorPaneText.setText("Can't delete Sysadmin");
             noUserSelected.setVisible(true);
             throw new Exception("Can't delete Sysadmin");
-        }else{
+
+        } else if (user.getId() != DomainFacade.getCurrentUser().getId()) {
             usersObservableList.remove(index);
             DomainFacade.deleteSuperUser(user.getId());
+        } else {
+            noUserSelected.setVisible(true);
+            errorPaneText.setText("Can't delete user");
+            throw new Exception("Can't delete user");
         }
     }
 
