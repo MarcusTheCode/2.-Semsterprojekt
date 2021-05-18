@@ -1,7 +1,6 @@
 package presentation;
 
 import domain.DomainFacade;
-import domain.SuperUser;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
