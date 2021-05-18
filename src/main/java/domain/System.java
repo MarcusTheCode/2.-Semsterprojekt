@@ -98,7 +98,6 @@ public class System {
      */
     public boolean login(String inputUsername, String inputPassword)  {
         currentUser = DataFacade.login(inputUsername, inputPassword);
-        UIManager.getArtistsController().enableButtons();
         return currentUser != null;
     }
 
@@ -108,7 +107,6 @@ public class System {
     public boolean logout() {
         if (currentUser != null) {
             currentUser = null;
-            UIManager.getArtistsController().disableButtons();
             return true;
         }
         return false;

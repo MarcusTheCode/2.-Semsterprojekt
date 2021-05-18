@@ -45,6 +45,7 @@ public class LogInController {
             UIManager.getProductionController().setAdminToolsVisibility(true);
             UIManager.getSearchController().setAdminToolsVisibility(true);
             UIManager.getSearchController().changeToLoggedIn();
+            UIManager.getArtistsController().enableButtons();
             hideErrorMessage();
         } else {
             errorMessage.setVisible(true);

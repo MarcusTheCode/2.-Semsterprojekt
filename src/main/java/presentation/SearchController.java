@@ -137,6 +137,7 @@ public class SearchController implements Initializable {
         loginButton.setText("Login");
         DomainFacade.logout();
         UIManager.getSearchController().setAdminToolsVisibility(false);
+        UIManager.getArtistsController().disableButtons();
     }
 
     public void changeToLoggedIn(){
