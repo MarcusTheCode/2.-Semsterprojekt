@@ -66,7 +66,7 @@ public class SearchController implements Initializable {
     }
 
     public void loadProductions() {
-        ArrayList<Production> productions = DataFacade.loadAllProductions();
+        ArrayList<Production> productions = DomainFacade.getAllProductions();
 
         if (DomainFacade.getCurrentUser() != null && !DomainFacade.getCurrentUser().isSysAdmin()) {
             // remove productions from the list if they don't belong to the current user

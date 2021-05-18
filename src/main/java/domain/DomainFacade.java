@@ -67,6 +67,14 @@ public class DomainFacade {
         return DataFacade.getProductionsBySeries(pattern);
     }
 
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Production> Returns a list of all productions.
+     */
+    public static ArrayList<Production> getAllProductions() {
+        return DataFacade.getAllProductions();
+    }
+
     //endregion
 
     //region SuperUser

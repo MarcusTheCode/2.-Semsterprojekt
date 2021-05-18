@@ -83,7 +83,7 @@ public class DataFacade {
      * This method is used to retrieve all productions from the database.
      * @return ArrayList<Production> Returns a list of all productions.
      */
-    public static ArrayList<Production> loadAllProductions() {
+    public static ArrayList<Production> getAllProductions() {
         return databaseManager.getAllProductions();
     }
 
