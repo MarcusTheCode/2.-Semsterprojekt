@@ -1,5 +1,6 @@
 package presentation;
 
+import domain.Artist;
 import domain.DomainFacade;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,11 +23,13 @@ public class ArtistInputController implements Initializable {
     private TextField email;
 
     @FXML
-    private Button saveChangesButton, addArtistButton;
+    private Button saveChangesButton;
 
     private final String emailRegularExpression = "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+";
 
     private final String nameRegularExpression = "[a-zA-Z]+";
+
+    private Artist currentArtist;
 
     @FXML
     private AnchorPane errorPane;
@@ -43,23 +46,18 @@ public class ArtistInputController implements Initializable {
     }
 
     @FXML
-    void saveArtist(MouseEvent event) {
-        if (name.getText().matches(nameRegularExpression) && email.getText().matches(emailRegularExpression)) {
-            createArtist(name.getText(), email.getText());
-            UIManager.getArtistsController().loadArtists();
-        } else {
-            errorPane.setVisible(true);
-        }
-    }
-
-    @FXML
     void saveChanges(MouseEvent event) {
         if (name.getText().matches(nameRegularExpression) && email.getText().matches(emailRegularExpression)) {
-            UIManager.saveArtistChanges(UIManager.getArtistsController().getSelectedID(), name.getText(), email.getText());
+            if (currentArtist != null) {
+                currentArtist.setName(name.getText());
+                currentArtist.setEmail(email.getText());
+                DomainFacade.saveArtistChanges(currentArtist);
+            } else {
+                createArtist(name.getText(), email.getText());
+            }
             UIManager.changeScene(UIManager.getArtistsScene());
             UIManager.getArtistsController().loadArtists();
-        }
-        else {
+        } else {
             errorPane.setVisible(true);
         }
     }
@@ -83,11 +81,12 @@ public class ArtistInputController implements Initializable {
         email.clear();
     }
 
-    void editArtist() {
-        addArtistButton.setVisible(false);
-        saveChangesButton.setVisible(true);
-        name.setText(UIManager.getArtistsController().getName());
-        email.setText(UIManager.getArtistsController().getEmail());
+    void editArtist(Artist artist) {
+        currentArtist = artist;
+        if (artist != null) {
+            name.setText(artist.getName());
+            email.setText(artist.getEmail());
+        }
     }
 
     @FXML

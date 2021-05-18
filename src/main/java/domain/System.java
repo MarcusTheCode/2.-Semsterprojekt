@@ -103,7 +103,7 @@ public class System {
      * This method is used to create a unique artist in the database.
      * @return ArrayList<SuperUser> Returns a list of all SuperUsers.
      */
-    public static ArrayList<SuperUser> getUsers() {
+    public ArrayList<SuperUser> getUsers() {
         return DataFacade.getUsers();
     }
 

@@ -81,7 +81,7 @@ public class DatabaseManager {
             // Change the ID of the production to this new one after insert
             try (ResultSet resultSet = ps.executeQuery()) {
                 resultSet.next();
-                production.setId(resultSet.getInt(1));
+                production.setID(resultSet.getInt(1));
             }
 
             return true;
@@ -160,8 +160,6 @@ public class DatabaseManager {
                         resultSet.getString(7),
                         getCategory(resultSet.getInt(4)),
                         resultSet.getString(3));
-                production.setCastMembers(getCastMembers(productionID));
-                production.setGenres(getGenres(productionID));
             }
         } catch (SQLException e) {
             e.printStackTrace();
