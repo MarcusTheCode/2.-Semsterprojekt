@@ -21,12 +21,7 @@ public class DomainFacade {
      * @param production The production to save
      */
     public static void saveProduction(Production production) {
-        try {
-            system.saveProduction(production);
-        } catch (Exception e) {
-            e.printStackTrace();
-            java.lang.System.out.println(e.getMessage());
-        }
+        system.saveProduction(production);
     }
 
     /**
@@ -34,12 +29,7 @@ public class DomainFacade {
      * @param production The production to delete
      */
     public static void deleteProduction(Production production) {
-        try {
-            system.deleteProduction(production);
-        } catch (Exception e) {
-            e.printStackTrace();
-            java.lang.System.out.println(e.getMessage());
-        }
+        system.deleteProduction(production);
     }
 
     /**
@@ -84,15 +74,6 @@ public class DomainFacade {
      */
     public static SuperUser createUser(String password, String username, boolean sysAdmin) {
         return system.createUser(password, username, sysAdmin);
-    }
-
-    /**
-     * This method is used to update an existing SuperUser in the database.
-     * @deprecated Not up to date with current codebase.
-     * @param superUser The SuperUser to update
-     */
-    public static void editUser(SuperUser superUser) {
-        // TODO: Implement
     }
 
     public static void saveUserChanges(SuperUser superUser) {

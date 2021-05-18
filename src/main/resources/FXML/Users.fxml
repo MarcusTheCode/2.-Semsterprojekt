@@ -39,9 +39,9 @@
                </columnResizePolicy>
                <columns>
                   <TableColumn fx:id="idColumn" editable="false" prefWidth="75.0" text="ID" />
-                  <TableColumn fx:id="nameColumn" onEditCommit="#commitNameChange" prefWidth="75.0" text="Username" />
-                  <TableColumn fx:id="passColumn" onEditCommit="#commitPassChange" prefWidth="75.0" text="Password" />
-                  <TableColumn fx:id="adminColumn" editable="false" onEditCommit="#commitAdminChange" prefWidth="75.0" text="IsSysAdmin" />
+                  <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Username" />
+                  <TableColumn fx:id="passColumn" prefWidth="75.0" text="Password" />
+                  <TableColumn fx:id="adminColumn" editable="false" prefWidth="75.0" text="IsSysAdmin" />
                </columns>
             </TableView>
             <HBox prefHeight="25.0" prefWidth="648.0">
