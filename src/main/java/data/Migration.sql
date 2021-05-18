@@ -189,6 +189,15 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
+-- getProductions
+CREATE OR REPLACE FUNCTION getFilteredProductions(search VARCHAR (50))
+    RETURNS SETOF productions AS $$
+BEGIN
+    RETURN QUERY SELECT * FROM productions
+    WHERE productions.name Like search;
+END
+$$ LANGUAGE plpgsql;
+
 -- getSuperUserID
 
 CREATE OR REPLACE FUNCTION getSuperUserID(nameVal VARCHAR (50))

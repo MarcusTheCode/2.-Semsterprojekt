@@ -241,12 +241,14 @@ public class System {
     //region CastMember
 
     public boolean insertCastMember(CastMember castMember) {
+        // TODO: Check if user is owner
         if (currentUser != null)
             return DataFacade.insertCastMember(castMember);
         return false;
     }
 
     public boolean deleteCastMember(CastMember castMember) {
+        // TODO: Check if user is owner
         if (currentUser != null)
             return DataFacade.deleteCastMember(castMember);
         return false;
