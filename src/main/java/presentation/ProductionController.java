@@ -259,7 +259,7 @@ public class ProductionController implements Initializable {
         if (currentProduction.getId() == null) {
             DomainFacade.saveProduction(currentProduction);
         } else {
-            DomainFacade.editProduction(currentProduction);
+            DomainFacade.updateProduction(currentProduction);
         }
 
         UIManager.getSearchController().loadProductions();

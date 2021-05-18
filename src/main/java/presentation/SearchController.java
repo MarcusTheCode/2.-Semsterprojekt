@@ -9,19 +9,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.util.StringConverter;
-import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.LongStringConverter;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class SearchController implements Initializable {
@@ -177,7 +171,7 @@ public class SearchController implements Initializable {
         Production production = event.getTableView().getItems().get(row);
         production.setCategory(event.getNewValue());
 
-        DomainFacade.editProduction(production);
+        DomainFacade.updateProduction(production);
     }
 
     @FXML
@@ -198,7 +192,7 @@ public class SearchController implements Initializable {
         Production production = event.getTableView().getItems().get(row);
         production.setOwnerID(event.getNewValue());
 
-        DomainFacade.editProduction(production);
+        DomainFacade.updateProduction(production);
     }
 
     @FXML
@@ -207,7 +201,7 @@ public class SearchController implements Initializable {
         Production production = event.getTableView().getItems().get(row);
         production.setTitle(event.getNewValue());
 
-        DomainFacade.editProduction(production);
+        DomainFacade.updateProduction(production);
     }
 
     @FXML

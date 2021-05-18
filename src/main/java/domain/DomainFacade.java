@@ -36,12 +36,8 @@ public class DomainFacade {
      * This method is used to edit a production in the database.
      * @param production The production to update
      */
-    public static void editProduction(Production production) {
-        try {
-            system.editProduction(production);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void updateProduction(Production production) {
+        system.updateProduction(production);
     }
 
     /**
@@ -77,7 +73,7 @@ public class DomainFacade {
     }
 
     public static void saveUserChanges(SuperUser superUser) {
-        System.saveUserChanges(superUser);
+        system.saveUserChanges(superUser);
     }
 
     /**
@@ -85,7 +81,7 @@ public class DomainFacade {
      * @param userID The ID of the SuperUser
      */
     public static void deleteSuperUser(int userID) {
-        DataFacade.deleteSuperUser(userID);
+        system.deleteSuperUser(userID);
     }
 
     // Current user
@@ -142,12 +138,12 @@ public class DomainFacade {
      * This method is used to edit an Artist.
      * @param artist The Artist to edit
      */
-    public static void editArtist(Artist artist) {
-        DataFacade.editArtist(artist);
+    public static void updateArtist(Artist artist) {
+        DataFacade.updateArtist(artist);
     }
 
     public static void saveArtistChanges(Artist artist) {
-        System.saveArtistChanges(artist);
+        system.saveArtistChanges(artist);
     }
 
     /**
@@ -156,11 +152,6 @@ public class DomainFacade {
      */
     public static ArrayList<Artist> getArtists() {
         return DataFacade.getArtists();
-    }
-
-    public static Artist getArtist(){
-        //TODO: Implement
-        return null;
     }
 
     //endregion

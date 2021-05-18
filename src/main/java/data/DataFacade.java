@@ -39,9 +39,8 @@ public class DataFacade {
     /**
      * This method is used to edit a Production in the database, given an ID.
      * @param production The production to insert into the database
-     * @deprecated Not up to date with current codebase.
      */
-    public static void editProduction(Production production) {
+    public static void updateProduction(Production production) {
         databaseManager.updateProduction(production);
     }
 
@@ -101,7 +100,7 @@ public class DataFacade {
      * @param artist The Artist to edit
      * @return boolean Returns whether the execution succeeded.
      */
-    public static boolean editArtist(Artist artist) {
+    public static boolean updateArtist(Artist artist) {
         return databaseManager.editArtist(artist);
     }
 

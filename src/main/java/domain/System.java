@@ -1,11 +1,10 @@
 package domain;
 
 import data.*;
-import presentation.UIManager;
 
 public class System {
 
-    private static SuperUser currentUser;
+    private SuperUser currentUser;
 
     public System() {
 
@@ -33,12 +32,11 @@ public class System {
 
     /**
      * This method is used to edit a production
-     * @deprecated Not up to date with current codebase
      * @param production The production to edit
      */
-    public void editProduction(Production production) {
-        if (production.isOwner(currentUser)||currentUser.isSysAdmin()) {
-            DataFacade.editProduction(production);
+    public void updateProduction(Production production) {
+        if (production.isOwner(currentUser) || currentUser.isSysAdmin()) {
+            DataFacade.updateProduction(production);
         } else {
             throw new RuntimeException("User is not allowed to edit this production");
         }
@@ -112,9 +110,9 @@ public class System {
         return false;
     }
 
-    public static void saveUserChanges(SuperUser superUser) {
+    public void saveUserChanges(SuperUser superUser) {
         DataFacade.saveUserChanges(superUser);
     }
 
-    public static void saveArtistChanges(Artist artist) { DataFacade.saveArtistChanges(artist); }
+    public void saveArtistChanges(Artist artist) { DataFacade.saveArtistChanges(artist); }
 }
