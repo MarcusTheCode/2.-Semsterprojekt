@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -98,26 +97,6 @@ public class ArtistsController implements Initializable {
         int artistID = artistsObservableList.get(index).getId();
         artistsObservableList.remove(index);
         DomainFacade.deleteArtist(artistID);
-    }
-
-    @FXML
-    void commitNameChange(TableColumn.CellEditEvent<Artist, String> event) {
-        int row = event.getTablePosition().getRow();
-        if (DomainFacade.getCurrentUser()==null) return;
-        Artist artist = event.getTableView().getItems().get(row);
-        artistsObservableList.remove(row);
-        artist.setName(event.getNewValue());
-        artistsObservableList.add(artist);
-        DomainFacade.editArtist(artist);
-    }
-
-    @FXML
-    void commitEmailChange(TableColumn.CellEditEvent<Artist, String> event) {
-        int row = event.getTablePosition().getRow();
-        if (DomainFacade.getCurrentUser()==null) return;
-        Artist artist = event.getTableView().getItems().get(row);
-        artist.setName(event.getNewValue());
-        DomainFacade.editArtist(artist);
     }
 
     @FXML

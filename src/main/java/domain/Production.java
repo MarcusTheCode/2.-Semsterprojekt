@@ -4,12 +4,13 @@ import data.DataFacade;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Production implements Serializable {
-    Integer id;
-    String title;
-    String category;
-    ArrayList<CastMember> castMembers;
+    private Integer id;
+    private String title;
+    private String category;
+    private ArrayList<CastMember> castMembers;
     private Integer episodeNumber;
     private String type;
     private Integer categoryID;
@@ -22,20 +23,21 @@ public class Production implements Serializable {
         this.producerID = producerID;
         this.category = "";
         this.title = "";
-        this.episodeNumber = null;
+        this.episodeNumber = 0;
         this.type = "";
         this.seasonID = null;
         this.categoryID = null;
         this.castMembers = new ArrayList<>();
-        this.genres = new ArrayList<>();
+        this.genres = null;
     }
 
     public Production(String title, Integer producerID, String category, Integer episodeNumber, String type) {
         this.title = title;
         this.producerID = producerID;
-        this.category = category;
+        setCategory(category);
         this.episodeNumber = episodeNumber;
         this.type = type;
+        this.castMembers = null;
     }
 
     //Tv-Series
@@ -45,12 +47,14 @@ public class Production implements Serializable {
         this.id = productionID;
         this.title = title;
         this.episodeNumber = episodeNumber;
-        if (seasonsID != 0)
-            this.seasonID = seasonsID;
+        this.seasonID = (seasonID == null) ? null: seasonsID;
+        Integer seasonNumber = DataFacade.getSeasonNumber(seasonsID);
+        this.seasonNumber = (seasonNumber == 0) ? null: seasonNumber;
         this.type = type;
-        this.castMembers = new ArrayList<>();
-        this.genres = DataFacade.getGenres(productionID);
-        this.seasonNumber = DataFacade.getSeasonNumber(seasonsID);
+        ArrayList<CastMember> castMembers = DataFacade.getCastMembers(productionID);
+        this.castMembers = (castMembers.size() == 0) ? null: castMembers;
+        ArrayList<Genre> genres =  DataFacade.getGenres(productionID);
+        this.genres = (genres.size() == 0) ? null: genres;
     }
 
     public ArrayList<Genre> getGenres() {
@@ -121,11 +125,7 @@ public class Production implements Serializable {
     }
 
     public int getCategoryID() {
-        return categoryID;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        return (categoryID == null) ? null : categoryID;
     }
 
     public Integer getId() {
@@ -182,6 +182,13 @@ public class Production implements Serializable {
 
     public void setSeasonNumber(Integer seasonNumber) {
         this.seasonNumber = seasonNumber;
+    }
+
+    public boolean equals(Production production) {
+        if (this == production) return true;
+        if (production == null || getClass() != production.getClass()) return false;
+        Production that = (Production) production;
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(category, that.category) && Objects.equals(castMembers, that.castMembers) && Objects.equals(episodeNumber, that.episodeNumber) && Objects.equals(type, that.type) && Objects.equals(categoryID, that.categoryID) && Objects.equals(seasonID, that.seasonID) && Objects.equals(seasonNumber, that.seasonNumber) && Objects.equals(producerID, that.producerID) && Objects.equals(genres, that.genres);
     }
 }
 

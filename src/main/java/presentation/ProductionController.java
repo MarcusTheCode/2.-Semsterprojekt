@@ -176,7 +176,7 @@ public class ProductionController implements Initializable {
         castMemberObservableList.add(castMember);
         currentProduction.addCastMember(castMember);
 
-        DomainFacade.saveCastMember(castMember);
+        DomainFacade.insertCastMember(castMember);
     }
 
     @FXML
@@ -253,13 +253,13 @@ public class ProductionController implements Initializable {
         if (!episode.getText().isEmpty())
             currentProduction.setEpisodeNumber(Integer.parseInt(episode.getText()));
         else
-            currentProduction.setEpisodeNumber(null);
+            currentProduction.setEpisodeNumber(0);
 
         // Bit of an ugly hack
         if (currentProduction.getId() == null) {
-            DomainFacade.saveProduction(currentProduction);
+            DomainFacade.insertProduction(currentProduction);
         } else {
-            DomainFacade.editProduction(currentProduction);
+            DomainFacade.updateProduction(currentProduction);
         }
 
         UIManager.getSearchController().loadProductions();

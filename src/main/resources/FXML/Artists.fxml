@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.ArtistsController">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.ArtistsController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="800.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -39,8 +39,8 @@
                </columnResizePolicy>
                <columns>
                   <TableColumn fx:id="idColumn" editable="false" prefWidth="98.0" text="ID" />
-                  <TableColumn fx:id="nameColumn" onEditCommit="#commitNameChange" prefWidth="634.0" text="Name" />
-                  <TableColumn fx:id="emailColumn" onEditCommit="#commitEmailChange" prefWidth="927.0" text="Email" />
+                  <TableColumn fx:id="nameColumn" prefWidth="634.0" text="Name" />
+                  <TableColumn fx:id="emailColumn" prefWidth="927.0" text="Email" />
                </columns>
             </TableView>
             <HBox prefHeight="25.0" prefWidth="648.0">

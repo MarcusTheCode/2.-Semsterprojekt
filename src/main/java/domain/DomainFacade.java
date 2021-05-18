@@ -20,13 +20,8 @@ public class DomainFacade {
      * This method is used to insert a production into the database.
      * @param production The production to save
      */
-    public static void saveProduction(Production production) {
-        try {
-            system.saveProduction(production);
-        } catch (Exception e) {
-            e.printStackTrace();
-            java.lang.System.out.println(e.getMessage());
-        }
+    public static void insertProduction(Production production) {
+        system.insertProduction(production);
     }
 
     /**
@@ -34,24 +29,15 @@ public class DomainFacade {
      * @param production The production to delete
      */
     public static void deleteProduction(Production production) {
-        try {
-            system.deleteProduction(production);
-        } catch (Exception e) {
-            e.printStackTrace();
-            java.lang.System.out.println(e.getMessage());
-        }
+        system.deleteProduction(production);
     }
 
     /**
      * This method is used to edit a production in the database.
      * @param production The production to update
      */
-    public static void editProduction(Production production) {
-        try {
-            system.editProduction(production);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void updateProduction(Production production) {
+        system.updateProduction(production);
     }
 
     /**
@@ -63,17 +49,35 @@ public class DomainFacade {
         return system.getProduction(ID);
     }
 
+    /**
+     * This method is used to retrieve all productions whose titles matches the search pattern.
+     * @param pattern The pattern to search for
+     * @return ArrayList<Production> Returns a list of matching productions.
+     */
+    public static ArrayList<Production> getProductionsByTitle(String pattern) {
+        return DataFacade.getProductionsByTitle(pattern);
+    }
+
+    /**
+     * This method is used to retrieve all productions whose series matches the search pattern.
+     * @param pattern The pattern to search for
+     * @return ArrayList<Production> Returns a list of matching productions.
+     */
+    public static ArrayList<Production> getProductionsBySeries(String pattern) {
+        return DataFacade.getProductionsBySeries(pattern);
+    }
+
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<Production> Returns a list of all productions.
+     */
+    public static ArrayList<Production> getAllProductions() {
+        return DataFacade.getAllProductions();
+    }
+
     //endregion
 
     //region SuperUser
-
-    /**
-     * This method is used to create a unique artist in the database.
-     * @return ArrayList<SuperUser> Returns a list of all SuperUsers.
-     */
-    public static ArrayList<SuperUser> getUsers() {
-        return DataFacade.getUsers();
-    }
 
     /**
      * This method is used to create a SuperUser and save it in the database.
@@ -86,17 +90,8 @@ public class DomainFacade {
         return system.createUser(password, username, sysAdmin);
     }
 
-    /**
-     * This method is used to update an existing SuperUser in the database.
-     * @deprecated Not up to date with current codebase.
-     * @param superUser The SuperUser to update
-     */
-    public static void editUser(SuperUser superUser) {
-        // TODO: Implement
-    }
-
     public static void saveUserChanges(SuperUser superUser) {
-        System.saveUserChanges(superUser);
+        system.updateSuperUser(superUser);
     }
 
     /**
@@ -104,10 +99,16 @@ public class DomainFacade {
      * @param userID The ID of the SuperUser
      */
     public static void deleteSuperUser(int userID) {
-        DataFacade.deleteSuperUser(userID);
+        system.deleteSuperUser(userID);
     }
 
-    // Current user
+    /**
+     * This method is used to create a unique artist in the database.
+     * @return ArrayList<SuperUser> Returns a list of all SuperUsers.
+     */
+    public static ArrayList<SuperUser> getUsers() {
+        return system.getUsers();
+    }
 
     /**
      * This method is used to retrieve the currently logged in SuperUser.
@@ -144,9 +145,7 @@ public class DomainFacade {
      * @return Artist Returns the newly created artist.
      */
     public static Artist createArtist(String name, String email) {
-        Artist artist = new Artist(name, email);
-        DataFacade.insertArtist(artist);
-        return artist;
+        return system.createArtist(name, email);
     }
 
     /**
@@ -154,19 +153,19 @@ public class DomainFacade {
      * @param artistID The ID of the artist to delete from the database
      */
     public static void deleteArtist(int artistID) {
-        DataFacade.deleteArtist(artistID);
+        system.deleteArtist(artistID);
     }
 
     /**
      * This method is used to edit an Artist.
      * @param artist The Artist to edit
      */
-    public static void editArtist(Artist artist) {
-        DataFacade.editArtist(artist);
+    public static void updateArtist(Artist artist) {
+        system.updateArtist(artist);
     }
 
     public static void saveArtistChanges(Artist artist) {
-        System.saveArtistChanges(artist);
+        system.saveArtistChanges(artist);
     }
 
     /**
@@ -177,21 +176,16 @@ public class DomainFacade {
         return DataFacade.getArtists();
     }
 
-    public static Artist getArtist(){
-        //TODO: Implement
-        return null;
-    }
-
     //endregion
 
     //region Series
 
     /**
-     * This method is used to retrieve all productions from the database.
+     * This method is used to create a series and save it in the database.
+     * @param seriesName The name of the series
      */
     public static boolean createSeries(String seriesName) {
-        Series series = new Series(seriesName);
-        return DataFacade.insertSeries(series);
+        return system.createSeries(seriesName);
     }
 
     /**
@@ -222,12 +216,12 @@ public class DomainFacade {
 
     //region Genre
 
-    public static void insertGenre(Production production, Genre genre) {
-        DataFacade.insertGenre(production, genre);
+    public static boolean insertGenre(Production production, Genre genre) {
+        return system.insertGenre(production, genre);
     }
 
     public static boolean deleteGenre(Production production, Genre genre) {
-        return DataFacade.deleteGenre(production, genre);
+        return system.deleteGenre(production, genre);
     }
 
     /**
@@ -251,11 +245,13 @@ public class DomainFacade {
     //region Season
 
     /**
-     * This method is used to retrieve all productions from the database.
+     * This method is used to create a season and save it in the database.
+     * @param seasonNumber The season number
+     * @param seriesID The series ID
+     * @return boolean Whether the execution was successful.
      */
     public static boolean createSeason(int seasonNumber, int seriesID) {
-        Season season = new Season(seasonNumber, seriesID);
-        return DataFacade.insertSeason(season);
+        return system.createSeason(seasonNumber, seriesID);
     }
 
     /**
@@ -278,12 +274,12 @@ public class DomainFacade {
 
     //region CastMember
 
-    public static boolean saveCastMember(CastMember castMember) {
-        return DataFacade.saveCastMember(castMember);
+    public static boolean insertCastMember(CastMember castMember) {
+        return system.insertCastMember(castMember);
     }
 
     public static boolean deleteCastMember(CastMember castMember) {
-        return DataFacade.deleteCastMember(castMember);
+        return system.deleteCastMember(castMember);
     }
 
     public static boolean castMemberExists(CastMember castMember){
