@@ -62,9 +62,10 @@ public class DatabaseManager {
      * @return boolean Returns whether the execution succeeded.
      */
     public boolean insertProduction(Production production) {
-        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle,seasonID)" +
-                " VALUES (?,?,?,?,?,?)")) {
-            if (production.getSeasonID() != null)
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle,seasonID) " +
+                "VALUES (?,?,?,?,?,?) " +
+                "RETURNING id")) {
+            if (production.getEpisodeNumber() != null)
                 ps.setInt(1, production.getEpisodeNumber());
             else
                 ps.setNull(1, Types.INTEGER);
@@ -76,9 +77,13 @@ public class DatabaseManager {
                 ps.setInt(6, production.getSeasonID());
             else
                 ps.setNull(6, Types.INTEGER);
-            ps.execute();
-            // If an error occurs when executing the ps, it jumps to the catch statement
-            // otherwise, it is safe to assume that the statement executed correctly
+
+            // Change the ID of the production to this new one after insert
+            try (ResultSet resultSet = ps.executeQuery()) {
+                resultSet.next();
+                production.setId(resultSet.getInt(1));
+            }
+
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -155,8 +160,6 @@ public class DatabaseManager {
                         resultSet.getString(7),
                         getCategory(resultSet.getInt(4)),
                         resultSet.getString(3));
-                production.setCastMembers(getCastMembers(productionID));
-                production.setGenres(getGenres(productionID));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -165,12 +168,18 @@ public class DatabaseManager {
     }
 
     /**
-     * This method is used to retrieve all productions matching the search pattern from the database.
+     * This method is used to retrieve all productions that match the search pattern.
+     * @param pattern The pattern to search for
      * @return ArrayList<Production> Returns a list of matching productions.
      */
-    public ArrayList<Production> getFilteredProductions(String pattern) {
+    public ArrayList<Production> getFilteredProductions(String pattern, boolean searchForSeries) {
         ArrayList<Production> productions = new ArrayList<>();
-        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM getFilteredProductions(?)")) {
+        String sqlCode;
+        if (searchForSeries)
+            sqlCode = "SELECT * FROM getProductionsBySeries(?)";
+        else
+            sqlCode = "SELECT * FROM getProductionsByTitle(?)";
+        try (PreparedStatement ps = connection.prepareStatement(sqlCode)) {
             ps.setString(1, "%" + pattern + "%");
             try (ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {

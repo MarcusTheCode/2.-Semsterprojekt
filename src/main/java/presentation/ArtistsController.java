@@ -100,26 +100,6 @@ public class ArtistsController implements Initializable {
     }
 
     @FXML
-    void commitNameChange(TableColumn.CellEditEvent<Artist, String> event) {
-        int row = event.getTablePosition().getRow();
-        if (DomainFacade.getCurrentUser()==null) return;
-        Artist artist = event.getTableView().getItems().get(row);
-        artistsObservableList.remove(row);
-        artist.setName(event.getNewValue());
-        artistsObservableList.add(artist);
-        DomainFacade.updateArtist(artist);
-    }
-
-    @FXML
-    void commitEmailChange(TableColumn.CellEditEvent<Artist, String> event) {
-        int row = event.getTablePosition().getRow();
-        if (DomainFacade.getCurrentUser()==null) return;
-        Artist artist = event.getTableView().getItems().get(row);
-        artist.setName(event.getNewValue());
-        DomainFacade.updateArtist(artist);
-    }
-
-    @FXML
     void editArtist(MouseEvent event) {
         Artist artist = artists.getSelectionModel().getSelectedItem();
         if (artist == null) {

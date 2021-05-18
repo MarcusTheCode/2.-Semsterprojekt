@@ -14,7 +14,7 @@ public class System {
      * This method is used to insert a production into the database.
      * @param production The production to save
      */
-    public void insertProduction(Production production) {
+    protected void insertProduction(Production production) {
         DataFacade.insertProduction(production);
     }
 
@@ -22,7 +22,7 @@ public class System {
      * This method is used to delete a production from the database.
      * @param production The production to delete
      */
-    public void deleteProduction(Production production) {
+    protected void deleteProduction(Production production) {
         if (production.isOwner(currentUser) || currentUser.isSysAdmin())
             DataFacade.deleteProduction(production.getId());
         else
@@ -33,7 +33,7 @@ public class System {
      * This method is used to edit a production
      * @param production The production to edit
      */
-    public void updateProduction(Production production) {
+    protected void updateProduction(Production production) {
         if (production.isOwner(currentUser) || currentUser.isSysAdmin())
             DataFacade.updateProduction(production);
         else
@@ -45,7 +45,7 @@ public class System {
      * @param productionID The ID of the production
      * @return Production Returns the production or null.
      */
-    public Production getProduction(int productionID) {
+    protected Production getProduction(int productionID) {
         return DataFacade.getProduction(productionID);
     }
 
