@@ -43,5 +43,15 @@
       </VBox>
       <Button fx:id="addArtistButton" layoutX="10.0" layoutY="261.0" mnemonicParsing="false" onMouseClicked="#saveArtist" text="Add artist" />
       <Button fx:id="saveChangesButton" layoutX="14.0" layoutY="261.0" mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save changes" visible="false" />
+      <AnchorPane fx:id="errorPane" layoutX="490.0" layoutY="290.0" prefHeight="220.0" prefWidth="220.0" style="-fx-background-color: #C0C0C0;" visible="false">
+         <children>
+            <Button layoutX="94.0" layoutY="181.0" mnemonicParsing="false" onMouseClicked="#closeAlertPane" text="OK" />
+            <Text fx:id="paneText" fill="RED" layoutX="45.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your name or email contains illegal expressions" textAlignment="CENTER" wrappingWidth="132.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
