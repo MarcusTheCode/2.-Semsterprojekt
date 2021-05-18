@@ -19,7 +19,7 @@ public class ArtistInputController implements Initializable {
     private TextField name;
 
     @FXML
-    private TextField email, errorPaneText;
+    private TextField email;
 
     @FXML
     private Button saveChangesButton, addArtistButton;
