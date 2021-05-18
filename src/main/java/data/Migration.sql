@@ -27,11 +27,18 @@ CREATE TABLE seasons (
     seriesID INTEGER NOT NULL REFERENCES series(id)
 );
 
+CREATE TABLE artists (
+                         id SERIAL PRIMARY KEY,
+                         name VARCHAR(100) NOT NULL,
+                         email VARCHAR(100) UNIQUE NOT NULL
+);
+
 CREATE TABLE superUsers (
     id SERIAL PRIMARY KEY,
     isAdmin BOOLEAN NOT NULL,
     userName VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(50) NOT NULL
+    password VARCHAR(50) NOT NULL,
+    artistID INTEGER REFERENCES artists(id)
 );
 
 CREATE TABLE productions (
@@ -50,11 +57,7 @@ CREATE TABLE productionGenres (
     CONSTRAINT UQ_ProductionGenre UNIQUE(productionID, genreID)
 );
 
-CREATE TABLE artists (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL
-);
+
 
 CREATE TABLE castMembers (
     productionID INTEGER NOT NULL REFERENCES productions(id),
@@ -64,55 +67,227 @@ CREATE TABLE castMembers (
 );
 
 -- load test data
-INSERT INTO categories(name) VALUES ('news');
-INSERT INTO categories(name) VALUES ('documentary');
-INSERT INTO categories(name) VALUES ('whether');
-INSERT INTO categories(name) VALUES ('entertainment');
 
-INSERT INTO genres(name) VALUES ('fantasy');
-INSERT INTO genres(name) VALUES ('comedy');
-INSERT INTO genres(name) VALUES ('sci-fi');
-INSERT INTO genres(name) VALUES ('action');
-INSERT INTO genres(name) VALUES ('horror');
-INSERT INTO genres(name) VALUES ('adventure');
 
-INSERT INTO series(name) VALUES('suits');
-INSERT INTO series(name) VALUES('lucifer');
-INSERT INTO series(name) VALUES('cursed');
-INSERT INTO series(name) VALUES('after life');
+-- Spiderman: Far from home artists
+INSERT INTO artists(name,email) VALUES
+('Tom Holland','Tomholland@spider.co.uk'),
+('Zendaya','Zendaya@youmail.com'),
+('Samuel L. Jackson','Samuel.L.Jackson@msn.com'),
+('Jake Gyllenhaal','JakeGtllenhaal@live.com'),
+('Jon Favreau','Jon.Favreau@hotmail.com'),
+('Jacob Batalon','Jacob1Batalon@outlook.com'),
+('Marisa Tomei','marisa.tomei@aol.com'),
+('Combie Smulders','CombieSmulders@yahoo.ca'),
+('Jon Watts','JonWatts@yahoo.com'),
+('Kevin Feige','KevinFeige@Disney.marvel.com');
 
-INSERT INTO seasons(seasonnumber, seriesid) VALUES(1,1);
-INSERT INTO seasons(seasonnumber, seriesid) VALUES(1,2);
+-- Star Wars prequel trilogy artists
+INSERT INTO artists(name,email) VALUES
+('Gorge Lucas','GorgeLucas@lucas.film.com'),
+('Rick McCallum','RickMcCallum@gmail.com'),
+('Liam Neeson','LiamNeeson@jedi.com'),
+('Ewan McGregor','EwanMcGregor@charter.net'),
+('Natalie Portman','NataliePortman@hotmail.com'),
+('Jake Lloyd','JakeLloyd@live.com'),
+('Ian McDiarmid','IanMcDiarmid@rediffail.com'),
+('Anthony Daniels','AnthonyDaniels@cox.net'),
+('Kenny Baker','KennyBaker@sbcglobal.net'),
+('Pernilla August','PernillaAugust@verizon.net'),
+('Frank Oz','FrankOz@att.net'),
+('Hayden Christensen','HaydenChristensen@win.com');
 
-INSERT INTO superUsers(isAdmin, userName, password) VALUES (true,'admin','admin');
-INSERT INTO superUsers(isAdmin, userName, password) VALUES (false,'poul','1234');
-INSERT INTO superUsers(isAdmin, userName, password) VALUES (false,'john','1234');
+-- The Bee Movie artists
+INSERT INTO artists(name,email) VALUES
+('Barry B. Benson','BarryBeeBenson@bee.hive'),
+('Steve Hickner','SteveHickner@gmail.com'),
+('Simon J. Smith','Simon.J.Smith@youmail.com');
 
-INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
-VALUES(1,'tv-series',4,1,2,'pilot part 1 & 2');
-INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
-VALUES(2,'tv-series',4,1,2,'errors and omissions');
-INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
-VALUES (1,'tv-series',4,2,3,'pilotepisode');
-INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle)
-VALUES (2,'tv-series',4,2,3,'lucifer, stay. good devil.');
-INSERT INTO productions(episodeNumber, type, categoryID, producerID, productionTitle)
-VALUES (1,'movie',4,3,'bee movie');
+-- Lucifer artists
+INSERT INTO artists(name,email) VALUES
+('Tom Kapinos','TomKapinos@bee.hive'),
+('Tom Ellis','TomEllis@gmail.com'),
+('Lauren German','LaurenGerman@youmail.com'),
+('D.B. Woodside','D.B.Woodside@verizon.net'),
+('Rachael Harris','RachaelHarris@att.net'),
+('Lesley-Ann Brandt','Lesley-AnnBrandt@win.com');
 
-INSERT INTO productionGenres(productionID, genreID)
-VALUES(1, 1);
-INSERT INTO productionGenres(productionID, genreID)
-VALUES(2, 2);
-INSERT INTO productionGenres(productionID, genreID)
-VALUES(5, 3);
-INSERT INTO productionGenres(productionID, genreID)
-VALUES(5, 4);
 
-INSERT INTO artists(name,email)
-VALUES('Barry B. Benson','BarryBeeBenson@bee.hive');
+--Suits artists
+INSERT INTO artists(name,email) VALUES
+('Dave Bartis','DaveBartis@gmail.com'),
+('Gabriel Macht','GabrielMacht@gmail.com'),
+('Patrick J. Adams','Patrick.J.Adams@youmail.com'),
+('Rick Hoffman','RickHoffman@verizon.net'),
+('Meghan, Duchess of Sussex','MeghanSussex@att.net'),
+('Sarah Rafferty','SarahRafferty@win.com'),
+('Gina Torres','GinaTorres@att.net');
 
-INSERT INTO castMembers(productionID, role, artistID)
-VALUES (5,'Actor',1);
+
+INSERT INTO categories(name) VALUES
+('news'),
+('documentary'),
+('whether'),
+('entertainment');
+
+
+INSERT INTO genres(name) VALUES
+('fantasy'),
+('comedy'),
+('sci-fi'),
+('action'),
+('horror'),
+('adventure'),
+('epic space-opera'),
+('Legal drama');
+
+
+INSERT INTO series(name) VALUES
+('suits'),
+('lucifer'),
+('cursed'),
+('after life');
+
+
+INSERT INTO seasons(seasonnumber, seriesid) VALUES
+(1,1),
+(1,2);
+
+
+-- admins
+INSERT INTO superUsers(isAdmin, userName, password) VALUES
+(true,'admin','admin');
+
+
+-- producers
+INSERT INTO superUsers(isAdmin, userName, password, artistID) VALUES
+(false,'suits','1234',32),
+(false,'lucifer','1234',26),
+(false,'starwars','jedi',12),
+(false,'bee','1234',24),
+(false,'spider','man',9);
+
+
+-- Tv-Series
+INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle) VALUES
+(1,'tv-series',4,1,1,'pilot part 1 & 2'),
+(2,'tv-series',4,1,1,'errors and omissions'),
+(1,'tv-series',4,2,2,'pilotepisode'),
+(2,'tv-series',4,2,2,'lucifer, stay. good devil.');
+
+
+-- Movies
+INSERT INTO productions(episodeNumber, type, categoryID, producerID, productionTitle) VALUES
+(1,'movie',4,4,'bee movie'),
+(1,'movie',4,3,'Star wars Episode I: The Phantom Menace'),
+(2,'movie',4,3,'Star Wars Episode II: Attack Of The Clones'),
+(3,'movie',4,3,'Star Wars Episode III: Revenge Of The Sith'),
+(2,'movie',4,5,'Spiderman Far From Home');
+
+
+INSERT INTO productionGenres(productionID, genreID) VALUES
+(1, 1),
+(2, 2),
+(3,1),
+(4,8),
+(5,3),
+(5,4),
+(6,7),
+(7,7),
+(8,7);
+
+
+INSERT INTO castMembers(productionID, role, artistID) VALUES
+-- Bee movie
+(5,'Actor',23),
+(5,'producer',24),
+(5,'producer',25),
+
+-- Spiderman
+(9,'actor',1),
+(9,'actor',2),
+(9,'actor',3),
+(9,'actor',4),
+(9,'actor',5),
+(9,'actor',6),
+(9,'actor',7),
+(9,'actor',8),
+(9,'director',9),
+(9,'producer',10),
+
+-- suits ep 1
+(1,'actor',33),
+(1,'actor',34),
+(1,'actor',35),
+(1,'actor',36),
+(1,'actor',37),
+(1,'actor',38),
+(1,'producer',32),
+
+-- suits ep 2
+(2,'actor',33),
+(2,'actor',34),
+(2,'actor',35),
+(2,'actor',36),
+(2,'actor',37),
+(2,'actor',38),
+(2,'producer',32),
+
+-- lucifer ep 1
+(3,'actor',27),
+(3,'actor',28),
+(3,'actor',29),
+(3,'actor',30),
+(3,'actor',31),
+(3,'producer',26),
+
+-- lucifer ep 2
+(4,'actor',27),
+(4,'actor',28),
+(4,'actor',29),
+(4,'actor',30),
+(4,'actor',31),
+(4,'producer',26),
+
+-- Star wars episode I
+(6,'director',11),
+(6,'producer',12),
+(6,'Actor',13),
+(6,'Actor',14),
+(6,'Actor',15),
+(6,'Actor',16),
+(6,'Actor',17),
+(6,'Actor',18),
+(6,'Actor',19),
+(6,'Actor',20),
+(6,'Actor',21),
+(6,'Actor',3),
+
+-- Star wars episode II
+(7,'Actor',14),
+(7,'Actor',15),
+(7,'Actor',17),
+(7,'Actor',18),
+(7,'Actor',19),
+(7,'Actor',20),
+(7,'Actor',21),
+(7,'Actor',22),
+(7,'Actor',3),
+(7,'director',11),
+(7,'producer',12),
+
+-- Star wars episode III
+(8,'director',11),
+(8,'producer',12),
+(8,'Actor',14),
+(8,'Actor',15),
+(8,'Actor',17),
+(8,'Actor',18),
+(8,'Actor',19),
+(8,'Actor',21),
+(8,'Actor',22),
+(8,'Actor',3);
+
 
 -- getCategoryID
 CREATE OR REPLACE FUNCTION getCategoryID(nameVal VARCHAR (50))
