@@ -189,6 +189,30 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
+-- getProductionsByTitle
+
+CREATE OR REPLACE FUNCTION getProductionsByTitle(search VARCHAR (50))
+    RETURNS SETOF productions AS $$
+BEGIN
+    RETURN QUERY SELECT * FROM productions
+    WHERE productions.productionTitle Like search;
+END
+$$ LANGUAGE plpgsql;
+
+-- getProductionsBySeries
+
+CREATE OR REPLACE FUNCTION getProductionsBySeries(search VARCHAR (50))
+    RETURNS SETOF productions AS $$
+BEGIN
+    RETURN QUERY SELECT productions.id,productions.episodenumber,productions.type,
+                        productions.categoryid,productions.seasonid,
+                        productions.producerid,productions.productiontitle FROM productions
+        JOIN seasons ON productions.seasonID = seasons.id
+        JOIN series ON seasons.seriesID = series.id
+        WHERE series.name Like search;
+END
+$$ LANGUAGE plpgsql;
+
 -- getSuperUserID
 
 CREATE OR REPLACE FUNCTION getSuperUserID(nameVal VARCHAR (50))

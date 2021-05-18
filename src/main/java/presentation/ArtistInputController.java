@@ -8,6 +8,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,6 +28,9 @@ public class ArtistInputController implements Initializable {
 
     private final String nameRegularExpression = "[a-zA-Z]+";
 
+    @FXML
+    private AnchorPane errorPane;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -43,6 +47,8 @@ public class ArtistInputController implements Initializable {
         if (name.getText().matches(nameRegularExpression) && email.getText().matches(emailRegularExpression)) {
             createArtist(name.getText(), email.getText());
             UIManager.getArtistsController().loadArtists();
+        } else {
+            errorPane.setVisible(true);
         }
     }
 
@@ -52,6 +58,9 @@ public class ArtistInputController implements Initializable {
             UIManager.saveArtistChanges(UIManager.getArtistsController().getSelectedID(), name.getText(), email.getText());
             UIManager.changeScene(UIManager.getArtistsScene());
             UIManager.getArtistsController().loadArtists();
+        }
+        else {
+            errorPane.setVisible(true);
         }
     }
 
@@ -79,5 +88,10 @@ public class ArtistInputController implements Initializable {
         saveChangesButton.setVisible(true);
         name.setText(UIManager.getArtistsController().getName());
         email.setText(UIManager.getArtistsController().getEmail());
+    }
+
+    @FXML
+    void closeAlertPane(MouseEvent event) {
+        errorPane.setVisible(false);
     }
 }

@@ -1,6 +1,5 @@
 package presentation;
 
-import data.DataFacade;
 import domain.DomainFacade;
 import domain.Production;
 import javafx.collections.FXCollections;
@@ -9,61 +8,30 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.util.StringConverter;
-import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.LongStringConverter;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class SearchController implements Initializable {
 
     @FXML
-    private HBox loginHBox;
-
-    @FXML
-    private Button usersButton;
-
-    @FXML
-    private Button artistsButton;
-
-    @FXML
-    private Button loginButton;
-
-    @FXML
-    private ComboBox<String> SearchFilterComboBox;
+    private ComboBox<String> searchFilterComboBox;
 
     @FXML
     private TableView<Production> productionsTable;
 
     @FXML
-    private TableColumn<Production, String> titleColumn;
+    private TableColumn<Production, String> titleColumn, categoryColumn, typeColumn;
 
     @FXML
-    private TableColumn<Production, String> categoryColumn;
+    private TableColumn<Production, Integer> seasonColumn, episodeColumn;
 
     @FXML
-    private TableColumn<Production, String> typeColumn;
-
-    @FXML
-    private TableColumn<Production, Integer> seasonColumn;
-
-    @FXML
-    private TableColumn<Production, Integer> episodeColumn;
-
-    @FXML
-    private Button addProductionButton;
-
-    @FXML
-    private Button removeProductionButton;
+    private Button addProductionButton, removeProductionButton, usersButton, loginButton;
 
     private ObservableList<Production> productionObservableList;
 
@@ -73,14 +41,10 @@ public class SearchController implements Initializable {
     private AnchorPane noProductionPane;
 
     @FXML
-    private Button alertPaneButton;
-
-    @FXML
-    private TextField SearchBar;
+    private TextField searchBar;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
@@ -91,14 +55,15 @@ public class SearchController implements Initializable {
 
         episodeColumn.setCellValueFactory(new PropertyValueFactory<>("episodeNumber"));
 
-        searchOptionsObservableList = FXCollections.observableArrayList("Search By Production","Search By Series");
-        SearchFilterComboBox.setItems(searchOptionsObservableList);
+        searchOptionsObservableList = FXCollections.observableArrayList("Search By Production", "Search By Series");
+        searchFilterComboBox.setItems(searchOptionsObservableList);
+        searchFilterComboBox.setValue(searchOptionsObservableList.get(0));
 
         loadProductions();
     }
 
     public void loadProductions() {
-        ArrayList<Production> productions = DataFacade.loadAllProductions();
+        ArrayList<Production> productions = DomainFacade.getAllProductions();
 
         if (DomainFacade.getCurrentUser() != null && !DomainFacade.getCurrentUser().isSysAdmin()) {
             // remove productions from the list if they don't belong to the current user
@@ -140,7 +105,7 @@ public class SearchController implements Initializable {
         UIManager.getArtistsController().disableButtons();
     }
 
-    public void changeToLoggedIn(){
+    public void changeToLoggedIn() {
         if (DomainFacade.getCurrentUser().isSysAdmin()) {
             usersButton.setVisible(true);
         }
@@ -163,51 +128,12 @@ public class SearchController implements Initializable {
         if (production == null) {
             noProductionPane.setVisible(true);
             throw new Exception("No production selected");
-        }else{
+        } else {
             int index = productionsTable.getSelectionModel().getFocusedIndex();
             productionObservableList.remove(index);
 
             DomainFacade.deleteProduction(production);
         }
-    }
-
-    @FXML
-    void commitCategoryChange(TableColumn.CellEditEvent<Production, String> event) {
-        int row = event.getTablePosition().getRow();
-        Production production = event.getTableView().getItems().get(row);
-        production.setCategory(event.getNewValue());
-
-        DomainFacade.editProduction(production);
-    }
-
-    @FXML
-    void commitIDchange(TableColumn.CellEditEvent<Production, Integer> event) {
-        int row = event.getTablePosition().getRow();
-        Production production = event.getTableView().getItems().get(row);
-
-        DomainFacade.deleteProduction(production);
-
-        production.setID(event.getNewValue());
-
-        DomainFacade.saveProduction(production);
-    }
-
-    @FXML
-    void commitOwnerIDchange(TableColumn.CellEditEvent<Production, Integer> event) {
-        int row = event.getTablePosition().getRow();
-        Production production = event.getTableView().getItems().get(row);
-        production.setOwnerID(event.getNewValue());
-
-        DomainFacade.editProduction(production);
-    }
-
-    @FXML
-    void commitTitleChange(TableColumn.CellEditEvent<Production, String> event) {
-        int row = event.getTablePosition().getRow();
-        Production production = event.getTableView().getItems().get(row);
-        production.setTitle(event.getNewValue());
-
-        DomainFacade.editProduction(production);
     }
 
     @FXML
@@ -223,41 +149,23 @@ public class SearchController implements Initializable {
         }
     }
 
-    //Closing the pane, that open when you attempt to show production without highligthing any.
     @FXML
     void closeAlertPane(MouseEvent event) {
         noProductionPane.setVisible(false);
     }
 
-    // TODO: Consider only searching after typing enter, since this is very power hungry.
-    // TODO: searchForProduction method probably needs to be either split up, refactored or documented.
     @FXML
     void searchForProduction(KeyEvent event) {
-       if (SearchFilterComboBox.getValue()!=null && SearchBar.getText()!=null) {
-           productionObservableList.clear();
-           ArrayList<Production> productions = new ArrayList<>(DataFacade.loadAllProductions());
-           if (SearchFilterComboBox.getValue().equals("Search By Production")) {
-               for (Production production : productions) {
-                   if (production.getTitle().toLowerCase().contains(SearchBar.getText().toLowerCase())) {
-                       productionObservableList.add(production);
-                   }
-               }
-           }else if (SearchFilterComboBox.getValue().equals("Search By Series")){
-               ArrayList<String> SeriesProduction = new ArrayList<>(DataFacade.getSeriesAndProductionID());
-               String val[];
-               for (String sp: SeriesProduction){
-                   val = sp.split(",");
-                   if (val[0].toLowerCase().contains(SearchBar.getText().toLowerCase())){
-                       productionObservableList.add(DomainFacade.getProduction(Integer.parseInt(val[1])));
-                   }
-               }
-           }
-       }
-    }
-
-    @FXML
-    void SaveChanges(MouseEvent event) {
-
+        //if (event.getCode() == KeyCode.ENTER) {
+            if (searchFilterComboBox.getValue() != null && searchBar.getText() != null) {
+                productionObservableList.clear();
+                if (searchFilterComboBox.getValue().equals("Search By Production")) {
+                    productionObservableList.setAll(DomainFacade.getProductionsByTitle(searchBar.getText()));
+                } else if (searchFilterComboBox.getValue().equals("Search By Series")) {
+                    productionObservableList.setAll(DomainFacade.getProductionsBySeries(searchBar.getText()));
+                }
+            }
+        //}
     }
 
     public void setAdminToolsVisibility(boolean bool) {

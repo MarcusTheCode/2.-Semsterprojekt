@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.SearchController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.SearchController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -40,7 +40,7 @@
             </HBox>
             <HBox prefHeight="52.0" prefWidth="1200.0">
                <children>
-                  <TextField fx:id="SearchBar" onKeyTyped="#searchForProduction" prefHeight="51.0" prefWidth="900.0" promptText="Search for production">
+                  <TextField fx:id="searchBar" onKeyTyped="#searchForProduction" prefHeight="51.0" prefWidth="900.0" promptText="Search for production">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -51,7 +51,7 @@
                         <Insets bottom="10.0" top="50.0" />
                      </opaqueInsets>
                   </TextField>
-                  <ComboBox fx:id="SearchFilterComboBox" prefHeight="50.0" prefWidth="188.0" promptText="Search Filter" visibleRowCount="2">
+                  <ComboBox fx:id="searchFilterComboBox" prefHeight="50.0" prefWidth="188.0" promptText="Search Filter" visibleRowCount="2">
                      <opaqueInsets>
                         <Insets top="5.0" />
                      </opaqueInsets>
@@ -66,8 +66,8 @@
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>
                <columns>
-                  <TableColumn fx:id="titleColumn" editable="false" onEditCommit="#commitTitleChange" prefWidth="250.0" text="Title" />
-                  <TableColumn fx:id="categoryColumn" editable="false" onEditCommit="#commitCategoryChange" prefWidth="100.0" text="Category" />
+                  <TableColumn fx:id="titleColumn" editable="false" prefWidth="250.0" text="Title" />
+                  <TableColumn fx:id="categoryColumn" editable="false" prefWidth="100.0" text="Category" />
                   <TableColumn fx:id="typeColumn" editable="false" prefWidth="75.0" text="Type" />
                   <TableColumn fx:id="seasonColumn" editable="false" prefWidth="75.0" text="Season" />
                   <TableColumn fx:id="episodeColumn" editable="false" prefWidth="75.0" text="Episode" />
@@ -94,12 +94,12 @@
       </VBox>
       <AnchorPane fx:id="noProductionPane" layoutX="461.0" layoutY="329.0" prefHeight="168.0" prefWidth="278.0" style="-fx-background-color: #C0C0C0;" visible="false">
          <children>
-            <Text fill="RED" layoutX="36.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No production is highlighted" textAlignment="CENTER" wrappingWidth="205.19140625">
+            <Text fx:id="errorPaneText" fill="RED" layoutX="36.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No production is highlighted" textAlignment="CENTER" wrappingWidth="205.19140625">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Button fx:id="alertPaneButton" layoutX="122.0" layoutY="138.0" mnemonicParsing="false" onMouseClicked="#closeAlertPane" text="OK" textAlignment="CENTER" />
+            <Button layoutX="122.0" layoutY="138.0" mnemonicParsing="false" onMouseClicked="#closeAlertPane" text="OK" textAlignment="CENTER" />
          </children>
       </AnchorPane>
    </children>

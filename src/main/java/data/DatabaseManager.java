@@ -163,6 +163,39 @@ public class DatabaseManager {
     }
 
     /**
+     * This method is used to retrieve all productions that match the search pattern.
+     * @param pattern The pattern to search for
+     * @return ArrayList<Production> Returns a list of matching productions.
+     */
+    public ArrayList<Production> getFilteredProductions(String pattern, boolean searchForSeries) {
+        ArrayList<Production> productions = new ArrayList<>();
+        String sqlCode;
+        if (searchForSeries)
+            sqlCode = "SELECT * FROM getProductionsBySeries(?)";
+        else
+            sqlCode = "SELECT * FROM getProductionsByTitle(?)";
+        try (PreparedStatement ps = connection.prepareStatement(sqlCode)) {
+            ps.setString(1, "%" + pattern + "%");
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    Production p = new Production(
+                            resultSet.getInt(2),
+                            resultSet.getInt(5),
+                            resultSet.getInt(6),
+                            resultSet.getInt(1),
+                            resultSet.getString(7),
+                            getCategory(resultSet.getInt(4)),
+                            resultSet.getString(3));
+                    productions.add(p);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productions;
+    }
+
+    /**
      * This method is used to retrieve all productions from the database.
      * @return ArrayList<Production> Returns a list of all productions.
      */

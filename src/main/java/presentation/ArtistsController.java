@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -108,7 +107,7 @@ public class ArtistsController implements Initializable {
         artistsObservableList.remove(row);
         artist.setName(event.getNewValue());
         artistsObservableList.add(artist);
-        DomainFacade.editArtist(artist);
+        DomainFacade.updateArtist(artist);
     }
 
     @FXML
@@ -117,7 +116,7 @@ public class ArtistsController implements Initializable {
         if (DomainFacade.getCurrentUser()==null) return;
         Artist artist = event.getTableView().getItems().get(row);
         artist.setName(event.getNewValue());
-        DomainFacade.editArtist(artist);
+        DomainFacade.updateArtist(artist);
     }
 
     @FXML

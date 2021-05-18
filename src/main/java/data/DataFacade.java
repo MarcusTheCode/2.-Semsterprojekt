@@ -39,9 +39,8 @@ public class DataFacade {
     /**
      * This method is used to edit a Production in the database, given an ID.
      * @param production The production to insert into the database
-     * @deprecated Not up to date with current codebase.
      */
-    public static void editProduction(Production production) {
+    public static void updateProduction(Production production) {
         databaseManager.updateProduction(production);
     }
 
@@ -63,10 +62,28 @@ public class DataFacade {
     }
 
     /**
+     * This method is used to retrieve all productions whose titles matches the search pattern.
+     * @param pattern The pattern to search for
+     * @return ArrayList<Production> Returns a list of matching productions.
+     */
+    public static ArrayList<Production> getProductionsByTitle(String pattern) {
+        return databaseManager.getFilteredProductions(pattern, false);
+    }
+
+    /**
+     * This method is used to retrieve all productions whose series matches the search pattern.
+     * @param pattern The pattern to search for
+     * @return ArrayList<Production> Returns a list of matching productions.
+     */
+    public static ArrayList<Production> getProductionsBySeries(String pattern) {
+        return databaseManager.getFilteredProductions(pattern, true);
+    }
+
+    /**
      * This method is used to retrieve all productions from the database.
      * @return ArrayList<Production> Returns a list of all productions.
      */
-    public static ArrayList<Production> loadAllProductions() {
+    public static ArrayList<Production> getAllProductions() {
         return databaseManager.getAllProductions();
     }
 
@@ -83,10 +100,6 @@ public class DataFacade {
         return databaseManager.insertArtist(artist);
     }
 
-    public static void insertCastMember(CastMember castMember){
-        databaseManager.insertCastMember(castMember);
-    }
-
     /**
      * This method is used to delete an artist from the database.
      * @param artistID The ID of the artist to delete from the database
@@ -101,7 +114,7 @@ public class DataFacade {
      * @param artist The Artist to edit
      * @return boolean Returns whether the execution succeeded.
      */
-    public static boolean editArtist(Artist artist) {
+    public static boolean updateArtist(Artist artist) {
         return databaseManager.editArtist(artist);
     }
 
@@ -174,7 +187,7 @@ public class DataFacade {
         return databaseManager.deleteSuperUser(userID);
     }
 
-    public static void saveUserChanges(SuperUser superUser) {
+    public static void updateSuperUser(SuperUser superUser) {
         databaseManager.changePassword(superUser);
         databaseManager.changeAdminStatus(superUser);
         databaseManager.changeUsername(superUser);
@@ -353,7 +366,7 @@ public class DataFacade {
 
     //region CastMember
 
-    public static boolean saveCastMember(CastMember castMember) {
+    public static boolean insertCastMember(CastMember castMember){
         return databaseManager.insertCastMember(castMember);
     }
 
