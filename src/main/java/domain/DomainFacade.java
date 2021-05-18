@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class DomainFacade {
 
-    private static System system = new System();
+    private static final System system = new System();
 
     //region Production
 
