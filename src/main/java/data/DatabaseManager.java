@@ -81,7 +81,7 @@ public class DatabaseManager {
             // Change the ID of the production to this new one after insert
             try (ResultSet resultSet = ps.executeQuery()) {
                 resultSet.next();
-                production.setId(resultSet.getInt(1));
+                production.setID(resultSet.getInt(1));
             }
 
             return true;
