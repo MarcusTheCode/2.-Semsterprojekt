@@ -40,7 +40,7 @@
             </HBox>
             <HBox prefHeight="52.0" prefWidth="1200.0">
                <children>
-                  <TextField fx:id="SearchBar" onKeyTyped="#searchForProduction" prefHeight="51.0" prefWidth="900.0" promptText="Search for production">
+                  <TextField fx:id="searchBar" onKeyTyped="#searchForProduction" prefHeight="51.0" prefWidth="900.0" promptText="Search for production">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -51,7 +51,7 @@
                         <Insets bottom="10.0" top="50.0" />
                      </opaqueInsets>
                   </TextField>
-                  <ComboBox fx:id="SearchFilterComboBox" prefHeight="50.0" prefWidth="188.0" promptText="Search Filter" visibleRowCount="2">
+                  <ComboBox fx:id="searchFilterComboBox" prefHeight="50.0" prefWidth="188.0" promptText="Search Filter" visibleRowCount="2">
                      <opaqueInsets>
                         <Insets top="5.0" />
                      </opaqueInsets>
