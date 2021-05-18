@@ -1,21 +1,20 @@
 package domain;
 
 import data.*;
-import presentation.UIManager;
+
+import java.util.ArrayList;
 
 public class System {
 
-    private static SuperUser currentUser;
+    private SuperUser currentUser;
 
-    public System() {
-
-    }
+    //region Production
 
     /**
      * This method is used to insert a production into the database.
      * @param production The production to save
      */
-    public void saveProduction(Production production) {
+    public void insertProduction(Production production) {
         DataFacade.insertProduction(production);
     }
 
@@ -24,24 +23,21 @@ public class System {
      * @param production The production to delete
      */
     public void deleteProduction(Production production) {
-        if (production.isOwner(currentUser) || currentUser.isSysAdmin()) {
+        if (production.isOwner(currentUser) || currentUser.isSysAdmin())
             DataFacade.deleteProduction(production.getId());
-        } else {
+        else
             throw new RuntimeException("ERROR: user is not allowed to edit");
-        }
     }
 
     /**
      * This method is used to edit a production
-     * @deprecated Not up to date with current codebase
      * @param production The production to edit
      */
-    public void editProduction(Production production) {
-        if (production.isOwner(currentUser)||currentUser.isSysAdmin()) {
-            DataFacade.editProduction(production);
-        } else {
+    public void updateProduction(Production production) {
+        if (production.isOwner(currentUser) || currentUser.isSysAdmin())
+            DataFacade.updateProduction(production);
+        else
             throw new RuntimeException("User is not allowed to edit this production");
-        }
     }
 
     /**
@@ -52,6 +48,10 @@ public class System {
     public Production getProduction(int productionID) {
         return DataFacade.getProduction(productionID);
     }
+
+    //endregion
+
+    //region SuperUser
 
     /**
      * This method is used to create a SuperUser from the given parameters.
@@ -71,7 +71,10 @@ public class System {
      * @param superUser The SuperUser to save
      */
     public void saveSuperUser(SuperUser superUser) {
-        DataFacade.insertSuperUser(superUser);
+        if (currentUser.isSysAdmin())
+            DataFacade.insertSuperUser(superUser);
+        else
+            throw new RuntimeException("User is not allowed to insert a SuperUser");
     }
 
     /**
@@ -79,7 +82,29 @@ public class System {
      * @param userID The ID of the SuperUser
      */
     public void deleteSuperUser(int userID) {
-        DataFacade.deleteSuperUser(userID);
+        if (currentUser.isSysAdmin())
+            DataFacade.deleteSuperUser(userID);
+        else
+            throw new RuntimeException("User is not allowed to delete a SuperUser");
+    }
+
+    /**
+     * This method is used to update a SuperUser in the database.
+     * @param superUser The SuperUser to save
+     */
+    public void updateSuperUser(SuperUser superUser) {
+        if (currentUser.isSysAdmin())
+            DataFacade.updateSuperUser(superUser);
+        else
+            throw new RuntimeException("User is not allowed to update a SuperUser");
+    }
+
+    /**
+     * This method is used to create a unique artist in the database.
+     * @return ArrayList<SuperUser> Returns a list of all SuperUsers.
+     */
+    public static ArrayList<SuperUser> getUsers() {
+        return DataFacade.getUsers();
     }
 
     /**
@@ -98,7 +123,6 @@ public class System {
      */
     public boolean login(String inputUsername, String inputPassword)  {
         currentUser = DataFacade.login(inputUsername, inputPassword);
-        UIManager.getArtistsController().enableButtons();
         return currentUser != null;
     }
 
@@ -108,15 +132,127 @@ public class System {
     public boolean logout() {
         if (currentUser != null) {
             currentUser = null;
-            UIManager.getArtistsController().disableButtons();
             return true;
         }
         return false;
     }
 
-    public static void saveUserChanges(SuperUser superUser) {
-        DataFacade.saveUserChanges(superUser);
+    //endregion
+
+    //region Artist
+
+    /**
+     * This method is used to create a unique artist in the database.
+     * @param name The name of the artist to insert into the database
+     * @return Artist Returns the newly created artist.
+     */
+    public Artist createArtist(String name, String email) {
+        if (currentUser != null) {
+            Artist artist = new Artist(name, email);
+            DataFacade.insertArtist(artist);
+            return artist;
+        }
+        return null;
     }
 
-    public static void saveArtistChanges(Artist artist) { DataFacade.saveArtistChanges(artist); }
+    /**
+     * This method is used to delete an artist from the database.
+     * @param artistID The ID of the artist to delete from the database
+     */
+    public boolean deleteArtist(int artistID) {
+        if (currentUser != null)
+            return DataFacade.deleteArtist(artistID);
+        return false;
+    }
+
+    /**
+     * This method is used to edit an Artist.
+     * @param artist The Artist to edit
+     */
+    public void updateArtist(Artist artist) {
+        if (currentUser != null)
+            DataFacade.updateArtist(artist);
+    }
+
+    public void saveArtistChanges(Artist artist) {
+        if (currentUser != null)
+            DataFacade.saveArtistChanges(artist);
+        else
+            throw new RuntimeException("User is not allowed to update an artist");
+    }
+
+    //endregion
+
+    //region Series
+
+    /**
+     * This method is used to create a series and save it in the database.
+     * @param seriesName The name of the series
+     */
+    public boolean createSeries(String seriesName) {
+        Series series = new Series(seriesName);
+        return DataFacade.insertSeries(series);
+    }
+
+    //endregion
+
+    //region Genre
+
+    /**
+     * This method is used to insert a genre into a production and save it in the database.
+     * @param production The production
+     * @param genre The genre to add
+     * @return boolean Whether the execution was successful.
+     */
+    public boolean insertGenre(Production production, Genre genre) {
+        return DataFacade.insertGenre(production, genre);
+    }
+
+    /**
+     * This method is used to delete a genre from a production and save it in the database.
+     * @param production The production
+     * @param genre The genre to remove
+     * @return boolean Whether the execution was successful.
+     */
+    public boolean deleteGenre(Production production, Genre genre) {
+        return DataFacade.deleteGenre(production, genre);
+    }
+
+    //endregion
+
+    //region Category
+
+    /**
+     * This method is used to create a season and save it in the database.
+     * @param seasonNumber The season number
+     * @param seriesID The series ID
+     * @return boolean Whether the execution was successful.
+     */
+    public boolean createSeason(int seasonNumber, int seriesID) {
+        if (currentUser != null) {
+            Season season = new Season(seasonNumber, seriesID);
+            return DataFacade.insertSeason(season);
+        }
+        return false;
+    }
+
+    //endregion
+
+    //region CastMember
+
+    public boolean insertCastMember(CastMember castMember) {
+        // TODO: Check if user is owner
+        if (currentUser != null)
+            return DataFacade.insertCastMember(castMember);
+        return false;
+    }
+
+    public boolean deleteCastMember(CastMember castMember) {
+        // TODO: Check if user is owner
+        if (currentUser != null)
+            return DataFacade.deleteCastMember(castMember);
+        return false;
+    }
+
+    //endregion
 }

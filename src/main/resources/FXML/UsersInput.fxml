@@ -46,5 +46,15 @@
       <Button fx:id="addUserButton" layoutX="21.0" layoutY="301.0" mnemonicParsing="false" onMouseClicked="#saveUser" text="Add user" />
       <CheckBox fx:id="isAdminCheckbox" layoutX="27.0" layoutY="274.0" mnemonicParsing="false" text="Admin" />
       <Button fx:id="saveChangesButton" layoutX="21.0" layoutY="301.0" mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save changes" visible="false" />
+      <AnchorPane fx:id="errorPane" layoutX="500.0" layoutY="300.0" prefHeight="220.0" prefWidth="220.0" style="-fx-background-color: #C0C0C0;" visible="false">
+         <children>
+            <Button layoutX="94.0" layoutY="181.0" mnemonicParsing="false" onMouseClicked="#closeAlertPane" text="OK" />
+            <Text fill="RED" layoutX="45.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your name or password contains illegal expressions" textAlignment="CENTER" wrappingWidth="132.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

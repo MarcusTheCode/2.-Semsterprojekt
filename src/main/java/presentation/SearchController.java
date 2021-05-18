@@ -9,31 +9,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.util.StringConverter;
-import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.LongStringConverter;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class SearchController implements Initializable {
 
     @FXML
-    private HBox loginHBox;
-
-    @FXML
     private Button usersButton;
-
-    @FXML
-    private Button artistsButton;
 
     @FXML
     private Button loginButton;
@@ -80,7 +69,6 @@ public class SearchController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
@@ -91,7 +79,7 @@ public class SearchController implements Initializable {
 
         episodeColumn.setCellValueFactory(new PropertyValueFactory<>("episodeNumber"));
 
-        searchOptionsObservableList = FXCollections.observableArrayList("Search By Production","Search By Series");
+        searchOptionsObservableList = FXCollections.observableArrayList("Search By Production", "Search By Series");
         SearchFilterComboBox.setItems(searchOptionsObservableList);
 
         loadProductions();
@@ -137,9 +125,10 @@ public class SearchController implements Initializable {
         loginButton.setText("Login");
         DomainFacade.logout();
         UIManager.getSearchController().setAdminToolsVisibility(false);
+        UIManager.getArtistsController().disableButtons();
     }
 
-    public void changeToLoggedIn(){
+    public void changeToLoggedIn() {
         if (DomainFacade.getCurrentUser().isSysAdmin()) {
             usersButton.setVisible(true);
         }
@@ -162,51 +151,12 @@ public class SearchController implements Initializable {
         if (production == null) {
             noProductionPane.setVisible(true);
             throw new Exception("No production selected");
-        }else{
+        } else {
             int index = productionsTable.getSelectionModel().getFocusedIndex();
             productionObservableList.remove(index);
 
             DomainFacade.deleteProduction(production);
         }
-    }
-
-    @FXML
-    void commitCategoryChange(TableColumn.CellEditEvent<Production, String> event) {
-        int row = event.getTablePosition().getRow();
-        Production production = event.getTableView().getItems().get(row);
-        production.setCategory(event.getNewValue());
-
-        DomainFacade.editProduction(production);
-    }
-
-    @FXML
-    void commitIDchange(TableColumn.CellEditEvent<Production, Integer> event) {
-        int row = event.getTablePosition().getRow();
-        Production production = event.getTableView().getItems().get(row);
-
-        DomainFacade.deleteProduction(production);
-
-        production.setID(event.getNewValue());
-
-        DomainFacade.saveProduction(production);
-    }
-
-    @FXML
-    void commitOwnerIDchange(TableColumn.CellEditEvent<Production, Integer> event) {
-        int row = event.getTablePosition().getRow();
-        Production production = event.getTableView().getItems().get(row);
-        production.setOwnerID(event.getNewValue());
-
-        DomainFacade.editProduction(production);
-    }
-
-    @FXML
-    void commitTitleChange(TableColumn.CellEditEvent<Production, String> event) {
-        int row = event.getTablePosition().getRow();
-        Production production = event.getTableView().getItems().get(row);
-        production.setTitle(event.getNewValue());
-
-        DomainFacade.editProduction(production);
     }
 
     @FXML
@@ -222,36 +172,36 @@ public class SearchController implements Initializable {
         }
     }
 
-    //Closing the pane, that open when you attempt to show production without highligthing any.
+    // Closing the pane, that open when you attempt to show production without highligthing any.
     @FXML
     void closeAlertPane(MouseEvent event) {
         noProductionPane.setVisible(false);
     }
 
-    // TODO: Consider only searching after typing enter, since this is very power hungry.
-    // TODO: searchForProduction method probably needs to be either split up, refactored or documented.
     @FXML
     void searchForProduction(KeyEvent event) {
-       if (SearchFilterComboBox.getValue()!=null && SearchBar.getText()!=null) {
-           productionObservableList.clear();
-           ArrayList<Production> productions = new ArrayList<>(DataFacade.loadAllProductions());
-           if (SearchFilterComboBox.getValue().equals("Search By Production")) {
-               for (Production production : productions) {
-                   if (production.getTitle().toLowerCase().contains(SearchBar.getText().toLowerCase())) {
-                       productionObservableList.add(production);
-                   }
-               }
-           }else if (SearchFilterComboBox.getValue().equals("Search By Series")){
-               ArrayList<String> SeriesProduction = new ArrayList<>(DataFacade.getSeriesAndProductionID());
-               String val[];
-               for (String sp: SeriesProduction){
-                   val = sp.split(",");
-                   if (val[0].toLowerCase().contains(SearchBar.getText().toLowerCase())){
-                       productionObservableList.add(DomainFacade.getProduction(Integer.parseInt(val[1])));
-                   }
-               }
-           }
-       }
+        if (event.getCode() == KeyCode.ENTER) {
+            if (SearchFilterComboBox.getValue() != null && SearchBar.getText() != null) {
+                productionObservableList.clear();
+                ArrayList<Production> productions = new ArrayList<>(DataFacade.loadAllProductions());
+                if (SearchFilterComboBox.getValue().equals("Search By Production")) {
+                    for (Production production : productions) {
+                        if (production.getTitle().toLowerCase().contains(SearchBar.getText().toLowerCase())) {
+                            productionObservableList.add(production);
+                        }
+                    }
+                } else if (SearchFilterComboBox.getValue().equals("Search By Series")) {
+                    ArrayList<String> SeriesProduction = new ArrayList<>(DataFacade.getSeriesAndProductionID());
+                    String val[];
+                    for (String sp : SeriesProduction) {
+                        val = sp.split(",");
+                        if (val[0].toLowerCase().contains(SearchBar.getText().toLowerCase())) {
+                            productionObservableList.add(DomainFacade.getProduction(Integer.parseInt(val[1])));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @FXML

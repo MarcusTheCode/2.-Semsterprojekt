@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,6 +27,11 @@ public class UsersInputController implements Initializable {
     @FXML
     private Button addUserButton, saveChangesButton;
 
+    @FXML
+    private AnchorPane errorPane;
+
+    private final String nameRegularExpression = "[a-zA-Z]+";
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -39,15 +45,25 @@ public class UsersInputController implements Initializable {
 
     @FXML
     void saveUser(MouseEvent event) {
-        createUser(username.getText(), password.getText(), isAdminCheckbox.isSelected());
-        UIManager.getUsersController().loadUser();
+        if (username.getText().matches(nameRegularExpression) && password.getText().matches(nameRegularExpression)) {
+            createUser(username.getText(), password.getText(), isAdminCheckbox.isSelected());
+            UIManager.getUsersController().loadUser();
+        }
+        else {
+            errorPane.setVisible(true);
+        }
     }
 
     @FXML
     void saveChanges(MouseEvent event) {
-        UIManager.saveUserChanges(UIManager.getUsersController().getSelectedID(), password.getText(), username.getText(), isAdminCheckbox.isSelected());
-        UIManager.changeScene(UIManager.getUsersScene());
-        UIManager.getUsersController().loadUser();
+        if (username.getText().matches(nameRegularExpression) && password.getText().matches(nameRegularExpression)) {
+            UIManager.saveUserChanges(UIManager.getUsersController().getSelectedID(), password.getText(), username.getText(), isAdminCheckbox.isSelected());
+            UIManager.changeScene(UIManager.getUsersScene());
+            UIManager.getUsersController().loadUser();
+        }
+        else {
+            errorPane.setVisible(true);
+        }
     }
 
 
@@ -73,5 +89,10 @@ public class UsersInputController implements Initializable {
     void addUser() {
         addUserButton.setVisible(true);
         saveChangesButton.setVisible(false);
+    }
+
+    @FXML
+    void closeAlertPane(MouseEvent event) {
+        errorPane.setVisible(false);
     }
 }

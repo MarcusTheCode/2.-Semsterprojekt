@@ -9,9 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.util.converter.BooleanStringConverter;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
@@ -45,7 +43,6 @@ public class UsersController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -65,12 +62,6 @@ public class UsersController implements Initializable {
         UIManager.getUsersController().loadUser();
     }
 
-   /* @FXML
-    void addEntry(MouseEvent event) {
-        SuperUser user = DomainFacade.createUser("password1234", "Name", false);
-        usersObservableList.add(user);
-    } */
-
     @FXML
     void addUser(MouseEvent event) {
         UIManager.changeScene(UIManager.getUsersInputScene());
@@ -80,19 +71,22 @@ public class UsersController implements Initializable {
 
     @FXML
     void deleteSuperUser(MouseEvent event) throws Exception {
-        SuperUser superUser = superUsers.getSelectionModel().getSelectedItem();
+        SuperUser user = superUsers.getSelectionModel().getSelectedItem();
         int index = superUsers.getSelectionModel().getFocusedIndex();
-        int userID = usersObservableList.get(index).getId();
 
-        if (superUser == null) {
+        if(user == null) {
+            errorPaneText.setText("No User is highlighted");
             noUserSelected.setVisible(true);
-            throw new Exception("No user selected");}
-        else { if (superUsers.getSelectionModel().getSelectedItem().getId() != 1){
-        usersObservableList.remove(index);
-        DomainFacade.deleteSuperUser(userID);
+            throw new Exception("No User is highlighted");
+
+        }else if(user.getId() == 1) {
+            errorPaneText.setText("Can't delete Sysadmin");
+            noUserSelected.setVisible(true);
+            throw new Exception("Can't delete Sysadmin");
         }else{
-            noUserSelected.setVisible(true);}
-            errorPaneText.setText("You don't have permission to do that");}
+            usersObservableList.remove(index);
+            DomainFacade.deleteSuperUser(user.getId());
+        }
     }
 
     @FXML
@@ -101,46 +95,20 @@ public class UsersController implements Initializable {
         if (superUser == null) {
             noUserSelected.setVisible(true);
             throw new Exception("No user selected");
-        }else{
-            if (superUsers.getSelectionModel().getSelectedItem().getId() != 1){
-        UIManager.changeScene(UIManager.getUsersInputScene());
-        UIManager.getUsersInputController().editUser();}
-        else{
-            noUserSelected.setVisible(true);
-            errorPaneText.setText("You don't have permission to do that");}
+        } else {
+            if (superUsers.getSelectionModel().getSelectedItem().getId() != 1) {
+                UIManager.changeScene(UIManager.getUsersInputScene());
+                UIManager.getUsersInputController().editUser();
+            } else {
+                noUserSelected.setVisible(true);
+                errorPaneText.setText("You don't have permission to do that");
+            }
         }
     }
 
     @FXML
     void closeAlertPane(MouseEvent event) {
         noUserSelected.setVisible(false);
-    }
-
-    @FXML
-    void commitNameChange(TableColumn.CellEditEvent<SuperUser, String> event) {
-        int row = event.getTablePosition().getRow();
-        SuperUser superUser = event.getTableView().getItems().get(row);
-        superUser.setUsername(event.getNewValue());
-
-        DomainFacade.editUser(superUser);
-    }
-
-    @FXML
-    void commitPassChange(TableColumn.CellEditEvent<SuperUser, String> event) {
-        int row = event.getTablePosition().getRow();
-        SuperUser superUser = event.getTableView().getItems().get(row);
-        superUser.setPassword(event.getNewValue());
-
-        DomainFacade.editUser(superUser);
-    }
-
-    @FXML
-    void commitAdminChange(TableColumn.CellEditEvent<SuperUser, Boolean> event) {
-        int row = event.getTablePosition().getRow();
-        SuperUser superUser = event.getTableView().getItems().get(row);
-        superUser.setSysAdmin(event.getNewValue());
-
-        DomainFacade.editUser(superUser);
     }
 
     public void loadUser() {
