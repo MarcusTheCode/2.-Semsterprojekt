@@ -82,10 +82,6 @@ public class DataFacade {
         return databaseManager.insertArtist(artist);
     }
 
-    public static void insertCastMember(CastMember castMember){
-        databaseManager.insertCastMember(castMember);
-    }
-
     /**
      * This method is used to delete an artist from the database.
      * @param artistID The ID of the artist to delete from the database
@@ -173,7 +169,7 @@ public class DataFacade {
         return databaseManager.deleteSuperUser(userID);
     }
 
-    public static void saveUserChanges(SuperUser superUser) {
+    public static void updateSuperUser(SuperUser superUser) {
         databaseManager.changePassword(superUser);
         databaseManager.changeAdminStatus(superUser);
         databaseManager.changeUsername(superUser);
@@ -352,7 +348,7 @@ public class DataFacade {
 
     //region CastMember
 
-    public static boolean saveCastMember(CastMember castMember) {
+    public static boolean insertCastMember(CastMember castMember){
         return databaseManager.insertCastMember(castMember);
     }
 

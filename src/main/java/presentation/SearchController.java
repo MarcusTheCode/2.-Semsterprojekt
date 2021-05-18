@@ -183,7 +183,7 @@ public class SearchController implements Initializable {
 
         production.setID(event.getNewValue());
 
-        DomainFacade.saveProduction(production);
+        DomainFacade.insertProduction(production);
     }
 
     @FXML
