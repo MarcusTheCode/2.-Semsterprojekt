@@ -66,8 +66,8 @@
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>
                <columns>
-                  <TableColumn fx:id="titleColumn" editable="false" onEditCommit="#commitTitleChange" prefWidth="250.0" text="Title" />
-                  <TableColumn fx:id="categoryColumn" editable="false" onEditCommit="#commitCategoryChange" prefWidth="100.0" text="Category" />
+                  <TableColumn fx:id="titleColumn" editable="false" prefWidth="250.0" text="Title" />
+                  <TableColumn fx:id="categoryColumn" editable="false" prefWidth="100.0" text="Category" />
                   <TableColumn fx:id="typeColumn" editable="false" prefWidth="75.0" text="Type" />
                   <TableColumn fx:id="seasonColumn" editable="false" prefWidth="75.0" text="Season" />
                   <TableColumn fx:id="episodeColumn" editable="false" prefWidth="75.0" text="Episode" />
