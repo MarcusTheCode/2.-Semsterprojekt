@@ -160,8 +160,6 @@ public class DatabaseManager {
                         resultSet.getString(7),
                         getCategory(resultSet.getInt(4)),
                         resultSet.getString(3));
-                production.setCastMembers(getCastMembers(productionID));
-                production.setGenres(getGenres(productionID));
             }
         } catch (SQLException e) {
             e.printStackTrace();
