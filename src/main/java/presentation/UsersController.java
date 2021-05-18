@@ -71,21 +71,21 @@ public class UsersController implements Initializable {
 
     @FXML
     void deleteSuperUser(MouseEvent event) throws Exception {
-        SuperUser superUser = superUsers.getSelectionModel().getSelectedItem();
+        SuperUser user = superUsers.getSelectionModel().getSelectedItem();
         int index = superUsers.getSelectionModel().getFocusedIndex();
-        int userID = usersObservableList.get(index).getId();
 
-        if (superUser == null) {
+        if(user == null) {
+            errorPaneText.setText("No User is highlighted");
             noUserSelected.setVisible(true);
-            throw new Exception("No user selected");
-        } else {
-            if (superUsers.getSelectionModel().getSelectedItem().getId() != 1) {
-                usersObservableList.remove(index);
-                DomainFacade.deleteSuperUser(userID);
-            } else {
-                noUserSelected.setVisible(true);
-            }
-            errorPaneText.setText("You don't have permission to do that");
+            throw new Exception("No User is highlighted");
+
+        }else if(user.getId() == 1) {
+            errorPaneText.setText("Can't delete Sysadmin");
+            noUserSelected.setVisible(true);
+            throw new Exception("Can't delete Sysadmin");
+        }else{
+            usersObservableList.remove(index);
+            DomainFacade.deleteSuperUser(user.getId());
         }
     }
 
