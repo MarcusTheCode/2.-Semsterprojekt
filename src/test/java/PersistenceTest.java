@@ -139,15 +139,27 @@ public class PersistenceTest {
 
     @Test
     public void editProductionTest() {
-        // TODO: Implement (:
-        /**
-         * (1) add producer
-         * (2) add production
-         * (3) change something about productions
-         * (4) retrieve changed production
-         * (5) compare it to the original produciotn
-         */
-        assertTrue(false);
+        HashMap<String, Integer> superUsersMap;
+        HashMap<String, Integer> productionsMap;
+
+        SuperUser superUser = new SuperUser("Christopher Nolan","1234batman",false);
+        DataFacade.insertSuperUser(superUser);
+        superUsersMap = DataFacade.getSuperUsersMap();
+
+        Integer superUserID = superUsersMap.get(superUser.getUsername());
+
+        Production originalProduction = new Production("Batman",superUserID,"entertainment",1,"movie");
+        DataFacade.insertProduction(originalProduction);
+        productionsMap = DataFacade.getProductionsMap();
+        Integer productionID = productionsMap.get(originalProduction.getTitle());
+
+        Production newProduction = new Production("Batman: The Dark Knight",superUserID,"entertainment",1,"movie");
+        newProduction.setID(productionID);
+        DataFacade.editProduction(newProduction);
+
+        Production editedProduction = DataFacade.getProduction(productionID);
+
+        assertTrue(editedProduction.equals(newProduction));
     }
 
     @Test
