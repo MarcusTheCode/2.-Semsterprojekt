@@ -94,12 +94,12 @@
       </VBox>
       <AnchorPane fx:id="noProductionPane" layoutX="461.0" layoutY="329.0" prefHeight="168.0" prefWidth="278.0" style="-fx-background-color: #C0C0C0;" visible="false">
          <children>
-            <Text fill="RED" layoutX="36.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No production is highlighted" textAlignment="CENTER" wrappingWidth="205.19140625">
+            <Text fx:id="errorPaneText" fill="RED" layoutX="36.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No production is highlighted" textAlignment="CENTER" wrappingWidth="205.19140625">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Button fx:id="alertPaneButton" layoutX="122.0" layoutY="138.0" mnemonicParsing="false" onMouseClicked="#closeAlertPane" text="OK" textAlignment="CENTER" />
+            <Button layoutX="122.0" layoutY="138.0" mnemonicParsing="false" onMouseClicked="#closeAlertPane" text="OK" textAlignment="CENTER" />
          </children>
       </AnchorPane>
    </children>
