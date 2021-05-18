@@ -22,7 +22,7 @@ public class Production implements Serializable {
         this.producerID = producerID;
         this.category = "";
         this.title = "";
-        this.episodeNumber = null;
+        this.episodeNumber = 0;
         this.type = "";
         this.seasonID = null;
         this.categoryID = null;

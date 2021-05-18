@@ -62,9 +62,10 @@ public class DatabaseManager {
      * @return boolean Returns whether the execution succeeded.
      */
     public boolean insertProduction(Production production) {
-        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle,seasonID)" +
-                " VALUES (?,?,?,?,?,?)")) {
-            if (production.getSeasonID() != null)
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO productions(episodeNumber,type,categoryID,producerID,productionTitle,seasonID) " +
+                "VALUES (?,?,?,?,?,?) " +
+                "RETURNING id")) {
+            if (production.getEpisodeNumber() != null)
                 ps.setInt(1, production.getEpisodeNumber());
             else
                 ps.setNull(1, Types.INTEGER);
@@ -76,9 +77,13 @@ public class DatabaseManager {
                 ps.setInt(6, production.getSeasonID());
             else
                 ps.setNull(6, Types.INTEGER);
-            ps.execute();
-            // If an error occurs when executing the ps, it jumps to the catch statement
-            // otherwise, it is safe to assume that the statement executed correctly
+
+            // Change the ID of the production to this new one after insert
+            try (ResultSet resultSet = ps.executeQuery()) {
+                resultSet.next();
+                production.setId(resultSet.getInt(1));
+            }
+
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
