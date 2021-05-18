@@ -34,10 +34,13 @@ public class Production implements Serializable {
     public Production(String title, Integer producerID, String category, Integer episodeNumber, String type) {
         this.title = title;
         this.producerID = producerID;
-        setCategory(category);
+        this.setCategory(category);
         this.episodeNumber = episodeNumber;
         this.type = type;
-        this.castMembers = null;
+        this.castMembers = new ArrayList<>();
+        this.genres = new ArrayList<>();
+        this.seasonNumber = 0;
+        this.seasonID = null;
     }
 
     //Tv-Series
@@ -47,14 +50,11 @@ public class Production implements Serializable {
         this.id = productionID;
         this.title = title;
         this.episodeNumber = episodeNumber;
-        this.seasonID = (seasonID == null) ? null: seasonsID;
-        Integer seasonNumber = DataFacade.getSeasonNumber(seasonsID);
-        this.seasonNumber = (seasonNumber == 0) ? null: seasonNumber;
+        this.seasonID = (seasonsID == 0) ? null :seasonsID;
+        this.seasonNumber = DataFacade.getSeasonNumber(seasonsID);
         this.type = type;
-        ArrayList<CastMember> castMembers = DataFacade.getCastMembers(productionID);
-        this.castMembers = (castMembers.size() == 0) ? null: castMembers;
-        ArrayList<Genre> genres =  DataFacade.getGenres(productionID);
-        this.genres = (genres.size() == 0) ? null: genres;
+        this.castMembers = DataFacade.getCastMembers(productionID);
+        this.genres = DataFacade.getGenres(productionID);
     }
 
     public ArrayList<Genre> getGenres() {
