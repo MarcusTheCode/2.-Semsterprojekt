@@ -29,7 +29,7 @@ public class UsersInputController implements Initializable {
     @FXML
     private AnchorPane errorPane;
 
-    private final String nameRegularExpression = "[a-zA-Z]+";
+    private final String nameRegularExpression = "[a-zA-Z0-9]+";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
