@@ -155,7 +155,7 @@ public class PersistenceTest {
 
         Production newProduction = new Production("Batman: The Dark Knight",superUserID,"entertainment",1,"movie");
         newProduction.setID(productionID);
-        DataFacade.editProduction(newProduction);
+        DataFacade.updateProduction(newProduction);
 
         Production editedProduction = DataFacade.getProduction(productionID);
 
