@@ -2,6 +2,7 @@ package presentation;
 
 import domain.DomainFacade;
 import domain.Production;
+import domain.SuperUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,6 +41,9 @@ public class SearchController implements Initializable {
 
     @FXML
     private AnchorPane noProductionPane;
+
+    @FXML
+    private Text currentLoginText;
 
     @FXML
     private TextField searchBar;
@@ -99,6 +104,7 @@ public class SearchController implements Initializable {
 
     public void changeToLoggedOut(){
         usersButton.setVisible(false);
+        currentLoginText.setVisible(false);
         loginButton.setText("Login");
         DomainFacade.logout();
         UIManager.getSearchController().setAdminToolsVisibility(false);
@@ -106,10 +112,13 @@ public class SearchController implements Initializable {
     }
 
     public void changeToLoggedIn() {
+        String user = DomainFacade.getCurrentUser().getUsername();
         if (DomainFacade.getCurrentUser().isSysAdmin()) {
             usersButton.setVisible(true);
         }
         loginButton.setText("Logout");
+        currentLoginText.setVisible(true);
+        currentLoginText.setText("Current login: " + user);
     }
 
     @FXML
