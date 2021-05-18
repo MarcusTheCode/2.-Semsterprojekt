@@ -89,6 +89,7 @@ public class ArtistsController implements Initializable {
     void addArtist(MouseEvent event) {
         UIManager.changeScene(UIManager.getArtistScene());
         UIManager.getArtistController().clearTextField();
+        UIManager.getArtistController().editArtist(null);
     }
 
     @FXML
@@ -107,24 +108,12 @@ public class ArtistsController implements Initializable {
             errorPaneText.setText("No artist is selected");
         } else {
             UIManager.changeScene(UIManager.getArtistScene());
-            UIManager.getArtistController().editArtist();
+            UIManager.getArtistController().editArtist(artist);
         }
     }
 
     @FXML
     void closeAlertPane(MouseEvent event) {
         noArtistSelected.setVisible(false);
-    }
-
-    public String getName() {
-        return artists.getSelectionModel().getSelectedItem().getName();
-    }
-
-    public String getEmail() {
-        return artists.getSelectionModel().getSelectedItem().getEmail();
-    }
-
-    public int getSelectedID() {
-        return artists.getSelectionModel().getSelectedItem().getId();
     }
 }
