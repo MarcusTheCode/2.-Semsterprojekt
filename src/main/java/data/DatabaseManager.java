@@ -329,7 +329,7 @@ public class DatabaseManager {
 
     public boolean changeAdminStatus(SuperUser user) {
         try (PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
-                "isSysAdmin = ? " +
+                "isAdmin = ? " +
                 "WHERE id = ?")) {
             ps.setBoolean(1,user.isSysAdmin());
             ps.setInt(2,user.getId());
