@@ -28,17 +28,16 @@ CREATE TABLE seasons (
 );
 
 CREATE TABLE artists (
-                         id SERIAL PRIMARY KEY,
-                         name VARCHAR(100) NOT NULL,
-                         email VARCHAR(100) UNIQUE NOT NULL
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL
 );
 
 CREATE TABLE superUsers (
     id SERIAL PRIMARY KEY,
     isAdmin BOOLEAN NOT NULL,
     userName VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(50) NOT NULL,
-    artistID INTEGER REFERENCES artists(id)
+    password VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE productions (
@@ -156,16 +155,12 @@ INSERT INTO seasons(seasonnumber, seriesid) VALUES
 
 -- admins
 INSERT INTO superUsers(isAdmin, userName, password) VALUES
-(true,'admin','admin');
-
-
--- producers
-INSERT INTO superUsers(isAdmin, userName, password, artistID) VALUES
-(false,'suits','1234',32),
-(false,'lucifer','1234',26),
-(false,'starwars','jedi',12),
-(false,'bee','1234',24),
-(false,'spider','man',9);
+(true,'admin','admin'),
+(false,'suits','1234'),
+(false,'lucifer','1234'),
+(false,'starwars','jedi'),
+(false,'bee','1234'),
+(false,'spider','man');
 
 
 -- Tv-Series
