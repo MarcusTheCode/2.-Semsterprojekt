@@ -28,7 +28,7 @@ public class Production implements Serializable {
         this.seasonID = null;
         this.categoryID = null;
         this.castMembers = new ArrayList<>();
-        this.genres = null;
+        this.genres = new ArrayList<>();
     }
 
     public Production(String title, Integer producerID, String category, Integer episodeNumber, String type) {
