@@ -381,7 +381,7 @@ public class DataFacade {
     }
 
     public static boolean castMemberExists(CastMember castMember){
-        return databaseManager.chekIfCastMemberExists(castMember);
+        return databaseManager.castMemberExists(castMember);
     }
 
     public static ArrayList<CastMember> getCastMembers(int productionID) {

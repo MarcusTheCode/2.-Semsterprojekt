@@ -1034,7 +1034,7 @@ public class DatabaseManager {
         return false;
     }
 
-    public boolean chekIfCastMemberExists(CastMember castMember){
+    public boolean castMemberExists(CastMember castMember){
         try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM castMembers " +
                 "WHERE castMembers.artistID = ?")) {
             ps.setInt(1, castMember.getArtistID());
