@@ -194,7 +194,7 @@ public class System {
 
     public void saveArtistChanges(Artist artist) {
         if (currentUser != null)
-            DataFacade.saveArtistChanges(artist);
+            DataFacade.updateArtist(artist);
         else
             throw new RuntimeException("User is not allowed to update an artist");
     }
