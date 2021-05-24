@@ -15,7 +15,8 @@ public class System {
      * @param production The production to save
      */
     protected void insertProduction(Production production) {
-        DataFacade.insertProduction(production);
+        if (currentUser != null)
+            DataFacade.insertProduction(production);
     }
 
     /**
@@ -89,7 +90,7 @@ public class System {
      * @param superUser The SuperUser to save
      */
     public void saveSuperUser(SuperUser superUser) {
-        if (currentUser.isSysAdmin())
+        if (currentUser != null && currentUser.isSysAdmin())
             DataFacade.insertSuperUser(superUser);
         else
             throw new RuntimeException("User is not allowed to insert a SuperUser");
@@ -100,7 +101,7 @@ public class System {
      * @param userID The ID of the SuperUser
      */
     public void deleteSuperUser(int userID) {
-        if (currentUser.isSysAdmin())
+        if (currentUser != null && currentUser.isSysAdmin())
             DataFacade.deleteSuperUser(userID);
         else
             throw new RuntimeException("User is not allowed to delete a SuperUser");
@@ -208,8 +209,11 @@ public class System {
      * @param seriesName The name of the series
      */
     public boolean createSeries(String seriesName) {
-        Series series = new Series(seriesName);
-        return DataFacade.insertSeries(series);
+        if (currentUser != null) {
+            Series series = new Series(seriesName);
+            return DataFacade.insertSeries(series);
+        }
+        return false;
     }
 
     //endregion
@@ -223,7 +227,9 @@ public class System {
      * @return boolean Whether the execution was successful.
      */
     public boolean insertGenre(Production production, Genre genre) {
-        return DataFacade.insertGenre(production, genre);
+        if (currentUser != null)
+            return DataFacade.insertGenre(production, genre);
+        return false;
     }
 
     /**
@@ -233,7 +239,9 @@ public class System {
      * @return boolean Whether the execution was successful.
      */
     public boolean deleteGenre(Production production, Genre genre) {
-        return DataFacade.deleteGenre(production, genre);
+        if (currentUser != null)
+            return DataFacade.deleteGenre(production, genre);
+        return false;
     }
 
     //endregion
