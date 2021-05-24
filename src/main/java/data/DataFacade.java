@@ -64,19 +64,21 @@ public class DataFacade {
     /**
      * This method is used to retrieve all productions whose titles matches the search pattern.
      * @param pattern The pattern to search for
+     * @param producer The producer to search within or null
      * @return ArrayList<Production> Returns a list of matching productions.
      */
-    public static ArrayList<Production> getProductionsByTitle(String pattern) {
-        return databaseManager.getFilteredProductions(pattern, false);
+    public static ArrayList<Production> getProductionsByTitle(String pattern, SuperUser producer) {
+        return databaseManager.getFilteredProductions(pattern, false, producer);
     }
 
     /**
      * This method is used to retrieve all productions whose series matches the search pattern.
      * @param pattern The pattern to search for
+     * @param producer The producer to search within or null
      * @return ArrayList<Production> Returns a list of matching productions.
      */
-    public static ArrayList<Production> getProductionsBySeries(String pattern) {
-        return databaseManager.getFilteredProductions(pattern, true);
+    public static ArrayList<Production> getProductionsBySeries(String pattern, SuperUser producer) {
+        return databaseManager.getFilteredProductions(pattern, true, producer);
     }
 
     /**

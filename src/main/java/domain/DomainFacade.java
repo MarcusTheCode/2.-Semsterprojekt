@@ -55,7 +55,7 @@ public class DomainFacade {
      * @return ArrayList<Production> Returns a list of matching productions.
      */
     public static ArrayList<Production> getProductionsByTitle(String pattern) {
-        return DataFacade.getProductionsByTitle(pattern);
+        return system.getProductionsByTitle(pattern);
     }
 
     /**
@@ -64,7 +64,7 @@ public class DomainFacade {
      * @return ArrayList<Production> Returns a list of matching productions.
      */
     public static ArrayList<Production> getProductionsBySeries(String pattern) {
-        return DataFacade.getProductionsBySeries(pattern);
+        return system.getProductionsBySeries(pattern);
     }
 
     /**

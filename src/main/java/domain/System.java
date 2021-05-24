@@ -49,6 +49,24 @@ public class System {
         return DataFacade.getProduction(productionID);
     }
 
+    /**
+     * This method is used to retrieve all productions whose titles matches the search pattern.
+     * @param pattern The pattern to search for
+     * @return ArrayList<Production> Returns a list of matching productions.
+     */
+    protected ArrayList<Production> getProductionsByTitle(String pattern) {
+        return DataFacade.getProductionsByTitle(pattern, getCurrentUser());
+    }
+
+    /**
+     * This method is used to retrieve all productions whose series matches the search pattern.
+     * @param pattern The pattern to search for
+     * @return ArrayList<Production> Returns a list of matching productions.
+     */
+    protected ArrayList<Production> getProductionsBySeries(String pattern) {
+        return DataFacade.getProductionsBySeries(pattern, getCurrentUser());
+    }
+
     //endregion
 
     //region SuperUser
