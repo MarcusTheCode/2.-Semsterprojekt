@@ -94,12 +94,12 @@
                <children>
                   <ComboBox fx:id="artist" prefWidth="150.0" promptText="Artist" visible="false" />
                   <TextField fx:id="role" promptText="Role" visible="false" />
-                  <Button fx:id="addEntry" mnemonicParsing="false" onMouseClicked="#addEntry" text="Add entry" visible="false">
+                  <Button fx:id="addEntry" mnemonicParsing="false" onMouseClicked="#addEntry" text="Add artist" visible="false">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="deleteEntry" mnemonicParsing="false" onMouseClicked="#deleteEntry" text="Delete entry" visible="false">
+                  <Button fx:id="deleteEntry" mnemonicParsing="false" onMouseClicked="#deleteEntry" text="Delete artist" visible="false">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
