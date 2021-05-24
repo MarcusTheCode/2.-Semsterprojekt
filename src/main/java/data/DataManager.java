@@ -6,6 +6,11 @@ import domain.SuperUser;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * <h1>DataManager</h1>
+ * @deprecated This method is deprecated, use DatabaseManager instead
+ */
+
 public class DataManager {
 
     private final String DATAFOLDER = "resources/TXT/";
