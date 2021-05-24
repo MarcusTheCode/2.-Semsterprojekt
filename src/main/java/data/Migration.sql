@@ -365,7 +365,7 @@ CREATE OR REPLACE FUNCTION getProductionsByTitle(search VARCHAR (50))
     RETURNS SETOF productions AS $$
 BEGIN
     RETURN QUERY SELECT * FROM productions
-    WHERE productions.productionTitle Like search;
+    WHERE LOWER(productions.productionTitle) Like search;
 END
 $$ LANGUAGE plpgsql;
 
@@ -373,7 +373,7 @@ CREATE OR REPLACE FUNCTION getProductionsByTitle(search VARCHAR (50), userID INT
     RETURNS SETOF productions AS $$
 BEGIN
     RETURN QUERY SELECT * FROM productions
-    WHERE productions.productionTitle Like search
+    WHERE LOWER(productions.productionTitle) Like search
     AND productions.producerID = userID;
 END
 $$ LANGUAGE plpgsql;
@@ -388,7 +388,7 @@ BEGIN
                         productions.producerid,productions.productiontitle FROM productions
         JOIN seasons ON productions.seasonID = seasons.id
         JOIN series ON seasons.seriesID = series.id
-        WHERE series.name Like search;
+        WHERE LOWER(series.name) Like search;
 END
 $$ LANGUAGE plpgsql;
 
@@ -400,7 +400,7 @@ BEGIN
                         productions.producerid,productions.productiontitle FROM productions
         JOIN seasons ON productions.seasonID = seasons.id
         JOIN series ON seasons.seriesID = series.id
-        WHERE series.name Like search
+        WHERE LOWER(series.name) Like search
         AND productions.producerID = userID;
 END
 $$ LANGUAGE plpgsql;

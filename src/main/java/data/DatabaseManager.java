@@ -189,7 +189,7 @@ public class DatabaseManager {
                 sqlCode = "SELECT * FROM getProductionsByTitle(?,?)";
         }
         try (PreparedStatement ps = connection.prepareStatement(sqlCode)) {
-            ps.setString(1, "%" + pattern + "%");
+            ps.setString(1, "%" + pattern.toLowerCase() + "%");
             if (producer != null && !producer.isSysAdmin())
                 ps.setInt(2, producer.getId());
             try (ResultSet resultSet = ps.executeQuery()) {
