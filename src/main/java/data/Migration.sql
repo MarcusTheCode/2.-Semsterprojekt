@@ -83,7 +83,7 @@ INSERT INTO artists(name,email) VALUES
 
 -- Star Wars prequel trilogy artists
 INSERT INTO artists(name,email) VALUES
-('Gorge Lucas','GorgeLucas@lucas.film.com'),
+('George Lucas','GorgeLucas@lucas.film.com'),
 ('Rick McCallum','RickMcCallum@gmail.com'),
 ('Liam Neeson','LiamNeeson@jedi.com'),
 ('Ewan McGregor','EwanMcGregor@charter.net'),
@@ -124,20 +124,20 @@ INSERT INTO artists(name,email) VALUES
 
 
 INSERT INTO categories(name) VALUES
-('news'),
-('documentary'),
-('whether'),
-('entertainment');
+('News'),
+('Documentary'),
+('Whether'),
+('Entertainment');
 
 
 INSERT INTO genres(name) VALUES
-('fantasy'),
-('comedy'),
-('sci-fi'),
-('action'),
-('horror'),
-('adventure'),
-('epic space-opera'),
+('Fantasy'),
+('Comedy'),
+('Sci-fi'),
+('Action'),
+('Horror'),
+('Adventure'),
+('Epic space-opera'),
 ('Legal drama');
 
 
@@ -153,31 +153,31 @@ INSERT INTO seasons(seasonnumber, seriesid) VALUES
 (1,2);
 
 
--- admins
+-- SuperUsers
 INSERT INTO superUsers(isAdmin, userName, password) VALUES
 (true,'admin','admin'),
 (false,'suits','1234'),
 (false,'lucifer','1234'),
-(false,'starwars','jedi'),
-(false,'bee','1234'),
-(false,'spider','man');
+(false,'lucasfilms','jedi'),
+(false,'dreamworks','1234'),
+(false,'marvel','ragnarok');
 
 
 -- Tv-Series
 INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, productionTitle) VALUES
-(1,'tv-series',4,1,1,'pilot part 1 & 2'),
-(2,'tv-series',4,1,1,'errors and omissions'),
-(1,'tv-series',4,2,2,'pilotepisode'),
-(2,'tv-series',4,2,2,'lucifer, stay. good devil.');
+(1,'tv-series',4,1,1,'Pilot part 1 & 2'),
+(2,'tv-series',4,1,1,'Errors and omissions'),
+(1,'tv-series',3,2,2,'Pilot episode'),
+(2,'tv-series',3,2,2,'Lucifer, stay. good devil.');
 
 
 -- Movies
 INSERT INTO productions(episodeNumber, type, categoryID, producerID, productionTitle) VALUES
-(1,'movie',4,4,'bee movie'),
-(1,'movie',4,3,'Star wars Episode I: The Phantom Menace'),
-(2,'movie',4,3,'Star Wars Episode II: Attack Of The Clones'),
-(3,'movie',4,3,'Star Wars Episode III: Revenge Of The Sith'),
-(2,'movie',4,5,'Spiderman Far From Home');
+(1,'movie',4,5,'Bee Movie'),
+(1,'movie',4,4,'Star Wars Episode I: The Phantom Menace'),
+(2,'movie',4,4,'Star Wars Episode II: Attack Of The Clones'),
+(3,'movie',4,4,'Star Wars Episode III: Revenge Of The Sith'),
+(2,'movie',4,6,'Spider-Man: Far From Home');
 
 
 INSERT INTO productionGenres(productionID, genreID) VALUES
@@ -195,58 +195,58 @@ INSERT INTO productionGenres(productionID, genreID) VALUES
 INSERT INTO castMembers(productionID, role, artistID) VALUES
 -- Bee movie
 (5,'Actor',23),
-(5,'producer',24),
-(5,'producer',25),
+(5,'Producer',24),
+(5,'Producer',25),
 
 -- Spiderman
-(9,'actor',1),
-(9,'actor',2),
-(9,'actor',3),
-(9,'actor',4),
-(9,'actor',5),
-(9,'actor',6),
-(9,'actor',7),
-(9,'actor',8),
-(9,'director',9),
-(9,'producer',10),
+(9,'Actor',1),
+(9,'Actor',2),
+(9,'Actor',3),
+(9,'Actor',4),
+(9,'Actor',5),
+(9,'Actor',6),
+(9,'Actor',7),
+(9,'Actor',8),
+(9,'Director',9),
+(9,'Producer',10),
 
 -- suits ep 1
-(1,'actor',33),
-(1,'actor',34),
-(1,'actor',35),
-(1,'actor',36),
-(1,'actor',37),
-(1,'actor',38),
-(1,'producer',32),
+(1,'Actor',33),
+(1,'Actor',34),
+(1,'Actor',35),
+(1,'Actor',36),
+(1,'Actor',37),
+(1,'Actor',38),
+(1,'Producer',32),
 
 -- suits ep 2
-(2,'actor',33),
-(2,'actor',34),
-(2,'actor',35),
-(2,'actor',36),
-(2,'actor',37),
-(2,'actor',38),
-(2,'producer',32),
+(2,'Actor',33),
+(2,'Actor',34),
+(2,'Actor',35),
+(2,'Actor',36),
+(2,'Actor',37),
+(2,'Actor',38),
+(2,'Producer',32),
 
 -- lucifer ep 1
-(3,'actor',27),
-(3,'actor',28),
-(3,'actor',29),
-(3,'actor',30),
-(3,'actor',31),
-(3,'producer',26),
+(3,'Actor',27),
+(3,'Actor',28),
+(3,'Actor',29),
+(3,'Actor',30),
+(3,'Actor',31),
+(3,'Producer',26),
 
 -- lucifer ep 2
-(4,'actor',27),
-(4,'actor',28),
-(4,'actor',29),
-(4,'actor',30),
-(4,'actor',31),
-(4,'producer',26),
+(4,'Actor',27),
+(4,'Actor',28),
+(4,'Actor',29),
+(4,'Actor',30),
+(4,'Actor',31),
+(4,'Producer',26),
 
 -- Star wars episode I
-(6,'director',11),
-(6,'producer',12),
+(6,'Director',11),
+(6,'Producer',12),
 (6,'Actor',13),
 (6,'Actor',14),
 (6,'Actor',15),
@@ -268,12 +268,12 @@ INSERT INTO castMembers(productionID, role, artistID) VALUES
 (7,'Actor',21),
 (7,'Actor',22),
 (7,'Actor',3),
-(7,'director',11),
-(7,'producer',12),
+(7,'Director',11),
+(7,'Producer',12),
 
 -- Star wars episode III
-(8,'director',11),
-(8,'producer',12),
+(8,'Director',11),
+(8,'Producer',12),
 (8,'Actor',14),
 (8,'Actor',15),
 (8,'Actor',17),
