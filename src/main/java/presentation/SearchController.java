@@ -2,7 +2,6 @@ package presentation;
 
 import domain.DomainFacade;
 import domain.Production;
-import domain.SuperUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -95,10 +94,10 @@ public class SearchController implements Initializable {
             changeToLoggedOut();
             UIManager.getProductionController().setAdminToolsVisibility(false);
         }
-        goToLogin();
+        goToLoginScene();
     }
 
-    private void goToLogin(){
+    private void goToLoginScene(){
         UIManager.changeScene(UIManager.getLoginScene());
     }
 
@@ -152,7 +151,7 @@ public class SearchController implements Initializable {
         if (production == null) {
             noProductionPane.setVisible(true);
             throw new Exception("No production selected");
-        }else{
+        } else {
             UIManager.changeScene(UIManager.getProductionScene());
             productionController.loadProduction(production.getId());
         }

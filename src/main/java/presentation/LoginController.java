@@ -8,7 +8,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
-public class LogInController {
+public class LoginController {
     @FXML
     private TextField inputUsername;
 

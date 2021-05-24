@@ -1,6 +1,5 @@
 package presentation;
 
-import data.DataFacade;
 import domain.Artist;
 import domain.DomainFacade;
 import domain.SuperUser;
@@ -99,8 +98,8 @@ public class UIManager extends Application {
 
     public static Scene getUsersInputScene() {return usersInputSceneData.scene; }
 
-    public static LogInController getLoginController() {
-        return (LogInController) loginSceneData.controller;
+    public static LoginController getLoginController() {
+        return (LoginController) loginSceneData.controller;
     }
 
     public static ProductionController getProductionController() { return (ProductionController) productionSceneData.controller; }

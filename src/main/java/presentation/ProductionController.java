@@ -146,7 +146,8 @@ public class ProductionController implements Initializable {
         // Populate general data
         title.setText(production.getTitle());
         type.setText(production.getType());
-        category.setValue(production.getCategory());
+        if (!production.getCategory().isEmpty())
+            category.setValue(production.getCategory());
         episode.setText(String.valueOf(production.getEpisodeNumber()));
 
         // Populate series and season

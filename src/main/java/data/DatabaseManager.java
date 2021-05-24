@@ -170,17 +170,28 @@ public class DatabaseManager {
     /**
      * This method is used to retrieve all productions that match the search pattern.
      * @param pattern The pattern to search for
+     * @param searchForSeries Whether to search for series or title
+     * @param producer The producer to search within
      * @return ArrayList<Production> Returns a list of matching productions.
      */
-    public ArrayList<Production> getFilteredProductions(String pattern, boolean searchForSeries) {
+    public ArrayList<Production> getFilteredProductions(String pattern, boolean searchForSeries, SuperUser producer) {
         ArrayList<Production> productions = new ArrayList<>();
         String sqlCode;
-        if (searchForSeries)
-            sqlCode = "SELECT * FROM getProductionsBySeries(?)";
-        else
-            sqlCode = "SELECT * FROM getProductionsByTitle(?)";
+        if (searchForSeries) {
+            if (producer == null || producer.isSysAdmin())
+                sqlCode = "SELECT * FROM getProductionsBySeries(?)";
+            else
+                sqlCode = "SELECT * FROM getProductionsBySeries(?,?)";
+        } else {
+            if (producer == null || producer.isSysAdmin())
+                sqlCode = "SELECT * FROM getProductionsByTitle(?)";
+            else
+                sqlCode = "SELECT * FROM getProductionsByTitle(?,?)";
+        }
         try (PreparedStatement ps = connection.prepareStatement(sqlCode)) {
-            ps.setString(1, "%" + pattern + "%");
+            ps.setString(1, "%" + pattern.toLowerCase() + "%");
+            if (producer != null && !producer.isSysAdmin())
+                ps.setInt(2, producer.getId());
             try (ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {
                     Production p = new Production(
@@ -500,34 +511,6 @@ public class DatabaseManager {
             ps.setInt(3,artist.getId());
             ps.execute();
             return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean editArtistName(Artist artist) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE artists SET " +
-                    "name = ? " +
-                    "WHERE artists.id = ?");
-            ps.setString(1,artist.getName());
-            ps.setInt(2,artist.getId());
-            return ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean editArtistEmail(Artist artist) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE artists SET " +
-                    "email = ? " +
-                    "WHERE artists.id = ?");
-            ps.setString(1,artist.getEmail());
-            ps.setInt(2,artist.getId());
-            return ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -1023,7 +1006,7 @@ public class DatabaseManager {
         return false;
     }
 
-    public boolean chekIfCastMemberExists(CastMember castMember){
+    public boolean castMemberExists(CastMember castMember){
         try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM castMembers " +
                 "WHERE castMembers.artistID = ?")) {
             ps.setInt(1, castMember.getArtistID());

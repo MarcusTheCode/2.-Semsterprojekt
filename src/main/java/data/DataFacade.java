@@ -19,7 +19,7 @@ public class DataFacade {
     //region Production
 
     /**
-     * This method is used insert a new production into the database.
+     * This method is used to insert a new production into the database.
      * @param production The production to insert into the database
      * @return boolean Returns whether the execution succeeded.
      */
@@ -64,19 +64,21 @@ public class DataFacade {
     /**
      * This method is used to retrieve all productions whose titles matches the search pattern.
      * @param pattern The pattern to search for
+     * @param producer The producer to search within or null
      * @return ArrayList<Production> Returns a list of matching productions.
      */
-    public static ArrayList<Production> getProductionsByTitle(String pattern) {
-        return databaseManager.getFilteredProductions(pattern, false);
+    public static ArrayList<Production> getProductionsByTitle(String pattern, SuperUser producer) {
+        return databaseManager.getFilteredProductions(pattern, false, producer);
     }
 
     /**
      * This method is used to retrieve all productions whose series matches the search pattern.
      * @param pattern The pattern to search for
+     * @param producer The producer to search within or null
      * @return ArrayList<Production> Returns a list of matching productions.
      */
-    public static ArrayList<Production> getProductionsBySeries(String pattern) {
-        return databaseManager.getFilteredProductions(pattern, true);
+    public static ArrayList<Production> getProductionsBySeries(String pattern, SuperUser producer) {
+        return databaseManager.getFilteredProductions(pattern, true, producer);
     }
 
     /**
@@ -116,11 +118,6 @@ public class DataFacade {
      */
     public static boolean updateArtist(Artist artist) {
         return databaseManager.editArtist(artist);
-    }
-
-    public static void saveArtistChanges(Artist artist) {
-        databaseManager.editArtistName(artist);
-        databaseManager.editArtistEmail(artist);
     }
 
     /**
@@ -379,7 +376,7 @@ public class DataFacade {
     }
 
     public static boolean castMemberExists(CastMember castMember){
-        return databaseManager.chekIfCastMemberExists(castMember);
+        return databaseManager.castMemberExists(castMember);
     }
 
     public static ArrayList<CastMember> getCastMembers(int productionID) {
