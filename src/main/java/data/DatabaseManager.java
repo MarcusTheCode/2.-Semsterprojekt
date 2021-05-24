@@ -57,7 +57,7 @@ public class DatabaseManager {
     //region Production
 
     /**
-     * This method is used insert a new production into the database.
+     * This method is used insert a new production into the database and updates the production's ID.
      * @param production The production to insert into the database
      * @return boolean Returns whether the execution succeeded.
      */
@@ -110,6 +110,7 @@ public class DatabaseManager {
     /**
      * This method is used to update a Production in the database.
      * @param production The Production to update
+     * @return boolean Returns whether the execution succeeded.
      */
     public boolean updateProduction(Production production) {
         try (PreparedStatement ps = connection.prepareStatement("UPDATE productions SET " +
@@ -241,8 +242,8 @@ public class DatabaseManager {
      * This method is used in the persistence tests to retrieve the ID in a non-hacky way
      * @return HashMap with production name as key and ID as value
      */
-    public HashMap<String,Integer> getProductionsMap(){
-        HashMap<String,Integer> productionMap = new HashMap<>();
+    public HashMap<String, Integer> getProductionsMap() {
+        HashMap<String, Integer> productionMap = new HashMap<>();
         try (PreparedStatement ps = connection.prepareStatement("SELECT productions.productiontitle, productions.id FROM productions")) {
             try (ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {
@@ -260,17 +261,24 @@ public class DatabaseManager {
     //region SuperUser
 
     /**
-     * This method is used insert a new SuperUser into the database.
+     * This method is used insert a new SuperUser into the database and updates the SuperUser's ID.
      * @param superUser The SuperUser to insert into the database
      * @return boolean Returns whether the execution succeeded.
      */
     public boolean insertSuperUser(SuperUser superUser) {
-        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO superUsers(isAdmin,username,password)" +
-                "VALUES (?,?,?)")) {
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO superUsers(isAdmin,username,password) " +
+                "VALUES(?,?,?) " +
+                "RETURNING id")) {
             ps.setBoolean(1, superUser.isSysAdmin());
             ps.setString(2, superUser.getUsername());
             ps.setString(3, superUser.getPassword());
-            ps.execute();
+
+            // Change the ID of the SuperUser to this new one after insert
+            try (ResultSet resultSet = ps.executeQuery()) {
+                resultSet.next();
+                superUser.setId(resultSet.getInt(1));
+            }
+
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -295,22 +303,20 @@ public class DatabaseManager {
     }
 
     /**
-     * This method is used to edit a SuperUser
-     * @param username the username of the SuperUser that should be edited
-     * @param superUser what the SuperUser with the ID SuperUserID should be edited to
+     * This method is used to update a SuperUser
+     * @param username The username of the SuperUser that should be edited
+     * @param superUser What the SuperUser with the given username should be edited to
+     * @return boolean Returns whether the execution succeeded.
      */
     public boolean updateSuperUser(String username, SuperUser superUser) {
         HashMap<String, Integer> superUsersMap = getSuperUsersMap();
         Integer superUserID = superUsersMap.get(username);
 
-        String sqlCode;
-        sqlCode = "UPDATE superusers SET " +
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE superusers SET " +
                 "username = ?, " +
                 "password = ?, " +
                 "isadmin = ? " +
-                "WHERE id = ?;";
-
-        try (PreparedStatement ps = connection.prepareStatement(sqlCode)) {
+                "WHERE id = ?")) {
             ps.setString(1,superUser.getUsername());
             ps.setString(2,superUser.getPassword());
             ps.setBoolean(3,superUser.isSysAdmin());
@@ -324,6 +330,29 @@ public class DatabaseManager {
         return false;
     }
 
+    /**
+     * This method is used to change the username of a SuperUser.
+     * @param user The SuperUser to to update
+     * @return boolean Returns whether the execution succeeded.
+     */
+    public boolean changeUsername(SuperUser user) {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET " +
+                "username = ? " +
+                "WHERE id = ?")) {
+            ps.setString(1, user.getUsername());
+            ps.setInt(2, user.getId());
+            return ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * This method is used to change the password of a SuperUser
+     * @param user The SuperUser to change the password of
+     * @return boolean Returns whether the execution succeeded.
+     */
     public boolean changePassword(SuperUser user) {
         try (PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
                 "password = ? " +
@@ -338,6 +367,11 @@ public class DatabaseManager {
         return false;
     }
 
+    /**
+     * This method is used to change the admin status of a SuperUser
+     * @param user The SuperUser to change the status of
+     * @return boolean Returns whether the execution succeeded.
+     */
     public boolean changeAdminStatus(SuperUser user) {
         try (PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
                 "isAdmin = ? " +
@@ -358,7 +392,7 @@ public class DatabaseManager {
      * @param inputPassword The password of the user to match against
      * @return SuperUser Returns the SuperUser or null, if incorrect.
      */
-    public SuperUser checkIfUserExists(String inputUsername, String inputPassword) {
+    public SuperUser getSuperUser(String inputUsername, String inputPassword) {
         try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM superUsers WHERE superUsers.userName = ? AND superUsers.passWord = ?")) {
             ps.setString(1, inputUsername);
             ps.setString(2, inputPassword);
@@ -443,7 +477,7 @@ public class DatabaseManager {
 
     /**
      * This method is used in the persistence tests to retrieve the ID in a non-hacky way
-     * @return HashMap with production name as key and ID as value
+     * @return HashMap<String,Integer> Returns a HashMap with production name as key and ID as value
      */
     public HashMap<String,Integer> getSuperUsersMap() {
         HashMap<String,Integer> superUsersMap = new HashMap<>();
@@ -466,9 +500,10 @@ public class DatabaseManager {
     /**
      * This method is used to insert a unique artist into the database.
      * @param artist The artist to insert into the database
+     * @return boolean Returns whether the execution succeeded.
      */
     public boolean insertArtist(Artist artist) {
-        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO artists(name,email)" +
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO artists(name,email) " +
                 "VALUES (?,?)")) {
             ps.setString(1, artist.getName());
             ps.setString(2, artist.getEmail());
@@ -507,8 +542,8 @@ public class DatabaseManager {
                 "name = ? " +
                 "WHERE artists.id = ?")) {
             ps.setString(1, artist.getEmail());
-            ps.setString(2,artist.getName());
-            ps.setInt(3,artist.getId());
+            ps.setString(2, artist.getName());
+            ps.setInt(3, artist.getId());
             ps.execute();
             return true;
         } catch (SQLException e) {
@@ -517,10 +552,14 @@ public class DatabaseManager {
         return false;
     }
 
+    /**
+     * This method is used to retrieve an Artist with a given ID.
+     * @param id The ID of the artist to retrieve
+     * @return Artist Returns the artist with the ID or null.
+     */
     public Artist getArtist(int id) {
-        try (PreparedStatement ps = connection.prepareStatement("" +
-                "SELECT * FROM artists WHERE id = ?")) {
-            ps.setInt(1,id);
+        try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM artists WHERE id = ?")) {
+            ps.setInt(1, id);
             ResultSet set = ps.executeQuery();
             if (set.next())
                 return new Artist(set.getInt(1), set.getString(2), set.getString(3));
@@ -532,6 +571,10 @@ public class DatabaseManager {
         return null;
     }
 
+    /**
+     * This method is used in the persistence tests to retrieve the ID in a non-hacky way
+     * @return HashMap<String,Integer> Returns a HashMap with artist name as key and ID as value
+     */
     public HashMap<String, Integer> getArtistsMap() {
         HashMap<String,Integer> artistsMap = new HashMap<>();
         try (PreparedStatement ps = connection.prepareStatement("SELECT artists.name, artists.id FROM artists")) {
@@ -545,6 +588,11 @@ public class DatabaseManager {
         return artistsMap;
     }
 
+    /**
+     * This method is used to retrieve an Artist with a given email.
+     * @param email The email of the artist to retrieve
+     * @return Artist Returns the artist with the email or null.
+     */
     public Artist getArtist(String email) {
         try (PreparedStatement ps = connection.prepareStatement("" +
                 "SELECT * FROM artists WHERE email = ?")) {
@@ -602,7 +650,8 @@ public class DatabaseManager {
     }
 
     /**
-     * This method is used to retrieve all series from the database.
+     * This method is used to retrieve a series from the database.
+     * @param name The name of the series
      * @return Series Returns a series.
      */
     public Series getSeries(String name) {
@@ -619,7 +668,8 @@ public class DatabaseManager {
     }
 
     /**
-     * This method is used to retrieve all series from the database.
+     * This method is used to retrieve a series, given a seasonID.
+     * @param seasonID The ID of the season in the series
      * @return Series Returns a series.
      */
     public Series getSeriesBySeason(int seasonID) {
@@ -628,7 +678,8 @@ public class DatabaseManager {
     }
 
     /**
-     * This method is used to retrieve all series from the database.
+     * This method is used to retrieve a series from the database.
+     * @param seriesID The ID of the series
      * @return Series Returns a series.
      */
     public Series getSeries(int seriesID) {
@@ -645,8 +696,9 @@ public class DatabaseManager {
     }
 
     /**
-     * This method is used to retrieve all series from the database.
-     * @return Series Returns a series.
+     * This method is used to retrieve a series' ID, given a seasonID'.
+     * @param seasonID The ID of the season in the series
+     * @return int Returns a series.
      */
     public int getSeriesID(int seasonID) {
         try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM seasons WHERE id = ?")) {
@@ -680,6 +732,10 @@ public class DatabaseManager {
         return series;
     }
 
+    /**
+     * This method is used to retrieve all productions from the database.
+     * @return ArrayList<String> Returns a list of all productions and IDs.
+     */
     public ArrayList<String> getSeriesAndProductionID() {
         ArrayList<String> seriesAndProduction = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement("" +
@@ -701,7 +757,7 @@ public class DatabaseManager {
     //region Genre
 
     /**
-     * This method is used add a genre to an existing production in the database.
+     * This method is used to add a genre to an existing production in the database.
      * @param production The production to add the genre to
      * @param genre The genre to add
      * @return boolean Returns whether the execution succeeded.
@@ -719,7 +775,7 @@ public class DatabaseManager {
     }
 
     /**
-     * This method is used add a genre to an existing production in the database.
+     * This method is used to delete a genre to an existing production in the database.
      * @param production The production to add the genre to
      * @param genre The genre to add
      * @return boolean Returns whether the execution succeeded.
@@ -758,6 +814,10 @@ public class DatabaseManager {
         return genres;
     }
 
+    /**
+     * This method is used retrieve all genres in the database.
+     * @return ArrayList<Genre> Returns a list of all genres.
+     */
     public ArrayList<Genre> getAllGenres() {
         ArrayList<Genre> genres = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM genres")) {
@@ -783,7 +843,7 @@ public class DatabaseManager {
      */
     public int insertCategory(Production production) {
         try (PreparedStatement ps = connection.prepareStatement("INSERT INTO categories (name) VALUES (?)")) {
-            ps.setString(1,production.getCategory().toLowerCase());
+            ps.setString(1, production.getCategory().toLowerCase());
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -792,9 +852,9 @@ public class DatabaseManager {
     }
 
     /**
-     * This method is used to retrieve the SuperUser with the given username, if the passwords match.
+     * This method is used to retrieve the ID of a category in the production.
      * @param production The production
-     * @return SuperUser Returns the SuperUser or null, if incorrect.
+     * @return int Returns the ID of the category or -1.
      */
     public int getCategory(Production production) {
         try (PreparedStatement ps = connection.prepareStatement("SELECT getCategoryID(?)")) {
@@ -830,6 +890,11 @@ public class DatabaseManager {
         return null;
     }
 
+    /**
+     * This method is used to retrieve the category with the given name.
+     * @param name The name of the category
+     * @return int Returns the ID of the category or 0.
+     */
     public int getCategoryID(String name) {
         try (PreparedStatement ps = connection.prepareStatement("SELECT categories.id FROM categories WHERE categories.name = ?")) {
             ps.setString(1, name);
@@ -843,6 +908,10 @@ public class DatabaseManager {
         return 0;
     }
 
+    /**
+     * This method is used to retrieve all categories from the database.
+     * @return ArrayList<String> Returns a list of all categories.
+     */
     public ArrayList<String> getAllCategories() {
         ArrayList<String> categories = new ArrayList<>();
         try {
@@ -863,9 +932,9 @@ public class DatabaseManager {
     //region Season
 
     /**
-     * This method is used insert a category to the database.
-     * @param season The production to add the genre to
-     * @return boolean Returns the ID of the category.
+     * This method is used insert a season to the database.
+     * @param season The season to insert
+     * @return boolean Returns whether the execution succeeded.
      */
     public boolean insertSeason(Season season) {
         try (PreparedStatement ps = connection.prepareStatement("INSERT INTO seasons (seasonNumber, seriesID) VALUES (?, ?)")) {
@@ -904,9 +973,9 @@ public class DatabaseManager {
     }
 
     /**
-     * This method is used to retrieve all series from the database.
+     * This method is used to retrieve all seasons in a given series.
      * @param seriesID The ID of the series
-     * @return ArrayList<Season> Returns a list of all series.
+     * @return ArrayList<Season> Returns a list of all seasons in a series.
      */
     public ArrayList<Season> getSeasons(int seriesID) {
         ArrayList<Season> series = new ArrayList<>();
@@ -927,7 +996,12 @@ public class DatabaseManager {
         return null;
     }
 
-    public int getSeasonNumber(int id){
+    /**
+     * This method is used to retrieve a season number, given an ID.
+     * @param id The ID of the season
+     * @return int Returns the number in a season or 0.
+     */
+    public int getSeasonNumber(int id) {
         try (PreparedStatement ps = connection.prepareStatement("SELECT seasons.seasonNumber FROM seasons " +
                 "WHERE seasons.id = ?")) {
             ps.setInt(1,id);
@@ -947,13 +1021,18 @@ public class DatabaseManager {
 
     //region CastMember
 
-    public boolean insertCastMember(CastMember c){
+    /**
+     * This method is used to insert a CastMember into a production.
+     * @param castMember The CastMember to insert
+     * @return boolean Returns whether the execution succeeded.
+     */
+    public boolean insertCastMember(CastMember castMember) {
         try (PreparedStatement ps = connection.prepareStatement("" +
                 "INSERT INTO castMembers(productionID, role, artistID) " +
                 "VALUES(?,?,?)")) {
-            ps.setInt(1, c.getProductionID());
-            ps.setString(2, c.getJobTitle());
-            ps.setInt(3, c.getArtistID());
+            ps.setInt(1, castMember.getProductionID());
+            ps.setString(2, castMember.getJobTitle());
+            ps.setInt(3, castMember.getArtistID());
             ps.execute();
             return true;
         } catch (SQLException e) {
@@ -962,6 +1041,11 @@ public class DatabaseManager {
         return false;
     }
 
+    /**
+     * This method is used to delete a CastMember from a production.
+     * @param castMember The CastMember to delete
+     * @return boolean Returns whether the execution succeeded.
+     */
     public boolean deleteCastMember(CastMember castMember) {
         try (PreparedStatement ps = connection.prepareStatement("DELETE FROM castMembers " +
                 "WHERE productionID = ? AND role = ? AND artistID = ?")) {
@@ -976,28 +1060,19 @@ public class DatabaseManager {
         return false;
     }
 
-    public boolean changeUsername(SuperUser user) {
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE superUsers SET  " +
-                    "username = ? " +
-                    "WHERE id = ?");
-            ps.setString(1,user.getUsername());
-            ps.setInt(2,user.getId());
-            return ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
+    /**
+     * This method is used to change the role of a CastMember.
+     * @param castMember The CastMember to update
+     * @return boolean Returns whether the execution succeeded.
+     */
     public boolean changeCastMemberRole(CastMember castMember) {
         try (PreparedStatement ps = connection.prepareStatement("UPDATE castMembers SET " +
                 "role = ? " +
                 "WHERE productionID = ?" +
                 "AND artistID = ?")) {
-            ps.setString(1,castMember.getJobTitle());
-            ps.setInt(2,castMember.getProductionID());
-            ps.setInt(3,castMember.getArtistID());
+            ps.setString(1, castMember.getJobTitle());
+            ps.setInt(2, castMember.getProductionID());
+            ps.setInt(3, castMember.getArtistID());
             ps.execute();
             return true;
         } catch (SQLException e) {
@@ -1006,7 +1081,12 @@ public class DatabaseManager {
         return false;
     }
 
-    public boolean castMemberExists(CastMember castMember){
+    /**
+     * This method returns whether or not a CastMember exists.
+     * @param castMember The CastMember to check
+     * @return boolean Returns whether the CastMember exists.
+     */
+    public boolean castMemberExists(CastMember castMember) {
         try (PreparedStatement ps = connection.prepareStatement("SELECT * FROM castMembers " +
                 "WHERE castMembers.artistID = ?")) {
             ps.setInt(1, castMember.getArtistID());
@@ -1019,6 +1099,11 @@ public class DatabaseManager {
         return false;
     }
 
+    /**
+     * This method is used to retrieve a list of CastMembers in a production.
+     * @param productionID The ID of the production
+     * @return ArrayList<CastMember> Returns a list of CastMembers in this production.
+     */
     public ArrayList<CastMember> getCastMembers(int productionID) {
         ArrayList<CastMember> castMembers = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM getcastmembers(?)")) {

@@ -238,7 +238,7 @@ public class DataFacade {
      * @return SuperUser Returns the SuperUser or null, if incorrect.
      */
     public static SuperUser login(String inputUsername, String inputPassword) {
-        return databaseManager.checkIfUserExists(inputUsername, inputPassword);
+        return databaseManager.getSuperUser(inputUsername, inputPassword);
     }
 
     //endregion
