@@ -19,7 +19,7 @@ public class DataFacade {
     //region Production
 
     /**
-     * This method is used insert a new production into the database.
+     * This method is used to insert a new production into the database.
      * @param production The production to insert into the database
      * @return boolean Returns whether the execution succeeded.
      */

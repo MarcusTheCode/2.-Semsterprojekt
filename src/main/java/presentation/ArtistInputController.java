@@ -27,7 +27,7 @@ public class ArtistInputController implements Initializable {
 
     private final String emailRegularExpression = "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+";
 
-    private final String nameRegularExpression = "[a-zA-Z]+";
+    private final String nameRegularExpression = "[\\p{L}\s]+";
 
     private Artist currentArtist;
 
