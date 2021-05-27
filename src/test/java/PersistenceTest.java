@@ -85,7 +85,7 @@ public class PersistenceTest {
         superUsersMap = DataFacade.getSuperUsersMap();
         Integer superUserID = superUsersMap.get(superUser.getUsername());
 
-        Production production = new Production("Druk",superUserID,"entertainment",1,"movie");
+        Production production = new Production("Druk",superUserID,"Underholdning",1,"movie");
         DataFacade.insertProduction(production);
 
         productionsMap = DataFacade.getProductionsMap();
@@ -109,7 +109,7 @@ public class PersistenceTest {
 
     @Test
     public void saveProductionTest(){
-        Production production = new Production("Shrek",2,"documentary",1,"movie");
+        Production production = new Production("Shrek",2,"Dokumentar",1,"movie");
         DataFacade.insertProduction(production);
 
         HashMap<String, Integer> productionsMap = DataFacade.getProductionsMap();
@@ -121,7 +121,8 @@ public class PersistenceTest {
 
     @Test
     public void deleteProductionTest() {
-        Production production = new Production("Shrek", 2, "documentary", 1, "movie");
+        Production production = new Production("Shrek", 2, "Dokumentar", 1, "movie");
+        java.lang.System.out.println(production.getCategoryID());
         DataFacade.insertProduction(production);
 
         HashMap<String, Integer> productionsMap = DataFacade.getProductionsMap();
@@ -148,12 +149,12 @@ public class PersistenceTest {
 
         Integer superUserID = superUsersMap.get(superUser.getUsername());
 
-        Production originalProduction = new Production("Batman",superUserID,"entertainment",1,"movie");
+        Production originalProduction = new Production("Batman",superUserID,"Underholdning",1,"movie");
         DataFacade.insertProduction(originalProduction);
         productionsMap = DataFacade.getProductionsMap();
         Integer productionID = productionsMap.get(originalProduction.getTitle());
 
-        Production newProduction = new Production("Batman: The Dark Knight",superUserID,"entertainment",1,"movie");
+        Production newProduction = new Production("Batman: The Dark Knight",superUserID,"Underholdning",1,"movie");
         newProduction.setID(productionID);
         DataFacade.updateProduction(newProduction);
 

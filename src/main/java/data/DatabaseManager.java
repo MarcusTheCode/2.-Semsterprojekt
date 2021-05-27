@@ -858,7 +858,7 @@ public class DatabaseManager {
      */
     public int getCategory(Production production) {
         try (PreparedStatement ps = connection.prepareStatement("SELECT getCategoryID(?)")) {
-            ps.setString(1, production.getCategory().toLowerCase());
+            ps.setString(1, production.getCategory());
             try (ResultSet set = ps.executeQuery()) {
                 if (set.next()) {
                     return set.getInt(1);
