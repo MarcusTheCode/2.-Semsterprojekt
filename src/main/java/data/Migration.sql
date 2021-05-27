@@ -124,10 +124,19 @@ INSERT INTO artists(name,email) VALUES
 
 
 INSERT INTO categories(name) VALUES
-('News'),
-('Documentary'),
-('Whether'),
-('Entertainment');
+('Aktualitet'),
+('Dokumentar'),
+('Magasin'),
+('Kultur og Natur'),
+('Drama'),
+('TV-Serie'),
+('Underholdning'),
+('Musik'),
+('Børn'),
+('Regionalprogram'),
+('Sport'),
+('Nyheder'),
+('Film');
 
 
 INSERT INTO genres(name) VALUES
@@ -174,9 +183,9 @@ INSERT INTO productions(episodeNumber, type, categoryID, seasonID, producerID, p
 -- Movies
 INSERT INTO productions(episodeNumber, type, categoryID, producerID, productionTitle) VALUES
 (1,'movie',4,5,'Bee Movie'),
-(1,'movie',4,4,'Star Wars Episode I: The Phantom Menace'),
-(2,'movie',4,4,'Star Wars Episode II: Attack Of The Clones'),
-(3,'movie',4,4,'Star Wars Episode III: Revenge Of The Sith'),
+(1,'movie',13,4,'Star Wars Episode I: The Phantom Menace'),
+(2,'movie',13,4,'Star Wars Episode II: Attack Of The Clones'),
+(3,'movie',13,4,'Star Wars Episode III: Revenge Of The Sith'),
 (2,'movie',4,6,'Spider-Man: Far From Home');
 
 
