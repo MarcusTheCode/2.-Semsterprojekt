@@ -16,7 +16,7 @@ public class DataManager {
     private final String DATAFOLDER = "resources/TXT/";
     private final File productionsFile;
     private final File superUsersFile;
-    ObjectInputStream objectInputStream;
+    private ObjectInputStream objectInputStream;
 
     public DataManager() {
         //Idea: instantiate File streams when creating the DataManager.
