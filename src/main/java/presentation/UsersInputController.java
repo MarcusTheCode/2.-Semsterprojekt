@@ -37,13 +37,13 @@ public class UsersInputController implements Initializable {
     }
 
     @FXML
-    void returnToUser(MouseEvent event) {
+    private void returnToUser(MouseEvent event) {
         UIManager.changeScene(UIManager.getUsersScene());
         UIManager.getUsersController().loadUser();
     }
 
     @FXML
-    void saveUser(MouseEvent event) {
+    private void saveUser(MouseEvent event) {
         if (username.getText().matches(nameRegularExpression) && password.getText().matches(nameRegularExpression)) {
             createUser(username.getText(), password.getText(), isAdminCheckbox.isSelected());
             UIManager.getUsersController().loadUser();
@@ -54,7 +54,7 @@ public class UsersInputController implements Initializable {
     }
 
     @FXML
-    void saveChanges(MouseEvent event) {
+    private void saveChanges(MouseEvent event) {
         if (username.getText().matches(nameRegularExpression) && password.getText().matches(nameRegularExpression)) {
             UIManager.saveUserChanges(UIManager.getUsersController().getSelectedID(), password.getText(), username.getText(), isAdminCheckbox.isSelected());
             UIManager.changeScene(UIManager.getUsersScene());
@@ -66,18 +66,18 @@ public class UsersInputController implements Initializable {
     }
 
 
-    void createUser(String username, String password, boolean isAdmin) {
+    private void createUser(String username, String password, boolean isAdmin) {
         DomainFacade.createUser(password, username, isAdmin);
         UIManager.changeScene(UIManager.getUsersScene());
     }
 
-    void clearTextField() {
+    public void clearTextField() {
         username.clear();
         password.clear();
         isAdminCheckbox.setSelected(false);
     }
 
-    void editUser() {
+    public void editUser() {
         addUserButton.setVisible(false);
         saveChangesButton.setVisible(true);
         username.setText(UIManager.getUsersController().getUsername());
@@ -85,13 +85,13 @@ public class UsersInputController implements Initializable {
         isAdminCheckbox.setSelected(UIManager.getUsersController().getAdminStatus());
     }
 
-    void addUser() {
+    public void addUser() {
         addUserButton.setVisible(true);
         saveChangesButton.setVisible(false);
     }
 
     @FXML
-    void closeAlertPane(MouseEvent event) {
+    private void closeAlertPane(MouseEvent event) {
         errorPane.setVisible(false);
     }
 }

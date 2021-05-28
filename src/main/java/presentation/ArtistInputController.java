@@ -40,13 +40,13 @@ public class ArtistInputController implements Initializable {
     }
 
     @FXML
-    void returnToArtists(MouseEvent event) {
+    private void returnToArtists(MouseEvent event) {
         UIManager.changeScene(UIManager.getArtistsScene());
         UIManager.getArtistsController().loadArtists();
     }
 
     @FXML
-    void saveChanges(MouseEvent event) {
+    private void saveChanges(MouseEvent event) {
         if (name.getText().matches(nameRegularExpression) && email.getText().matches(emailRegularExpression)) {
             if (currentArtist != null) {
                 currentArtist.setName(name.getText());
@@ -63,7 +63,7 @@ public class ArtistInputController implements Initializable {
     }
 
     @FXML
-    void enterName(KeyEvent event) {
+    private void enterName(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
            if (name.getText().matches(nameRegularExpression) && email.getText().matches(emailRegularExpression)) {
                 createArtist(name.getText(), email.getText());
@@ -71,17 +71,17 @@ public class ArtistInputController implements Initializable {
         }
     }
 
-    void createArtist(String artistName, String artistEmail) {
+    private void createArtist(String artistName, String artistEmail) {
         DomainFacade.createArtist(artistName, artistEmail);
         UIManager.changeScene(UIManager.getArtistsScene());
     }
 
-    void clearTextField() {
+    public void clearTextField() {
         name.clear();
         email.clear();
     }
 
-    void editArtist(Artist artist) {
+    public void editArtist(Artist artist) {
         currentArtist = artist;
         if (artist != null) {
             name.setText(artist.getName());
@@ -90,7 +90,7 @@ public class ArtistInputController implements Initializable {
     }
 
     @FXML
-    void closeAlertPane(MouseEvent event) {
+    private void closeAlertPane(MouseEvent event) {
         errorPane.setVisible(false);
     }
 }
