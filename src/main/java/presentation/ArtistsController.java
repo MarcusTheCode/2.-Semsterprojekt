@@ -82,19 +82,19 @@ public class ArtistsController implements Initializable {
     }
 
     @FXML
-    void returnToStartup(MouseEvent event) {
+    private void returnToStartup(MouseEvent event) {
         UIManager.changeScene(UIManager.getSearchScene());
     }
 
     @FXML
-    void addArtist(MouseEvent event) {
+    private void addArtist(MouseEvent event) {
         UIManager.changeScene(UIManager.getArtistScene());
         UIManager.getArtistController().clearTextField();
         UIManager.getArtistController().editArtist(null);
     }
 
     @FXML
-    void deleteArtist(MouseEvent event) {
+    private void deleteArtist(MouseEvent event) {
         Artist artist = artists.getSelectionModel().getSelectedItem();
         int index = artists.getSelectionModel().getFocusedIndex();
         if (artist == null) {
@@ -107,7 +107,7 @@ public class ArtistsController implements Initializable {
     }
 
     @FXML
-    void editArtist(MouseEvent event) {
+    private void editArtist(MouseEvent event) {
         Artist artist = artists.getSelectionModel().getSelectedItem();
         if (artist == null) {
             noArtistSelected.setVisible(true);
@@ -119,7 +119,7 @@ public class ArtistsController implements Initializable {
     }
 
     @FXML
-    void closeAlertPane(MouseEvent event) {
+    private void closeAlertPane(MouseEvent event) {
         noArtistSelected.setVisible(false);
     }
 }

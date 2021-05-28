@@ -57,20 +57,20 @@ public class UsersController implements Initializable {
     }
 
     @FXML
-    void returnToStartup(MouseEvent event) {
+    private void returnToStartup(MouseEvent event) {
         UIManager.changeScene(UIManager.getSearchScene());
         UIManager.getUsersController().loadUser();
     }
 
     @FXML
-    void addUser(MouseEvent event) {
+    private void addUser(MouseEvent event) {
         UIManager.changeScene(UIManager.getUsersInputScene());
         UIManager.getUsersInputController().clearTextField();
         UIManager.getUsersInputController().addUser();
     }
 
     @FXML
-    void deleteSuperUser(MouseEvent event) throws Exception {
+    private void deleteSuperUser(MouseEvent event) throws Exception {
         SuperUser user = superUsers.getSelectionModel().getSelectedItem();
         int index = superUsers.getSelectionModel().getFocusedIndex();
 
@@ -95,7 +95,7 @@ public class UsersController implements Initializable {
     }
 
     @FXML
-    void editUser(MouseEvent event) throws Exception {
+    private void editUser(MouseEvent event) throws Exception {
         SuperUser superUser = superUsers.getSelectionModel().getSelectedItem();
         if (superUser == null) {
             errorPaneText.setText("No User is highlighted");
@@ -113,7 +113,7 @@ public class UsersController implements Initializable {
     }
 
     @FXML
-    void closeAlertPane(MouseEvent event) {
+    private void closeAlertPane(MouseEvent event) {
         noUserSelected.setVisible(false);
     }
 

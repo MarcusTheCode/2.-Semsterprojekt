@@ -19,14 +19,14 @@ public class LoginController {
     private Text errorMessage;
 
     @FXML
-    void returnToStartup(MouseEvent event) {
+    private void returnToStartup(MouseEvent event) {
         UIManager.getSearchController().loadProductions();
         UIManager.changeScene(UIManager.getSearchScene());
         clearLoginTextField();
     }
 
     @FXML
-    void keyPressed(KeyEvent event) {
+    private void keyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER){
             loginUser();
         }
@@ -56,7 +56,7 @@ public class LoginController {
         errorMessage.setVisible(false);
     }
 
-    void clearLoginTextField() {
+    private void clearLoginTextField() {
         inputUsername.clear();
         inputPassword.clear();
     }

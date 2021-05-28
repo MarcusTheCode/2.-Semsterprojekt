@@ -79,17 +79,17 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void openUsers(MouseEvent event) {
+    private void openUsers(MouseEvent event) {
         UIManager.changeScene(UIManager.getUsersScene());
     }
 
     @FXML
-    void openArtists(MouseEvent event) {
+    private void openArtists(MouseEvent event) {
         UIManager.changeScene(UIManager.getArtistsScene());
     }
 
     @FXML
-    void toggleLogin(MouseEvent event) {
+    private void toggleLogin(MouseEvent event) {
         if (DomainFacade.getCurrentUser() != null){
             changeToLoggedOut();
             UIManager.getProductionController().setAdminToolsVisibility(false);
@@ -121,7 +121,7 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void addProduction(MouseEvent event) {
+    private void addProduction(MouseEvent event) {
         Production production = new Production(DomainFacade.getCurrentUser().getId());
         productionObservableList.add(production);
 
@@ -131,7 +131,7 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void removeProduction(MouseEvent event) throws Exception {
+    private void removeProduction(MouseEvent event) throws Exception {
         Production production = productionsTable.getSelectionModel().getSelectedItem();
         if (production == null) {
             noProductionPane.setVisible(true);
@@ -145,7 +145,7 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void goToProduction(MouseEvent event) throws Exception {
+    private void goToProduction(MouseEvent event) throws Exception {
         Production production = productionsTable.getSelectionModel().getSelectedItem();
         ProductionController productionController = UIManager.getProductionController();
         if (production == null) {
@@ -158,12 +158,12 @@ public class SearchController implements Initializable {
     }
 
     @FXML
-    void closeAlertPane(MouseEvent event) {
+    private void closeAlertPane(MouseEvent event) {
         noProductionPane.setVisible(false);
     }
 
     @FXML
-    void searchForProduction(KeyEvent event) {
+    private void searchForProduction(KeyEvent event) {
         //if (event.getCode() == KeyCode.ENTER) {
             if (searchFilterComboBox.getValue() != null && searchBar.getText() != null) {
                 productionObservableList.clear();
