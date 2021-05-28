@@ -2,6 +2,7 @@ package presentation;
 
 import domain.Artist;
 import domain.DomainFacade;
+import domain.SuperUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -94,10 +95,15 @@ public class ArtistsController implements Initializable {
 
     @FXML
     void deleteArtist(MouseEvent event) {
+        Artist artist = artists.getSelectionModel().getSelectedItem();
         int index = artists.getSelectionModel().getFocusedIndex();
-        int artistID = artistsObservableList.get(index).getId();
-        artistsObservableList.remove(index);
-        DomainFacade.deleteArtist(artistID);
+        if (artist == null) {
+            noArtistSelected.setVisible(true);
+            errorPaneText.setText("No artist is selected");
+        } else {
+            artistsObservableList.remove(index);
+            DomainFacade.deleteArtist(artist.getId());
+        }
     }
 
     @FXML
