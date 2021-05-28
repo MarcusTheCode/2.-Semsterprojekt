@@ -51,7 +51,8 @@ public class PersistenceTest {
 
             // Register driver and connect to database
             DriverManager.registerDriver(new org.postgresql.Driver());
-            connection = DriverManager.getConnection("jdbc:postgresql://" + url + ":" + port + "/" + databaseName, username, password);
+            String connectionURL = "jdbc:postgresql://" + url + ":" + port + "/" + databaseName, username, password;
+            connection = DriverManager.getConnection(connectionURL);
 
             // Load the migration script
             reader = new BufferedReader(new FileReader("src/main/java/data/Migration.sql"));
