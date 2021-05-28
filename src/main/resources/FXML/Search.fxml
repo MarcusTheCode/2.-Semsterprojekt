@@ -18,7 +18,7 @@
          <children>
             <HBox fx:id="loginHBox" alignment="TOP_RIGHT">
                <children>
-                  <Text fx:id="currentLoginText" fill="#6f6e6e" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" wrappingWidth="181.13671875">
+                  <Text fx:id="currentLoginText" fill="#6f6e6e" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false" wrappingWidth="917.13671875">
                      <HBox.margin>
                         <Insets top="20.0" />
                      </HBox.margin>
