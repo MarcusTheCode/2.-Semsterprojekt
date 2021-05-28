@@ -3,10 +3,10 @@ package domain;
 import java.io.Serializable;
 
 public class SuperUser implements Serializable {
-    String password;
-    String username;
-    int id;
-    boolean sysAdmin;
+    private String password;
+    private String username;
+    private int id;
+    private boolean sysAdmin;
 
     public SuperUser(int id, String password, String username, boolean sysAdmin) {
         this.id = id;
