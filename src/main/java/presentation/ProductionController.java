@@ -124,7 +124,7 @@ public class ProductionController implements Initializable {
     }
 
     @FXML
-    void returnToSearch(MouseEvent event) {
+    private void returnToSearch(MouseEvent event) {
         UIManager.changeScene(UIManager.getSearchScene());
         saveText.setVisible(false);
     }
@@ -176,7 +176,7 @@ public class ProductionController implements Initializable {
     }
 
     @FXML
-    void addEntry(MouseEvent event) {
+    private void addEntry(MouseEvent event) {
         Artist a = artist.getValue();
         CastMember castMember = new CastMember(a.getName(), a.getEmail(), role.getText(), currentProduction.getId());
         castMemberObservableList.add(castMember);
@@ -186,7 +186,7 @@ public class ProductionController implements Initializable {
     }
 
     @FXML
-    void deleteEntry(MouseEvent event) throws Exception{
+    private void deleteEntry(MouseEvent event) throws Exception{
         CastMember castMember = castMembers.getSelectionModel().getSelectedItem();
         int index = castMembers.getSelectionModel().getFocusedIndex();
         if (castMember == null) {
@@ -202,7 +202,7 @@ public class ProductionController implements Initializable {
     }
 
     @FXML
-    void addGenre(MouseEvent event) {
+    private void addGenre(MouseEvent event) {
         Genre g = genre.getValue();
 
         for (Genre gen : currentProduction.getGenres()) {
@@ -216,7 +216,7 @@ public class ProductionController implements Initializable {
     }
 
     @FXML
-    void deleteGenre(MouseEvent event) {
+    private void deleteGenre(MouseEvent event) {
         int index = genreList.getSelectionModel().getSelectedIndex();
         Genre g = genreList.getSelectionModel().getSelectedItem();
 
@@ -226,19 +226,19 @@ public class ProductionController implements Initializable {
     }
 
     @FXML
-    void closeAlertPane(MouseEvent event) {
+    private void closeAlertPane(MouseEvent event) {
         noCastMemberSelected.setVisible(false);
     }
 
     @FXML
-    void commitJobTitleChange(TableColumn.CellEditEvent<CastMember, String> event) {
+    private void commitJobTitleChange(TableColumn.CellEditEvent<CastMember, String> event) {
         int row = event.getTablePosition().getRow();
         CastMember castMember = event.getTableView().getItems().get(row);
         castMember.setJobTitle(event.getNewValue());
     }
 
     @FXML
-    void saveChanges(MouseEvent event) {
+    private void saveChanges(MouseEvent event) {
         // Create series, if it doesn't exist
         String seriesValue = series.getValue();
         Series s = DomainFacade.getSeries(seriesValue);
