@@ -10,8 +10,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
+import java.lang.System;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -41,6 +43,9 @@ public class ProductionController implements Initializable {
 
     @FXML
     private TableView<CastMember> castMembers;
+
+    @FXML
+    private AnchorPane noCastMemberSelected;
 
     @FXML
     private TableColumn<CastMember, String> idColumn, roleColumn, nameColumn, emailColumn;
@@ -181,11 +186,17 @@ public class ProductionController implements Initializable {
     }
 
     @FXML
-    void deleteEntry(MouseEvent event) {
-        int index = castMembers.getSelectionModel().getFocusedIndex();
+    void deleteEntry(MouseEvent event) throws Exception{
         CastMember castMember = castMembers.getSelectionModel().getSelectedItem();
-        castMemberObservableList.remove(index);
-        currentProduction.removeCastMember(castMember);
+        int index = castMembers.getSelectionModel().getFocusedIndex();
+        if (castMember == null) {
+            noCastMemberSelected.setVisible(true);
+            throw new Exception("No castMember is highlighted");
+        } else {
+            castMemberObservableList.remove(index);
+            currentProduction.removeCastMember(castMember);
+        }
+
 
         DomainFacade.deleteCastMember(castMember);
     }
@@ -212,6 +223,11 @@ public class ProductionController implements Initializable {
         currentProduction.removeGenre(g);
         genresObservableList.remove(index);
         DomainFacade.deleteGenre(currentProduction, g);
+    }
+
+    @FXML
+    void closeAlertPane(MouseEvent event) {
+        noCastMemberSelected.setVisible(false);
     }
 
     @FXML

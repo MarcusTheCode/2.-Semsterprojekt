@@ -75,9 +75,9 @@ public class UsersController implements Initializable {
         int index = superUsers.getSelectionModel().getFocusedIndex();
 
         if (user == null) {
-            errorPaneText.setText("No User is highlighted");
+            errorPaneText.setText("No User is selected");
             noUserSelected.setVisible(true);
-            throw new Exception("No User is highlighted");
+            throw new Exception("No User is selected");
 
         } else if (user.getId() == 1) {
             errorPaneText.setText("Can't delete Sysadmin");
