@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.UsersInputController">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.UsersInputController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="248.0" prefWidth="1200.0">
          <children>
@@ -46,14 +46,14 @@
       <Button fx:id="addUserButton" layoutX="21.0" layoutY="301.0" mnemonicParsing="false" onMouseClicked="#saveUser" text="Add user" />
       <CheckBox fx:id="isAdminCheckbox" layoutX="27.0" layoutY="274.0" mnemonicParsing="false" text="Admin" />
       <Button fx:id="saveChangesButton" layoutX="21.0" layoutY="301.0" mnemonicParsing="false" onMouseClicked="#saveChanges" text="Save changes" visible="false" />
-      <AnchorPane fx:id="errorPane" layoutX="500.0" layoutY="300.0" prefHeight="220.0" prefWidth="220.0" style="-fx-background-color: #C0C0C0;" visible="false">
+      <AnchorPane fx:id="errorPane" layoutX="471.0" layoutY="339.0" prefHeight="168.0" prefWidth="278.0" style="-fx-background-color: #C0C0C0;" visible="false">
          <children>
-            <Button layoutX="94.0" layoutY="181.0" mnemonicParsing="false" onMouseClicked="#closeAlertPane" text="OK" />
-            <Text fill="RED" layoutX="45.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your name or password contains illegal expressions" textAlignment="CENTER" wrappingWidth="132.0">
+            <Text fx:id="errorPaneText" fill="RED" layoutX="36.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your name or password contains illegal expressions" textAlignment="CENTER" wrappingWidth="205.19140625">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
+            <Button layoutX="122.0" layoutY="138.0" mnemonicParsing="false" onMouseClicked="#closeAlertPane" text="OK" textAlignment="CENTER" />
          </children>
       </AnchorPane>
    </children>
