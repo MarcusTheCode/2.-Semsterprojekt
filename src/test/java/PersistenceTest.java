@@ -51,8 +51,8 @@ public class PersistenceTest {
 
             // Register driver and connect to database
             DriverManager.registerDriver(new org.postgresql.Driver());
-            String connectionURL = "jdbc:postgresql://" + url + ":" + port + "/" + databaseName, username, password;
-            connection = DriverManager.getConnection(connectionURL);
+            String connectionURL = "jdbc:postgresql://" + url + ":" + port + "/" + databaseName;
+            connection = DriverManager.getConnection(connectionURL, username, password);
 
             // Load the migration script
             reader = new BufferedReader(new FileReader("src/main/java/data/Migration.sql"));
@@ -211,7 +211,7 @@ public class PersistenceTest {
         assertNotNull(editedSuperUser);
         assertTrue(editedSuperUser.getUsername() != superUser.getUsername());
     }
-
+    /*
     @AfterClass
     public static void tearDown(){
         try {
@@ -222,4 +222,6 @@ public class PersistenceTest {
             assertTrue(false);
         }
     }
+
+     */
 }

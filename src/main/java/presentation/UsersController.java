@@ -98,7 +98,7 @@ public class UsersController implements Initializable {
     private void editUser(MouseEvent event) throws Exception {
         SuperUser superUser = superUsers.getSelectionModel().getSelectedItem();
         if (superUser == null) {
-            errorPaneText.setText("No User is highlighted");
+            errorPaneText.setText("No User is selected");
             noUserSelected.setVisible(true);
             throw new Exception("No user selected");
         } else {
